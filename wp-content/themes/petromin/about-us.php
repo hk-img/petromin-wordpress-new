@@ -241,7 +241,10 @@ $wheel_defaults = [
 $hero_field = function_exists('get_field') ? (get_field('hero_section') ?: []) : [];
 $hero_title = trim($hero_field['hero_title'] ?? '') ?: $hero_defaults['title'];
 $hero_image_data = petromin_get_acf_image_data($hero_field['hero_image'] ?? null, 'full', $hero_defaults['image']['url'], $hero_defaults['image']['alt']);
-$hero_image_title = trim($hero_field['hero_image_title'] ?? '') ?: ($hero_image_data['alt'] ?? $hero_defaults['image']['alt']);
+$hero_image_alt = $hero_defaults['image']['alt'];
+if (is_array($hero_image_data) && !empty($hero_image_data['alt'])) {
+    $hero_image_alt = $hero_image_data['alt'];
+}
 
 $sidebar_field = function_exists('get_field') ? (get_field('roadmap_sidebar') ?: []) : [];
 $sidebar_background = petromin_get_acf_image_data($sidebar_field['background_image'] ?? null, 'full', $sidebar_defaults['background']['url'], $sidebar_defaults['background']['alt']);
@@ -395,8 +398,8 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" loading="eager" decoding="async" src="<?php echo esc_url($hero_image_data['url']); ?>"
-            class="size-full object-cover" alt="<?php echo esc_attr($hero_image_data['alt']); ?>"
-            title="<?php echo esc_attr($hero_image_title); ?>">
+            class="size-full object-cover" alt="<?php echo esc_attr($hero_image_alt); ?>"
+            title="<?php echo esc_attr($hero_image_alt); ?>">
         <?php endif; ?>
 
         <div

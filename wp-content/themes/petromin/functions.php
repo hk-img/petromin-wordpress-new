@@ -116,13 +116,6 @@ add_action('acf/init', function () {
                         'default_value' => ['url' => get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp', 'alt' => 'Petromin Logo' ],
                         'mime_types' => 'webp'
                     ],
-                    [
-                        'key' => 'field_logo_alt_text',
-                        'label' => 'Logo Alt Text',
-                        'name' => 'logo_alt_text',
-                        'type' => 'text',
-                        'default_value' => 'Petromin'
-                    ],
                 ],
             ],
             [
@@ -252,12 +245,6 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
-                    ],
-                    [
-                        'key' => 'field_about_hero_image_title',
-                        'label' => 'Image Title Attribute',
-                        'name' => 'hero_image_title',
-                        'type' => 'text',
                     ],
                 ],
             ],
@@ -824,12 +811,6 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
-                    ],
-                    [
-                        'key' => 'field_news_hero_image_title',
-                        'label' => 'Image Title Attribute',
-                        'name' => 'hero_image_title',
-                        'type' => 'text',
                     ],
                 ],
             ],
