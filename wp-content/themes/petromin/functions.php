@@ -116,13 +116,6 @@ add_action('acf/init', function () {
                         'default_value' => ['url' => get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp', 'alt' => 'Petromin Logo' ],
                         'mime_types' => 'webp'
                     ],
-                    [
-                        'key' => 'field_logo_alt_text',
-                        'label' => 'Logo Alt Text',
-                        'name' => 'logo_alt_text',
-                        'type' => 'text',
-                        'default_value' => 'Petromin'
-                    ],
                 ],
             ],
             [
