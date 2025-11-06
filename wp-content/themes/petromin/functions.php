@@ -246,12 +246,6 @@ add_action('acf/init', function () {
                         'return_format' => 'id',
                         'preview_size' => 'medium',
                     ],
-                    [
-                        'key' => 'field_about_hero_image_title',
-                        'label' => 'Image Title Attribute',
-                        'name' => 'hero_image_title',
-                        'type' => 'text',
-                    ],
                 ],
             ],
             [
@@ -817,12 +811,6 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
-                    ],
-                    [
-                        'key' => 'field_news_hero_image_title',
-                        'label' => 'Image Title Attribute',
-                        'name' => 'hero_image_title',
-                        'type' => 'text',
                     ],
                 ],
             ],
