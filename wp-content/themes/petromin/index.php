@@ -6,7 +6,8 @@
         <div class="relative w-full h-full overflow-hidden">
             <video autoplay muted loop playsinline
                 class="absolute inset-0 w-full h-full object-cover md:object-left object-left">
-                <source src="http://46.101.222.112/petromin/wp-content/uploads/2025/09/20250821_1944_Evening-Garage-Activity_storyboard_01k360878xfkes6bv9dj8t9fsh-1-1.mp4"
+                <source
+                    src="http://46.101.222.112/petromin/wp-content/uploads/2025/09/20250821_1944_Evening-Garage-Activity_storyboard_01k360878xfkes6bv9dj8t9fsh-1-1.mp4"
                     type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -21,44 +22,50 @@
                                 class="relative px-4 !pr-7  backdrop-blur-[0.125rem] -skew-x-[16deg]  before:absolute before:inset-0 before:bg-gradient-to-l before:from-[#CB122D] before:via-[#CB122D] before:to-[#650916] before:-skew-x-[16deg] before:-z-10 before:lg:h-[4.688rem] before:h-[3.688rem] before:flex before:justify-center before:items-center before:top-auto">
                                 EXPRESS
                             </span>
-                            <br>car care across India.
+                            <span class="block">car care across India.</span>
                         </h1>
                         <h1
                             class="text-[2.625rem] mt-6 font-bold italic leading-[3.2rem] whitespace-nowrap text-white block md:hidden">
-                            Redefining <br>
+                            Redefining
                             <span
-                                class="relative px-4 !pr-7 mt-4 w-fit drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center ">
+                                class="relative block px-4 !pr-7 mt-4 w-fit drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center ">
                                 <span class="skew-x-[16deg]"> EXPRESS</span>
                             </span>
-                            car care <br>across India.
+                            car care <span class="block">across India.</span>
                         </h1>
                     </div>
                     <div
-                        class="absolute md:flex hidden w-fit lg:py-5 py-3  px-8  bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)] top-auto bottom-[-7rem] left-0 origin-top -skew-x-[18deg]">
+                        class="absolute services_sec md:flex hidden w-fit lg:py-5 py-3  px-8  bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)] top-auto bottom-[-7rem] left-0 origin-top -skew-x-[18deg]">
                         <div class="view w-fit flex items-center justify-center skew-x-[18deg] pr-0">
-
                             <div class="flex flex-col lg:flex-row items-center gap-2 mx-3">
                                 <img src="img/Isolation_Mode-1.webp" alt="Honest Pricing" title="Honest Pricing"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Honest <br>Pricing</p>
+                                <div class="text-base text-white font-bold font-inter leading-tight">Honest <span
+                                        class="block">Pricing</span></div>
                             </div>
 
                             <div class="flex flex-col lg:flex-row items-center gap-2 mx-3">
                                 <img src="img/genuine-part.webp" alt="Genuine_Icon" title="Genuine_Icon" class="size-8"
                                     loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Genuine <br>Parts</p>
+                                <div class="text-base text-white font-bold font-inter leading-tight">Genuine <span
+                                        class="block">Parts</span>
+                                </div>
                             </div>
 
                             <div class="flex flex-col lg:flex-row items-center gap-2 mx-3">
                                 <img src="img/technician.webp" alt="Certified Technicians" title="Certified Technicians"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Certified <br>Technicians</p>
+                                <p class="text-base text-white font-bold font-inter leading-tight">Certified <span
+                                        class="block">Technicians</span>
+                                </p>
                             </div>
 
                             <div class="flex flex-col lg:flex-row items-center gap-2 mx-3">
                                 <img src="img/coverage.webp" alt="Warranty Coverage" alt="Warranty Coverage"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Warranty <br>Coverage</p>
+                                <p class="text-base text-white font-bold font-inter leading-tight">Warranty
+                                    <span class="block">Coverage</span>
+                                </p>
                             </div>
 
                         </div>
@@ -69,25 +76,30 @@
                             <div class="flex items-start gap-2 me-3">
                                 <img src="img/Isolation_Mode-1.webp" alt="Honest Pricing" title="Honest Pricing"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-sm text-white font-bold font-inter">Honest <br>Pricing</p>
+                                <p class="text-base text-sm text-white font-bold font-inter">Honest <span
+                                        class="block">Pricing</span></p>
                             </div>
 
                             <div class="flex items-start gap-2 me-3">
                                 <img src="img/genuine-part.webp" alt="Genuine Parts" title="Genuine Parts"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Genuine <br>Parts</p>
+                                <p class="text-base text-white font-bold font-inter">Genuine <span
+                                        class="block">Parts</span>
+                                </p>
                             </div>
 
                             <div class="flex items-start gap-2 me-3">
                                 <img src="img/technician.webp" alt="Certified Technicians" title="Certified Technicians"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Certified <br>Technicians</p>
+                                <p class="text-base text-white font-bold font-inter">Certified <span
+                                        class="block">Technicians</span></p>
                             </div>
 
                             <div class="flex items-start gap-2">
                                 <img src="img/coverage.webp" alt="Warranty Coverage" title="Warranty Coverage"
                                     class="size-8" loading="lazy" fetchpriority="low">
-                                <p class="text-base text-white font-bold font-inter">Warranty <br>Coverage</p>
+                                <p class="text-base text-white font-bold font-inter">Warranty <span
+                                        class="block">Coverage</span></p>
                             </div>
                         </div>
                     </div>
@@ -195,37 +207,38 @@
                 </h2>
             </div>
         </div>
-        <div class="w-fit relative py-2 z-30 before:content-[''] before:absolute before:w-full before:h-full before:top-0
-            before:bg-gradient-to-r before:from-[#000000] before:to-[#000000] before:-left-4 before:-skew-x-[18deg]">
-            <nav id="tabs-nav" class="view flex items-center relative flex-nowrap gap-3 w-max min-w-full z-10 !pr-5"
+        <div
+            class="w-fit relative py-2 z-30 before:absolute before:w-full flex justify-center items-center before:top-auto
+            before:bg-gradient-to-r before:h-16 before:from-[#000000] before:to-[#000000] before:left-0 before:origin-top before:-skew-x-[18deg]">
+            <nav id="tabs-nav" class="view flex items-center relative flex-nowrap gap-3 w-fit min-w-full z-10 !pr-5"
                 style="scrollbar-width:none;">
                 <button data-tab="1"
-                    class="tab-btn active relative lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l from-[#CB122D] via-[#650916] to-[#CB122D] text-white -skew-x-[18deg]">
-                    <span class="skew-x-[18deg] block lg:text-lg text-base">Car Service</span>
+                    class="tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-20 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]">
+                    <span class="skew-x-[18deg] block text-lg">Car Service</span>
                 </button>
                 <button data-tab="2"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">
-                    <span class="block lg:text-lg text-base">Battery Service</span>
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">
+                    <span class="block text-lg">Battery Service</span>
                 </button>
                 <button data-tab="3"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">Tyre
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">Tyre
                     Care
                 </button>
                 <button data-tab="4"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">AC
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">AC
                     Service</button>
                 <button data-tab="5"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">Eco
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">Eco
                     Car
                     Wash</button>
                 <button data-tab="6"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">Headlight
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">Headlight
                     Polish</button>
                 <button data-tab="7"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">Body
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">Body
                     Shop</button>
                 <button data-tab="8"
-                    class="tab-btn lg:px-4 lg:py-5 px-3 py-3 -my-5 lg:font-bold font-semibold lg:text-lg text-base text-white">Engine
+                    class="tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20">Engine
                     Care</button>
             </nav>
         </div>
@@ -1116,17 +1129,18 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1968</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1968</span>
                             </div>
 
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102"
                                         alt="JV incorporated (G.M., Mobil/Mobil Petromin); Petrolube brand launched"
                                         title="JV incorporated (G.M., Mobil/Mobil Petromin); Petrolube brand launched">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         JV incorporated (G.M., Mobil/Mobil Petromin); Petrolube brand launched
                                     </div>
                                 </div>
@@ -1141,16 +1155,16 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1969</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1969</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
-                                        alt="Petrolube brand continued its expansion"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Petrolube brand continued its expansion"
                                         title="Petrolube brand continued its expansion">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Petrolube brand continued its expansion
                                     </div>
                                 </div>
@@ -1164,15 +1178,16 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1992</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">1992</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
-                                        alt=" Entered the Egypt market" title=" Entered the Egypt market">
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt=" Entered the Egypt market"
+                                        title=" Entered the Egypt market">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Entered the Egypt market
                                     </div>
                                 </div>
@@ -1185,16 +1200,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2007</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2007</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102"
                                         alt="ADG acquired Petrolube in JV with Gulf Oil Al-Dabbagh"
                                         title="ADG acquired Petrolube in JV with Gulf Oil Al-Dabbagh">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         ADG acquired Petrolube in JV with Gulf Oil Al-Dabbagh
                                     </div>
                                 </div>
@@ -1207,15 +1223,16 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2012</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2012</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
-                                        alt="Opened first fuel station in KSA" title="Opened first fuel station in KSA">
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Opened first fuel station in KSA"
+                                        title="Opened first fuel station in KSA">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Opened first fuel station in KSA
                                     </div>
                                 </div>
@@ -1228,16 +1245,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2013</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2013</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102"
                                         alt="Launched first workshop in KSA; ADG acquired full ownership from Gulf Oil Al-Dabbagh"
                                         title="Launched first workshop in KSA; ADG acquired full ownership from Gulf Oil Al-Dabbagh">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Launched first workshop in KSA; ADG acquired full ownership from Gulf Oil
                                         Al-Dabbagh
                                     </div>
@@ -1251,16 +1269,16 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2015</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2015</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
-                                        alt="Opened first Petromin Express in Egypt"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Opened first Petromin Express in Egypt"
                                         title="Opened first Petromin Express in Egypt">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Opened first Petromin Express in Egypt
                                     </div>
                                 </div>
@@ -1274,16 +1292,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2016</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2016</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square" alt="Acquired Emirates Lubricants Company in UAE and a nationwide Nissan dealership in Saudi
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Acquired Emirates Lubricants Company in UAE and a nationwide Nissan dealership in Saudi
                                 Arabia" title="Acquired Emirates Lubricants Company in UAE and a nationwide Nissan dealership in Saudi
                                 Arabia">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Acquired Emirates Lubricants Company in UAE and a nationwide Nissan dealership
                                         in
                                         Saudi
@@ -1299,16 +1318,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2018</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2018</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102"
                                         alt="Expanded with first Petromin Express centres in UAE and Pakistan"
                                         title="Expanded with first Petromin Express centres in UAE and Pakistan">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Expanded with first Petromin Express centres in UAE and Pakistan
                                     </div>
                                 </div>
@@ -1321,16 +1341,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2020</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2020</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102"
                                         alt="Established Electromin; reached 100 fuel stations in Egypt"
                                         title="Established Electromin; reached 100 fuel stations in Egypt">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Established Electromin; reached 100 fuel stations in Egypt
                                     </div>
                                 </div>
@@ -1343,16 +1364,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2021</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2021</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full h-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6 h-full">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square" alt="Formed National Transport Solutions Company (NTSC); gained Stellantis distribution in
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Formed National Transport Solutions Company (NTSC); gained Stellantis distribution in
                                 Saudi Arabia; added Volvo and Polestar dealerships under STELLANT EPOT" title="Formed National Transport Solutions Company (NTSC); gained Stellantis distribution in
                                 Saudi Arabia; added Volvo and Polestar dealerships under STELLANT EPOT">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Formed National Transport Solutions Company (NTSC); gained Stellantis
                                         distribution
                                         in
@@ -1368,16 +1390,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2022</span>
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2022</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-2.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square" alt="Egypt fuel stations surpassed 200; launched first Petromin Express in India (JV with
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Egypt fuel stations surpassed 200; launched first Petromin Express in India (JV with
                                 DRB-HICOM); expanded operations in OnFoton Malaysia" title="Egypt fuel stations surpassed 200; launched first Petromin Express in India (JV with
                                 DRB-HICOM); expanded operations in OnFoton Malaysia">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Egypt fuel stations surpassed 200; launched first Petromin Express in India (JV
                                         with
                                         DRB-HICOM); expanded operations in OnFoton Malaysia
@@ -1392,16 +1415,17 @@
                             <div
                                 class="absolute -top-8 -left-4 lg:py-3 lg:px-10 py-3 px-7 font-bold bg-gradient-to-l from-[#CB122D] to-[#650916] text-white lg:-skew-x-[6deg] skew-x-[6deg]">
                                 <span
-                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[2.5rem] xl:text-3xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2025
+                                    class="lg:skew-x-[20deg] skew-x-[10deg] block 2xl:text-[1.5rem] xl:text-2xl lg:text-2xl text-xl 2xl:!leading-[3.063rem]">2025
                                     (Planned)</span>
                             </div>
-                            <div class="flex flex-col items-start skew-x-[18deg] w-full">
+                            <div class="flex flex-col items-start skew-x-[18deg] w-full pt-6">
                                 <div class="md:pl-14 pl-10 max-w-[90%]">
                                     <img loading="eager" fetchpriority="high" decoding="async" src="img/image-42.webp"
-                                        class="lg:h-44 w-auto h-32 object-contain object-center aspect-square"
-                                        alt="Launch of EV Volco in KSA" title="Launch of EV Volco in KSA">
+                                        class="lg:h-[7.938rem] lg:w-[13.899rem] h-[5.938rem] w-[9.938rem] object-cover object-center aspect-[89/51]"
+                                        width="178" height="102" alt="Launch of EV Volco in KSA"
+                                        title="Launch of EV Volco in KSA">
                                     <div
-                                        class="2xl:text-2xl xl:text-xl lg:text-xl text-base font-medium text-black  mx-auto ">
+                                        class="2xl:text-xl xl:text-xl lg:text-lg text-base text-balance font-medium text-black  mx-auto pt-6">
                                         Launch of EV Volco in KSA
                                     </div>
                                 </div>
@@ -1776,7 +1800,9 @@
                     <div class="flex flex-col gap-y-7 relative z-30">
                         <h2
                             class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-bold whitespace-nowrap text-black">
-                            All things car.<br> One tap away.
+                            All things car. <span class="block">
+                                One tap away.
+                            </span>
                         </h2>
                         <ul class="space-y-3">
                             <li class="flex items-center gap-x-3">
@@ -2372,7 +2398,7 @@
 
             <div class="p-5">
                 <h2 class="mb-5 font-inter md:text-2xl lg:text-3xl  !leading-12 font-bold text-white">
-                    Expert car care at <br> express speed.
+                    Expert car care at <span class="block">express speed.</span>
                 </h2>
 
                 <div class="flex flex-col gap-y-5">
