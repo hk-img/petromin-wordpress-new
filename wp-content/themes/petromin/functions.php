@@ -639,6 +639,163 @@ add_action('acf/init', function () {
         ],
     ]);
 
+    // Home Page ACF Fields
+    acf_add_local_field_group([
+        'key' => 'group_home_page',
+        'title' => 'Home Page',
+        'fields' => [
+            [
+                'key' => 'field_home_hero_section',
+                'label' => 'Hero Section',
+                'name' => 'hero_section',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_home_hero_background_video',
+                        'label' => 'Background Video',
+                        'name' => 'background_video',
+                        'type' => 'file',
+                        'return_format' => 'array',
+                        'library' => 'all',
+                        'mime_types' => 'mp4,webm,ogv',
+                    ],
+                    [
+                        'key' => 'field_home_hero_headline_prefix',
+                        'label' => 'Headline Prefix',
+                        'name' => 'headline_prefix',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_home_hero_headline_highlight',
+                        'label' => 'Headline Highlight',
+                        'name' => 'headline_highlight',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_home_hero_headline_suffix',
+                        'label' => 'Headline Suffix',
+                        'name' => 'headline_suffix',
+                        'type' => 'text',
+                        'instructions' => 'Optional overall suffix text. If left blank you can manage primary/secondary lines below.',
+                    ],
+                    [
+                        'key' => 'field_home_hero_headline_suffix_primary',
+                        'label' => 'Headline Suffix (Primary Line)',
+                        'name' => 'headline_suffix_primary',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_home_hero_headline_suffix_secondary',
+                        'label' => 'Headline Suffix (Secondary Line)',
+                        'name' => 'headline_suffix_secondary',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_home_hero_features',
+                        'label' => 'Feature Badges',
+                        'name' => 'features',
+                        'type' => 'repeater',
+                        'layout' => 'row',
+                        'button_label' => 'Add Feature',
+                        'sub_fields' => [
+                            [
+                                'key' => 'field_home_hero_feature_title',
+                                'label' => 'Title',
+                                'name' => 'feature_title',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'field_home_hero_feature_subtitle',
+                                'label' => 'Subtitle',
+                                'name' => 'feature_subtitle',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'field_home_hero_feature_icon',
+                                'label' => 'Icon',
+                                'name' => 'feature_icon',
+                                'type' => 'image',
+                                'return_format' => 'id',
+                                'preview_size' => 'medium',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_home_latest_offers_section',
+                'label' => 'Latest Offers Section',
+                'name' => 'latest_offers_section',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_home_latest_offers_heading',
+                        'label' => 'Heading',
+                        'name' => 'heading',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_home_latest_offers_slides',
+                        'label' => 'Slides',
+                        'name' => 'slides',
+                        'type' => 'repeater',
+                        'layout' => 'row',
+                        'button_label' => 'Add Slide',
+                        'sub_fields' => [
+                            [
+                                'key' => 'field_home_latest_offers_desktop_image',
+                                'label' => 'Desktop Image',
+                                'name' => 'desktop_image',
+                                'type' => 'image',
+                                'return_format' => 'id',
+                                'preview_size' => 'medium',
+                            ],
+                            [
+                                'key' => 'field_home_latest_offers_desktop_alt',
+                                'label' => 'Desktop Image Alt Text',
+                                'name' => 'desktop_alt',
+                                'type' => 'text',
+                            ],
+                            [
+                                'key' => 'field_home_latest_offers_mobile_image',
+                                'label' => 'Mobile Image',
+                                'name' => 'mobile_image',
+                                'type' => 'image',
+                                'return_format' => 'id',
+                                'preview_size' => 'medium',
+                            ],
+                            [
+                                'key' => 'field_home_latest_offers_mobile_alt',
+                                'label' => 'Mobile Image Alt Text',
+                                'name' => 'mobile_alt',
+                                'type' => 'text',
+                            ],
+                        ],
+                    ],
+                    [
+                        'key' => 'field_home_latest_offers_navigation_icon',
+                        'label' => 'Navigation Icon',
+                        'name' => 'navigation_icon',
+                        'type' => 'image',
+                        'return_format' => 'id',
+                        'preview_size' => 'medium',
+                    ],
+                ],
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'index.php',
+                ],
+            ],
+        ],
+    ]);
+
     // About Us Page ACF Fields
     acf_add_local_field_group([
         'key' => 'group_about_us_page',
