@@ -1,6 +1,5 @@
 <?php
 /* Template Name: login page */
-get_header();
 
 $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $images_url = $assets_url . '/img';
@@ -21,6 +20,26 @@ $hero_defaults = [
         'terms_text' => 'By continuing, you agree to our Terms of Service and Privacy Policy'
     ]
 ];
+
+// Handle external redirect
+$redirect_url = '';
+if (function_exists('get_field')) {
+    $redirect_field = get_field('redirect_url');
+    if (is_string($redirect_field)) {
+        $redirect_url = trim($redirect_field);
+    }
+}
+
+$redirect_url = $redirect_url === '#' ? '' : $redirect_url;
+if (!empty($redirect_url)) {
+    $safe_redirect_url = esc_url_raw($redirect_url);
+    if (!empty($safe_redirect_url)) {
+        wp_safe_redirect($safe_redirect_url);
+        exit;
+    }
+}
+
+get_header();
 
 // Get ACF Fields
 $hero_field = function_exists('get_field') ? (get_field('hero_section') ?: []) : [];

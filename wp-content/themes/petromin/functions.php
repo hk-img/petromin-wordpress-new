@@ -1375,9 +1375,10 @@ add_action('acf/init', function () {
                             ],
                             [
                                 'key' => 'field_news_press_release_pdf_link',
-                                'label' => 'PDF Link',
+                                'label' => 'Read More Link',
                                 'name' => 'pdf_link',
                                 'type' => 'url',
+                                'instructions' => 'Provide the destination for the Read More button.',
                             ],
                         ],
                     ],
@@ -1517,6 +1518,15 @@ add_action('acf/init', function () {
                 'layout' => 'block',
                 'sub_fields' => [
                     [
+                        'key' => 'field_news_podcasts_display_section',
+                        'label' => 'Display Podcasts Section',
+                        'name' => 'display_section',
+                        'type' => 'true_false',
+                        'ui' => 1,
+                        'default_value' => 0,
+                        'instructions' => 'Enable to show the Podcasts section on the page.',
+                    ],
+                    [
                         'key' => 'field_news_podcasts_heading',
                         'label' => 'Section Heading',
                         'name' => 'section_heading',
@@ -1575,6 +1585,13 @@ add_action('acf/init', function () {
         'key' => 'group_login_page',
         'title' => 'Login Page',
         'fields' => [
+            [
+                'key' => 'field_login_redirect_url',
+                'label' => 'External Login Redirect URL',
+                'name' => 'redirect_url',
+                'type' => 'url',
+                'instructions' => 'When provided, visitors are automatically redirected to this URL instead of the on-page form.',
+            ],
             [
                 'key' => 'field_login_hero_section',
                 'label' => 'Hero Section',

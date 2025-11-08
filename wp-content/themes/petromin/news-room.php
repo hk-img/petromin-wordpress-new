@@ -112,8 +112,17 @@ $events_heading = trim($events_field['section_heading'] ?? '') ?: 'Events';
 $events_items = !empty($events_field['items']) && is_array($events_field['items']) ? $events_field['items'] : array_fill(0, 3, $events_defaults[0]);
 
 $podcasts_field = function_exists('get_field') ? (get_field('podcasts_section') ?: []) : [];
+$show_podcasts_section = !empty($podcasts_field['display_section']);
 $podcasts_heading = trim($podcasts_field['section_heading'] ?? '') ?: 'Podcasts';
 $podcasts_items = !empty($podcasts_field['items']) && is_array($podcasts_field['items']) ? $podcasts_field['items'] : array_fill(0, 2, $podcasts_defaults[0]);
+
+if (!$show_podcasts_section) {
+    $sidebar_categories = array_values(array_filter($sidebar_categories, function ($category) {
+        $name = $category['name'] ?? '';
+        $slug = $category['slug'] ?? sanitize_title($name);
+        return $slug !== 'podcasts';
+    }));
+}
 
 // Process items with fallbacks
 function process_news_items($items, $defaults) {
@@ -158,17 +167,20 @@ $podcasts_processed = process_news_items($podcasts_items, $podcasts_defaults);
 $press_releases_processed = [];
 foreach ($press_releases_items as $item) {
     $fallback = $press_releases_defaults[0];
-    
+
     $title = trim($item['title'] ?? '') ?: $fallback['title'];
     $description = trim($item['description'] ?? '') ?: $fallback['description'];
     $date = trim($item['date'] ?? '') ?: $fallback['date'];
-    $pdf_link = trim($item['pdf_link'] ?? '') ?: $fallback['pdf_link'];
-    
+    $read_more_link = trim($item['pdf_link'] ?? '') ?: $fallback['pdf_link'];
+    if ($read_more_link === '#') {
+        $read_more_link = '';
+    }
+
     $press_releases_processed[] = [
         'title' => $title,
         'description' => $description,
         'date' => $date,
-        'pdf_link' => $pdf_link,
+        'read_more_link' => $read_more_link,
     ];
 }
 ?>
@@ -326,20 +338,16 @@ foreach ($press_releases_items as $item) {
                                         </h3>
                                         <p class="text-[#637083] text-sm font-normal"><?php echo esc_html($item['description']); ?></p>
                                         <div class="flex justify-between items-center pt-1">
-                                            <?php if (!empty($item['pdf_link'])) : ?>
-                                                <a href="<?php echo esc_url($item['pdf_link']); ?>" 
+                                            <?php if (!empty($item['read_more_link'])) : ?>
+                                                <a href="<?php echo esc_url($item['read_more_link']); ?>"
                                                    class="text-[#D4111E] text-sm font-medium flex items-center gap-1"
-                                                   aria-label="download pdf">
+                                                   aria-label="Read more about <?php echo esc_attr($item['title']); ?>">
+                                                    Read More
                                                     <span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                            <path d="M14 10V12.6667C14 13.0203 13.8595 13.3594 13.6095 13.6095C13.3594 13.8595 13.0203 14 12.6667 14H3.33333C2.97971 14 2.64057 13.8595 2.39052 13.6095C2.14048 13.3594 2 13.0203 2 12.6667V10"
-                                                                stroke="#D4111E" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path d="M4.66602 6.66675L7.99935 10.0001L11.3327 6.66675"
-                                                                stroke="#D4111E" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                                                            <path d="M8 10V2" stroke="#D4111E" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                                            <path d="M3.5 11.0834L9.91667 7.00008L3.5 2.91675" stroke="#D4111E" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
                                                     </span>
-                                                    Download PDF
                                                 </a>
                                             <?php endif; ?>
                                             <div class="text-[#637083] text-sm font-normal md:hidden block">
@@ -430,58 +438,57 @@ foreach ($press_releases_items as $item) {
                                     <div class="text-[#637083] text-sm font-medium"><?php echo esc_html($item['date']); ?></div>
                                 </div>
                                 
-                                <?php if (!empty($item['link'])) : ?>
-                                    <a href="<?php echo esc_url($item['link']); ?>" class="cursor-pointer absolute inset-0" aria-label="<?php echo esc_attr($item['title']); ?>"></a>
-                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 </section>
 
-                <!-- Podcasts Section -->
-                <section id="podcasts" class="w-full relative flex flex-col gap-y-8 md:gap-y-6 news-section">
-                    <h2 class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] pb-4 md:pb-3">
-                        <?php echo esc_html($podcasts_heading); ?>
-                    </h2>
+                <?php if ($show_podcasts_section && !empty($podcasts_processed)) : ?>
+                    <!-- Podcasts Section -->
+                    <section id="podcasts" class="w-full relative flex flex-col gap-y-8 md:gap-y-6 news-section">
+                        <h2 class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] pb-4 md:pb-3">
+                            <?php echo esc_html($podcasts_heading); ?>
+                        </h2>
 
-                    <div class="grid md:grid-cols-2 grid-cols-1 gap-6 md:gap-[1.625rem]">
-                        <?php foreach ($podcasts_processed as $item) : ?>
-                            <div class="relative w-full flex flex-col gap-y-3 group duration-300">
-                                <div class="w-full relative overflow-hidden duration-300">
-                                    <!-- Video -->
-                                    <?php if (!empty($item['video_url'])) : ?>
-                                        <iframe class="w-full" 
-                                            src="<?php echo esc_url($item['video_url']); ?>?rel=0&modestbranding=1&controls=0&showinfo=0&enablejsapi=1"
-                                            title="<?php echo esc_attr($item['title']); ?>" frameborder="0" height="269"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                                        </iframe>
+                        <div class="grid md:grid-cols-2 grid-cols-1 gap-6 md:gap-[1.625rem]">
+                            <?php foreach ($podcasts_processed as $item) : ?>
+                                <div class="relative w-full flex flex-col gap-y-3 group duration-300">
+                                    <div class="w-full relative overflow-hidden duration-300">
+                                        <!-- Video -->
+                                        <?php if (!empty($item['video_url'])) : ?>
+                                            <iframe class="w-full"
+                                                src="<?php echo esc_url($item['video_url']); ?>?rel=0&modestbranding=1&controls=0&showinfo=0&enablejsapi=1"
+                                                title="<?php echo esc_attr($item['title']); ?>" frameborder="0" height="269"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                                            </iframe>
 
-                                        <!-- Custom Play Button Overlay -->
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 cursor-pointer transition-opacity hover:bg-opacity-50">
-                                            <svg width="80" height="70" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <!-- Rounded Rectangle -->
-                                                <rect x="2" y="2" width="116" height="76" rx="12" fill="#FF0000" stroke="#FF0000" stroke-width="3" />
-                                                <!-- Play Triangle -->
-                                                <path d="M48 28L48 52L68 40L48 28Z" fill="white" />
-                                            </svg>
-                                        </div>
+                                            <!-- Custom Play Button Overlay -->
+                                            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 cursor-pointer transition-opacity hover:bg-opacity-50">
+                                                <svg width="80" height="70" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <!-- Rounded Rectangle -->
+                                                    <rect x="2" y="2" width="116" height="76" rx="12" fill="#FF0000" stroke="#FF0000" stroke-width="3" />
+                                                    <!-- Play Triangle -->
+                                                    <path d="M48 28L48 52L68 40L48 28Z" fill="white" />
+                                                </svg>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <h3 class="md:text-lg text-base font-semibold text-[#121212] group-hover:lg:text-[#D4111E] duration-300">
+                                        <?php echo esc_html($item['title']); ?>
+                                    </h3>
+
+                                    <p class="text-[#637083] text-sm font-normal"><?php echo esc_html($item['description']); ?></p>
+
+                                    <?php if (!empty($item['link'])) : ?>
+                                        <a href="<?php echo esc_url($item['link']); ?>" class="cursor-pointer absolute inset-0" aria-label="<?php echo esc_attr($item['title']); ?>"></a>
                                     <?php endif; ?>
                                 </div>
-                                
-                                <h3 class="md:text-lg text-base font-semibold text-[#121212] group-hover:lg:text-[#D4111E] duration-300">
-                                    <?php echo esc_html($item['title']); ?>
-                                </h3>
-                                
-                                <p class="text-[#637083] text-sm font-normal"><?php echo esc_html($item['description']); ?></p>
-
-                                <?php if (!empty($item['link'])) : ?>
-                                    <a href="<?php echo esc_url($item['link']); ?>" class="cursor-pointer absolute inset-0" aria-label="<?php echo esc_attr($item['title']); ?>"></a>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </section>
+                            <?php endforeach; ?>
+                        </div>
+                    </section>
+                <?php endif; ?>
 
             </div>
         </div>
