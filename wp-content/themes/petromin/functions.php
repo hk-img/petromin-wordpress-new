@@ -1,5 +1,16 @@
 <?php
 
+if (!function_exists('petromin_theme_setup')) {
+    /**
+     * Register theme supports needed for the blog editor (featured images, title tag, etc.).
+     */
+    function petromin_theme_setup()
+    {
+        add_theme_support('post-thumbnails');
+        add_theme_support('title-tag');
+    }
+}
+add_action('after_setup_theme', 'petromin_theme_setup');
 
 if (!function_exists('petromin_get_acf_image_data')) {
     function petromin_get_acf_image_data($image_field, $size = 'full', $fallback_url = '', $fallback_alt = '')
@@ -2513,3 +2524,197 @@ add_action('acf/init', function () {
         ],
     ]);
 });
+
+
+
+// Calculate reading time
+function calculate_reading_time($content) {
+    $word_count = str_word_count(strip_tags($content));
+    $reading_time = ceil($word_count / 200); // 200 words per minute
+    return max(1, $reading_time); // Minimum 1 minute
+}
+
+// Add featured post meta box
+function add_featured_post_meta_box() {
+    add_meta_box(
+        'featured_post_meta_box',
+        'Featured Post',
+        'featured_post_meta_box_callback',
+        'post',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'add_featured_post_meta_box');
+
+function featured_post_meta_box_callback($post) {
+    $featured = get_post_meta($post->ID, 'featured_post', true);
+    wp_nonce_field('featured_post_nonce', 'featured_post_nonce_field');
+    ?>
+    <label for="featured_post">
+        <input type="checkbox" name="featured_post" id="featured_post" value="1" <?php checked($featured, '1'); ?> />
+        Mark as Featured Post
+    </label>
+    <?php
+}
+
+function save_featured_post_meta($post_id) {
+    if (!isset($_POST['featured_post_nonce_field']) || 
+        !wp_verify_nonce($_POST['featured_post_nonce_field'], 'featured_post_nonce')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    $featured = isset($_POST['featured_post']) ? '1' : '0';
+    update_post_meta($post_id, 'featured_post', $featured);
+}
+add_action('save_post', 'save_featured_post_meta');
+
+// AJAX handler for load more
+function load_more_blog_posts() {
+    check_ajax_referer('load_more_blog_nonce', 'nonce');
+    
+    $page = intval($_POST['page']);
+    $category = sanitize_text_field($_POST['category']);
+    $posts_per_page = 6;
+    
+    $args = [
+        'post_type' => 'post',
+        'posts_per_page' => $posts_per_page,
+        'paged' => $page,
+        'post_status' => 'publish'
+    ];
+    
+    if ($category) {
+        $args['category_name'] = $category;
+    }
+    
+    $query = new WP_Query($args);
+    
+    ob_start();
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            
+            $post_categories = get_the_category();
+            $reading_time = calculate_reading_time(get_the_content());
+            $post_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
+            $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
+            $images_url = $assets_url . '/img';
+            $fallback_image = $images_url . '/media_mention_img.webp';
+            ?>
+            
+            <div class="relative w-full flex flex-col md:gap-y-4 gap-y-3 group">
+                <a href="<?php the_permalink(); ?>" class="w-full relative overflow-hidden duration-300">
+                    <img fetchpriority="low" loading="lazy" 
+                        src="<?php echo esc_url($post_image ?: $fallback_image); ?>"
+                        class="size-full group-hover:lg:scale-125 duration-300" 
+                        alt="<?php echo esc_attr(get_the_title()); ?>" 
+                        title="<?php echo esc_attr(get_the_title()); ?>">
+                </a>
+                
+                <div class="text-[#637083] font-normal lg:text-base text-sm">
+                    <?php 
+                    $author = get_the_author();
+                    if ($author) {
+                        echo esc_html($author) . ' • ';
+                    }
+                    echo esc_html(get_the_date('F j, Y')) . ' • ' . $reading_time . ' Min Read'; 
+                    ?>
+                </div>
+                
+                <a href="<?php the_permalink(); ?>" class="flex gap-2 items-baseline">
+                    <h2 class="lg:text-xl md:text-lg text-base font-semibold text-[#121212] group-hover:lg:text-[#CB122D] duration-300">
+                        <?php echo esc_html(get_the_title()); ?>
+                    </h2>
+                    <span>
+                        <svg class="size-5 group-hover:lg:text-[#CB122D] duration-300" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 13 20" fill="none">
+                            <path d="M12.2789 9.69546L5.34274 19.3833H0L2 16.3833L6.5 9.69546L2 2.8833L0 0L5.34274 0L12.2789 9.69546Z" fill="currentColor" />
+                        </svg>
+                    </span>
+                </a>
+                
+                <p class="text-[#637083] md:text-base text-sm font-normal">
+                    <?php 
+                    $excerpt = get_the_excerpt();
+                    if (empty($excerpt)) {
+                        $excerpt = wp_trim_words(get_the_content(), 20);
+                    }
+                    echo esc_html($excerpt);
+                    ?>
+                </p>
+                
+                <?php if ($post_categories) : ?>
+                    <ul class="flex flex-wrap w-full items-center gap-3 pt-3 md:pb-0 pb-4">
+                        <?php foreach ($post_categories as $category) : 
+                            if ($category->slug !== 'uncategorized') : ?>
+                                <li class="bg-[#FEF3E8] text-[#FF8300] p-3 font-medium md:text-base text-sm">
+                                    <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
+                                        <?php echo esc_html($category->name); ?>
+                                    </a>
+                                </li>
+                            <?php endif;
+                        endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+            
+            <?php
+        }
+        wp_reset_postdata();
+    }
+    
+    $html = ob_get_clean();
+    
+    wp_send_json_success([
+        'html' => $html,
+        'max_pages' => $query->max_num_pages
+    ]);
+}
+add_action('wp_ajax_load_more_blog_posts', 'load_more_blog_posts');
+add_action('wp_ajax_nopriv_load_more_blog_posts', 'load_more_blog_posts');
+
+/**
+ * Ensure the permalink structure uses /blog/%postname%/ so single posts live under the Blog path.
+ */
+function petromin_ensure_blog_permalink_structure() {
+    if (!function_exists('get_option') || !function_exists('update_option')) {
+        return;
+    }
+
+    $desired_structure = '/blog/%postname%/';
+    $current_structure = get_option('permalink_structure');
+
+    $needs_flush = false;
+    if ($current_structure !== $desired_structure) {
+        update_option('permalink_structure', $desired_structure);
+        $needs_flush = true;
+    }
+
+    $desired_category_base = 'blog/category';
+    $current_category_base = get_option('category_base');
+
+    if ($current_category_base !== $desired_category_base) {
+        update_option('category_base', $desired_category_base);
+        $needs_flush = true;
+    }
+
+    if ($needs_flush) {
+        flush_rewrite_rules(false);
+    }
+}
+add_action('init', 'petromin_ensure_blog_permalink_structure');
+
+// Enable featured images
+add_theme_support('post-thumbnails');
+
+// Add excerpt support
+add_post_type_support('post', 'excerpt');
