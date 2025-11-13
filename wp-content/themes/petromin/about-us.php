@@ -191,14 +191,14 @@ $excellence_defaults = [
 ];
 
 $wheel_defaults = [
-    'heading' => "Expert hands\nfor every journey",
+    'heading' => "Expert hands for every journey",
     'wheel_images' => [
         'desktop' => [
-            'url' => $images_url . '/expert_hands_circle.webp',
+            'url' => $images_url . '/about_wheel.webp',
             'alt' => 'Expert hands service wheel',
         ],
         'mobile' => [
-            'url' => $images_url . '/expert_hands_circle_mobile_full.webp',
+            'url' => $images_url . '/about_wheel_mobile.webp',
             'alt' => 'Expert hands service wheel mobile',
         ],
     ],
@@ -369,25 +369,25 @@ for ($i = 0; $i < $wheel_count; $i++) {
 }
 
 $wheel_desktop_positions = [
-    ['class' => 'label sm:!block !hidden absolute xl:top-[-22%] lg:top-[-22%] md:top-[-22%] top-[-30%] left-1/2 -translate-x-1/2 text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 0, 'angle' => 0],
-    ['class' => 'label sm:!block hidden absolute md:top-[-3%] md:right-[-26%] top-[-12%] right-[-30%] text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 2, 'angle' => 45],
-    ['class' => 'label sm:!block hidden absolute top-1/2 md:right-[-44%] right-[-48%] -translate-y-1/2 text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 4, 'angle' => 90],
-    ['class' => 'label sm:!block !hidden absolute bottom-[-8%] md:right-[-22%] right-[-35%] text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 6, 'angle' => 135],
-    ['class' => 'label  sm:!block hidden absolute md:bottom-[-28%] bottom-[-28%] left-1/2 -translate-x-1/2 text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 13, 'angle' => 180],
-    ['class' => 'label sm:!block hidden absolute bottom-[-8%] xl:left-[-26%] lg:left-[-26%] md:left-[-26%] left-[-38%] text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 14, 'angle' => 225],
-    ['class' => 'label sm:!block hidden absolute top-1/2 xl:left-[-38%] lg:left-[-42%] md:left-[-42%] left-[-50%] -translate-y-1/2 text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 15, 'angle' => 270],
-    ['class' => 'label sm:!block hidden absolute md:top-[-3%] top-[-12%] md:left-[-26%] left-[-37%] text-center font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] sm:w-[11rem] md:w-[13rem] leading-snug', 'index' => 16, 'angle' => 315],
+    ['class' => 'label sm:!block !hidden absolute xl:top-[-10%] lg:top-[-13%] md:top-[-12%] top-[-12%]  xl:left-[64%] lg:left-[66%] left-[66%] -translate-x-1/2 text-start font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 0, 'angle' => 0],
+    ['class' => 'label sm:!block hidden absolute md:top-[13%] lg:right-[-44%] md:right-[-42%] top-[14%] right-[-38%] text-start font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 2, 'angle' => 45],
+    ['class' => 'label sm:!block hidden absolute md:top-[58%] top-[55%] lg:right-[-54%] md:right-[-54%] right-[-48%] -translate-y-1/2 text-start font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 4, 'angle' => 90],
+    ['class' => 'label sm:!block !hidden absolute md:bottom-[-1%] bottom-[1%] lg:right-[-44%] md:right-[-42%] right-[-38%] text-start font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 6, 'angle' => 135],
+    ['class' => 'label sm:!block hidden absolute bottom-[1%] xl:left-[-36%] lg:left-[-36%] md:left-[-42%] left-[-38%] text-end font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 13, 'angle' => 180],
+    ['class' => 'label sm:!block hidden absolute md:top-[58%] top-[55%] xl:left-[-48%] lg:left-[-54%] md:left-[-54%] left-[-48%] -translate-y-1/2 text-end font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 14, 'angle' => 225],
+    ['class' => 'label sm:!block hidden absolute md:top-[13%] top-[14%] xl:left-[-36%] lg:left-[-44%] md:left-[-42%] left-[-38%] text-end font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 15, 'angle' => 270],
+    ['class' => 'label  sm:!block hidden absolute md:bottom-[-17%] bottom-[-15%]  left-[64%] -translate-x-1/2 text-start font-bold text-[#00000099] transition-all duration-300 ease-in-out text-xs md:text-sm md:text-base lg:text-lg xl:text-xl w-[10rem] md:w-[15rem] leading-snug', 'index' => 16, 'angle' => 315],
 ];
 
 $wheel_mobile_positions = [
-    ['class' => 'label sm:!hidden block absolute top-[-32%] left-[56%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 1, 'angle' => 10],
-    ['class' => 'label sm:!hidden block absolute top-[-9%] right-[-20%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 3, 'angle' => 35],
-    ['class' => 'label sm:!hidden block absolute top-[19%] right-[-40%] -translate-y-1/2 text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 5, 'angle' => 55],
-    ['class' => 'label sm:!hidden block absolute top-[34%] right-[-50%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 7, 'angle' => 78],
-    ['class' => 'label sm:!hidden block absolute top-[53%] right-[-50%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 8, 'angle' => 100],
-    ['class' => 'label sm:!hidden block absolute top-[72%] right-[-44%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 9, 'angle' => 120],
-    ['class' => 'label sm:!hidden block absolute bottom-[-16%] right-[-20%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 10, 'angle' => 145],
-    ['class' => 'label sm:!hidden block absolute bottom-[-36%] left-[56%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[11rem] leading-snug', 'index' => 12, 'angle' => 170],
+    ['class' => 'label sm:!hidden block absolute top-[-18%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 1, 'angle' => 10],
+    ['class' => 'label sm:!hidden block absolute top-[-3%] right-[9%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 3, 'angle' => 35],
+    ['class' => 'label sm:!hidden block absolute top-[19%] right-[-10%] -translate-y-1/2 text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 5, 'angle' => 55],
+    ['class' => 'label sm:!hidden block absolute top-[32%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 7, 'angle' => 78],
+    ['class' => 'label sm:!hidden block absolute top-[53%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 8, 'angle' => 100],
+    ['class' => 'label sm:!hidden block absolute top-[74%] right-[-10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 9, 'angle' => 120],
+    ['class' => 'label sm:!hidden block absolute bottom-[-5%] right-[10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 10, 'angle' => 145],
+    ['class' => 'label sm:!hidden block absolute bottom-[-20%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 12, 'angle' => 170],
 ];
 
 $left_arrow_icon = $images_url . '/left_chev.svg';
@@ -849,7 +849,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             </div>
             <!-- missionVission  sec 3 end -->
             <!-- excellence  sec 4 start -->
-            <div class="w-full relative bg-white pb-[6.063rem]">
+            <div class="w-full relative bg-white pb-[4.063rem]">
                 <div class="view">
                     <div class="flex flex-col pb-9 md:pb-14">
                         <?php if ($excellence_heading) : ?>
@@ -900,16 +900,16 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             <!-- excellence  sec 4 end -->
             <!-- circle hover sec 5 start -->
             <div class="w-full">
-                <div class="sm:hidden view flex-col flex pb-6">
+                <div class="view flex-col flex">
                     <h2
-                        class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl lg:leading-[3.75rem] font-bold text-black ">
+                        class="md:w-full w-8/12 xl:text-[3.125rem] lg:-[3rem]  md:text-[3rem] text-2xl lg:leading-[3.75rem] font-bold text-black ">
                         <?php echo $wheel_heading_html; ?>
                     </h2>
                 </div>
                 <div class="w-full md:pt-36 md:pb-52 pt-40 pb-60 bg-white overflow-hidden">
 
                     <div id="wheelContainer"
-                        class="relative sm:mx-auto sm:translate-x-0 translate-x-[-50%] sm:w-[22rem] md:w-[26rem] lg:w-[30rem] xl:w-[35rem] aspect-square flex items-center justify-center z-30">
+                        class="relative sm:mx-auto sm:translate-x-0 translate-x-[-28%] sm:w-[22rem] md:w-[30rem] lg:w-[30rem] xl:w-[35rem] aspect-square flex items-center justify-center z-30">
                         <!-- Circle Image -->
                         <div class="relative w-full h-full sm:block hidden">
                             <?php if (!empty($wheel_desktop_image['url'])) : ?>
@@ -927,10 +927,10 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </div>
 
                         <!-- Orange Arrow -->
-                        <div id="arrow"
+                        <!-- <div id="arrow"
                             class="pointer-events-none absolute w-0 h-0 border-l-[1rem] sm:border-l-[1.2rem] md:border-l-[1.5rem] border-r-[1rem] sm:border-r-[1.2rem] md:border-r-[1.5rem] border-b-[1.2rem] sm:border-b-[1.5rem] md:border-b-[1.8rem] border-l-transparent border-r-transparent border-b-[#f57c00] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out -z-10"
                             style="transform-origin: 50% 50%; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
-                        </div>
+                        </div> -->
 
                         <!-- Labels -->
                         <div id="labels" class="absolute inset-0 flex items-center justify-center pointer-events-auto">
@@ -946,7 +946,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.75rem] sm:text-[0.875rem] leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.5rem] md:text-[0.875rem] md:leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>
@@ -965,7 +965,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.75rem] sm:text-[0.875rem] leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.5rem] md:text-[0.875rem] md:leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>
