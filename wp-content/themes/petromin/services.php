@@ -137,6 +137,41 @@ foreach ($service_slides as $index => $slide) {
     ];
 }
 
+// Prefer sourcing slides from published 'service' posts so this section reflects Service posts
+$service_posts_query = new WP_Query([
+    'post_type' => 'service',
+    'posts_per_page' => 12,
+    'post_status' => 'publish',
+    'orderby' => 'menu_order',
+    'order' => 'ASC',
+]);
+
+$service_posts = $service_posts_query->posts;
+if (!empty($service_posts)) {
+    $posts_slides = [];
+    foreach ($service_posts as $sp) {
+        setup_postdata($sp);
+        $pid = $sp->ID;
+
+        // Use the ACF 'For Services Page Section's' image as the slide image
+        $slide_img = petromin_get_acf_image_data(get_field('for_services_page_image', $pid), 'full', '', get_the_title($pid));
+        // Use the ACF service icon
+        $icon_img = petromin_get_acf_image_data(get_field('service_icon', $pid), 'thumbnail', '', get_the_title($pid));
+
+        $posts_slides[] = [
+            'slide_image' => $slide_img ?: ['url' => '', 'alt' => get_the_title($pid)],
+            'service_icon' => $icon_img ?: ['url' => '', 'alt' => get_the_title($pid)],
+            'service_title' => get_the_title($pid),
+            'service_link' => get_permalink($pid),
+        ];
+    }
+    wp_reset_postdata();
+
+    if (!empty($posts_slides)) {
+        $our_services_data['slides'] = $posts_slides;
+    }
+}
+
 $features_data = [
     'heading' => $features_field['heading'] ?? $defaults['features']['heading'],
     'features_list' => !empty($features_field['features_list']) ? $features_field['features_list'] : $defaults['features']['features_list'],
