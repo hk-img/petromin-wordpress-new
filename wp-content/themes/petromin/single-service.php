@@ -22,6 +22,12 @@ $savings_button_link = get_field('savings_button_link') ?: '#';
 $savings_image = get_field('savings_image');
 $faq_title = get_field('faq_title') ?: 'It\'s best you know these.';
 
+// Backend-only service images (for reuse on other pages). These are uploaded in the Service editor
+// and intentionally NOT output on the single service front-end. Stored as ACF image fields (return ID).
+$for_services_page_image = get_field('for_services_page_image'); // For Services Page Section's (webp, min 352x478)
+$service_icon_image = get_field('service_icon'); // Service Icon (webp, min 100x100)
+$home_page_service_image = get_field('home_page_service_image'); // Home Page Service Section's (webp, min 730x437)
+
 // Default problems if empty
 if (empty($problems)) {
     $problems = array(

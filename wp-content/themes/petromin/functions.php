@@ -3014,6 +3014,43 @@ add_action('acf/init', function () {
                 'return_format' => 'id',
                 'preview_size' => 'medium',
             ),
+            // Additional backend-only images for cross-site service usage
+            array(
+                'key' => 'field_for_services_page_image',
+                'label' => "For Services Page Section's",
+                'name' => 'for_services_page_image',
+                'type' => 'image',
+                'return_format' => 'id',
+                'preview_size' => 'medium',
+                'instructions' => 'Upload a .webp image (recommended / minimum size: 352x478). This image is stored as post meta for reuse on other pages. It will not be shown on the single service frontend.',
+                'mime_types' => 'webp',
+                'min_width' => 352,
+                'min_height' => 478,
+            ),
+            array(
+                'key' => 'field_service_icon',
+                'label' => 'Service Icon',
+                'name' => 'service_icon',
+                'type' => 'image',
+                'return_format' => 'id',
+                'preview_size' => 'thumbnail',
+                'instructions' => 'Upload a .webp icon image (minimum size: 100x100). This is intended for use in lists/cards on other pages. It will not be displayed on the single service page.',
+                'mime_types' => 'webp',
+                'min_width' => 100,
+                'min_height' => 100,
+            ),
+            array(
+                'key' => 'field_home_page_service_image',
+                'label' => "Home Page Service Section's",
+                'name' => 'home_page_service_image',
+                'type' => 'image',
+                'return_format' => 'id',
+                'preview_size' => 'medium',
+                'instructions' => 'Upload a .webp image (recommended / minimum size: 730x437). This image is stored for display in the home page service sections. It will not be shown on the single service page.',
+                'mime_types' => 'webp',
+                'min_width' => 730,
+                'min_height' => 437,
+            ),
             
             // FAQ Section
             array(
