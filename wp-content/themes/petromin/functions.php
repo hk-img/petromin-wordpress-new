@@ -3018,35 +3018,11 @@ add_action('acf/init', function () {
             // FAQ Section
             array(
                 'key' => 'field_faq_title',
-                'label' => 'FAQ Section Title',
+                'label' => 'Blog Section Title',
                 'name' => 'faq_title',
                 'type' => 'text',
                 'default_value' => 'It\'s best you know these.',
-                'instructions' => 'Title for the FAQ section',
-            ),
-            array(
-                'key' => 'field_service_faq',
-                'label' => 'FAQ Items',
-                'name' => 'faq_items',
-                'type' => 'repeater',
-                'layout' => 'row',
-                'button_label' => 'Add FAQ',
-                'sub_fields' => array(
-                    array(
-                        'key' => 'field_faq_question',
-                        'label' => 'Question',
-                        'name' => 'question',
-                        'type' => 'text',
-                        'required' => 1,
-                    ),
-                    array(
-                        'key' => 'field_faq_answer',
-                        'label' => 'Answer',
-                        'name' => 'answer',
-                        'type' => 'textarea',
-                        'required' => 1,
-                    ),
-                ),
+                'instructions' => 'Title for the blog section',
             ),
         ),
         'location' => array(

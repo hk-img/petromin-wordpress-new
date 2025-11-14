@@ -21,7 +21,6 @@ $savings_button_text = get_field('savings_button_text') ?: 'Know More';
 $savings_button_link = get_field('savings_button_link') ?: '#';
 $savings_image = get_field('savings_image');
 $faq_title = get_field('faq_title') ?: 'It\'s best you know these.';
-$faq_items = get_field('faq_items') ?: array();
 
 // Default problems if empty
 if (empty($problems)) {
@@ -52,14 +51,16 @@ if (empty($services_included)) {
     );
 }
 
-// Default FAQ if empty
-if (empty($faq_items)) {
-    $faq_items = array(
-        array('question' => 'Lorem ipsum dolor sit amet.', 'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a dolor efficitur, mattis ante ac, finibus erat. Integer arcu nisl, sollicitudin eget lectus id, ultrices consequat justo.'),
-        array('question' => 'Lorem ipsum dolor sit amet.', 'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a dolor efficitur, mattis ante ac, finibus erat. Integer arcu nisl, sollicitudin eget lectus id, ultrices consequat justo.'),
-        array('question' => 'Lorem ipsum dolor sit amet.', 'answer' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a dolor efficitur, mattis ante ac, finibus erat. Integer arcu nisl, sollicitudin eget lectus id, ultrices consequat justo.'),
-    );
-}
+// Get blog posts for "Know More" section
+$blog_posts_query = new WP_Query([
+    'post_type' => 'post',
+    'posts_per_page' => 6,
+    'post_status' => 'publish',
+    'orderby' => 'date',
+    'order' => 'DESC'
+]);
+$blog_posts = $blog_posts_query->posts;
+wp_reset_postdata();
 
 // Get icon based on type or image URL
 function get_service_icon($icon_input) {
@@ -236,24 +237,51 @@ function get_service_icon($icon_input) {
         <div class="w-full relative">
             <div class="swiper bestKnowCarousel relative z-0 py-10 font-inter">
                 <div class="swiper-wrapper">
-                    <?php foreach ($faq_items as $faq) : ?>
+                    <?php if ($blog_posts) : ?>
+                        <?php foreach ($blog_posts as $post) : 
+                            setup_postdata($post);
+                            $post_image = get_the_post_thumbnail_url($post->ID, 'large') ?: $images_url . '/media_mention_img.webp';
+                            $reading_time = calculate_reading_time(get_the_content());
+                        ?>
+                            <div class="swiper-slide !h-auto">
+                                <a href="<?php echo esc_url(get_permalink($post->ID)); ?>" class="bg-[#F8F8F880] relative flex flex-col gap-3 border border-[#EFEFEF] p-4 h-full hover:shadow-lg duration-300 overflow-hidden group">
+                                    
+                                    
+                                    <h3 class="text-[#CB122D] md:text-lg text-base font-bold line-clamp-2">
+                                        <?php echo esc_html(get_the_title($post->ID)); ?>
+                                    </h3>
+                                    
+                                    <p class="md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
+                                        <?php 
+                                        $excerpt = get_the_excerpt($post->ID);
+                                        if (empty($excerpt)) {
+                                            $excerpt = wp_trim_words(get_the_content(null, false, $post->ID), 15);
+                                        }
+                                        echo esc_html($excerpt);
+                                        ?>
+                                    </p>
+                                    
+                                    <div class="w-full relative pt-2 mt-auto">
+                                        <span class="text-[#CB122D] font-semibold text-sm flex items-center gap-2">
+                                            Know More
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 14 14" fill="none">
+                                                    <path d="M0.833984 6.66683H12.5007M12.5007 6.66683L6.66732 0.833496M12.5007 6.66683L6.66732 12.5002" stroke="#CB122D" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                        <?php wp_reset_postdata(); ?>
+                    <?php else : ?>
                         <div class="swiper-slide !h-auto">
                             <div class="bg-[#F8F8F880] relative flex flex-col gap-2 border border-[#EFEFEF] p-6 h-full">
-                                <h3 class="text-[#CB122D] md:text-xl text-lg font-bold"><?php echo esc_html($faq['question']); ?></h3>
-                                <p class="md:text-base text-sm text-[#475467] text-balance"><?php echo esc_html($faq['answer']); ?></p>
-                                <div class="w-full relative pt-3">
-                                    <button type="button" class="text-[#CB122D] font-semibold text-base flex items-center gap-2">
-                                        Know More
-                                        <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 14 14" fill="none">
-                                                <path d="M0.833984 6.66683H12.5007M12.5007 6.66683L6.66732 0.833496M12.5007 6.66683L6.66732 12.5002" stroke="#CB122D" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </div>
+                                <p class="text-[#475467]">No blog posts available.</p>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
