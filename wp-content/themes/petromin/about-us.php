@@ -474,7 +474,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             </div>
             <!-- about sec 1 end -->
             <!-- Journey  sec 2 start -->
-            <?php if (!empty($timeline_slides)): ?>
+            <?php if (!empty($journey_slides)): ?>
             <div class="w-full relative journey overflow-hidden pb-[7.25rem] md:pb-[11.438rem]">
                 <div class="view md:pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
