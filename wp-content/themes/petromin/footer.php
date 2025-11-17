@@ -810,7 +810,7 @@ document.addEventListener("DOMContentLoaded", function() {
         spaceBetween: 30,
         loop: true,
         // autoHeight: true,
-        centeredSlides: true,
+        centeredSlides: false,
         pagination: {
             el: ".swiper-pagination",
             clickable: true,
