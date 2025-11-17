@@ -474,7 +474,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             </div>
             <!-- about sec 1 end -->
             <!-- Journey  sec 2 start -->
-
+            <?php if (!empty($timeline_slides)): ?>
             <div class="w-full relative journey overflow-hidden pb-[7.25rem] md:pb-[11.438rem]">
                 <div class="view md:pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
@@ -546,6 +546,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             <!-- Journey  sec 2 end -->
             <!-- missionVission  sec 3 start -->
             <div class="w-full relative bg-gradient-to-r from-[#E5E5E5] to-[#fff] mb-[7.125rem] md:mb-[8.063rem]">
