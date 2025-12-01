@@ -98,7 +98,7 @@ $images_url = $assets_url . '/img';
             <?php endif; ?>
 
             <!-- Main Content -->
-            <div class="prose max-w-none">
+            <div class="max-w-none wp-block-post-content">
                 <?php the_content(); ?>
             </div>
 
@@ -252,66 +252,6 @@ $images_url = $assets_url . '/img';
     </div>
 </section>
 
-<!-- Additional CSS for Content Styling -->
-<style>
-.prose {
-    color: #3B3C4A;
-    line-height: 1.6;
-}
-
-.prose h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #181A2A;
-    margin: 2rem 0 1rem 0;
-}
-
-.prose h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #181A2A;
-    margin: 1.5rem 0 0.75rem 0;
-}
-
-.prose p {
-    margin-bottom: 1.5rem;
-    font-size: 1.125rem;
-    line-height: 1.8;
-}
-
-.prose img {
-    border-radius: 0.5rem;
-    margin: 1.5rem 0;
-}
-
-.prose ul,
-.prose ol {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
-}
-
-.prose li {
-    margin-bottom: 0.5rem;
-}
-
-.prose blockquote {
-    border-left: 4px solid #CB122D;
-    padding-left: 1rem;
-    margin: 1.5rem 0;
-    font-style: italic;
-}
-
-@media (max-width: 768px) {
-    .prose p {
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-
-    .prose h2 {
-        font-size: 1.25rem;
-    }
-}
-</style>
 
 <?php
     endwhile;
