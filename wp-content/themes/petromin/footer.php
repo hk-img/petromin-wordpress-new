@@ -2,7 +2,8 @@
 $footer_brand = function_exists('get_field') ? (get_field('footer_brand', 'option') ?: []) : [];
 $footer_highlight = function_exists('get_field') ? (get_field('footer_highlight_box', 'option') ?: []) : [];
 $footer_head_office = function_exists('get_field') ? (get_field('footer_head_office', 'option') ?: []) : [];
-$footer_link_columns_raw = function_exists('get_field') ? (get_field('footer_link_columns', 'option') ?: []) : [];
+$footer_quick_links_raw = function_exists('get_field') ? (get_field('footer_quick_links', 'option') ?: []) : [];
+$footer_other_links_raw = function_exists('get_field') ? (get_field('footer_other_links', 'option') ?: []) : [];
 $footer_store_badges_raw = function_exists('get_field') ? (get_field('footer_store_badges', 'option') ?: []) : [];
 $footer_social_links_raw = function_exists('get_field') ? (get_field('footer_social_links', 'option') ?: []) : [];
 $footer_copyright = function_exists('get_field') ? (get_field('footer_copyright', 'option') ?: '') : '';
@@ -117,142 +118,92 @@ if ($head_office_address === '') {
 Kottur Gardens, Kotturpuram, Chennai, Tamil Nadu - 600085";
 }
 
-$default_footer_columns = [
+// COLUMN 1: Services (Dynamic from CPT)
+$service_posts_footer = new WP_Query([
+    'post_type' => 'service',
+    'posts_per_page' => -1,
+    'post_status' => 'publish',
+    'orderby' => 'menu_order',
+    'order' => 'ASC',
+]);
+
+$services_links = [];
+if (!empty($service_posts_footer->posts)) {
+    foreach ($service_posts_footer->posts as $service) {
+        $services_links[] = [
+            'text' => get_the_title($service->ID),
+            'url' => get_permalink($service->ID),
+            'target' => '_self',
+        ];
+    }
+}
+wp_reset_postdata();
+
+// COLUMN 1: Quick Links (from CMS)
+$quick_links = [];
+if (is_array($footer_quick_links_raw)) {
+    foreach ($footer_quick_links_raw as $link) {
+        if (!is_array($link)) {
+            continue;
+        }
+        $link_text = trim((string) ($link['link_text'] ?? ''));
+        if ($link_text === '') {
+            continue;
+        }
+        $quick_links[] = [
+            'text' => $link_text,
+            'url' => petromin_normalize_link($link['link_url'] ?? '', '#'),
+            'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
+        ];
+    }
+}
+
+// COLUMN 2: Latest Offers (Static - hardcoded)
+$offers_links = [
+    ['text' => 'PMS Service @Rs.2499', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Tyre Offer - Buy 4 + 1TMSS', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Full Body Car Paint Offer', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Dent & Paint Repair', 'url' => '#', 'target' => '_self'],
+    ['text' => 'AC Gas Top-up & Inspection', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Express Car Service (@Rs.999)', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Petrofit', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Brake Pad Replacement', 'url' => '#', 'target' => '_self'],
+    ['text' => 'AC Inspection @Rs.99', 'url' => '#', 'target' => '_self'],
+    ['text' => 'Brake Inspection @Rs.99', 'url' => '#', 'target' => '_self'],
+];
+
+// COLUMN 2: Other Links (from CMS)
+$other_links = [];
+if (is_array($footer_other_links_raw)) {
+    foreach ($footer_other_links_raw as $link) {
+        if (!is_array($link)) {
+            continue;
+        }
+        $link_text = trim((string) ($link['link_text'] ?? ''));
+        if ($link_text === '') {
+            continue;
+        }
+        $other_links[] = [
+            'text' => $link_text,
+            'url' => petromin_normalize_link($link['link_url'] ?? '', '#'),
+            'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
+        ];
+    }
+}
+
+// Build normalized footer columns
+$normalized_footer_columns = [
     [
         'column_title' => 'Services',
-        'primary_links' => [
-            ['link_text' => 'Car Service', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Battery Service', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Tyre Care', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'AC Service', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Eco Car Wash', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Headlight Polish', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Body Shop', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Engine Care', 'link_url' => '#', 'open_in_new_tab' => false],
-        ],
-        'secondary_links' => [
-            ['link_text' => 'About Us', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Blogs', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Locate Us', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Privacy Policy', 'link_url' => '#', 'open_in_new_tab' => false],
-        ],
+        'primary_links' => $services_links,
+        'secondary_links' => $quick_links,
     ],
     [
         'column_title' => 'Latest Offers',
-        'primary_links' => [
-            ['link_text' => 'PMS Service @Rs.2499', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Tyre Offer - Buy 4 + 1TMSS', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Full Body Car Paint Offer', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Dent & Paint Repair', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'AC Gas Top-up & Inspection', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Express Car Service (@Rs.999)', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Petrofit', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Brake Pad Replacement', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'AC Inspection @Rs.99', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Brake Inspection @Rs.99', 'link_url' => '#', 'open_in_new_tab' => false],
-        ],
-        'secondary_links' => [
-            ['link_text' => 'Newsroom', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Terms & Condition', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'Refund Policy', 'link_url' => '#', 'open_in_new_tab' => false],
-        ],
+        'primary_links' => $offers_links,
+        'secondary_links' => $other_links,
     ],
 ];
-
-$normalized_footer_columns = [];
-$footer_columns_source = is_array($footer_link_columns_raw) ? $footer_link_columns_raw : [];
-
-if (!empty($footer_columns_source)) {
-    foreach ($footer_columns_source as $column) {
-        if (!is_array($column)) {
-            continue;
-        }
-
-        $column_title = trim((string) ($column['column_title'] ?? ''));
-        $primary_links_raw = $column['primary_links'] ?? [];
-        $secondary_links_raw = $column['secondary_links'] ?? [];
-        $primary_links = [];
-        $secondary_links = [];
-
-        if (is_array($primary_links_raw)) {
-            foreach ($primary_links_raw as $link) {
-                if (!is_array($link)) {
-                    continue;
-                }
-
-                $link_text = trim((string) ($link['link_text'] ?? ''));
-                if ($link_text === '') {
-                    continue;
-                }
-
-                $link_url = petromin_normalize_link($link['link_url'] ?? '', '#');
-                $primary_links[] = [
-                    'text' => $link_text,
-                    'url' => $link_url,
-                    'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
-                ];
-            }
-        }
-
-        if (is_array($secondary_links_raw)) {
-            foreach ($secondary_links_raw as $link) {
-                if (!is_array($link)) {
-                    continue;
-                }
-
-                $link_text = trim((string) ($link['link_text'] ?? ''));
-                if ($link_text === '') {
-                    continue;
-                }
-
-                $link_url = petromin_normalize_link($link['link_url'] ?? '', '#');
-                $secondary_links[] = [
-                    'text' => $link_text,
-                    'url' => $link_url,
-                    'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
-                ];
-            }
-        }
-
-        if ($column_title === '' && empty($primary_links) && empty($secondary_links)) {
-            continue;
-        }
-
-        $normalized_footer_columns[] = [
-            'column_title' => $column_title,
-            'primary_links' => $primary_links,
-            'secondary_links' => $secondary_links,
-        ];
-    }
-}
-
-if (empty($normalized_footer_columns)) {
-    foreach ($default_footer_columns as $column) {
-        $normalized_primary = [];
-        foreach ($column['primary_links'] as $link) {
-            $normalized_primary[] = [
-                'text' => $link['link_text'],
-                'url' => petromin_normalize_link($link['link_url'], '#'),
-                'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
-            ];
-        }
-
-        $normalized_secondary = [];
-        foreach ($column['secondary_links'] as $link) {
-            $normalized_secondary[] = [
-                'text' => $link['link_text'],
-                'url' => petromin_normalize_link($link['link_url'], '#'),
-                'target' => !empty($link['open_in_new_tab']) ? '_blank' : '_self',
-            ];
-        }
-
-        $normalized_footer_columns[] = [
-            'column_title' => $column['column_title'],
-            'primary_links' => $normalized_primary,
-            'secondary_links' => $normalized_secondary,
-        ];
-    }
-}
 
 $default_store_badges = [
     [
