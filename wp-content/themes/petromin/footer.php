@@ -1219,6 +1219,18 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
+<!-- Fancybox JS -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
+<script>
+    Fancybox.bind('a[data-fancybox]', {
+        on: {
+            reveal: (fancybox, $slide) => {
+                console.log('Fancybox revealed');
+            },
+        },
+    });
+</script>
+
 <?php wp_footer(); ?>
 
 </body>

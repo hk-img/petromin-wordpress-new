@@ -1144,13 +1144,13 @@ if (!empty($slides_input)) {
             }
         } elseif ($slide_type === 'video') {
             $video_image_data = petromin_get_acf_image_data($slide['video_image'] ?? null, 'full', $testimonials_defaults['slides'][2]['video_image']['url'], $testimonials_defaults['slides'][2]['video_image']['alt']);
-            $video_url = trim($slide['video_url'] ?? '#');
+            $testimonial_video_url = trim($slide['video_url'] ?? '#');
             
             if ($video_image_data) {
                 $slides[] = [
                     'type' => 'video',
                     'image' => $video_image_data,
-                    'video_url' => $video_url,
+                    'video_url' => $testimonial_video_url,
                 ];
             }
         }
@@ -2146,9 +2146,11 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                     <?php endif; ?>
                     <div
                         class="absolute inset-0 flex justify-center items-center opacity-100 group-hover:opacity-100 transition">
-                        <a href="<?php echo esc_url($slide['video_url']); ?>"
-                            class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-white text-white shadow-lg"
-                            target="_blank">
+                        <a href="<?php echo esc_url($slide['video_url']); ?>" 
+                            data-fancybox="testimonials"
+                            data-width="640"
+                            data-height="480"
+                            class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-white text-white shadow-lg hover:bg-white hover:text-red-600 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
                                 class="w-6 h-6">
                                 <path d="M8 5v14l11-7z" />
