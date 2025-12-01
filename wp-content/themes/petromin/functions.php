@@ -2839,6 +2839,14 @@ add_action('acf/init', function () {
                 'instructions' => 'Upload a .webp image (recommended / minimum size: 730x437). This image is stored for display in the home page service sections. It will not be shown on the single service page.',
                 'mime_types' => 'webp',
             ),
+            array(
+                'key' => 'field_highlight',
+                'label' => 'Highlight Text',
+                'name' => 'highlight',
+                'type' => 'text',
+                'instructions' => 'Optional highlighted text to display between description and buttons on home page service section',
+                'default_value' => '',
+            ),
             
             // FAQ Section
             array(

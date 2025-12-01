@@ -593,13 +593,20 @@ if (!empty($service_posts)) {
         $icon_data = petromin_get_acf_image_data(get_field('service_icon', $post_id), 'thumbnail', '', $label);
         $home_image_data = petromin_get_acf_image_data(get_field('home_page_service_image', $post_id), 'full', '', $label);
 
+        // Highlight text (ACF field on service post) - show highlighted text between description and buttons
+        $highlight_field = get_field('highlight', $post_id);
+        $highlight = '';
+        if (is_string($highlight_field) && trim($highlight_field) !== '') {
+            $highlight = trim($highlight_field);
+        }
+
         // Build a tab entry similar to existing structure
         $posts_tabs[] = [
             'label' => $label,
             'heading' => $heading,
             'hero_description' => $hero_description,
             'description' => $description,
-            'highlight' => '',
+            'highlight' => $highlight,
             'icon' => $icon_data ?: ['url' => '', 'alt' => $label],
             'image' => $home_image_data ?: ['url' => '', 'alt' => $label],
             'primary_button' => [
