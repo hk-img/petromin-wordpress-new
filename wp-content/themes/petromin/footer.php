@@ -133,7 +133,6 @@ $default_footer_columns = [
         'secondary_links' => [
             ['link_text' => 'About Us', 'link_url' => '#', 'open_in_new_tab' => false],
             ['link_text' => 'Blogs', 'link_url' => '#', 'open_in_new_tab' => false],
-            ['link_text' => 'PETROMINit!', 'link_url' => '#', 'open_in_new_tab' => false],
             ['link_text' => 'Locate Us', 'link_url' => '#', 'open_in_new_tab' => false],
             ['link_text' => 'Privacy Policy', 'link_url' => '#', 'open_in_new_tab' => false],
         ],
