@@ -293,7 +293,7 @@ input.open::placeholder {
 .wp-block-post-content h5 {font-size: 1.25rem;}.entry-content h6,
 .wp-block-post-content h6 {font-size: 1.1rem;}/* Paragraphs */.entry-content p,
 .wp-block-post-content p {margin-bottom: 1.5em;line-height: 1.7;}/* Images */.entry-content img,
-.wp-block-post-content img {max-width: 100%;height: auto;border-radius: 0.375rem;}.wp-block-image {margin: 2em 0;}.wp-block-image figcaption {text-align: center;font-style: italic;margin-top: 0.5em;opacity: 0.7;}/* Lists */.entry-content ul,
+.wp-block-post-content img {max-width: 100%;height: auto;border-radius: 0.375rem;}.wp-block-image {margin: 2em 0; height: auto !important;}.wp-block-image figcaption {text-align: center;font-style: italic;margin-top: 0.5em;opacity: 0.7;}/* Lists */.entry-content ul,
 .entry-content ol,
 .wp-block-post-content ul,
 .wp-block-post-content ol {margin: 1.5em 0;padding-left: 1.5em;}.entry-content li,
