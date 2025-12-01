@@ -51,57 +51,6 @@ $hero_defaults = [
     ],
 ];
 
-$offers_defaults = [
-    'heading' => 'Latest Offers',
-    'slides' => [
-        [
-            'desktop_image' => [
-                'url' => $images_url . 'latest-offers-img-1-scaled-1.webp',
-                'alt' => 'Latest offer',
-            ],
-            'mobile_image' => [
-                'url' => $images_url . 'image-39.webp',
-                'alt' => 'Latest offer',
-            ],
-        ],
-        [
-            'desktop_image' => [
-                'url' => $images_url . 'latest-offers-img-1-scaled-1.webp',
-                'alt' => 'Latest offer',
-            ],
-            'mobile_image' => [
-                'url' => $images_url . 'image-39.webp',
-                'alt' => 'Latest offer',
-            ],
-        ],
-        [
-            'desktop_image' => [
-                'url' => $images_url . 'latest-offers-img-1-scaled-1.webp',
-                'alt' => 'Latest offer',
-            ],
-            'mobile_image' => [
-                'url' => $images_url . 'image-39.webp',
-                'alt' => 'Latest offer',
-            ],
-        ],
-        [
-            'desktop_image' => [
-                'url' => $images_url . 'latest-offers-img-1-scaled-1.webp',
-                'alt' => 'Latest offer',
-            ],
-            'mobile_image' => [
-                'url' => $images_url . 'image-39.webp',
-                'alt' => 'Latest offer',
-            ],
-        ],
-    ],
-    'navigation_icon' => [
-        'url' => $images_url . 'fi_19024510.webp',
-        'alt' => 'Navigation arrow icon',
-    ],
-];
-
-
 $services_defaults = [
     'heading' => 'Everything your vehicle needs and more.',
     'tabs' => [
@@ -358,7 +307,7 @@ $partner_highlights_defaults = [
 
 
 $hero_field = function_exists('get_field') ? (get_field('hero_section') ?: []) : [];
-$offers_field = function_exists('get_field') ? (get_field('latest_offers_section') ?: []) : [];
+
 
 $services_field = function_exists('get_field') ? (get_field('services_tabs_section') ?: []) : [];
 $timeline_field = function_exists('get_field') ? (get_field('timeline_section') ?: []) : [];
@@ -481,71 +430,6 @@ foreach ($source_features as $index => $feature_field) {
         'subtitle' => $subtitle,
         'icon' => $icon_data,
     ];
-}
-
-$offers_heading = trim($offers_field['heading'] ?? '');
-if ($offers_heading === '') {
-    $offers_heading = $offers_defaults['heading'];
-}
-
-$offers_slides_field = $offers_field['slides'] ?? [];
-$offers_slides = [];
-
-if (is_array($offers_slides_field) && !empty($offers_slides_field)) {
-    $slides_source = $offers_slides_field;
-    $using_defaults = false;
-} else {
-    $slides_source = $offers_defaults['slides'];
-    $using_defaults = true;
-}
-foreach ($slides_source as $index => $slide_field) {
-    $default_slide = $offers_defaults['slides'][$index] ?? [
-        'desktop_image' => [
-            'url' => '',
-            'alt' => $offers_heading,
-        ],
-        'mobile_image' => [
-            'url' => '',
-            'alt' => $offers_heading,
-        ],
-    ];
-
-    $desktop_default = $default_slide['desktop_image'] ?? [
-        'url' => '',
-        'alt' => $offers_heading,
-    ];
-    $mobile_default = $default_slide['mobile_image'] ?? [
-        'url' => '',
-        'alt' => $offers_heading,
-    ];
-
-    if (!$using_defaults) {
-        if (!empty($slide_field['desktop_alt'])) {
-            $desktop_default['alt'] = trim($slide_field['desktop_alt']);
-        }
-
-        if (!empty($slide_field['mobile_alt'])) {
-            $mobile_default['alt'] = trim($slide_field['mobile_alt']);
-        }
-    }
-
-    $desktop_image = petromin_get_acf_image_data($slide_field['desktop_image'] ?? null, 'full', $desktop_default['url'], $desktop_default['alt']);
-    $mobile_image = petromin_get_acf_image_data($slide_field['mobile_image'] ?? null, 'full', $mobile_default['url'], $mobile_default['alt']);
-
-    if (!$desktop_image && !$mobile_image) {
-        continue;
-    }
-
-    $offers_slides[] = [
-        'desktop' => $desktop_image,
-        'mobile' => $mobile_image,
-    ];
-}
-
-$offers_nav_icon_data = petromin_get_acf_image_data($offers_field['navigation_icon'] ?? null, 'full', $offers_defaults['navigation_icon']['url'], $offers_defaults['navigation_icon']['alt']);
-
-if (!$offers_nav_icon_data) {
-    $offers_nav_icon_data = $offers_defaults['navigation_icon'];
 }
 
 $services_heading = trim($services_field['heading'] ?? '');
@@ -1382,62 +1266,298 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
 </section>
 
+
 <section class="w-full relative offerSection lg:pt-16 pt-[3.75rem] pb-3.313rem] overflow-hidden">
     <div class="view md:pr-0">
         <div class="flex items-center justify-between md:pb-16 pb-12">
             <h2
                 class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2">
-                <?php echo esc_html($offers_heading); ?>
+                Latest Offers
             </h2>
-            <?php if (!empty($offers_slides) && !empty($offers_nav_icon_data['url'])): ?>
             <div
                 class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
-                <div class="swiper-prev cursor-pointer pointer-events-auto opacity-100">
+                <div class="swiper-prev cursor-pointer">
                     <span>
-                        <img src="<?php echo esc_url($offers_nav_icon_data['url']); ?>"
-                            class="text-white size-8 rotate-180 skew-x-12 invert brightness-0"
-                            alt="<?php echo esc_attr($offers_nav_icon_data['alt']); ?>"
-                            title="<?php echo esc_attr($offers_nav_icon_data['alt']); ?>">
+                        <img src="img/fi_19024510.webp"
+                            class="text-white size-8 rotate-180 skew-x-12 invert brightness-0" alt="arrow icon"
+                            title="arrow icon">
                     </span>
                 </div>
-                <div class="swiper-next cursor-pointer pointer-events-auto opacity-100">
+                <div class="swiper-next cursor-pointer">
                     <span>
-                        <img src="<?php echo esc_url($offers_nav_icon_data['url']); ?>"
+                        <img src="img/fi_19024510.webp"
                             class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
-                            alt="<?php echo esc_attr($offers_nav_icon_data['alt']); ?>"
-                            title="<?php echo esc_attr($offers_nav_icon_data['alt']); ?>">
+                            alt="arrow icon" title="arrow icon">
                     </span>
                 </div>
             </div>
-            <?php endif; ?>
         </div>
     </div>
+    <div class="w-full relative">
+        <div class="swiper latestSaveCarousel relative z-0  font-inter">
+            <div class="swiper-wrapper py-5 md:py-10">
+                <div class="swiper-slide !h-auto
+                        transform transition-transform duration-500 ease-out will-change-transform
+                        scale-95 blur-[0.1rem]
+                        [&.swiper-slide-active]:scale-110
+                        [&.swiper-slide-active]:blur-[0]
+                        [&.swiper-slide-active]:z-30
+                        
+                    ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
 
-    <?php if (!empty($offers_slides)): ?>
-    <div class="swiper benefitSwiper relative flex justify-center z-0 ">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
 
-        <div class="swiper-wrapper">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
 
-            <?php foreach ($offers_slides as $slide): ?>
-            <div class="swiper-slide">
-                <?php if (!empty($slide['desktop']['url'])): ?>
-                <img src="<?php echo esc_url($slide['desktop']['url']); ?>"
-                    alt="<?php echo esc_attr($slide['desktop']['alt']); ?>"
-                    title="<?php echo esc_attr($slide['desktop']['alt']); ?>" width="369" height="369"
-                    class="w-full h-full object-cover shadow-lg lg:flex hidden" loading="lazy" fetchpriority="low">
-                <?php endif; ?>
-                <?php if (!empty($slide['mobile']['url'])): ?>
-                <img src="<?php echo esc_url($slide['mobile']['url']); ?>" width="369" height="369"
-                    class="w-full h-full object-cover object-center flex lg:hidden"
-                    alt="<?php echo esc_attr($slide['mobile']['alt']); ?>"
-                    title="<?php echo esc_attr($slide['mobile']['alt']); ?>">
-                <?php endif; ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="swiper-slide !h-auto
+                            transform transition-transform duration-500 ease-out will-change-transform
+                            scale-95 blur-[0.1rem]
+                            [&.swiper-slide-active]:scale-110
+                            [&.swiper-slide-active]:blur-[0]
+                            [&.swiper-slide-active]:z-30
+                            
+                        ">
+                    <a href="#" class="w-full block">
+                        <div
+                            class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                            <img fetchpriority="low" loading="lazy" src="img/image-39.webp" width="334" height="334"
+                                alt="car services" title="car services"
+                                class="w-full h-full object-cover aspect-square" />
+                            <div
+                                class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">Lorem
+                                    ipsum dolor sit
+                                    amet consectetur adipiscing elit.</p>
+                                <div class="shrink-0">
+                                    <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Learn
+                                            more
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <?php endforeach; ?>
         </div>
-
     </div>
-    <?php endif; ?>
 </section>
 
 <?php if (!empty($services_tabs)): ?>
@@ -2526,3 +2646,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+
+    <script> document.addEventListener("DOMContentLoaded", function () {
+        const swiper = new Swiper(".latestSaveCarousel", {
+                speed: 800,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                spaceBetween: 30,
+                loop: true,
+                centeredSlides: true,
+                autoHeight: true,
+                pagination: { el: ".swiper-pagination", clickable: true, },
+                navigation: { nextEl: ".swiper-next", prevEl: ".swiper-prev", },
+                breakpoints: {
+                    320: { slidesPerView: 1.5, },
+                    480: { slidesPerView: 3.3, },
+                    640: { slidesPerView: 3.5, },
+                    1024: { slidesPerView: 3.3, },
+                    1350: { slidesPerView: 3.4, },
+                },
+            });
+        }); 
+    </script>
