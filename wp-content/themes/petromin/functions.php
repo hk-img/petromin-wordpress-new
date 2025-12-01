@@ -1263,7 +1263,7 @@ add_action('acf/init', function () {
                                 'key' => 'field_testimonial_video_url',
                                 'label' => 'Video URL',
                                 'name' => 'video_url',
-                                'type' => 'page_link',
+                                'type' => 'url',
                                 'conditional_logic' => [
                                     [
                                         [
