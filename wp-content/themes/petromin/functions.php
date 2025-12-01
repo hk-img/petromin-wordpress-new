@@ -2816,6 +2816,187 @@ add_action('acf/init', function () {
         ],
     ]);
 
+    // ACF Field Group for Offers
+    acf_add_local_field_group([
+        'key' => 'group_offer_fields',
+        'title' => 'Offer Details',
+        'fields' => [
+            [
+                'key' => 'field_offer_image',
+                'label' => 'Offer Image',
+                'name' => 'offer_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'preview_size' => 'medium',
+                'instructions' => 'Upload a high-quality image for the offer',
+            ],
+            [
+                'key' => 'field_offer_description',
+                'label' => 'Offer Description',
+                'name' => 'offer_description',
+                'type' => 'wysiwyg',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'instructions' => 'Full description for the single offer page',
+            ],
+            [
+                'key' => 'field_offer_short_description',
+                'label' => 'Short Description',
+                'name' => 'offer_short_description',
+                'type' => 'text',
+                'instructions' => 'Brief description for carousel/listings (max 150 chars)',
+            ],
+            [
+                'key' => 'field_offer_starting_price',
+                'label' => 'Starting Price',
+                'name' => 'offer_starting_price',
+                'type' => 'text',
+                'instructions' => 'e.g., 1,399 (without currency symbol)',
+            ],
+            [
+                'key' => 'field_offer_price_currency',
+                'label' => 'Currency Symbol',
+                'name' => 'offer_price_currency',
+                'type' => 'text',
+                'default_value' => '₹',
+                'instructions' => 'Currency symbol to display (default: ₹)',
+            ],
+            [
+                'key' => 'field_offer_suitable_for',
+                'label' => 'Best Suited For (Repeater)',
+                'name' => 'offer_suitable_for',
+                'type' => 'repeater',
+                'layout' => 'block',
+                'button_label' => 'Add Category',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_suitable_title',
+                        'label' => 'Title',
+                        'name' => 'title',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_suitable_description',
+                        'label' => 'Description',
+                        'name' => 'description',
+                        'type' => 'textarea',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_city_options',
+                'label' => 'Cities Available',
+                'name' => 'offer_city_options',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Add City',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_city_name',
+                        'label' => 'City Name',
+                        'name' => 'city_name',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_car_brands',
+                'label' => 'Car Brands',
+                'name' => 'offer_car_brands',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Add Brand',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_brand_name',
+                        'label' => 'Brand Name',
+                        'name' => 'brand_name',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_car_models',
+                'label' => 'Car Models',
+                'name' => 'offer_car_models',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Add Model',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_model_name',
+                        'label' => 'Model Name',
+                        'name' => 'model_name',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_fuel_types',
+                'label' => 'Fuel Types',
+                'name' => 'offer_fuel_types',
+                'type' => 'repeater',
+                'layout' => 'table',
+                'button_label' => 'Add Fuel Type',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_fuel_type_name',
+                        'label' => 'Fuel Type',
+                        'name' => 'fuel_type_name',
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_terms_conditions',
+                'label' => 'Terms & Conditions',
+                'name' => 'offer_terms_conditions',
+                'type' => 'repeater',
+                'layout' => 'block',
+                'button_label' => 'Add Condition',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_condition_text',
+                        'label' => 'Condition Text',
+                        'name' => 'condition_text',
+                        'type' => 'textarea',
+                    ],
+                ],
+            ],
+            [
+                'key' => 'field_offer_faqs',
+                'label' => 'Frequently Asked Questions',
+                'name' => 'offer_faqs',
+                'type' => 'repeater',
+                'layout' => 'block',
+                'button_label' => 'Add FAQ',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_faq_question',
+                        'label' => 'Question',
+                        'name' => 'question',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_faq_answer',
+                        'label' => 'Answer',
+                        'name' => 'answer',
+                        'type' => 'textarea',
+                    ],
+                ],
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'offer',
+                ],
+            ],
+        ],
+    ]);
+
 });
 
 
@@ -3314,3 +3495,152 @@ add_action('pre_get_posts', function ($query) {
         $query->set('orderby', 'meta_value');
     }
 });
+
+// ============================================
+// OFFER CUSTOM POST TYPE & ACF FIELDS
+// ============================================
+
+/**
+ * Register Custom Post Type for Offers
+ */
+function create_offer_post_type() {
+    $labels = array(
+        'name'                  => 'Offers',
+        'singular_name'         => 'Offer',
+        'menu_name'             => 'Offers',
+        'name_admin_bar'        => 'Offer',
+        'archives'              => 'Offer Archives',
+        'attributes'            => 'Offer Attributes',
+        'parent_item_colon'     => 'Parent Offer:',
+        'all_items'             => 'All Offers',
+        'add_new_item'          => 'Add New Offer',
+        'add_new'               => 'Add New',
+        'new_item'              => 'New Offer',
+        'edit_item'             => 'Edit Offer',
+        'update_item'           => 'Update Offer',
+        'view_item'             => 'View Offer',
+        'view_items'            => 'View Offers',
+        'search_items'          => 'Search Offer',
+        'not_found'             => 'Not found',
+        'not_found_in_trash'    => 'Not found in Trash',
+        'featured_image'        => 'Offer Image',
+        'set_featured_image'    => 'Set offer image',
+        'remove_featured_image' => 'Remove offer image',
+        'use_featured_image'    => 'Use as offer image',
+        'insert_into_item'      => 'Insert into offer',
+        'uploaded_to_this_item' => 'Uploaded to this offer',
+        'items_list'            => 'Offers list',
+        'items_list_navigation' => 'Offers list navigation',
+        'filter_items_list'     => 'Filter offers list',
+    );
+    
+    $args = array(
+        'label'                 => 'Offer',
+        'description'           => 'Car Service Offers',
+        'labels'                => $labels,
+        'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 6,
+        'menu_icon'             => 'dashicons-tag',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'post',
+        'show_in_rest'          => true,
+        'rewrite'               => array(
+            'slug' => 'offers',
+            'with_front' => false
+        ),
+    );
+    
+    register_post_type('offer', $args);
+}
+add_action('init', 'create_offer_post_type', 0);
+
+/**
+ * Helper function to fetch offers with all details
+ * Returns an array of offers with normalized data
+ */
+function petromin_get_offers(array $args = []) {
+    $defaults = [
+        'post_type' => 'offer',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+        'orderby' => 'menu_order date',
+        'order' => 'ASC',
+    ];
+
+    $query_args = array_merge($defaults, $args);
+    $q = new WP_Query($query_args);
+    $offers = [];
+
+    if (!empty($q->posts)) {
+        foreach ($q->posts as $p) {
+            $offer_image = petromin_get_acf_image_data(
+                get_field('offer_image', $p->ID),
+                'large',
+                get_the_post_thumbnail_url($p->ID, 'large')
+            );
+
+            $offers[] = [
+                'id'                => $p->ID,
+                'title'             => get_the_title($p->ID),
+                'slug'              => $p->post_name,
+                'url'               => get_permalink($p->ID),
+                'description'       => get_field('offer_description', $p->ID),
+                'short_description' => get_field('offer_short_description', $p->ID) ?: wp_trim_words($p->post_content, 15),
+                'image'             => $offer_image,
+                'starting_price'    => get_field('offer_starting_price', $p->ID),
+                'price_currency'    => get_field('offer_price_currency', $p->ID) ?: '₹',
+                'suitable_for'      => get_field('offer_suitable_for', $p->ID),
+                'terms_conditions'  => get_field('offer_terms_conditions', $p->ID),
+                'city_options'      => get_field('offer_city_options', $p->ID),
+                'car_brands'        => get_field('offer_car_brands', $p->ID),
+                'car_models'        => get_field('offer_car_models', $p->ID),
+                'fuel_types'        => get_field('offer_fuel_types', $p->ID),
+                'faqs'              => get_field('offer_faqs', $p->ID),
+            ];
+        }
+        wp_reset_postdata();
+    }
+
+    return $offers;
+}
+
+/**
+ * Disable offers archive page
+ */
+function disable_offers_archive($query) {
+    if (!is_admin() && is_post_type_archive('offer') && $query->is_main_query()) {
+        $query->set('post_type', 'none');
+        $query->set_404();
+        status_header(404);
+    }
+}
+add_action('pre_get_posts', 'disable_offers_archive');
+
+/**
+ * Change offers archive slug to avoid conflicts
+ */
+function change_offers_archive_slug($args, $post_type) {
+    if ($post_type === 'offer') {
+        $args['has_archive'] = false;
+    }
+    return $args;
+}
+add_filter('register_post_type_args', 'change_offers_archive_slug', 10, 2);
+
+/**
+ * Flush rewrite rules for offers on theme activation
+ */
+function flush_rewrite_rules_for_offers() {
+    create_offer_post_type();
+    flush_rewrite_rules();
+}
+add_action('init', 'flush_rewrite_rules_for_offers', 1);
