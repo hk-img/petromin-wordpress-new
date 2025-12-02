@@ -1267,6 +1267,14 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 </section>
 
 
+<?php
+$home_offers = petromin_get_offers([
+    'posts_per_page' => 8,
+    'order' => 'DESC'
+]);
+
+if (!empty($home_offers)):
+?>
 <section class="w-full relative offerSection lg:pt-16 pt-[3.75rem] pb-3.313rem] overflow-hidden">
     <div class="view md:pr-0">
         <div class="flex items-center justify-between md:pb-16 pb-12">
@@ -1275,17 +1283,17 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 Latest Offers
             </h2>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
                 <div class="swiper-prev cursor-pointer">
                     <span>
-                        <img src="img/fi_19024510.webp"
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 rotate-180 skew-x-12 invert brightness-0" alt="arrow icon"
                             title="arrow icon">
                     </span>
                 </div>
                 <div class="swiper-next cursor-pointer">
                     <span>
-                        <img src="img/fi_19024510.webp"
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
                             alt="arrow icon" title="arrow icon">
                     </span>
@@ -1315,13 +1323,13 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                                 title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
                                 class="w-full h-full object-cover aspect-square" />
                             <div class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
-                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center">
+                                <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center line-clamp-2">
                                     <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
                                 </p>
                                 <div class="shrink-0">
                                     <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
                                         <span class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">
-                                            Learn more
+                                            <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20" fill="none">
                                                 <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
                                             </svg>
@@ -1346,6 +1354,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <?php if (!empty($services_tabs)): ?>
 <section class="tabSection relative font-inter overflow-hidden lg:pt-[6.188rem] pt-[6.688rem] lg:block hidden">

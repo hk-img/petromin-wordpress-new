@@ -137,6 +137,26 @@ if (!empty($service_posts_footer->posts)) {
         ];
     }
 }
+
+// COLUMN 1: Offers (Dynamic from CPT)
+$offer_posts_footer = new WP_Query([
+    'post_type' => 'offer',
+    'posts_per_page' => -1,
+    'post_status' => 'publish',
+    'orderby' => 'menu_order',
+    'order' => 'ASC',
+]);
+
+$offers_links = [];
+if (!empty($offer_posts_footer->posts)) {
+    foreach ($offer_posts_footer->posts as $offer) {
+        $offers_links[] = [
+            'text' => get_the_title($offer->ID),
+            'url' => get_permalink($offer->ID),
+            'target' => '_self',
+        ];
+    }
+}
 wp_reset_postdata();
 
 // COLUMN 1: Quick Links (from CMS)
@@ -157,20 +177,6 @@ if (is_array($footer_quick_links_raw)) {
         ];
     }
 }
-
-// COLUMN 2: Latest Offers (Static - hardcoded)
-$offers_links = [
-    ['text' => 'PMS Service @Rs.2499', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Tyre Offer - Buy 4 + 1TMSS', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Full Body Car Paint Offer', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Dent & Paint Repair', 'url' => '#', 'target' => '_self'],
-    ['text' => 'AC Gas Top-up & Inspection', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Express Car Service (@Rs.999)', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Petrofit', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Brake Pad Replacement', 'url' => '#', 'target' => '_self'],
-    ['text' => 'AC Inspection @Rs.99', 'url' => '#', 'target' => '_self'],
-    ['text' => 'Brake Inspection @Rs.99', 'url' => '#', 'target' => '_self'],
-];
 
 // COLUMN 2: Other Links (from CMS)
 $other_links = [];
@@ -201,7 +207,7 @@ $normalized_footer_columns = [
     [
         'column_title' => 'Latest Offers',
         'primary_links' => $offers_links,
-        'secondary_links' => $other_links,
+        'secondary_links' => $quick_links,
     ],
 ];
 
