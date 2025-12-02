@@ -12,15 +12,13 @@ $offer_image = petromin_get_acf_image_data(
     'large',
     get_the_post_thumbnail_url($offer_id, 'large')
 );
-$offer_description = get_field('offer_description', $offer_id);
 $starting_price = get_field('offer_starting_price', $offer_id);
 $price_currency = get_field('offer_price_currency', $offer_id) ?: '₹';
+$suitable_for_title = get_field('offer_suitable_for_title', $offer_id) ?: 'Best suited for';
 $suitable_for = get_field('offer_suitable_for', $offer_id);
-$city_options = get_field('offer_city_options', $offer_id);
-$car_brands = get_field('offer_car_brands', $offer_id);
-$car_models = get_field('offer_car_models', $offer_id);
-$fuel_types = get_field('offer_fuel_types', $offer_id);
-$terms_conditions = get_field('offer_terms_conditions', $offer_id);
+$terms_conditions_title = get_field('offer_terms_conditions_title', $offer_id) ?: '*Terms & Conditions';
+$terms_conditions_content = get_field('offer_terms_conditions_content', $offer_id);
+$faqs_title = get_field('offer_faqs_title', $offer_id) ?: 'Commonly Asked Questions';
 $faqs = get_field('offer_faqs', $offer_id);
 ?>
 
@@ -47,106 +45,121 @@ $faqs = get_field('offer_faqs', $offer_id);
                     <h2 class="text-white md:text-lg text-md font-semibold italic">Get this offer today</h2>
                 </div>
                 <div class="py-8 px-6">
-                    <form action="" class="flex flex-col gap-y-8">
-                        <?php if (!empty($city_options)): ?>
-                        <div class="w-full relative">
-                            <label class="block mb-2 text-base font-medium">City</label>
-                            <div class="relative w-full">
-                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] appearance-none focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-                                    <option value="" disabled selected class="text-[#99A1AF]">Select City</option>
-                                    <?php foreach ($city_options as $city): ?>
-                                    <option value="<?php echo esc_attr($city['city_name']); ?>" class="text-black">
-                                        <?php echo esc_html($city['city_name']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <span class="absolute right-4 top-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008" stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-                            </div>
-                        </div>
-                        <?php endif; ?>
+                        <form action="" class="flex flex-col gap-y-8">
+                            <div class="w-full relative">
+                                <label class="block mb-2 text-base font-medium">City</label>
+                                <div class="relative w-full">
+                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                        px-4 pr-10
+                                        text-[#99A1AF]
+                                        appearance-none
+                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
 
-                        <?php if (!empty($car_brands)): ?>
-                        <div class="w-full relative">
-                            <label class="block mb-2 text-base font-medium">Car Brand</label>
-                            <div class="relative w-full">
-                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] appearance-none focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-                                    <option value="" disabled selected class="text-[#99A1AF]">Select Brand</option>
-                                    <?php foreach ($car_brands as $brand): ?>
-                                    <option value="<?php echo esc_attr($brand['brand_name']); ?>" class="text-black">
-                                        <?php echo esc_html($brand['brand_name']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <span class="absolute right-4 top-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008" stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
+                                        <option value="" disabled selected class="text-[#99A1AF]">Select City</option>
+                                        <option value="1" class="text-black">Mumbai</option>
+                                        <option value="2" class="text-black">Delhi</option>
+                                        <option value="3" class="text-black">Jaipur</option>
+                                    </select>
+                                    <span class="absolute right-4 top-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                            fill="none">
+                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                            <div class="w-full relative">
+                                <label class="block mb-2 text-base font-medium">Car Brand</label>
+                                <div class="relative w-full">
+                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                        px-4 pr-10
+                                        text-[#99A1AF]
+                                        appearance-none
+                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
 
-                        <?php if (!empty($car_models)): ?>
-                        <div class="w-full relative">
-                            <label class="block mb-2 text-base font-medium">Car Model</label>
-                            <div class="relative w-full">
-                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] appearance-none focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-                                    <option value="" disabled selected class="text-[#99A1AF]">Select Model</option>
-                                    <?php foreach ($car_models as $model): ?>
-                                    <option value="<?php echo esc_attr($model['model_name']); ?>" class="text-black">
-                                        <?php echo esc_html($model['model_name']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <span class="absolute right-4 top-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008" stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
+                                        <option value="" disabled selected class="text-[#99A1AF]">Select Brand</option>
+                                        <option value="1" class="text-black">Mumbai</option>
+                                        <option value="2" class="text-black">Delhi</option>
+                                        <option value="3" class="text-black">Jaipur</option>
+                                    </select>
+                                    <span class="absolute right-4 top-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                            fill="none">
+                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                            <div class="w-full relative">
+                                <label class="block mb-2 text-base font-medium">Car Model</label>
+                                <div class="relative w-full">
+                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                        px-4 pr-10
+                                        text-[#99A1AF]
+                                        appearance-none
+                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
 
-                        <?php if (!empty($fuel_types)): ?>
-                        <div class="w-full relative">
-                            <label class="block mb-2 text-base font-medium">Fuel Type</label>
-                            <div class="relative w-full">
-                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] appearance-none focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-                                    <option value="" disabled selected class="text-[#99A1AF]">Select Fuel Type</option>
-                                    <?php foreach ($fuel_types as $fuel): ?>
-                                    <option value="<?php echo esc_attr($fuel['fuel_type_name']); ?>" class="text-black">
-                                        <?php echo esc_html($fuel['fuel_type_name']); ?>
-                                    </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <span class="absolute right-4 top-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008" stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
+                                        <option value="" disabled selected class="text-[#99A1AF]">Select Model</option>
+                                        <option value="1" class="text-black">Mumbai</option>
+                                        <option value="2" class="text-black">Delhi</option>
+                                        <option value="3" class="text-black">Jaipur</option>
+                                    </select>
+                                    <span class="absolute right-4 top-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                            fill="none">
+                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                            <div class="w-full relative">
+                                <label class="block mb-2 text-base font-medium">Fuel Type</label>
+                                <div class="relative w-full">
+                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                        px-4 pr-10
+                                        text-[#99A1AF]
+                                        appearance-none
+                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
 
-                        <?php if (!empty($starting_price)): ?>
-                        <div class="w-full relative">
-                            <div class="text-[#6A7282] text-base font-normal">
-                                Starting from <span class="text-[#CB122D] text-lg font-semibold"> <?php echo esc_html($price_currency . $starting_price); ?>*</span>
+                                        <option value="" disabled selected class="text-[#99A1AF]">Select Fuel Type
+                                        </option>
+                                        <option value="1" class="text-black">Mumbai</option>
+                                        <option value="2" class="text-black">Delhi</option>
+                                        <option value="3" class="text-black">Jaipur</option>
+                                    </select>
+                                    <span class="absolute right-4 top-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                            fill="none">
+                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                            <div class="w-full relative">
+                                <div class="text-[#6A7282] text-base font-normal">
+                                    Starting from <span class="text-[#CB122D] text-lg font-semibold"> ₹1,399*</span>
+                                </div>
+                            </div>
 
-                        <button type="button" class="w-full bg-[#FF8300] font-bold text-base text-white h-11 flex justify-center items-center gap-3 hover:bg-[#CB122D] duration-300">
-                            Book Now
-                            <span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 11 16" fill="none">
-                                    <path d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z" fill="white" />
-                                </svg></span>
-                        </button>
-                    </form>
+                            <button type="button"
+                                class="w-full bg-[#FF8300] font-bold text-base text-white h-11 flex justify-center items-center gap-3 hover:bg-[#CB122D] duration-300">
+                                Book Now
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 11 16"
+                                        fill="none">
+                                        <path
+                                            d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"
+                                            fill="white" />
+                                    </svg></span>
+                            </button>
+                        </form>
                 </div>
             </div>
         </div>
@@ -158,7 +171,7 @@ $faqs = get_field('offer_faqs', $offer_id);
     <div class="view">
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] lg:leading-[3.75rem] font-bold text-[#000000]">
-                Best suited for
+                <?php echo esc_html($suitable_for_title); ?>
             </h2>
             <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
         </div>
@@ -187,17 +200,13 @@ $faqs = get_field('offer_faqs', $offer_id);
 </section>
 <?php endif; ?>
 
-<?php if (!empty($terms_conditions)): ?>
+<?php if (!empty($terms_conditions_content)): ?>
 <section class="w-full relative bg-white  md:pb-[5.25rem] pb-[2rem] md:block hidden">
     <div class="view">
         <div class="flex w-full flex-col gap-4">
-            <div class="font-bold text-[#000000] md:text-xl text-lg">*Terms & Conditions</div>
-            <div class="w-full relative flex flex-col gap-y-1">
-                <ul class="list-disc flex ps-8 flex-col gap-y-1 text-[#000000A3] md:text-lg text-base">
-                    <?php foreach ($terms_conditions as $term): ?>
-                    <li><?php echo esc_html($term['condition_text']); ?></li>
-                    <?php endforeach; ?>
-                </ul>
+            <div class="font-bold text-[#000000] md:text-xl text-lg"><?php echo esc_html($terms_conditions_title); ?></div>
+            <div class="w-full relative flex flex-col gap-y-1 prose max-w-none">
+                <?php echo wp_kses_post($terms_conditions_content); ?>
             </div>
         </div>
     </div>
@@ -210,7 +219,7 @@ $faqs = get_field('offer_faqs', $offer_id);
         <div class="w-full relative ">
             <div class="w-full flex flex-col gap-y-3">
                 <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
-                    Commonly Asked Questions
+                    <?php echo esc_html($faqs_title); ?>
                 </h2>
                 <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
             </div>

@@ -2831,15 +2831,6 @@ add_action('acf/init', function () {
                 'instructions' => 'Upload a high-quality image for the offer',
             ],
             [
-                'key' => 'field_offer_description',
-                'label' => 'Offer Description',
-                'name' => 'offer_description',
-                'type' => 'wysiwyg',
-                'tabs' => 'all',
-                'toolbar' => 'full',
-                'instructions' => 'Full description for the single offer page',
-            ],
-            [
                 'key' => 'field_offer_short_description',
                 'label' => 'Short Description',
                 'name' => 'offer_short_description',
@@ -2852,6 +2843,9 @@ add_action('acf/init', function () {
                 'name' => 'offer_starting_price',
                 'type' => 'text',
                 'instructions' => 'e.g., 1,399 (without currency symbol)',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
             ],
             [
                 'key' => 'field_offer_price_currency',
@@ -2860,6 +2854,17 @@ add_action('acf/init', function () {
                 'type' => 'text',
                 'default_value' => '₹',
                 'instructions' => 'Currency symbol to display (default: ₹)',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_offer_suitable_for_title',
+                'label' => 'Best Suited For Section Title',
+                'name' => 'offer_suitable_for_title',
+                'type' => 'text',
+                'default_value' => 'Best suited for',
+                'instructions' => 'Title for the Best Suited For section',
             ],
             [
                 'key' => 'field_offer_suitable_for',
@@ -2884,84 +2889,29 @@ add_action('acf/init', function () {
                 ],
             ],
             [
-                'key' => 'field_offer_city_options',
-                'label' => 'Cities Available',
-                'name' => 'offer_city_options',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Add City',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_city_name',
-                        'label' => 'City Name',
-                        'name' => 'city_name',
-                        'type' => 'text',
-                    ],
-                ],
+                'key' => 'field_offer_terms_conditions_title',
+                'label' => 'Terms & Conditions Title',
+                'name' => 'offer_terms_conditions_title',
+                'type' => 'text',
+                'default_value' => '*Terms & Conditions',
+                'instructions' => 'Title for Terms & Conditions section',
             ],
             [
-                'key' => 'field_offer_car_brands',
-                'label' => 'Car Brands',
-                'name' => 'offer_car_brands',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Add Brand',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_brand_name',
-                        'label' => 'Brand Name',
-                        'name' => 'brand_name',
-                        'type' => 'text',
-                    ],
-                ],
+                'key' => 'field_offer_terms_conditions_content',
+                'label' => 'Terms & Conditions Content',
+                'name' => 'offer_terms_conditions_content',
+                'type' => 'wysiwyg',
+                'tabs' => 'all',
+                'toolbar' => 'full',
+                'instructions' => 'Rich text editor for Terms & Conditions content',
             ],
             [
-                'key' => 'field_offer_car_models',
-                'label' => 'Car Models',
-                'name' => 'offer_car_models',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Add Model',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_model_name',
-                        'label' => 'Model Name',
-                        'name' => 'model_name',
-                        'type' => 'text',
-                    ],
-                ],
-            ],
-            [
-                'key' => 'field_offer_fuel_types',
-                'label' => 'Fuel Types',
-                'name' => 'offer_fuel_types',
-                'type' => 'repeater',
-                'layout' => 'table',
-                'button_label' => 'Add Fuel Type',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_fuel_type_name',
-                        'label' => 'Fuel Type',
-                        'name' => 'fuel_type_name',
-                        'type' => 'text',
-                    ],
-                ],
-            ],
-            [
-                'key' => 'field_offer_terms_conditions',
-                'label' => 'Terms & Conditions',
-                'name' => 'offer_terms_conditions',
-                'type' => 'repeater',
-                'layout' => 'block',
-                'button_label' => 'Add Condition',
-                'sub_fields' => [
-                    [
-                        'key' => 'field_condition_text',
-                        'label' => 'Condition Text',
-                        'name' => 'condition_text',
-                        'type' => 'textarea',
-                    ],
-                ],
+                'key' => 'field_offer_faqs_title',
+                'label' => 'FAQs Section Title',
+                'name' => 'offer_faqs_title',
+                'type' => 'text',
+                'default_value' => 'Commonly Asked Questions',
+                'instructions' => 'Title for the FAQs section',
             ],
             [
                 'key' => 'field_offer_faqs',
@@ -2985,6 +2935,14 @@ add_action('acf/init', function () {
                     ],
                 ],
             ],
+            [
+                'key' => 'field_offer_button_text',
+                'label' => 'Button Text',
+                'name' => 'offer_button_text',
+                'type' => 'text',
+                'default_value' => 'Learn more',
+                'instructions' => 'Text for the "Learn more" button',
+            ],
         ],
         'location' => [
             [
@@ -2992,6 +2950,236 @@ add_action('acf/init', function () {
                     'param' => 'post_type',
                     'operator' => '==',
                     'value' => 'offer',
+                ],
+            ],
+        ],
+    ]);
+
+    // ACF Field Group for Offers Page
+    acf_add_local_field_group([
+        'key' => 'group_offers_page',
+        'title' => 'Offers Page',
+        'fields' => [
+            // Hero Section
+            [
+                'key' => 'field_offers_hero_background',
+                'label' => 'Hero Background Image',
+                'name' => 'offers_hero_background',
+                'type' => 'image',
+                'return_format' => 'array',
+                'instructions' => 'Background image for the hero section',
+            ],
+            [
+                'key' => 'field_offers_hero_heading',
+                'label' => 'Hero Heading',
+                'name' => 'offers_hero_heading',
+                'type' => 'text',
+                'instructions' => 'Main heading for offers section',
+            ],
+            // Offers Intro Section
+            [
+                'key' => 'field_offers_intro_heading',
+                'label' => 'Offers Intro Heading',
+                'name' => 'offers_intro_heading',
+                'type' => 'text',
+                'instructions' => 'Heading like "Save more"',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_offers_intro_title',
+                'label' => 'Offers Intro Title',
+                'name' => 'offers_intro_title',
+                'type' => 'text',
+                'instructions' => 'Main title like "on professional, trusted car care"',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_offers_intro_description',
+                'label' => 'Offers Intro Description',
+                'name' => 'offers_intro_description',
+                'type' => 'textarea',
+                'instructions' => 'Description for offers section',
+            ],
+            // Journey Section
+            [
+                'key' => 'field_journey_section_heading_prefix',
+                'label' => 'Journey Section Heading Prefix',
+                'name' => 'journey_section_heading_prefix',
+                'type' => 'text',
+                'instructions' => 'e.g., "Your car\'s"',
+                'wrapper' => [
+                    'width' => '33.333%',
+                ],
+            ],
+            [
+                'key' => 'field_journey_section_heading_highlight',
+                'label' => 'Journey Section Heading Highlight',
+                'name' => 'journey_section_heading_highlight',
+                'type' => 'text',
+                'instructions' => 'e.g., " journey"',
+                'wrapper' => [
+                    'width' => '33.333%',
+                ],
+            ],
+            [
+                'key' => 'field_journey_section_heading_suffix',
+                'label' => 'Journey Section Heading Suffix',
+                'name' => 'journey_section_heading_suffix',
+                'type' => 'text',
+                'instructions' => 'e.g., " at Petromin Express"',
+                'wrapper' => [
+                    'width' => '33.333%',
+                ],
+            ],
+            [
+                'key' => 'field_journey_section_description',
+                'label' => 'Journey Section Description',
+                'name' => 'journey_section_description',
+                'type' => 'textarea',
+                'instructions' => 'Description for journey section',
+            ],
+            [
+                'key' => 'field_journey_items',
+                'label' => 'Journey Steps',
+                'name' => 'journey_items',
+                'type' => 'repeater',
+                'layout' => 'block',
+                'button_label' => 'Add Journey Step',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_journey_title',
+                        'label' => 'Step Title',
+                        'name' => 'journey_title',
+                        'type' => 'text',
+                    ],
+                    [
+                        'key' => 'field_journey_image',
+                        'label' => 'Step Image',
+                        'name' => 'journey_image',
+                        'type' => 'image',
+                        'return_format' => 'array',
+                    ],
+                ],
+            ],
+            // App Section
+            [
+                'key' => 'field_app_section_heading_line1',
+                'label' => 'App Section Heading Line 1',
+                'name' => 'app_section_heading_line1',
+                'type' => 'text',
+                'instructions' => 'e.g., "Car care,"',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_section_heading_line2',
+                'label' => 'App Section Heading Line 2',
+                'name' => 'app_section_heading_line2',
+                'type' => 'text',
+                'instructions' => 'e.g., "now smarter"',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_section_description',
+                'label' => 'App Section Description',
+                'name' => 'app_section_description',
+                'type' => 'textarea',
+            ],
+            [
+                'key' => 'field_app_section_image',
+                'label' => 'App Section Image',
+                'name' => 'app_section_image',
+                'type' => 'image',
+                'return_format' => 'array',
+            ],
+            // App Contact Section Fields
+            [
+                'key' => 'field_app_contact_placeholder',
+                'label' => 'Contact Input Placeholder',
+                'name' => 'app_contact_placeholder',
+                'type' => 'text',
+                'default_value' => 'Enter Contact Number',
+                'instructions' => 'Placeholder text for contact input field',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_button_text',
+                'label' => 'App Button Text',
+                'name' => 'app_button_text',
+                'type' => 'text',
+                'default_value' => 'Get App Link',
+                'instructions' => 'Text for the app download button',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_google_link',
+                'label' => 'Google Play Store Link',
+                'name' => 'app_google_link',
+                'type' => 'url',
+                'instructions' => 'URL to Google Play Store',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_google_image',
+                'label' => 'Google Play Store Button Image',
+                'name' => 'app_google_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'instructions' => 'Image for Google Play Store button',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_apple_link',
+                'label' => 'Apple App Store Link',
+                'name' => 'app_apple_link',
+                'type' => 'url',
+                'instructions' => 'URL to Apple App Store',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+            [
+                'key' => 'field_app_apple_image',
+                'label' => 'Apple App Store Button Image',
+                'name' => 'app_apple_image',
+                'type' => 'image',
+                'return_format' => 'array',
+                'instructions' => 'Image for Apple App Store button',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
+            ],
+        ],
+        // 'location' => [
+        //     [
+        //         [
+        //             'param' => 'options_page',
+        //             'operator' => '==',
+        //             'value' => 'offers_page_options',
+        //         ],
+        //     ],
+        // ],
+        'location' => [
+            [
+                [
+                    'param' => 'page_template',
+                    'operator' => '==',
+                    'value' => 'latest-offers.php',
                 ],
             ],
         ],
@@ -3589,22 +3777,19 @@ function petromin_get_offers(array $args = []) {
             );
 
             $offers[] = [
-                'id'                => $p->ID,
-                'title'             => get_the_title($p->ID),
-                'slug'              => $p->post_name,
-                'url'               => get_permalink($p->ID),
-                'description'       => get_field('offer_description', $p->ID),
-                'short_description' => get_field('offer_short_description', $p->ID) ?: wp_trim_words($p->post_content, 15),
-                'image'             => $offer_image,
-                'starting_price'    => get_field('offer_starting_price', $p->ID),
-                'price_currency'    => get_field('offer_price_currency', $p->ID) ?: '₹',
-                'suitable_for'      => get_field('offer_suitable_for', $p->ID),
-                'terms_conditions'  => get_field('offer_terms_conditions', $p->ID),
-                'city_options'      => get_field('offer_city_options', $p->ID),
-                'car_brands'        => get_field('offer_car_brands', $p->ID),
-                'car_models'        => get_field('offer_car_models', $p->ID),
-                'fuel_types'        => get_field('offer_fuel_types', $p->ID),
-                'faqs'              => get_field('offer_faqs', $p->ID),
+                'id'                        => $p->ID,
+                'title'                     => get_the_title($p->ID),
+                'slug'                      => $p->post_name,
+                'url'                       => get_permalink($p->ID),
+                'short_description'         => get_field('offer_short_description', $p->ID) ?: wp_trim_words($p->post_content, 15),
+                'image'                     => $offer_image,
+                'starting_price'            => get_field('offer_starting_price', $p->ID),
+                'price_currency'            => get_field('offer_price_currency', $p->ID) ?: '₹',
+                'button_text'               => get_field('offer_button_text', $p->ID) ?: 'Learn more',
+                'suitable_for'              => get_field('offer_suitable_for', $p->ID),
+                'terms_conditions_title'    => get_field('offer_terms_conditions_title', $p->ID) ?: '*Terms & Conditions',
+                'terms_conditions_content'  => get_field('offer_terms_conditions_content', $p->ID),
+                'faqs'                      => get_field('offer_faqs', $p->ID),
             ];
         }
         wp_reset_postdata();

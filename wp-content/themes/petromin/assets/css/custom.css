@@ -271,6 +271,13 @@ input.open::placeholder {
   background: #b93a40;      
 }
 
+.number-outline {
+    color: transparent;
+    -webkit-text-stroke: 3px #ffdde2;
+    text-stroke: 3px #ffdde2;
+    filter: drop-shadow(0 0 0px #ffdde2);
+}
+
 
 /* WordPress Core Blocks - Tailwind Friendly */.entry-content,
 .wp-block-post-content {/* Reset and base styles */max-width: none;line-height: 1.7;}/* Headings - Tailwind se conflict na ho */
