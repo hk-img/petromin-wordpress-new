@@ -370,7 +370,7 @@ $faq_data = [
         </div>
     </div>
     <div
-        class="absolute right-0 top-0 w-[12.5rem] -z-10 md:w-[41.188rem] transform origin-bottom md:h-full h-full -skew-x-[12deg] bg-gradient-to-r from-[#8b0f15] to-[#CB122D]">
+        class="absolute right-0 md:top-0 md:bottom-auto top-auto bottom-0 md:w-[41.188rem] w-[8.5rem] -z-10 transform origin-bottom md:h-full h-[18rem] -skew-x-[12deg] bg-gradient-to-r from-[#8b0f15] to-[#CB122D]">
     </div>
 </section>
 
