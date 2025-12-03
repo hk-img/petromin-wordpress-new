@@ -1454,18 +1454,18 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
     </div>
     <div
         class="w-fit relative py-2 z-30 before:absolute before:w-full flex justify-center items-center before:top-auto
-            before:bg-gradient-to-r before:h-16 before:from-[#000000] before:to-[#000000] before:left-0 before:origin-top before:-skew-x-[18deg]">
+            before:bg-gradient-to-r before:h-[3.063rem] before:from-[#000000] before:to-[#000000] before:left-0 before:origin-top before:-skew-x-[18deg]">
         <nav id="tabs-nav" class="view flex items-center relative flex-nowrap gap-3 w-fit min-w-full z-10 !pr-5"
             style="scrollbar-width:none;">
             <?php foreach ($services_tabs as $tab_index => $tab): ?>
             <?php
                 $tab_number = $tab_index + 1;
                 $is_active = $tab_index === 0;
-                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-20';
+                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-16';
                 $inner_classes = 'block text-lg';
 
                 if ($is_active) {
-                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-20 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]';
+                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-16 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]';
                     $inner_classes = 'skew-x-[18deg] block text-lg';
                 }
                 ?>
@@ -1501,7 +1501,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="flex flex-col items-start lg:mb-5 mb-2">
                     <?php if ($icon_url !== ''): ?>
                     <span
-                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[6.125rem] h-[3.75rem]">
+                        class="bg-gradient-to-l from-[#CB122D] p-3 to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[6.125rem] h-[3.75rem]">
                         <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>"
                             title="<?php echo esc_attr($icon_alt); ?>" class="size-[2.688rem] skew-x-[18deg]"
                             loading="lazy" fetchpriority="low">
@@ -1598,16 +1598,16 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
     <div class="relative py-8 font-inter overflow-x-auto">
         <nav id="mobile-tab"
-            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 ps-6 ">
+            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 ps-6 h-[2.938rem]">
             <?php foreach ($services_tabs as $tab_index => $tab): ?>
             <?php
                     $tab_number = $tab_index + 1;
                     $is_active = $tab_index === 0;
-                    $button_classes = 'm-tab px-3 py-5 -my-5 lg:font-bold font-semibold text-base text-white whitespace-nowrap lg:whitespace-wrap';
+                    $button_classes = 'm-tab px-3 py-5 h-16 -my-5 lg:font-bold font-semibold text-base text-white whitespace-nowrap lg:whitespace-wrap';
                     $inner_classes = 'block text-base whitespace-nowrap lg:whitespace-wrap';
 
                     if ($is_active) {
-                        $button_classes .= ' active relative bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[12deg]';
+                        $button_classes .= ' active relative bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[12deg] h-16';
                         $inner_classes = 'skew-x-[12deg] block text-base whitespace-nowrap lg:whitespace-wrap';
                     }
                     ?>
@@ -1720,11 +1720,11 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
             <?php endif; ?>
             <?php if (!empty($timeline_nav_icon_data['url'])): ?>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
                 <div class="swiper-prev cursor-pointer">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
-                            class="text-white size-8 rotate-180 skew-x-12 invert brightness-0"
+                            class="text-white md:size-8 size-5 rotate-180 skew-x-12 invert brightness-0"
                             alt="<?php echo esc_attr($timeline_nav_icon_data['alt']); ?>"
                             title="<?php echo esc_attr($timeline_nav_icon_data['alt']); ?>">
                     </span>
@@ -1732,7 +1732,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="swiper-next cursor-pointer">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
-                            class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
+                            class="text-white md:size-8 size-5 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
                             alt="<?php echo esc_attr($timeline_nav_icon_data['alt']); ?>"
                             title="<?php echo esc_attr($timeline_nav_icon_data['alt']); ?>">
                     </span>
@@ -1818,11 +1818,26 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 <?php endif; ?>
 
 
-<section class="w-full relative font-inter lg:py-0 py-8">
+<section class="w-full relative font-inter lg:py-12 py-8">
+    <?php if ($bg_desktop_data && !empty($bg_desktop_data['url'])): ?>
+    <div
+        class="absolute right-0 h-full md:bottom-0 md:top-auto top-0 justify-center items-center w-full md:flex flex-col z-0 overflow-hidden hidden">
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_desktop_data['url']); ?>"
+            alt="<?php echo esc_attr($bg_desktop_data['alt']); ?>" width="108" height="108"
+            class="w-full object-cover object-center h-full" />
+    </div>
+    <?php endif; ?>
+    <?php if ($bg_mobile_data && !empty($bg_mobile_data['url'])): ?>
+    <div class="w-full  flex-col absolute right-0 top-0 bottom-auto flex md:hidden">
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_mobile_data['url']); ?>"
+            alt="<?php echo esc_attr($bg_mobile_data['alt']); ?>" width="108" height="108"
+            class="w-full h-full object-cover object-right" />
+    </div>
+    <?php endif; ?>
     <div class="view">
         <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6">
-            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10">
-                <div class="flex flex-col gap-y-[2.125rem] md:mt-10 mt-6">
+            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10 md:h-full">
+                <div class="flex flex-col gap-y-12">
                     <h2 class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem]
                             font-bold italic text-black text-start whitespace-nowrap
                             !leading-tight">
@@ -1839,7 +1854,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                         <?php endif; ?>
 
                         <?php if ($digital_checkup_heading_suffix !== ''): ?>
-                        <span class="block"><?php echo wp_kses($digital_checkup_heading_suffix, ['br' => []]); ?></span>
+                        <span class=""><?php echo wp_kses($digital_checkup_heading_suffix, ['br' => []]); ?></span>
                         <?php endif; ?>
                     </h2>
                     <div class="flex items-center md:gap-5 gap-3">
@@ -1859,7 +1874,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 </div>
             </div>
 
-            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10 md:top-[8.5rem] max-sm:pt-6">
+            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10  max-sm:pt-6">
                 <?php if ($main_image_data && !empty($main_image_data['url'])): ?>
                 <img loading="eager" fetchpriority="high" decoding="async"
                     src="<?php echo esc_url($main_image_data['url']); ?>"
@@ -1868,34 +1883,16 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <?php endif; ?>
             </div>
         </div>
-
-        <?php if ($bg_desktop_data && !empty($bg_desktop_data['url'])): ?>
-        <div class="absolute right-0 inset-y-0 w-full md:flex flex-col z-0 overflow-hidden hidden">
-            <img loading="eager" fetchpriority="high" decoding="async"
-                src="<?php echo esc_url($bg_desktop_data['url']); ?>"
-                alt="<?php echo esc_attr($bg_desktop_data['alt']); ?>" width="108" height="108"
-                class="md:absolute w-full object-cover object-center top-[2rem] 2xl:h-[35.125rem] h-full right-[-8%]" />
-        </div>
-        <?php endif; ?>
-
-        <?php if ($bg_mobile_data && !empty($bg_mobile_data['url'])): ?>
-        <div class="w-full md:flex flex-col absolute left-0 inset-y-0 flex md:hidden">
-            <img loading="eager" fetchpriority="high" decoding="async"
-                src="<?php echo esc_url($bg_mobile_data['url']); ?>"
-                alt="<?php echo esc_attr($bg_mobile_data['alt']); ?>" width="108" height="108"
-                class="w-full h-full object-cover object-right" />
-        </div>
-        <?php endif; ?>
     </div>
 
-    <div class="view pl-0 relative md:-bottom-[1.2rem] z-30 -bottom-[3rem]">
+    <div class="view pl-0 md:absolute 2xl:-bottom-3  md:bottom-0 z-30 -bottom-[3rem]">
         <div
-            class="lg:pl-[5rem] md:pl-[4rem] pl-[3rem] pt-11 md:pr-[5.5rem] pr-[4rem] pb-[4.125rem] relative w-fit bg-gradient-to-r from-[#000000] to-[#414141]  z-[99] origin-top -skew-x-[14deg] ">
+            class="lg:pl-[5rem] md:pl-[4rem] pl-[3rem] md:pt-11 pt-8 md:pr-[5.5rem] pr-[2rem] md:pb-[4.125rem] pb-[2.125rem] relative w-fit bg-gradient-to-r from-[#000000] to-[#414141]  z-[99] origin-top -skew-x-[14deg] ">
             <div class="relative flex items-start gap-5 skew-x-[14deg] ">
                 <?php if ($icon_data && !empty($icon_data['url'])): ?>
                 <img loading="eager" fetchpriority="high" decoding="async"
                     src="<?php echo esc_url($icon_data['url']); ?>" alt="<?php echo esc_attr($icon_data['alt']); ?>"
-                    width="108" height="108" class="w-auto object-cover lg:h-[10rem] h-[7rem] aspect-square" />
+                    width="108" height="108" class="w-auto object-cover lg:h-[10rem] h-[5rem] aspect-square" />
                 <?php endif; ?>
 
                 <ul class="flex flex-col gap-y-[0.375rem]">
@@ -1985,7 +1982,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 </section>
 
 <section
-    class="w-full relative overflow-hidden z-30 font-inter md:mt-[6.5rem] md:pt-[3.938rem] pt-[2.5rem] mt-[3rem] pb-20">
+    class="w-full relative overflow-hidden z-30 font-inter md:mt-[6.5rem] md:pt-0 pt-[2.5rem] mt-[3rem] md:pb-20 pb-10">
     <div class="view">
         <div class="relative flex items-center justify-between md:flex-row flex-wrap flex-col gap-y-6 h-full">
             <div class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-30">
@@ -2037,10 +2034,10 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
             <!-- Right Column -->
             <div
-                class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center justify-center relative z-10 bg-transparent md:h-[27.625rem] h-[15.188rem] text-white">
+                class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center justify-center relative z-10 bg-transparent  text-white">
                 <?php if ($video_url !== ''): ?>
-                <video width="100%" height="100%" controls autoplay muted loop playsinline>
-                    <source src="<?php echo esc_url($video_url); ?>" type="<?php echo esc_attr($video_type); ?>">
+                <video width="100%" height="100%" class="md:h-[35rem]" controls autoplay muted loop playsinline>
+                    <source src=" <?php echo esc_url($video_url); ?>" type="<?php echo esc_attr($video_type); ?>">
                     Your browser does not support the video tag.
                 </video>
                 <?php endif; ?>
@@ -2093,18 +2090,18 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
             </h2>
             <?php if ($nav_icon_data && !empty($nav_icon_data['url'])): ?>
             <div
-                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
+                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
                 <div class="swiper-prev cursor-pointer">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
-                            class="text-white size-8 rotate-180 skew-x-12 invert brightness-0"
+                            class="text-white md:size-8 size-5 rotate-180 skew-x-12 invert brightness-0"
                             alt="<?php echo esc_attr($nav_icon_data['alt']); ?>">
                     </span>
                 </div>
                 <div class="swiper-next cursor-pointer">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
-                            class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
+                            class="text-white md:size-8 size-5 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
                             alt="<?php echo esc_attr($nav_icon_data['alt']); ?>">
                     </span>
                 </div>
@@ -2146,10 +2143,8 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                     <?php endif; ?>
                     <div
                         class="absolute inset-0 flex justify-center items-center opacity-100 group-hover:opacity-100 transition">
-                        <a href="<?php echo esc_url($slide['video_url']); ?>" 
-                            data-fancybox="testimonials"
-                            data-width="640"
-                            data-height="480"
+                        <a href="<?php echo esc_url($slide['video_url']); ?>" data-fancybox="testimonials"
+                            data-width="640" data-height="480"
                             class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-white text-white shadow-lg hover:bg-white hover:text-red-600 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
                                 class="w-6 h-6">
@@ -2496,7 +2491,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetTabs(clicked) {
         tabLinks.forEach(tab => {
             if (tab !== clicked) { // don’t reset the one that was clicked
-                tab.className = "tab-btn px-4 py-5 -my-5 h-20 text-lg font-bold text-white";
+                tab.className = "tab-btn px-4 py-5 -my-5 h-16 text-lg font-bold text-white";
                 tab.innerHTML = tab.innerText;
             }
         });
@@ -2516,7 +2511,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Apply active styles to clicked
         clicked.className =
-            "tab-btn active relative z-10 px-4 py-5 h-20 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]";
+            "tab-btn active relative z-10 px-4 py-5 h-16 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]";
         clicked.innerHTML =
             `<span class="skew-x-[18deg] block ">${clicked.innerText}</span>`;
 

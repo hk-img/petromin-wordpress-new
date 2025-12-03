@@ -239,12 +239,12 @@ function get_service_icon($icon_input) {
                 <?php if ($savings_image) : ?>
                 <img fetchpriority="low" loading="lazy"
                     src="<?php echo esc_url(wp_get_attachment_url($savings_image)); ?>"
-                    class="size-full object-contain aspect-[556/351]" alt="<?php echo esc_attr($savings_title); ?>"
+                    class="size-full object-contain aspect-[518/327]" alt="<?php echo esc_attr($savings_title); ?>"
                     title="<?php echo esc_attr($savings_title); ?>">
                 <?php else : ?>
                 <img fetchpriority="low" loading="lazy"
                     src="<?php echo esc_url($images_url . '/service_saving_banner.webp'); ?>"
-                    class="size-full object-contain aspect-[556/351]" alt="<?php echo esc_attr($savings_title); ?>"
+                    class="size-full object-contain aspect-[518/327]" alt="<?php echo esc_attr($savings_title); ?>"
                     title="<?php echo esc_attr($savings_title); ?>">
                 <?php endif; ?>
             </div>
@@ -275,13 +275,11 @@ function get_service_icon($icon_input) {
                     <div class="swiper-slide !h-auto">
                         <a href="<?php echo esc_url(get_permalink($post->ID)); ?>"
                             class="bg-[#F8F8F880] relative flex flex-col gap-3 border border-[#EFEFEF] p-4 h-full hover:shadow-lg duration-300 overflow-hidden group">
-
-
-                            <h3 class="text-[#CB122D] md:text-lg text-base font-bold line-clamp-2">
+                            <h3 class="text-[#CB122D] lg:text-xl md:text-lg text-base font-bold line-clamp-2">
                                 <?php echo esc_html(get_the_title($post->ID)); ?>
                             </h3>
 
-                            <p class="md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
+                            <p class="lg:text-base md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
                                 <?php 
                                         $excerpt = get_the_excerpt($post->ID);
                                         if (empty($excerpt)) {
@@ -292,7 +290,8 @@ function get_service_icon($icon_input) {
                             </p>
 
                             <div class="w-full relative pt-2 mt-auto">
-                                <span class="text-[#CB122D] font-semibold text-sm flex items-center gap-2">
+                                <span
+                                    class="text-[#CB122D] font-bold lg:text-xl md:text-lg text-base flex items-center gap-2">
                                     Know More
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11"

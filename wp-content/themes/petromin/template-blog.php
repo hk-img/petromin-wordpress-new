@@ -185,7 +185,7 @@ $blog_query = new WP_Query($blog_args);
     <div class="view flex flex-col gap-y-10">
 
         <!-- Blog Posts Grid -->
-        <div class="grid md:grid-cols-3 grid-cols-1 gap-x-6 gap-y-20">
+        <div class="grid md:grid-cols-3 grid-cols-1 gap-x-6 md:gap-y-20 gap-y-10">
             <?php if ($blog_query->have_posts()) : 
                 while ($blog_query->have_posts()) : 
                     $blog_query->the_post();
