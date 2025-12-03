@@ -15,7 +15,7 @@ $problems_title = get_field('problems_title') ?: 'Tired of these?';
 $problems = get_field('problems') ?: array();
 $services_title = get_field('services_title') ?: "Here's what your car gets";
 $services_included = get_field('services_included') ?: array();
-$services_overview_note = get_field('services_overview_note') ?: 'For a complete overview of what\'s covered, get in touch.';
+$services_overview_note = get_field('services_overview_note') ?: "For a complete overview of what's covered, get in touch.";
 $more_services_title = get_field('more_services_title') ?: 'More Services';
 $savings_title = get_field('savings_title') ?: 'Your car gets the service. You get the savings.';
 $savings_description = get_field('savings_description') ?: 'Check for perks before you book a visit.';
@@ -232,16 +232,16 @@ function get_service_icon($icon_input) {
                 </div>
             </div>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
-                <div class="swiper-prev cursor-pointer">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
+                <div class="swiper-prev cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
-                        <img src="img/fi_19024510.webp"
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 rotate-180 skew-x-12 invert brightness-0">
                     </span>
                 </div>
-                <div class="swiper-next cursor-pointer">
+                <div class="swiper-next cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
-                        <img src="img/fi_19024510.webp"
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3">
                     </span>
                 </div>
@@ -260,7 +260,7 @@ function get_service_icon($icon_input) {
                         $icon_img = petromin_get_acf_image_data(get_field('service_icon', $sid), 'thumbnail', '', get_the_title($sid));
                         $service_description = get_field('hero_description', $sid) ?: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
                     ?>
-                    <div class="swiper-slide">
+                    <div class="swiper-slide max-w-[33vw]">
                         <div
                             class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
                             <?php if (!empty($slide_img['url'])) : ?>
@@ -279,10 +279,10 @@ function get_service_icon($icon_input) {
                                     <?php endif; ?>
                                 </div>
                                 <h3
-                                    class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D]">
+                                    class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D] line-clamp-2">
                                     <?php echo esc_html(get_the_title($sid)); ?>
                                 </h3>
-                                <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                                <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)] line-clamp-2">
                                     <?php echo esc_html($service_description); ?>
                                 </p>
                                 <div class="flex justify-between items-center gap-2">
