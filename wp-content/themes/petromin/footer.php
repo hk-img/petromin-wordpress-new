@@ -692,7 +692,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const swiper = new Swiper(".benefitSwiper", {
-        speed: 3000,
+        speed: 800,
         centeredSlides: true,
         autoplay: {
             delay: 3000,
@@ -786,7 +786,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
     const swiper = new Swiper(".partnerSlider", {
-        speed: 3000,
+        speed: 800,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,
@@ -941,7 +941,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const swiper = new Swiper(".testimonialSwiper", {
         speed: 800,
         autoHeight: true,
-        // centeredSlides: true,
+        centeredSlides: true,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,

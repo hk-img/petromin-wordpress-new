@@ -327,9 +327,9 @@ document.addEventListener("DOMContentLoaded", function() {
         slidesPerView: 1,
         spaceBetween: 20,
         loop: true,
-        speed: 1000,
+        speed: 800,
         autoplay: {
-            delay: 4000,
+            delay: 3000,
             disableOnInteraction: false,
         },
         breakpoints: {

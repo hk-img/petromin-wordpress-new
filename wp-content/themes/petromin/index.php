@@ -769,8 +769,8 @@ if ($digital_checkup_original_price === '') {
 
 // Process images
 $main_image_data = petromin_get_acf_image_data($digital_checkup_field['main_image'] ?? null, 'full', $digital_checkup_defaults['main_image']['url'], $digital_checkup_defaults['main_image']['alt']);
-$bg_desktop_data = petromin_get_acf_image_data($digital_checkup_field['background_desktop'] ?? null, 'full', $digital_checkup_defaults['background_desktop']['url'], $digital_checkup_defaults['background_desktop']['alt']);
-$bg_mobile_data = petromin_get_acf_image_data($digital_checkup_field['background_mobile'] ?? null, 'full', $digital_checkup_defaults['background_mobile']['url'], $digital_checkup_defaults['background_mobile']['alt']);
+$digital_checkup_bg_desktop_data = petromin_get_acf_image_data($digital_checkup_field['background_desktop'] ?? null, 'full', $digital_checkup_defaults['background_desktop']['url'], $digital_checkup_defaults['background_desktop']['alt']);
+$digital_checkup_bg_mobile_data = petromin_get_acf_image_data($digital_checkup_field['background_mobile'] ?? null, 'full', $digital_checkup_defaults['background_mobile']['url'], $digital_checkup_defaults['background_mobile']['alt']);
 $icon_data = petromin_get_acf_image_data($digital_checkup_field['icon_image'] ?? null, 'full', $digital_checkup_defaults['icon_image']['url'], $digital_checkup_defaults['icon_image']['alt']);
 $check_icon_data = petromin_get_acf_image_data($digital_checkup_field['check_icon'] ?? null, 'full', $digital_checkup_defaults['check_icon']['url'], $digital_checkup_defaults['check_icon']['alt']);
 
@@ -1038,8 +1038,8 @@ if ($video_type === '') {
 // Process images
 $play_store_image_data = petromin_get_acf_image_data($app_field['play_store_image'] ?? null, 'full', $app_defaults['play_store_image']['url'], $app_defaults['play_store_image']['alt']);
 $app_store_image_data = petromin_get_acf_image_data($app_field['app_store_image'] ?? null, 'full', $app_defaults['app_store_image']['url'], $app_defaults['app_store_image']['alt']);
-$bg_desktop_data = petromin_get_acf_image_data($app_field['background_desktop'] ?? null, 'full', $app_defaults['background_desktop']['url'], $app_defaults['background_desktop']['alt']);
-$bg_mobile_data = petromin_get_acf_image_data($app_field['background_mobile'] ?? null, 'full', $app_defaults['background_mobile']['url'], $app_defaults['background_mobile']['alt']);
+$app_bg_desktop_data = petromin_get_acf_image_data($app_field['background_desktop'] ?? null, 'full', $app_defaults['background_desktop']['url'], $app_defaults['background_desktop']['alt']);
+$app_bg_mobile_data = petromin_get_acf_image_data($app_field['background_mobile'] ?? null, 'full', $app_defaults['background_mobile']['url'], $app_defaults['background_mobile']['alt']);
 $feature_icon_data = petromin_get_acf_image_data($app_field['feature_icon'] ?? null, 'full', $app_defaults['feature_icon']['url'], $app_defaults['feature_icon']['alt']);
 
 // Get the testimonials section data
@@ -1819,18 +1819,18 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
 
 <section class="w-full relative font-inter lg:py-12 py-8">
-    <?php if ($bg_desktop_data && !empty($bg_desktop_data['url'])): ?>
+    <?php if ($digital_checkup_bg_desktop_data && !empty($digital_checkup_bg_desktop_data['url'])): ?>
     <div
         class="absolute right-0 h-full md:bottom-0 md:top-auto top-0 justify-center items-center w-full md:flex flex-col z-0 overflow-hidden hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_desktop_data['url']); ?>"
-            alt="<?php echo esc_attr($bg_desktop_data['alt']); ?>" width="108" height="108"
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($digital_checkup_bg_desktop_data['url']); ?>"
+            alt="<?php echo esc_attr($digital_checkup_bg_desktop_data['alt']); ?>" width="108" height="108"
             class="w-full object-cover object-center h-full" />
     </div>
     <?php endif; ?>
-    <?php if ($bg_mobile_data && !empty($bg_mobile_data['url'])): ?>
+    <?php if ($digital_checkup_bg_mobile_data && !empty($digital_checkup_bg_mobile_data['url'])): ?>
     <div class="w-full  flex-col absolute right-0 top-0 bottom-auto flex md:hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_mobile_data['url']); ?>"
-            alt="<?php echo esc_attr($bg_mobile_data['alt']); ?>" width="108" height="108"
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($digital_checkup_bg_mobile_data['url']); ?>"
+            alt="<?php echo esc_attr($digital_checkup_bg_mobile_data['alt']); ?>" width="108" height="108"
             class="w-full h-full object-cover object-right" />
     </div>
     <?php endif; ?>
@@ -2066,17 +2066,17 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
         </div>
     </div>
 
-    <?php if ($bg_desktop_data && !empty($bg_desktop_data['url'])): ?>
+    <?php if ($app_bg_desktop_data && !empty($app_bg_desktop_data['url'])): ?>
     <div class="absolute inset-0 w-full h-full -z-10 md:flex hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_desktop_data['url']); ?>"
-            alt="<?php echo esc_attr($bg_desktop_data['alt']); ?>" class="w-full h-full object-cover object-right" />
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($app_bg_desktop_data['url']); ?>"
+            alt="<?php echo esc_attr($app_bg_desktop_data['alt']); ?>" class="w-full h-full object-cover object-right" />
     </div>
     <?php endif; ?>
 
-    <?php if ($bg_mobile_data && !empty($bg_mobile_data['url'])): ?>
+    <?php if ($app_bg_mobile_data && !empty($app_bg_mobile_data['url'])): ?>
     <div class="absolute inset-0 w-full h-full -z-10 flex md:hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($bg_mobile_data['url']); ?>"
-            alt="<?php echo esc_attr($bg_mobile_data['alt']); ?>" class="w-full h-full object-cover object-center" />
+        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($app_bg_mobile_data['url']); ?>"
+            alt="<?php echo esc_attr($app_bg_mobile_data['alt']); ?>" class="w-full h-full object-cover object-center" />
     </div>
     <?php endif; ?>
 </section>
