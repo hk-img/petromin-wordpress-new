@@ -593,13 +593,20 @@ if (!empty($service_posts)) {
         $icon_data = petromin_get_acf_image_data(get_field('service_icon', $post_id), 'thumbnail', '', $label);
         $home_image_data = petromin_get_acf_image_data(get_field('home_page_service_image', $post_id), 'full', '', $label);
 
+        // Highlight text (ACF field on service post) - show highlighted text between description and buttons
+        $highlight_field = get_field('highlight', $post_id);
+        $highlight = '';
+        if (is_string($highlight_field) && trim($highlight_field) !== '') {
+            $highlight = trim($highlight_field);
+        }
+
         // Build a tab entry similar to existing structure
         $posts_tabs[] = [
             'label' => $label,
             'heading' => $heading,
             'hero_description' => $hero_description,
             'description' => $description,
-            'highlight' => '',
+            'highlight' => $highlight,
             'icon' => $icon_data ?: ['url' => '', 'alt' => $label],
             'image' => $home_image_data ?: ['url' => '', 'alt' => $label],
             'primary_button' => [
@@ -1137,13 +1144,13 @@ if (!empty($slides_input)) {
             }
         } elseif ($slide_type === 'video') {
             $video_image_data = petromin_get_acf_image_data($slide['video_image'] ?? null, 'full', $testimonials_defaults['slides'][2]['video_image']['url'], $testimonials_defaults['slides'][2]['video_image']['alt']);
-            $video_url = trim($slide['video_url'] ?? '#');
+            $testimonial_video_url = trim($slide['video_url'] ?? '#');
             
             if ($video_image_data) {
                 $slides[] = [
                     'type' => 'video',
                     'image' => $video_image_data,
-                    'video_url' => $video_url,
+                    'video_url' => $testimonial_video_url,
                 ];
             }
         }
@@ -1494,7 +1501,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="flex flex-col items-start lg:mb-5 mb-2">
                     <?php if ($icon_url !== ''): ?>
                     <span
-                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[4.9rem] h-[3.75rem]">
+                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[6.125rem] h-[3.75rem]">
                         <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>"
                             title="<?php echo esc_attr($icon_alt); ?>" class="size-[2.688rem] skew-x-[18deg]"
                             loading="lazy" fetchpriority="low">
@@ -1634,7 +1641,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="flex flex-col items-start lg:mb-5 mb-2">
                     <?php if ($icon_url !== ''): ?>
                     <span
-                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[4.9rem] h-[3.75rem]">
+                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-[1.125rem] flex items-center justify-center w-[6.125rem] h-[3.75rem]">
                         <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>"
                             title="<?php echo esc_attr($icon_alt); ?>" class="size-[2.688rem] skew-x-[18deg]"
                             loading="lazy" fetchpriority="low">
@@ -2139,9 +2146,11 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                     <?php endif; ?>
                     <div
                         class="absolute inset-0 flex justify-center items-center opacity-100 group-hover:opacity-100 transition">
-                        <a href="<?php echo esc_url($slide['video_url']); ?>"
-                            class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-white text-white shadow-lg"
-                            target="_blank">
+                        <a href="<?php echo esc_url($slide['video_url']); ?>" 
+                            data-fancybox="testimonials"
+                            data-width="640"
+                            data-height="480"
+                            class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-white text-white shadow-lg hover:bg-white hover:text-red-600 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
                                 class="w-6 h-6">
                                 <path d="M8 5v14l11-7z" />
