@@ -144,7 +144,7 @@ function get_service_icon($icon_input) {
     <div class="view">
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2
-                class="relative xl:text-[2.5rem] lg:-[2.3rem] md:text-[2rem] text-2xl lg:leading-[3.75rem] font-bold text-[#000000]">
+                class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($problems_title); ?>
             </h2>
             <div class="bg-gradient-to-l from-[#CB122D] to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
@@ -169,7 +169,7 @@ function get_service_icon($icon_input) {
     <div class="view">
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2
-                class="relative xl:text-[2.5rem] flex items-center lg:-[2.3rem] md:text-[2rem] text-2xl lg:leading-[3.75rem] font-bold text-[#000000]">
+                class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center  lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($services_title); ?>
                 <span><img src="<?php echo esc_url($images_url . '/star_svg.webp'); ?>" class="object-contain size-10"
                         alt="star" title="star"></span>
@@ -182,17 +182,18 @@ function get_service_icon($icon_input) {
                     $service_image = !empty($service['image']) ? wp_get_attachment_url($service['image']) : $images_url . '/car_get.webp';
                 ?>
                 <div
-                    class="w-full relative overflow-hidden group duration-500 md:h-[26.063rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
                     <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($service_image); ?>"
                         alt="<?php echo esc_attr($service['title']); ?>"
                         title="<?php echo esc_attr($service['title']); ?>"
                         class="size-full object-cover aspect-[371/334]">
                     <div class="absolute bottom-0 left-0 flex flex-col gap-y-3 duration-500 p-6">
-                        <h3 class="text-[#FFFFFF] text-2xl font-bold duration-300 group-hover:lg:text-[#CB122D]">
+                        <h3
+                            class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D]">
                             <?php echo esc_html($service['title']); ?>
                         </h3>
                         <p
-                            class="text-[#FFFFFF] opacity-75 text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                            class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
                             <?php echo esc_html($service['description']); ?>
                         </p>
                     </div>
@@ -214,7 +215,7 @@ function get_service_icon($icon_input) {
         <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 md:gap-12 gap-8 items-center">
             <div class="flex flex-col gap-4">
                 <h2
-                    class="relative xl:text-[2.5rem] lg:-[2.3rem] md:text-[2rem] text-3xl leading-tight font-bold text-[#FFFFFF]">
+                    class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] leading-tight font-bold text-[#FFFFFF]">
                     <?php echo esc_html($savings_title); ?>
                 </h2>
                 <p class="text-[#FFFFFF] lg:text-xl md:text-lg text-base"><?php echo esc_html($savings_description); ?>
@@ -234,16 +235,16 @@ function get_service_icon($icon_input) {
                     </a>
                 </div>
             </div>
-            <div class="w-full">
+            <div class="w-full md:ps-12">
                 <?php if ($savings_image) : ?>
                 <img fetchpriority="low" loading="lazy"
                     src="<?php echo esc_url(wp_get_attachment_url($savings_image)); ?>"
-                    class="size-full object-contain aspect-[556/351]" alt="<?php echo esc_attr($savings_title); ?>"
+                    class="size-full object-contain aspect-[518/327]" alt="<?php echo esc_attr($savings_title); ?>"
                     title="<?php echo esc_attr($savings_title); ?>">
                 <?php else : ?>
                 <img fetchpriority="low" loading="lazy"
                     src="<?php echo esc_url($images_url . '/service_saving_banner.webp'); ?>"
-                    class="size-full object-contain aspect-[556/351]" alt="<?php echo esc_attr($savings_title); ?>"
+                    class="size-full object-contain aspect-[518/327]" alt="<?php echo esc_attr($savings_title); ?>"
                     title="<?php echo esc_attr($savings_title); ?>">
                 <?php endif; ?>
             </div>
@@ -255,7 +256,7 @@ function get_service_icon($icon_input) {
     <div class="view md:!pr-0">
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2
-                class="relative xl:text-[2.5rem] flex items-center lg:-[2.3rem] md:text-[2rem] text-2xl lg:leading-[3.75rem] font-bold text-[#000000]">
+                class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($faq_title); ?>
             </h2>
             <div
@@ -274,13 +275,11 @@ function get_service_icon($icon_input) {
                     <div class="swiper-slide !h-auto">
                         <a href="<?php echo esc_url(get_permalink($post->ID)); ?>"
                             class="bg-[#F8F8F880] relative flex flex-col gap-3 border border-[#EFEFEF] p-4 h-full hover:shadow-lg duration-300 overflow-hidden group">
-
-
-                            <h3 class="text-[#CB122D] md:text-lg text-base font-bold line-clamp-2">
+                            <h3 class="text-[#CB122D] lg:text-xl md:text-lg text-base font-bold line-clamp-2">
                                 <?php echo esc_html(get_the_title($post->ID)); ?>
                             </h3>
 
-                            <p class="md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
+                            <p class="lg:text-base md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
                                 <?php 
                                         $excerpt = get_the_excerpt($post->ID);
                                         if (empty($excerpt)) {
@@ -291,7 +290,8 @@ function get_service_icon($icon_input) {
                             </p>
 
                             <div class="w-full relative pt-2 mt-auto">
-                                <span class="text-[#CB122D] font-semibold text-sm flex items-center gap-2">
+                                <span
+                                    class="text-[#CB122D] font-bold lg:text-xl md:text-lg text-base flex items-center gap-2">
                                     Know More
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11"

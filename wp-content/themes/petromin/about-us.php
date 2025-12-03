@@ -476,7 +476,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             <!-- Journey  sec 2 start -->
             <?php if (!empty($journey_slides)): ?>
             <div class="w-full relative journey overflow-hidden pb-[7.25rem] md:pb-[11.438rem]">
-                <div class="view md:pr-0">
+                <div class="view pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
                         <?php if ($journey_heading) : ?>
                         <h2
@@ -485,20 +485,20 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </h2>
                         <?php endif; ?>
                         <div
-                            class="flex items-center justify-start  origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
+                            class="flex items-center justify-start  origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
                             <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
                                         src="<?php echo esc_url($left_arrow_icon); ?>"
-                                        class="text-white size-8 skew-x-12 invert brightness-0" alt="left arrow"
-                                        title="left arrow">
+                                        class="text-white md:size-8 size-5 skew-x-12 invert brightness-0"
+                                        alt="left arrow" title="left arrow">
                                 </span>
                             </div>
                             <div class="swiper-next cursor-pointer">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
                                         src="<?php echo esc_url($right_arrow_icon); ?>"
-                                        class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188] ml-3"
+                                        class="text-white md:size-8 size-5 skew-x-12 invert brightness-0 mb-[0.188] ml-3"
                                         alt="right arrow" title="right arrow">
                                 </span>
                             </div>
