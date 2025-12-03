@@ -941,7 +941,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const swiper = new Swiper(".testimonialSwiper", {
         speed: 800,
         autoHeight: true,
-        // centeredSlides: true,
+        centeredSlides: true,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,
