@@ -144,11 +144,14 @@ if (!empty($service_posts)) {
         $slide_img = petromin_get_acf_image_data(get_field('for_services_page_image', $pid), 'full', '', get_the_title($pid));
         // Use the ACF service icon
         $icon_img = petromin_get_acf_image_data(get_field('service_icon', $pid), 'thumbnail', '', get_the_title($pid));
+        // Get the hero description from the service post
+        $service_description = get_field('hero_description', $pid) ?: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
 
         $posts_slides[] = [
             'slide_image' => $slide_img ?: ['url' => '', 'alt' => get_the_title($pid)],
             'service_icon' => $icon_img ?: ['url' => '', 'alt' => get_the_title($pid)],
             'service_title' => get_the_title($pid),
+            'service_description' => $service_description,
             'service_link' => get_permalink($pid),
         ];
     }
@@ -226,103 +229,89 @@ $faq_data = [
     </div>
 </div>
 
-<!-- Our Services Section -->
-<section class="pt-5 md:pt-9">
-    <div class="view md:pr-0">
-        <div class="w-full relative overflow-hidden">
-            <div class="flex items-center justify-between pb-[3.25rem] md:pb-[3.188rem]">
-                <div class="w-full relative">
-                    <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl text-black font-bold">
-                        <?php echo esc_html($our_services_data['section_heading']); ?>
-                    </h2>
-                    <div
-                        class="relative md:pt-4 pt-1.5 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] md:after:h-3 after:h-[0.688rem] after:-skew-x-[18deg] after:left-0">
-                    </div>
-                </div>
-                <div
-                    class="flex items-center justify-start md:flex hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-[10.313rem] h-16 transition transform -skew-x-12 duration-150 ease-in-out">
-                    <div class="swiper-prev cursor-pointer !pointer-events-auto !opacity-100 !block">
-                        <span>
-                            <?php if (!empty($our_services_data['navigation_icons']['left_arrow_icon']['url'])) : ?>
-                            <img fetchpriority="low" loading="lazy"
-                                src="<?php echo esc_url($our_services_data['navigation_icons']['left_arrow_icon']['url']); ?>"
-                                class="text-white size-8 skew-x-12 invert brightness-0"
-                                alt="<?php echo esc_attr($our_services_data['navigation_icons']['left_arrow_icon']['alt']); ?>"
-                                title="<?php echo esc_attr($our_services_data['navigation_icons']['left_arrow_icon']['alt']); ?>">
-                            <?php endif; ?>
-                        </span>
-                    </div>
-                    <div class="swiper-next cursor-pointer !pointer-events-auto !opacity-100 !block">
-                        <span>
-                            <?php if (!empty($our_services_data['navigation_icons']['right_arrow_icon']['url'])) : ?>
-                            <img fetchpriority="low" loading="lazy"
-                                src="<?php echo esc_url($our_services_data['navigation_icons']['right_arrow_icon']['url']); ?>"
-                                class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188] ml-3"
-                                alt="<?php echo esc_attr($our_services_data['navigation_icons']['right_arrow_icon']['alt']); ?>"
-                                title="<?php echo esc_attr($our_services_data['navigation_icons']['right_arrow_icon']['alt']); ?>">
-                            <?php endif; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full relative">
-                <div class="swiper ourServiceCarousel relative z-0 font-inter">
-                    <div class="swiper-wrapper">
-                        <?php foreach ($our_services_data['slides'] as $slide) : ?>
-                        <div class="swiper-slide !h-auto">
-                            <a href="<?php echo esc_url($slide['service_link']); ?>" class="w-full">
-                                <div
-                                    class="w-full relative overflow-hidden size-full group duration-500 max-w-[23rem] ">
-                                    <?php if (!empty($slide['slide_image']['url'])) : ?>
-                                    <img fetchpriority="low" loading="lazy"
-                                        src="<?php echo esc_url($slide['slide_image']['url']); ?>"
-                                        alt="<?php echo esc_attr($slide['slide_image']['alt']); ?>"
-                                        title="<?php echo esc_attr($slide['slide_image']['alt']); ?>"
-                                        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 aspect-[249/401]" />
-                                    <?php endif; ?>
-
-                                    <div
-                                        class="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-[#CB122D] to-[#CB122D00] transition-all duration-500 ease-in-out group-hover:h-2/4">
-                                    </div>
-
-                                    <div class="flex flex-col gap-3 absolute bottom-7 w-full px-4">
-                                        <span>
-                                            <?php if (!empty($slide['service_icon']['url'])) : ?>
-                                            <img src="<?php echo esc_url($slide['service_icon']['url']); ?>"
-                                                alt="<?php echo esc_attr($slide['service_icon']['alt']); ?>"
-                                                class="w-8 h-8">
-                                            <?php endif; ?>
-                                        </span>
-
-                                        <div class="flex flex-row justify-between items-center">
-                                            <div class="text-[1.875rem] font-bold text-white">
-                                                <?php echo esc_html($slide['service_title']); ?>
-                                            </div>
-                                            <span>
-                                                <svg width="26" height="23" viewBox="0 0 26 23" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M25.5536 11.0809C25.5536 11.464 25.409 11.8165 25.1197 12.1077L16.0523 21.7173C15.7486 22.0085 15.4449 22.1464 15.0979 22.1464C14.3603 22.1464 13.8108 21.5794 13.8108 20.7977C13.8108 20.4299 13.9409 20.0621 14.1723 19.8168L17.2382 16.5217L21.6634 12.2457L18.3951 12.4602H1.316C0.535078 12.4602 0 11.8932 0 11.0809C0 10.2533 0.535078 9.68619 1.316 9.68619H18.3951L21.6489 9.90076L17.2382 5.62473L14.1723 2.32959C13.9409 2.08437 13.8108 1.71654 13.8108 1.34871C13.8108 0.567071 14.3603 0 15.0979 0C15.4449 0 15.7631 0.137936 16.0813 0.459787L25.1197 10.0387C25.409 10.3299 25.5536 10.6977 25.5536 11.0809Z"
-                                                        fill="white" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+<!-- New Our Services Section -->
+<div class="w-full relative bg-white pt-[4.25rem]  md:pb-[3.25rem] pb-[2rem]">
+    <div class="view">
+        <div class="w-full flex flex-col gap-1 md:gap-1">
+            <h2
+                class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] font-bold text-[#000000] ">
+                <?php echo esc_html($our_services_data['section_heading']); ?>
+            </h2>
+            <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]">
             </div>
         </div>
+        <div class="w-full relative pt-12">
+            <div class="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-6">
+                <?php foreach ($our_services_data['slides'] as $slide) : ?>
+                
+                <div
+                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                    <?php if (!empty($slide['slide_image']['url'])) : ?>
+                    <img fetchpriority="low" loading="lazy"
+                        src="<?php echo esc_url($slide['slide_image']['url']); ?>"
+                        alt="<?php echo esc_attr($slide['slide_image']['alt']); ?>"
+                        title="<?php echo esc_attr($slide['slide_image']['alt']); ?>"
+                        class="size-full object-cover aspect-[50/60]" />
+                    <?php endif; ?>
+                    <div class="absolute bottom-0 left-0 flex flex-col gap-y-3 duration-500 p-6">
+                        <div>
+                            <?php if (!empty($slide['service_icon']['url'])) : ?>
+                            <img src="<?php echo esc_url($slide['service_icon']['url']); ?>"
+                                alt="<?php echo esc_attr($slide['service_icon']['alt']); ?>"
+                                class="w-8 h-8">
+                            <?php endif; ?>
+                        </div>
+                        <h3
+                            class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D]">
+                            <?php echo esc_html($slide['service_title']); ?>
+                        </h3>
+                        <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 
+        drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)] line-clamp-2">
+                            <?php echo wp_kses_post($slide['service_description']); ?>
+                        </p>
+                        <div class="flex justify-between items-center gap-2">
+                            <button
+                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                <span
+                                    class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Check
+                                    Price
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        viewBox="0 0 14 20" fill="none">
+                                        <path
+                                            d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                            fill="white"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                            <a href="<?php echo esc_url($slide['service_link']); ?>"
+                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                <span
+                                    class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Know
+                                    More
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                        viewBox="0 0 14 20" fill="none">
+                                        <path
+                                            d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                            fill="white"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+                
+            </div>
+        </div>
+
+
     </div>
-</section>
+</div>
+<!-- End New Our Services Section -->
 
 <!-- Features Section -->
 <section class="w-full bg-white">
-    <div class="pt-[4.438] md:pt-[11.188rem]">
+    <div class="pt-[4.438rem] md:pt-[5.188rem]">
         <div class="relative overflow-hidden">
             <div class="flex md:flex-row flex-col h-[42.063rem] md:h-[36.125rem] items-center">
                 <!-- LEFT: Heading + checklist -->
