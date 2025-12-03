@@ -1501,7 +1501,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="flex flex-col items-start lg:mb-5 mb-2">
                     <?php if ($icon_url !== ''): ?>
                     <span
-                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[4.9rem] h-[3.75rem]">
+                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[6.125rem] h-[3.75rem]">
                         <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>"
                             title="<?php echo esc_attr($icon_alt); ?>" class="size-[2.688rem] skew-x-[18deg]"
                             loading="lazy" fetchpriority="low">
@@ -1641,7 +1641,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 <div class="flex flex-col items-start lg:mb-5 mb-2">
                     <?php if ($icon_url !== ''): ?>
                     <span
-                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-5 flex items-center justify-center w-[4.9rem] h-[3.75rem]">
+                        class="bg-gradient-to-l from-[#CB122D] to-[#650916] -skew-x-[18deg] mb-[1.125rem] flex items-center justify-center w-[6.125rem] h-[3.75rem]">
                         <img src="<?php echo esc_url($icon_url); ?>" alt="<?php echo esc_attr($icon_alt); ?>"
                             title="<?php echo esc_attr($icon_alt); ?>" class="size-[2.688rem] skew-x-[18deg]"
                             loading="lazy" fetchpriority="low">
