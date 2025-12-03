@@ -282,9 +282,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const swiper = new Swiper(".blogHeroSlider", {
         slidesPerView: 1,
         loop: true,
-        speed: 1000,
+        speed: 800,
         autoplay: {
-            delay: 4000,
+            delay: 3000,
             disableOnInteraction: false,
         },
         spaceBetween: 0,
