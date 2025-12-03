@@ -2585,11 +2585,22 @@ add_action('acf/init', function () {
                 'default_value' => '',
             ),
             array(
+                'key' => 'field_highlight',
+                'label' => 'Highlight Text',
+                'name' => 'highlight',
+                'type' => 'text',
+                'instructions' => 'Optional highlighted text to display between description and buttons on home page service section',
+                'default_value' => '',
+            ),
+            array(
                 'key' => 'field_service_button_text',
                 'label' => 'Button Text',
                 'name' => 'button_text',
                 'type' => 'text',
                 'default_value' => 'Add to list',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
             ),
             array(
                 'key' => 'field_service_button_link',
@@ -2597,6 +2608,9 @@ add_action('acf/init', function () {
                 'name' => 'button_link',
                 'type' => 'page_link',
                 'instructions' => 'Select the page to link to',
+                'wrapper' => [
+                    'width' => '50%',
+                ]
             ),
             
             // Problems Section
@@ -2677,6 +2691,14 @@ add_action('acf/init', function () {
                     ),
                 ),
             ),
+            array(
+                'key' => 'field_services_overview_note',
+                'label' => 'Services Overview Note',
+                'name' => 'services_overview_note',
+                'type' => 'text',
+                'default_value' => "For a complete overview of what\'s covered, get in touch.",
+                'instructions' => 'Overview Note for the services section',
+            ),
             
             // Savings Section
             array(
@@ -2699,6 +2721,9 @@ add_action('acf/init', function () {
                 'name' => 'savings_button_text',
                 'type' => 'text',
                 'default_value' => 'Know More',
+                'wrapper' => array(
+                    'width' => '50%',
+                ),
             ),
             array(
                 'key' => 'field_savings_button_link',
@@ -2706,6 +2731,9 @@ add_action('acf/init', function () {
                 'name' => 'savings_button_link',
                 'type' => 'page_link',
                 'instructions' => 'Select the page to link to',
+                'wrapper' => array(
+                    'width' => '50%',
+                ),
             ),
             array(
                 'key' => 'field_savings_image',
@@ -2745,14 +2773,6 @@ add_action('acf/init', function () {
                 'preview_size' => 'medium',
                 'instructions' => 'Upload a .webp image (recommended / minimum size: 730x437). This image is stored for display in the home page service sections. It will not be shown on the single service page.',
                 'mime_types' => 'webp',
-            ),
-            array(
-                'key' => 'field_highlight',
-                'label' => 'Highlight Text',
-                'name' => 'highlight',
-                'type' => 'text',
-                'instructions' => 'Optional highlighted text to display between description and buttons on home page service section',
-                'default_value' => '',
             ),
             
             // FAQ Section

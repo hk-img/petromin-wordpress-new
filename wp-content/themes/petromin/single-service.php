@@ -15,6 +15,8 @@ $problems_title = get_field('problems_title') ?: 'Tired of these?';
 $problems = get_field('problems') ?: array();
 $services_title = get_field('services_title') ?: "Here's what your car gets";
 $services_included = get_field('services_included') ?: array();
+$services_overview_note = get_field('services_overview_note') ?: 'For a complete overview of what\'s covered, get in touch.';
+$more_services_title = get_field('more_services_title') ?: 'More Services';
 $savings_title = get_field('savings_title') ?: 'Your car gets the service. You get the savings.';
 $savings_description = get_field('savings_description') ?: 'Check for perks before you book a visit.';
 $savings_button_text = get_field('savings_button_text') ?: 'Know More';
@@ -66,6 +68,18 @@ $blog_posts_query = new WP_Query([
     'order' => 'DESC'
 ]);
 $blog_posts = $blog_posts_query->posts;
+wp_reset_postdata();
+
+// Get other services for "More Services" carousel
+$other_services_query = new WP_Query([
+    'post_type' => 'service',
+    'posts_per_page' => 8,
+    'post_status' => 'publish',
+    'orderby' => 'menu_order',
+    'order' => 'ASC',
+    'post__not_in' => [get_the_ID()], // Exclude current service
+]);
+$other_services = $other_services_query->posts;
 wp_reset_postdata();
 
 // Get icon based on type or image URL
@@ -200,10 +214,113 @@ function get_service_icon($icon_input) {
                 <?php endforeach; ?>
             </div>
         </div>
-        <p class="text-[#000000] md:text-lg text-base font-normal pt-5">*For a complete overview of what's covered, get
-            in touch.</p>
+        <p class="text-[#000000] md:text-lg text-base font-normal pt-5">*<?php echo esc_html($services_overview_note); ?></p>
     </div>
 </div>
+
+
+
+<section class="w-full relative moreServices md:pb-[6.25rem] pb-[4rem] overflow-hidden">
+    <div class="view md:pr-0">
+        <div class="flex items-center justify-between md:pb-12 pb-6">
+            <div class="w-full flex flex-col gap-1 md:gap-1">
+                <h2
+                    class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center font-bold text-[#000000] ">
+                    <?php echo esc_html($more_services_title); ?>
+                </h2>
+                <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]">
+                </div>
+            </div>
+            <div
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out">
+                <div class="swiper-prev cursor-pointer">
+                    <span>
+                        <img src="img/fi_19024510.webp"
+                            class="text-white size-8 rotate-180 skew-x-12 invert brightness-0">
+                    </span>
+                </div>
+                <div class="swiper-next cursor-pointer">
+                    <span>
+                        <img src="img/fi_19024510.webp"
+                            class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="view">
+        <div
+            class="swiper moreServiceCarousel relative font-inter z-0 pt-6">
+            <div class="swiper-wrapper h-auto">
+                <?php if (!empty($other_services)) : ?>
+                    <?php foreach ($other_services as $service) :
+                        setup_postdata($service);
+                        $sid = $service->ID;
+                        $slide_img = petromin_get_acf_image_data(get_field('for_services_page_image', $sid), 'full', '', get_the_title($sid));
+                        $icon_img = petromin_get_acf_image_data(get_field('service_icon', $sid), 'thumbnail', '', get_the_title($sid));
+                        $service_description = get_field('hero_description', $sid) ?: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
+                    ?>
+                    <div class="swiper-slide">
+                        <div
+                            class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                            <?php if (!empty($slide_img['url'])) : ?>
+                            <img fetchpriority="low" loading="lazy"
+                                src="<?php echo esc_url($slide_img['url']); ?>"
+                                alt="<?php echo esc_attr(get_the_title($sid)); ?>"
+                                title="<?php echo esc_attr(get_the_title($sid)); ?>"
+                                class="size-full object-cover aspect-[92/105]">
+                            <?php endif; ?>
+                            <div class="absolute bottom-0 left-0 flex flex-col gap-y-3 duration-500 md:p-6 p-4">
+                                <div>
+                                    <?php if (!empty($icon_img['url'])) : ?>
+                                    <img src="<?php echo esc_url($icon_img['url']); ?>"
+                                        alt="<?php echo esc_attr(get_the_title($sid)); ?>"
+                                        class="w-8 h-8">
+                                    <?php endif; ?>
+                                </div>
+                                <h3
+                                    class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D]">
+                                    <?php echo esc_html(get_the_title($sid)); ?>
+                                </h3>
+                                <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                                    <?php echo esc_html($service_description); ?>
+                                </p>
+                                <div class="flex justify-between items-center gap-2">
+                                    <button
+                                        class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 whitespace-nowrap items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Check
+                                            Price
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+                                    </button>
+                                    <a href="<?php echo esc_url(get_permalink($sid)); ?>"
+                                        class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 whitespace-nowrap items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                        <span
+                                            class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Know
+                                            More
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                viewBox="0 0 14 20" fill="none">
+                                                <path
+                                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                                    fill="white"></path>
+                                            </svg></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php wp_reset_postdata(); ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
 
 <div
     class="w-full overflow-hidden relative bg-white md:py-[3.25rem] py-[2rem] bg-gradient-to-l z-10 from-[#CB122D] to-[#650916]">
@@ -346,5 +463,50 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const swiper = new Swiper(".moreServiceCarousel", {
+                speed: 800,
+                autoHeight: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                spaceBetween: 24,
+                loop: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-next",
+                    prevEl: ".swiper-prev",
+                },
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 6
+                    },
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 12
+                    },
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 16
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 24
+                    },
+                    1350: {
+                        slidesPerView: 3,
+                        spaceBetween: 24
+                    },
+                },
+            });
+        });
+    </script>
 
 <?php get_footer(); ?>
