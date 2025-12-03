@@ -323,7 +323,7 @@ function get_service_icon($icon_input) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".bestKnowCarousel", {
+    const bestKnowCarouselSwiper = new Swiper(".bestKnowCarousel", {
         slidesPerView: 1,
         spaceBetween: 20,
         loop: true,

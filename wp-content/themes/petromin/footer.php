@@ -499,7 +499,7 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script>
 jQuery(function($) {
     var $popup = $('#carPopup'),
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".benefitSwiper", {
+    const benefitSwiper = new Swiper(".benefitSwiper", {
         speed: 800,
         centeredSlides: true,
         autoplay: {
@@ -748,7 +748,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".featureSwiper", {
+    const featureSwiper = new Swiper(".featureSwiper", {
         speed: 800,
         autoplay: {
             delay: 3000,
@@ -785,7 +785,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".partnerSlider", {
+    const partnerSliderSwiper = new Swiper(".partnerSlider", {
         speed: 800,
         autoplay: {
             delay: 3000,
@@ -938,7 +938,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".testimonialSwiper", {
+    const testimonialSwiper = new Swiper(".testimonialSwiper", {
         speed: 800,
         autoHeight: true,
         centeredSlides: true,
@@ -1138,7 +1138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".category-slider", {
+    const categorySliderSwiper = new Swiper(".category-slider", {
         slidesPerView: "auto",
         spaceBetween: 20,
         speed: 700,
@@ -1156,8 +1156,8 @@ document.addEventListener("DOMContentLoaded", function() {
     prevBtn.classList.add("opacity-0", "pointer-events-none");
 
     // Show/hide prev button based on active slide index
-    swiper.on("slideChange", () => {
-        if (swiper.realIndex === 0) {
+    categorySliderSwiper.on("slideChange", () => {
+        if (categorySliderSwiper.realIndex === 0) {
             prevBtn.classList.add("opacity-0", "pointer-events-none");
         } else {
             prevBtn.classList.remove("opacity-0", "pointer-events-none");

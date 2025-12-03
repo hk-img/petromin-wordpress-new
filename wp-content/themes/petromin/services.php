@@ -474,7 +474,7 @@ $faq_data = [
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".ourServiceCarousel", {
+    const ourServiceCarouselSwiper = new Swiper(".ourServiceCarousel", {
         speed: 800,
         autoplay: {
             delay: 3000,

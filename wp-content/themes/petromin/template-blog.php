@@ -279,7 +279,7 @@ $blog_query = new WP_Query($blog_args);
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Initialize Swiper
-    const swiper = new Swiper(".blogHeroSlider", {
+    const blogHeroSwiper = new Swiper(".blogHeroSlider", {
         slidesPerView: 1,
         loop: true,
         speed: 800,
