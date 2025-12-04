@@ -471,7 +471,7 @@ if (empty($processed_faq_categories)) {
                 class="relative pt-[0.563rem] md:pt-[1.25rem] after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
             </div>
         </div>
-        <div class="flex flex-col md:flex-row gap-8 items-start">
+        <div class="flex flex-col md:flex-row gap-8 relative items-start">
             <div class="md:w-1/3 w-full relative flex flex-col gap-y-3 bg-white">
                 <div
                     class="md:sticky md:border-0 border-b border-[#E0E5EB] flex flex-col gap-4 top-0 z-20 bg-white pt-3 pb-5 md:pb-2 px-0">
@@ -558,7 +558,7 @@ if (empty($processed_faq_categories)) {
                 </div>
             </div>
 
-            <div class="md:w-2/3 w-full">
+            <div class="md:w-2/3 w-full md:sticky md:top-20">
                 <div class="h-[20rem] md:h-[53.188rem] w-full">
                     <iframe data-map-frame title="Service center location map"
                         src="<?php echo esc_url($default_map_src ?: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5122760.8817607!2d10.454119350000001!3d51.17580699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sde!4v1760714693105!5m2!1sen!2sde'); ?>"

@@ -337,12 +337,10 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
                 <div class="flex flex-col items-start gap-5 lg:pl-[5rem] md:pl-[4rem] pl-[1rem]">
                     <a href="<?php echo esc_url(home_url('/')); ?>">
                         <?php if (!empty($footer_logo_data)) : ?>
-                            <img src="<?php echo esc_url($footer_logo_data['url']); ?>"
-                                 alt="<?php echo esc_attr($footer_logo_data['alt']); ?>"
-                                 title="<?php echo esc_attr($footer_logo_data['alt']); ?>"
-                                 class="w-auto h-16 object-contain"
-                                 loading="lazy"
-                                 fetchpriority="low">
+                        <img src="<?php echo esc_url($footer_logo_data['url']); ?>"
+                            alt="<?php echo esc_attr($footer_logo_data['alt']); ?>"
+                            title="<?php echo esc_attr($footer_logo_data['alt']); ?>" class="w-auto h-16 object-contain"
+                            loading="lazy" fetchpriority="low">
                         <?php endif; ?>
                     </a>
                     <p class="text-base text-white font-normal leading-relaxed max-w-md">
@@ -350,44 +348,47 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
                     </p>
                 </div>
 
-                <div class="w-full lg:pl-[5rem] md:pl-[4rem] pl-[1rem] md:p-12 p-8 flex flex-col bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)] origin-top -skew-x-[18deg]">
+                <div
+                    class="w-full lg:pl-[5rem] md:pl-[4rem] pl-[1rem] md:p-12 p-8 flex flex-col bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)] origin-top -skew-x-[18deg]">
                     <div class="flex items-center skew-x-[18deg] lg:pl-[3.5rem] md:pl-[3rem] pl-[4rem]">
                         <div class="flex flex-col justify-center gap-8 text-white">
                             <div class="flex md:flex-row flex-col md:gap-28 gap-y-6">
                                 <?php foreach ($normalized_info_columns as $column) : ?>
-                                    <div>
-                                        <?php if (!empty($column['title'])) : ?>
-                                            <h3 class="font-medium md:text-base text-sm mb-2">
-                                                <?php echo esc_html($column['title']); ?>
-                                            </h3>
-                                        <?php endif; ?>
-                                        <?php if (!empty($column['lines'])) : ?>
-                                            <div class="lg:text-xl text-base flex flex-col gap-y-1">
-                                                <?php foreach ($column['lines'] as $line_index => $line_text) : ?>
-                                                    <span class="block <?php echo $line_index < 2 ? 'md:font-bold font-semibold' : ''; ?>">
-                                                        <?php echo esc_html($line_text); ?>
-                                                    </span>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        <?php endif; ?>
+                                <div>
+                                    <?php if (!empty($column['title'])) : ?>
+                                    <h3 class="font-medium md:text-base text-sm mb-2">
+                                        <?php echo esc_html($column['title']); ?>
+                                    </h3>
+                                    <?php endif; ?>
+                                    <?php if (!empty($column['lines'])) : ?>
+                                    <div class="lg:text-xl text-base flex flex-col gap-y-1">
+                                        <?php foreach ($column['lines'] as $line_index => $line_text) : ?>
+                                        <span
+                                            class="block <?php echo $line_index < 2 ? 'md:font-bold font-semibold' : ''; ?>">
+                                            <?php echo esc_html($line_text); ?>
+                                        </span>
+                                        <?php endforeach; ?>
                                     </div>
+                                    <?php endif; ?>
+                                </div>
                                 <?php endforeach; ?>
                             </div>
 
-                            <div class="mt-3 flex md:flex-row flex-col gap-1 2xl:text-xl lg:text-xl text-base font-bold">
+                            <div
+                                class="mt-3 flex md:flex-row flex-col gap-1 2xl:text-xl lg:text-xl text-base font-bold">
                                 <?php if ($contact_phone !== '') : ?>
-                                    <a href="<?php echo esc_url($contact_phone_href); ?>">
-                                        <?php echo esc_html($contact_phone); ?>
-                                    </a>
+                                <a href="<?php echo esc_url($contact_phone_href); ?>">
+                                    <?php echo esc_html($contact_phone); ?>
+                                </a>
                                 <?php endif; ?>
                                 <?php if ($contact_phone !== '' && $contact_email !== '') : ?>
-                                    <span class="md:inline hidden">|</span>
+                                <span class="md:inline hidden">|</span>
                                 <?php endif; ?>
                                 <?php if ($contact_email !== '') : ?>
-                                    <a href="<?php echo esc_url($contact_email_href); ?>"
-                                       class="2xl:text-xl lg:text-xl text-sm underline hover:text-gray-200 md:pl-1">
-                                        <?php echo esc_html($contact_email); ?>
-                                    </a>
+                                <a href="<?php echo esc_url($contact_email_href); ?>"
+                                    class="2xl:text-xl lg:text-xl text-sm underline hover:text-gray-200 md:pl-1">
+                                    <?php echo esc_html($contact_email); ?>
+                                </a>
                                 <?php endif; ?>
                             </div>
 
@@ -396,109 +397,105 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
                 </div>
 
                 <?php if (!empty($head_office_address)) : ?>
-                    <div class="block md:hidden lg:pl-[5rem] md:pl-[4rem] pl-[1rem]">
-                        <h3 class="font-semibold lg:mt-12 md:mt-6 mt-2 mb-1">
-                            <?php echo esc_html($head_office_title); ?>
-                        </h3>
-                        <p class="text-sm">
-                            <?php echo nl2br(esc_html($head_office_address)); ?>
-                        </p>
-                    </div>
+                <div class="block md:hidden lg:pl-[5rem] md:pl-[4rem] pl-[1rem]">
+                    <h3 class="font-semibold lg:mt-12 md:mt-6 mt-2 mb-1">
+                        <?php echo esc_html($head_office_title); ?>
+                    </h3>
+                    <p class="text-sm">
+                        <?php echo nl2br(esc_html($head_office_address)); ?>
+                    </p>
+                </div>
                 <?php endif; ?>
             </div>
 
             <div class="md:w-2/5 w-full md:mt-20">
                 <div class="flex">
                     <?php foreach ($normalized_footer_columns as $index => $column) : ?>
-                        <div class="md:w-1/2 w-full <?php echo $index === 0 ? 'md:pl-0 pl-[1rem]' : ''; ?>">
-                            <?php if (!empty($column['column_title'])) : ?>
-                                <h3 class="font-semibold mb-2">
-                                    <?php echo esc_html($column['column_title']); ?>
-                                </h3>
-                            <?php endif; ?>
-                            <?php if (!empty($column['primary_links'])) : ?>
-                                <ul class="flex flex-col text-sm space-y-1 mb-4">
-                                    <?php foreach ($column['primary_links'] as $link) : ?>
-                                        <li>
-                                            <a href="<?php echo esc_url($link['url']); ?>"
-                                               class="hover:text-gray-300 duration-300"
-                                               target="<?php echo esc_attr($link['target']); ?>"
-                                               <?php echo $link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
-                                                <?php echo esc_html($link['text']); ?>
-                                            </a>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                            <?php if (!empty($column['secondary_links'])) : ?>
-                                <div class="w-full flex">
-                                    <ul class="flex flex-col md:text-base text-sm gap-y-5">
-                                        <?php foreach ($column['secondary_links'] as $link) : ?>
-                                            <li class="font-semibold">
-                                                <a href="<?php echo esc_url($link['url']); ?>"
-                                                   class="hover:text-gray-300 duration-300"
-                                                   target="<?php echo esc_attr($link['target']); ?>"
-                                                   <?php echo $link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
-                                                    <?php echo esc_html($link['text']); ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php endif; ?>
+                    <div class="md:w-1/2 w-full <?php echo $index === 0 ? 'md:pl-0 pl-[1rem]' : ''; ?>">
+                        <?php if (!empty($column['column_title'])) : ?>
+                        <h3 class="font-semibold mb-2 text-lg">
+                            <?php echo esc_html($column['column_title']); ?>
+                        </h3>
+                        <?php endif; ?>
+                        <?php if (!empty($column['primary_links'])) : ?>
+                        <ul class="flex flex-col md:text-base text-sm space-y-1 mb-4">
+                            <?php foreach ($column['primary_links'] as $link) : ?>
+                            <li>
+                                <a href="<?php echo esc_url($link['url']); ?>" class="hover:text-gray-300 duration-300"
+                                    target="<?php echo esc_attr($link['target']); ?>"
+                                    <?php echo $link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
+                                    <?php echo esc_html($link['text']); ?>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
+                        <?php if (!empty($column['secondary_links'])) : ?>
+                        <div class="w-full flex">
+                            <ul class="flex flex-col md:text-base text-sm gap-y-5">
+                                <?php foreach ($column['secondary_links'] as $link) : ?>
+                                <li class="font-semibold">
+                                    <a href="<?php echo esc_url($link['url']); ?>"
+                                        class="hover:text-gray-300 duration-300"
+                                        target="<?php echo esc_attr($link['target']); ?>"
+                                        <?php echo $link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
+                                        <?php echo esc_html($link['text']); ?>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
+                        <?php endif; ?>
+                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
         </div>
 
-        <div class="flex md:items-end items-start md:flex-row flex-col justify-between pt-8 lg:pl-[5rem] md:pl-[4rem] pl-[1rem]">
+        <div
+            class="flex md:items-end items-start md:flex-row flex-col justify-between pt-8 lg:pl-[5rem] md:pl-[4rem] pl-[1rem]">
             <div>
                 <?php if (!empty($head_office_address)) : ?>
-                    <div class="md:block hidden">
-                        <h3 class="font-semibold mb-1">
-                            <?php echo esc_html($head_office_title); ?>
-                        </h3>
-                        <p class="text-sm">
-                            <?php echo nl2br(esc_html($head_office_address)); ?>
-                        </p>
-                    </div>
+                <div class="md:block hidden">
+                    <h3 class="font-semibold mb-1">
+                        <?php echo esc_html($head_office_title); ?>
+                    </h3>
+                    <p class="text-sm">
+                        <?php echo nl2br(esc_html($head_office_address)); ?>
+                    </p>
+                </div>
                 <?php endif; ?>
-                <div class="flex md:flex-row flex-col md:items-center items-start mt-10 lg:gap-8 gap-4">
+                <div class="flex md:flex-row flex-col md:items-center items-start mt-10 gap-8 ">
                     <?php if (!empty($normalized_store_badges)) : ?>
-                        <div class="flex items-center gap-3">
-                            <?php foreach ($normalized_store_badges as $badge) : ?>
-                                <a href="<?php echo esc_url($badge['link']); ?>"
-                                   class="hover:scale-105 duration-300"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <img src="<?php echo esc_url($badge['image']['url']); ?>"
-                                         alt="<?php echo esc_attr($badge['image']['alt']); ?>"
-                                         title="<?php echo esc_attr($badge['image']['alt']); ?>"
-                                         class="w-auto h-10 object-contain"
-                                         loading="lazy"
-                                         fetchpriority="low">
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
+                    <div class="flex items-center gap-3">
+                        <?php foreach ($normalized_store_badges as $badge) : ?>
+                        <a href="<?php echo esc_url($badge['link']); ?>" class="hover:scale-105 duration-300"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="<?php echo esc_url($badge['image']['url']); ?>"
+                                alt="<?php echo esc_attr($badge['image']['alt']); ?>"
+                                title="<?php echo esc_attr($badge['image']['alt']); ?>"
+                                class="w-auto h-10 object-contain" loading="lazy" fetchpriority="low">
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
                     <?php endif; ?>
 
                     <?php if (!empty($normalized_social_links)) : ?>
-                        <div class="flex gap-4 text-white social_links">
-                            <?php foreach ($normalized_social_links as $social_link) : ?>
-                                <a href="<?php echo esc_url($social_link['url']); ?>"
-                                   class="hover:scale-75 duration-300"
-                                   title="<?php echo esc_attr(ucfirst($social_link['platform'])); ?>"
-                                   target="<?php echo esc_attr($social_link['target']); ?>"
-                                   <?php echo $social_link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
-                                    <?php echo $social_link['icon']; ?>
-                                </a>
-                            <?php endforeach; ?>
-                        </div>
+                    <div class="flex gap-4 text-white social_links">
+                        <?php foreach ($normalized_social_links as $social_link) : ?>
+                        <a href="<?php echo esc_url($social_link['url']); ?>" class="hover:scale-75 duration-300"
+                            title="<?php echo esc_attr(ucfirst($social_link['platform'])); ?>"
+                            target="<?php echo esc_attr($social_link['target']); ?>"
+                            <?php echo $social_link['target'] === '_blank' ? 'rel="noopener noreferrer"' : ''; ?>>
+                            <?php echo $social_link['icon']; ?>
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="lg:text-center lg:text-base text-sm lg:font-normal text-start font-bold text-white lg:py-4 pt-16">
+            <div
+                class="lg:text-center lg:text-base text-sm lg:font-normal text-start font-bold text-white lg:py-4 pt-16">
                 <?php echo esc_html($footer_copyright); ?>
             </div>
         </div>
@@ -508,7 +505,7 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script>
 jQuery(function($) {
     var $popup = $('#carPopup'),
@@ -700,8 +697,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".benefitSwiper", {
-        speed: 3000,
+    const benefitSwiper = new Swiper(".benefitSwiper", {
+        speed: 800,
         centeredSlides: true,
         autoplay: {
             delay: 3000,
@@ -757,8 +754,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".featureSwiper", {
-        speed: 3000,
+    const featureSwiper = new Swiper(".featureSwiper", {
+        speed: 800,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,
@@ -794,8 +791,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".partnerSlider", {
-        speed: 3000,
+    const partnerSliderSwiper = new Swiper(".partnerSlider", {
+        speed: 800,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,
@@ -947,8 +944,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".testimonialSwiper", {
-        speed: 3000,
+    const testimonialSwiper = new Swiper(".testimonialSwiper", {
+        speed: 800,
         autoHeight: true,
         centeredSlides: true,
         autoplay: {
@@ -1147,7 +1144,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const swiper = new Swiper(".category-slider", {
+    const categorySliderSwiper = new Swiper(".category-slider", {
         slidesPerView: "auto",
         spaceBetween: 20,
         speed: 700,
@@ -1165,8 +1162,8 @@ document.addEventListener("DOMContentLoaded", function() {
     prevBtn.classList.add("opacity-0", "pointer-events-none");
 
     // Show/hide prev button based on active slide index
-    swiper.on("slideChange", () => {
-        if (swiper.realIndex === 0) {
+    categorySliderSwiper.on("slideChange", () => {
+        if (categorySliderSwiper.realIndex === 0) {
             prevBtn.classList.add("opacity-0", "pointer-events-none");
         } else {
             prevBtn.classList.remove("opacity-0", "pointer-events-none");
@@ -1178,13 +1175,13 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- Fancybox JS -->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
 <script>
-    Fancybox.bind('a[data-fancybox]', {
-        on: {
-            reveal: (fancybox, $slide) => {
-                console.log('Fancybox revealed');
-            },
+Fancybox.bind('a[data-fancybox]', {
+    on: {
+        reveal: (fancybox, $slide) => {
+            console.log('Fancybox revealed');
         },
-    });
+    },
+});
 </script>
 
 <?php wp_footer(); ?>

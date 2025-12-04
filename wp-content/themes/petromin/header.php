@@ -25,7 +25,7 @@
     <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/custom.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     
     <!-- Fancybox CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.css" />
