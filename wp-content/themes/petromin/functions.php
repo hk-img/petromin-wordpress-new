@@ -631,12 +631,18 @@ add_action('acf/init', function () {
                         'label' => 'Headline Prefix',
                         'name' => 'headline_prefix',
                         'type' => 'text',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_home_hero_headline_highlight',
                         'label' => 'Headline Highlight',
                         'name' => 'headline_highlight',
                         'type' => 'text',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_home_hero_headline_suffix',
@@ -644,18 +650,27 @@ add_action('acf/init', function () {
                         'name' => 'headline_suffix',
                         'type' => 'text',
                         'instructions' => 'Optional overall suffix text. If left blank you can manage primary/secondary lines below.',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_home_hero_headline_suffix_primary',
                         'label' => 'Headline Suffix (Primary Line)',
                         'name' => 'headline_suffix_primary',
                         'type' => 'text',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_home_hero_headline_suffix_secondary',
                         'label' => 'Headline Suffix (Secondary Line)',
                         'name' => 'headline_suffix_secondary',
                         'type' => 'text',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_home_hero_features',
@@ -835,6 +850,9 @@ add_action('acf/init', function () {
                         'name' => 'heading_prefix',
                         'type' => 'text',
                         'default_value' => 'Get a',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_digital_checkup_heading_highlight',
@@ -842,6 +860,9 @@ add_action('acf/init', function () {
                         'name' => 'heading_highlight',
                         'type' => 'text',
                         'default_value' => 'FREE',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_digital_checkup_heading_suffix',
@@ -849,6 +870,9 @@ add_action('acf/init', function () {
                         'name' => 'heading_suffix',
                         'type' => 'text',
                         'default_value' => 'full digital <br />car health check-up',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_digital_checkup_button_text',
@@ -856,6 +880,9 @@ add_action('acf/init', function () {
                         'name' => 'button_text',
                         'type' => 'text',
                         'default_value' => 'Get It Now',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_digital_checkup_button_link',
@@ -863,6 +890,9 @@ add_action('acf/init', function () {
                         'name' => 'button_link',
                         'type' => 'page_link',
                         'default_value' => '#',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_digital_checkup_original_price',
@@ -1030,6 +1060,9 @@ add_action('acf/init', function () {
                         'name' => 'heading_line1',
                         'type' => 'text',
                         'default_value' => 'All things car.',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_heading_line2',
@@ -1037,6 +1070,9 @@ add_action('acf/init', function () {
                         'name' => 'heading_line2',
                         'type' => 'text',
                         'default_value' => 'One tap away.',
+                        'wrapper' => [
+                            'width' => '50%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_features',
@@ -1061,6 +1097,9 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
+                        'wrapper' => [
+                            'width' => '25%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_play_store_link',
@@ -1068,6 +1107,9 @@ add_action('acf/init', function () {
                         'name' => 'play_store_link',
                         'type' => 'page_link',
                         'default_value' => '#',
+                        'wrapper' => [
+                            'width' => '25%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_app_store_image',
@@ -1076,6 +1118,9 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
+                        'wrapper' => [
+                            'width' => '25%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_app_store_link',
@@ -1083,6 +1128,9 @@ add_action('acf/init', function () {
                         'name' => 'app_store_link',
                         'type' => 'page_link',
                         'default_value' => '#',
+                        'wrapper' => [
+                            'width' => '25%',
+                        ],
                     ],
                     [
                         'key' => 'field_app_video',
