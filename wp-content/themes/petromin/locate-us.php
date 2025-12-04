@@ -132,6 +132,7 @@ if (!function_exists('petromin_extract_city_from_map')) {
 if (!function_exists('petromin_locate_extract_city')) {
     /**
      * Attempt to extract a city name from the provided address string.
+     * City is typically the part before the state (which is usually the last part).
      */
     function petromin_locate_extract_city($address)
     {
@@ -146,10 +147,133 @@ if (!function_exists('petromin_locate_extract_city')) {
         $parts_count = count($parts);
 
         if ($parts_count >= 2) {
-            return $parts[$parts_count - 2];
+            // City is typically the second-to-last part (before state)
+            // The last part usually contains state (and possibly country and pin code)
+            $last_part = $parts[$parts_count - 1];
+            
+            // Check if last part has pin code or country name (indicating it's state/country)
+            $has_pin_code = preg_match('/\d{6}/', $last_part);
+            $country_names = ['India', 'IN', 'IND'];
+            $has_country = false;
+            foreach ($country_names as $country) {
+                if (stripos($last_part, $country) !== false) {
+                    $has_country = true;
+                    break;
+                }
+            }
+            
+            // If last part has pin code or country, city is second-to-last
+            if ($has_pin_code || $has_country || $parts_count >= 3) {
+                $city_candidate = $parts[$parts_count - 2];
+                // Make sure it's not a pin code
+                if (!preg_match('/^\d{6}$/', $city_candidate)) {
+                    return $city_candidate;
+                }
+            }
+            
+            // Fallback: if only 2 parts, first is likely city
+            if ($parts_count === 2) {
+                return $parts[0];
+            }
+            
+            // If we have 3+ parts and second-to-last is pin code, try third-to-last
+            if ($parts_count >= 3 && preg_match('/^\d{6}$/', $parts[$parts_count - 2])) {
+                return $parts[$parts_count - 3];
+            }
         }
 
         return $parts[0] ?? '';
+    }
+}
+
+if (!function_exists('petromin_locate_extract_state')) {
+    /**
+     * Attempt to extract a state name from the provided address string.
+     * State is typically in the last part of the address (with or without pin code).
+     * Excludes country names like "India".
+     */
+    function petromin_locate_extract_state($address)
+    {
+        if (empty($address) || !is_string($address)) {
+            return '';
+        }
+
+        $parts = array_values(array_filter(array_map('trim', explode(',', $address)), static function ($value) {
+            return $value !== '';
+        }));
+
+        $parts_count = count($parts);
+
+        if ($parts_count >= 2) {
+            // State is typically in the last part (may include pin code and country)
+            $last_part = $parts[$parts_count - 1];
+            
+            // Remove pin code if present (6 digit number)
+            $state_part = preg_replace('/\s*\d{6}.*$/', '', $last_part);
+            $state_part = trim($state_part);
+            
+            // Remove common country names
+            $country_names = ['India', 'IN', 'IND'];
+            foreach ($country_names as $country) {
+                // Remove country name if it appears (case insensitive)
+                $state_part = preg_replace('/\b' . preg_quote($country, '/') . '\b/i', '', $state_part);
+                $state_part = trim($state_part);
+                // Also remove if it's separated by comma or dash
+                $state_part = preg_replace('/[,\-]\s*' . preg_quote($country, '/') . '\s*/i', '', $state_part);
+                $state_part = trim($state_part);
+                $state_part = preg_replace('/' . preg_quote($country, '/') . '\s*[,\-]/i', '', $state_part);
+                $state_part = trim($state_part);
+            }
+            
+            if (!empty($state_part)) {
+                return $state_part;
+            }
+            
+            // If extraction failed, try second-to-last part (might be state if last is just country)
+            if ($parts_count >= 3) {
+                $second_last = trim($parts[$parts_count - 2]);
+                // Check if it's not a number (pin code) and not a common country
+                if (!preg_match('/^\d{6}$/', $second_last) && !in_array($second_last, $country_names)) {
+                    return $second_last;
+                }
+            }
+        }
+
+        return '';
+    }
+}
+
+if (!function_exists('petromin_locate_extract_country')) {
+    /**
+     * Attempt to extract a country name from the provided address string.
+     * This is optional and mainly used as fallback.
+     */
+    function petromin_locate_extract_country($address)
+    {
+        if (empty($address) || !is_string($address)) {
+            return '';
+        }
+
+        $parts = array_values(array_filter(array_map('trim', explode(',', $address)), static function ($value) {
+            return $value !== '';
+        }));
+
+        $parts_count = count($parts);
+
+        if ($parts_count >= 1) {
+            // Country is typically in the last part (may include pin code)
+            $last_part = $parts[$parts_count - 1];
+            
+            // Check if last part contains country name
+            $country_names = ['India', 'IN', 'IND', 'Bharat'];
+            foreach ($country_names as $country) {
+                if (stripos($last_part, $country) !== false) {
+                    return $country;
+                }
+            }
+        }
+
+        return '';
     }
 }
 
@@ -224,8 +348,32 @@ foreach ($service_centers_items as $index => $center) {
         $address = trim($center['address'] ?? '') ?: ($fallback['address'] ?? '');
     }
     
-    // Extract city from Google Map address
-    $city = petromin_extract_city_from_map($map_location);
+    // Priority 1: Use saved ACF fields (country, state, city) from Geocoding API
+    $country = trim($center['country'] ?? '');
+    $state = trim($center['state'] ?? '');
+    $city = trim($center['city'] ?? '');
+    
+    // Priority 2: If ACF fields are empty, extract from address
+    if (empty($city)) {
+        $city = petromin_extract_city_from_map($map_location);
+        // If city not found from map_location, try extracting from address
+        if (empty($city) && !empty($address)) {
+            $city = petromin_locate_extract_city($address);
+        }
+        // Fallback to center's city field if available
+        if (empty($city)) {
+            $city = trim($fallback['city'] ?? '');
+        }
+    }
+    
+    if (empty($state) && !empty($address)) {
+        $state = petromin_locate_extract_state($address);
+    }
+    
+    if (empty($country) && !empty($address)) {
+        // Extract country from address if needed (optional)
+        $country = petromin_locate_extract_country($address);
+    }
     
     // Generate map embed URL from Google Map coordinates
     $map_src = '';
@@ -244,6 +392,8 @@ foreach ($service_centers_items as $index => $center) {
         'address' => $address,
         'map_src' => $map_src,
         'city' => $city,
+        'state' => $state,
+        'country' => $country,
         'image' => $image,
         'map_location' => $map_location,
     ];
@@ -285,10 +435,13 @@ foreach ($faq_categories as $category_index => $category) {
 // Agar koi processed data empty hai to default data use karo
 if (empty($processed_centers)) {
     foreach ($service_centers_defaults['centers'] as $center) {
+        $address = $center['address'] ?? '';
         $processed_centers[] = [
             'name' => $center['name'],
-            'city' => $center['city'] ?? petromin_locate_extract_city($center['address'] ?? ''),
-            'address' => $center['address'],
+            'city' => $center['city'] ?? petromin_locate_extract_city($address),
+            'state' => petromin_locate_extract_state($address),
+            'country' => petromin_locate_extract_country($address),
+            'address' => $address,
             'map_link' => $center['map_link'],
             'image' => [
                 'url' => $center['image']['url'],
@@ -317,17 +470,70 @@ if (!function_exists('petromin_locate_get_map_src')) {
         return '';
     }
 }
+// Build state and city options with mapping
+$state_options = [];
 $city_options = [];
+$state_city_mapping = []; // state => [cities]
+
+// Common country names to exclude from states
+$country_names = ['India', 'IN', 'IND', 'Bharat'];
+
 foreach ($processed_centers as $processed_center) {
+    $state_name = trim($processed_center['state'] ?? '');
     $city_name = trim($processed_center['city'] ?? '');
 
-    if ($city_name !== '') {
+    // Clean state name - remove country names
+    if ($state_name !== '') {
+        foreach ($country_names as $country) {
+            $state_name = preg_replace('/\b' . preg_quote($country, '/') . '\b/i', '', $state_name);
+            $state_name = trim($state_name);
+            $state_name = preg_replace('/[,\-]\s*' . preg_quote($country, '/') . '\s*/i', '', $state_name);
+            $state_name = trim($state_name);
+            $state_name = preg_replace('/' . preg_quote($country, '/') . '\s*[,\-]/i', '', $state_name);
+            $state_name = trim($state_name);
+        }
+        
+        // Only add state if it's not empty and not a country name
+        if ($state_name !== '' && !in_array($state_name, $country_names)) {
+            $state_options[$state_name] = $state_name;
+            
+            if ($city_name !== '' && $city_name !== $state_name) {
+                // Only add city if it's different from state (prevent states in city dropdown)
+                if (!isset($state_city_mapping[$state_name])) {
+                    $state_city_mapping[$state_name] = [];
+                }
+                $state_city_mapping[$state_name][$city_name] = $city_name;
+            }
+        }
+    }
+
+    // Only add to city_options if it's not empty, not a state, and not a country
+    if ($city_name !== '' && 
+        !isset($state_options[$city_name]) && 
+        !in_array($city_name, $country_names)) {
         $city_options[$city_name] = $city_name;
     }
 }
 
+$state_options = array_unique(array_values($state_options));
+// Remove any country names that might have slipped through
+$state_options = array_filter($state_options, function($state) use ($country_names) {
+    return !in_array($state, $country_names);
+});
+sort($state_options); // Sort states alphabetically
+
+// Remove any cities that are actually states or countries
+$city_options = array_filter($city_options, function($city) use ($state_options, $country_names) {
+    return !in_array($city, $state_options) && !in_array($city, $country_names);
+});
 $city_options = array_unique(array_values($city_options));
-sort($city_options); // Optional: sort cities alphabetically
+sort($city_options); // Sort cities alphabetically
+
+// Sort cities within each state
+foreach ($state_city_mapping as $state => $cities) {
+    $state_city_mapping[$state] = array_values($cities);
+    sort($state_city_mapping[$state]);
+}
 
 // Set default city to empty to show all centers
 $default_city = '';
@@ -474,13 +680,52 @@ if (empty($processed_faq_categories)) {
         <div class="flex flex-col md:flex-row gap-8 relative items-start">
             <div class="md:w-1/3 w-full relative flex flex-col gap-y-3 bg-white">
                 <div
-                    class="md:sticky md:border-0 border-b border-[#E0E5EB] flex flex-col gap-4 top-0 z-20 bg-white pt-3 pb-5 md:pb-2 px-0">
-                    <?php if (!empty($city_options)) : ?>
+                    class="md:sticky md:top-20 mb:border-none md:border-0 border-b border-[#E0E5EB] flex flex-col gap-3 z-20 bg-white pb-5 md:pb-2 px-0 after:md:top-0 after:md:-translate-y-full after:md:absolute after:md:w-full after:md:h-[18px] after:md:bg-[#ffffff]">
+                    <?php if (!empty($city_options) || !empty($state_options)) : ?>
                     <div class="flex flex-col gap-2">
                         <div class="relative">
-                            <label class="sr-only" for="service-center-city">Select your city</label>
-                            <select id="service-center-city" aria-label="Select your city" data-city-filter
+                            <div
+                                class="flex pl-4 pr-12 h-[3.313rem] space-x-3 border-[#DCDFE6] items-center border">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.4957 17.4957L13.8799 13.8799" stroke="#637083" stroke-width="1.66627"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M9.16458 15.8296C12.8456 15.8296 15.8296 12.8456 15.8296 9.16458C15.8296 5.48356 12.8456 2.49951 9.16458 2.49951C5.48356 2.49951 2.49951 5.48356 2.49951 9.16458C2.49951 12.8456 5.48356 15.8296 9.16458 15.8296Z"
+                                        stroke="#637083" stroke-width="1.66627" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+
+                                <input type="text" id="service-center-search" placeholder="Search by center name or location"
+                                    class="text-sm w-full focus-ring-0 focus:outline-none text-[#637083] font-normal"
+                                    autocomplete="off">
+                            </div>
+                            <!-- Search Results Dropdown -->
+                            <div id="search-results-dropdown" class="hidden absolute z-50 w-full mt-1 bg-white border border-[#DCDFE6] max-h-60 overflow-y-auto shadow-lg">
+                                <!-- Results will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <label class="sr-only" for="service-center-state">Select your state</label>
+                            <select id="service-center-state" aria-label="Select your state" data-state-filter
                                 class="w-full appearance-none bg-white md:text-base text-sm font-medium text-[#000000] focus:outline-none focus:ring-0 border border-[#DCDFE6] px-3 md:px-5 h-[3.313rem] transition-colors">
+                                <option value="">Select your state</option>
+                                <?php foreach ($state_options as $state_option) : ?>
+                                <option value="<?php echo esc_attr($state_option); ?>">
+                                    <?php echo esc_html($state_option); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <svg class="pointer-events-none absolute right-4 md:right-8 top-1/2 size-4 md:size-6 -translate-y-1/2 text-[#000000]"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                        <div class="relative">
+                            <label class="sr-only" for="service-center-city">Select your city</label>
+                            <select id="service-center-city" aria-label="Select your city" data-city-filter disabled
+                                class="w-full appearance-none bg-white md:text-base text-sm font-medium text-[#000000] focus:outline-none focus:ring-0 border border-[#DCDFE6] px-3 md:px-5 h-[3.313rem] transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60">
                                 <option value="">Select your City</option>
                                 <?php foreach ($city_options as $city_option) : ?>
                                 <option value="<?php echo esc_attr($city_option); ?>">
@@ -496,13 +741,13 @@ if (empty($processed_faq_categories)) {
                         </div>
                     </div>
                     <?php endif; ?>
+                    <span class="text-base font-medium text-[#637083]" data-center-count>
+                        Found <?php echo esc_html(count($processed_centers)); ?> service centers
+                    </span>
                 </div>
 
                 <!-- Service Center Cards -->
                 <div class="flex pt-1 flex-col gap-y-[0.938rem]">
-                    <span class="text-base font-medium text-[#637083] md:hidden block" data-center-count>
-                        Found <?php echo esc_html(count($processed_centers)); ?> service centers
-                    </span>
 
                     <?php foreach ($processed_centers as $center) :
                         $center_city = trim($center['city'] ?? '');
@@ -510,8 +755,11 @@ if (empty($processed_faq_categories)) {
                         ?>
                     <div class="group bg-white border border-[#DCDFE6] hover:border-[#CB122D] pt-4 px-5 pb-8 md:p-4 overflow-hidden h-full duration-300"
                         data-service-center data-city="<?php echo esc_attr($center_city); ?>"
+                        data-state="<?php echo esc_attr($center['state'] ?? ''); ?>"
                         data-map-src="<?php echo esc_url($center_map_src); ?>"
-                        data-center-name="<?php echo esc_attr($center['name']); ?>">
+                        data-center-name="<?php echo esc_attr($center['name']); ?>"
+                        data-center-address="<?php echo esc_attr($center['address']); ?>"
+                        data-center-address="<?php echo esc_attr($center['address']); ?>">
                         <div class="w-full">
                             <?php if (!empty($center['image']['url'])) : ?>
                             <img fetchpriority="low" loading="lazy"
@@ -571,7 +819,10 @@ if (empty($processed_faq_categories)) {
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const citySelect = document.querySelector('[data-city-filter]');
+    const searchInput = document.getElementById('service-center-search');
+    const searchDropdown = document.getElementById('search-results-dropdown');
+    const stateSelect = document.getElementById('service-center-state');
+    const citySelect = document.getElementById('service-center-city');
     const centerCards = Array.from(document.querySelectorAll('[data-service-center]'));
     const mapFrame = document.querySelector('[data-map-frame]');
     const countElement = document.querySelector('[data-center-count]');
@@ -580,6 +831,26 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!centerCards.length) {
         return;
     }
+
+    // Build state-city mapping from DOM
+    const stateCityMapping = {};
+    centerCards.forEach(function(card) {
+        const state = (card.dataset.state || '').trim();
+        const city = (card.dataset.city || '').trim();
+        if (state && city) {
+            if (!stateCityMapping[state]) {
+                stateCityMapping[state] = [];
+            }
+            if (stateCityMapping[state].indexOf(city) === -1) {
+                stateCityMapping[state].push(city);
+            }
+        }
+    });
+
+    // Sort cities in each state
+    Object.keys(stateCityMapping).forEach(function(state) {
+        stateCityMapping[state].sort();
+    });
 
     function isValidMapSrc(src) {
         if (typeof src !== 'string') {
@@ -621,7 +892,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateCountText(selectedCity) {
+    function updateCountText(selectedCity, selectedState) {
         if (!countElement) {
             return;
         }
@@ -632,8 +903,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const visibleCount = visibleCards.length;
 
         if (!visibleCount) {
-            countElement.textContent = selectedCity ? `No service centers available in ${selectedCity}` :
-                'No service centers available';
+            if (selectedCity) {
+                countElement.textContent = `No service centers available in ${selectedCity}`;
+            } else if (selectedState) {
+                countElement.textContent = `No service centers available in ${selectedState}`;
+            } else {
+                countElement.textContent = 'No service centers available';
+            }
             return;
         }
 
@@ -641,17 +917,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (selectedCity) {
             countElement.textContent = `Found ${visibleCount} service center${pluralSuffix} in ${selectedCity}`;
+        } else if (selectedState) {
+            countElement.textContent = `Found ${visibleCount} service center${pluralSuffix} in ${selectedState}`;
         } else {
             countElement.textContent = `Found ${visibleCount} service center${pluralSuffix}`;
         }
     }
 
-    function showCardsForCity(selectedCity) {
+    function filterCardsByStateAndCity(selectedState, selectedCity) {
         let firstVisibleCard = null;
 
         centerCards.forEach(function(card) {
+            const cardState = (card.dataset.state || '').trim();
             const cardCity = (card.dataset.city || '').trim();
-            const isMatch = !selectedCity || cardCity === selectedCity;
+            
+            let isMatch = true;
+            
+            if (selectedState) {
+                isMatch = isMatch && cardState === selectedState;
+            }
+            
+            if (selectedCity) {
+                isMatch = isMatch && cardCity === selectedCity;
+            }
 
             card.classList.toggle('hidden', !isMatch);
             card.setAttribute('aria-hidden', isMatch ? 'false' : 'true');
@@ -661,7 +949,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        updateCountText(selectedCity);
+        updateCountText(selectedCity, selectedState);
 
         if (firstVisibleCard) {
             setActiveCard(firstVisibleCard);
@@ -677,6 +965,205 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateMap(defaultMapSrc);
             }
         }
+    }
+
+    function updateCityOptions(selectedState) {
+        if (!citySelect) {
+            return;
+        }
+
+        // Enable/disable city dropdown based on state selection
+        if (!selectedState || selectedState === '') {
+            // Disable city dropdown if no state is selected
+            citySelect.disabled = true;
+            citySelect.value = '';
+        } else {
+            // Enable city dropdown when state is selected
+            citySelect.disabled = false;
+        }
+
+        // Clear existing options except the first one
+        const firstOption = citySelect.querySelector('option[value=""]');
+        citySelect.innerHTML = '';
+        if (firstOption) {
+            citySelect.appendChild(firstOption);
+        }
+
+        // Add cities based on selected state
+        if (selectedState && stateCityMapping[selectedState]) {
+            stateCityMapping[selectedState].forEach(function(city) {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                option.setAttribute('data-state', selectedState);
+                citySelect.appendChild(option);
+            });
+        } else if (selectedState && selectedState !== '') {
+            // If state is selected but no cities found, keep dropdown enabled but empty
+            // This allows user to see that no cities are available for this state
+        } else {
+            // Show all cities if no state selected (but dropdown will be disabled)
+            const allCities = [];
+            centerCards.forEach(function(card) {
+                const city = (card.dataset.city || '').trim();
+                if (city && allCities.indexOf(city) === -1) {
+                    allCities.push(city);
+                }
+            });
+            allCities.sort();
+            allCities.forEach(function(city) {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+    }
+
+    function showSearchResults(searchTerm) {
+        if (!searchDropdown) {
+            return;
+        }
+
+        const term = (searchTerm || '').trim().toLowerCase();
+        
+        if (term === '') {
+            searchDropdown.classList.add('hidden');
+            return;
+        }
+
+        // Filter centers based on search term
+        const matchingCenters = centerCards.filter(function(card) {
+            const name = (card.dataset.centerName || '').toLowerCase();
+            const address = (card.dataset.centerAddress || '').toLowerCase();
+            const city = (card.dataset.city || '').toLowerCase();
+            const state = (card.dataset.state || '').toLowerCase();
+            
+            return name.indexOf(term) !== -1 || 
+                   address.indexOf(term) !== -1 || 
+                   city.indexOf(term) !== -1 || 
+                   state.indexOf(term) !== -1;
+        });
+
+        if (matchingCenters.length === 0) {
+            searchDropdown.innerHTML = '<div class="px-4 py-3 text-sm text-[#637083]">No results found</div>';
+            searchDropdown.classList.remove('hidden');
+            return;
+        }
+
+        // Build dropdown HTML
+        searchDropdown.innerHTML = '';
+        matchingCenters.forEach(function(card) {
+            const name = card.dataset.centerName || 'Service Center';
+            const city = card.dataset.city || '';
+            const state = card.dataset.state || '';
+            const location = [city, state].filter(Boolean).join(', ');
+            
+            const item = document.createElement('div');
+            item.className = 'px-4 py-3 cursor-pointer hover:bg-gray-50 border-b border-[#DCDFE6] last:border-b-0';
+            item.innerHTML = '<div class="font-medium text-[#000000]">' + 
+                            (name || 'Service Center') + 
+                            '</div>' + 
+                            (location ? '<div class="text-sm text-[#637083] mt-1">' + location + '</div>' : '');
+            
+            item.addEventListener('click', function() {
+                // Auto-select state and city
+                if (state && stateSelect) {
+                    stateSelect.value = state;
+                    updateCityOptions(state);
+                    // Enable city dropdown when state is selected via search
+                    if (citySelect) {
+                        citySelect.disabled = false;
+                    }
+                }
+                if (city && citySelect) {
+                    citySelect.value = city;
+                }
+                
+                // Filter and show the selected center
+                filterCardsByStateAndCity(state, city);
+                
+                // Scroll to the card
+                setTimeout(function() {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setActiveCard(card);
+                    const mapSrc = card.dataset.mapSrc || '';
+                    if (isValidMapSrc(mapSrc)) {
+                        updateMap(mapSrc);
+                    }
+                }, 100);
+                
+                // Clear search
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+                searchDropdown.classList.add('hidden');
+            });
+            
+            searchDropdown.appendChild(item);
+        });
+
+        searchDropdown.classList.remove('hidden');
+    }
+
+    // Search input handler
+    if (searchInput) {
+        let searchTimeout;
+        searchInput.addEventListener('input', function(event) {
+            clearTimeout(searchTimeout);
+            const term = event.target.value;
+            searchTimeout = setTimeout(function() {
+                showSearchResults(term);
+            }, 200);
+        });
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (searchDropdown && !searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+                searchDropdown.classList.add('hidden');
+            }
+        });
+
+        // Handle escape key
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && searchDropdown) {
+                searchDropdown.classList.add('hidden');
+                searchInput.value = '';
+            }
+        });
+    }
+
+    // State select handler
+    if (stateSelect) {
+        stateSelect.addEventListener('change', function(event) {
+            const selectedState = event.target.value.trim();
+            updateCityOptions(selectedState);
+            
+            // Reset city selection
+            if (citySelect) {
+                citySelect.value = '';
+            }
+            
+            // Filter cards
+            filterCardsByStateAndCity(selectedState, '');
+        });
+    }
+    
+    // Initialize: Disable city dropdown on page load if no state is selected
+    if (citySelect && stateSelect) {
+        const currentState = stateSelect.value.trim();
+        if (!currentState || currentState === '') {
+            citySelect.disabled = true;
+        }
+    }
+
+    // City select handler
+    if (citySelect) {
+        citySelect.addEventListener('change', function(event) {
+            const selectedCity = event.target.value.trim();
+            const selectedState = stateSelect ? stateSelect.value.trim() : '';
+            filterCardsByStateAndCity(selectedState, selectedCity);
+        });
     }
 
     // Add click event listeners to all locate buttons
@@ -701,32 +1188,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    if (citySelect) {
-        citySelect.addEventListener('change', function(event) {
-            const selectedCity = event.target.value.trim();
-            showCardsForCity(selectedCity);
-        });
+    // Initialize with no filters (show all centers)
+    filterCardsByStateAndCity('', '');
+    updateCityOptions('');
 
-        // Initialize with no city selected (show all centers)
-        showCardsForCity('');
-
-        // Set first card as active by default
-        if (centerCards.length > 0) {
-            setActiveCard(centerCards[0]);
-        }
-    } else {
-        // If no city select, set first card as active
-        const firstCard = centerCards[0];
-        if (firstCard) {
-            setActiveCard(firstCard);
-            const mapSrc = firstCard.dataset.mapSrc || '';
-            if (isValidMapSrc(mapSrc)) {
-                updateMap(mapSrc);
-            } else if (defaultMapSrc) {
-                updateMap(defaultMapSrc);
-            }
-        }
-        updateCountText('');
+    // Set first card as active by default
+    if (centerCards.length > 0) {
+        setActiveCard(centerCards[0]);
     }
 });
 </script>

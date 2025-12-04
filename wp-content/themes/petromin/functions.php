@@ -1745,6 +1745,42 @@ add_action('acf/init', function () {
                                 'required' => 1,
                             ],
                             [
+                                'key' => 'field_locate_center_country',
+                                'label' => 'Country',
+                                'name' => 'country',
+                                'type' => 'text',
+                                'readonly' => 1,
+                                'instructions' => 'Auto-filled from map location',
+                                'wrapper' => [
+                                    'width' => '33.333%',
+                                    'class' => 'acf-hidden-field'
+                                ]
+                            ],
+                            [
+                                'key' => 'field_locate_center_state',
+                                'label' => 'State',
+                                'name' => 'state',
+                                'type' => 'text',
+                                'readonly' => 1,
+                                'instructions' => 'Auto-filled from map location',
+                                'wrapper' => [
+                                    'width' => '33.333%',
+                                    'class' => 'acf-hidden-field'
+                                ]
+                            ],
+                            [
+                                'key' => 'field_locate_center_city',
+                                'label' => 'City',
+                                'name' => 'city',
+                                'type' => 'text',
+                                'readonly' => 1,
+                                'instructions' => 'Auto-filled from map location',
+                                'wrapper' => [
+                                    'width' => '33.333%',
+                                    'class' => 'acf-hidden-field'
+                                ]
+                            ],
+                            [
                                 'key' => 'field_locate_center_image',
                                 'label' => 'Image',
                                 'name' => 'image',
@@ -3907,6 +3943,243 @@ function petromin_get_offers(array $args = []) {
 }
 
 /**
+ * Auto-fill country, state, and city from Google Maps Geocoding API when map_location is saved
+ * This hook triggers when map_location field is updated in a repeater
+ */
+add_filter('acf/update_value/name=map_location', 'petromin_update_location_fields', 10, 3);
+function petromin_update_location_fields($value, $post_id, $field) {
+    // Only process if we have lat and lng
+    if (empty($value) || !is_array($value) || empty($value['lat']) || empty($value['lng'])) {
+        return $value;
+    }
+    
+    $lat = (float) $value['lat'];
+    $lng = (float) $value['lng'];
+    
+    // Get Google Maps API key from ACF settings or filter
+    $api_key = '';
+    $api_config = apply_filters('acf/fields/google_map/api', []);
+    if (is_array($api_config) && !empty($api_config['key'])) {
+        $api_key = $api_config['key'];
+    } elseif (!empty(acf_get_setting('google_api_key'))) {
+        $api_key = acf_get_setting('google_api_key');
+    }
+    
+    if (empty($api_key)) {
+        return $value; // Can't proceed without API key
+    }
+    
+    // Extract location data from Google Maps API
+    $location_data = petromin_get_location_from_coordinates($lat, $lng, $api_key);
+    
+    if (empty($location_data)) {
+        return $value;
+    }
+    
+    // Get the field name to determine the repeater row
+    // Field name format in repeater can be: centers_0_map_location, centers_1_map_location, etc.
+    // Or it might be in the $_POST data
+    $field_name = $field['name'] ?? '';
+    $row_index = null;
+    
+    // Try to extract row index from field name
+    if (preg_match('/centers[_\[](\d+)[_\]]/', $field_name, $matches)) {
+        $row_index = (int) $matches[1];
+    } elseif (isset($_POST['acf']) && is_array($_POST['acf'])) {
+        // Try to find the row index from POST data
+        foreach ($_POST['acf'] as $key => $data) {
+            if (is_array($data) && isset($data['centers'])) {
+                foreach ($data['centers'] as $idx => $center_data) {
+                    if (isset($center_data['map_location']['lat']) && 
+                        abs((float)$center_data['map_location']['lat'] - $lat) < 0.0001 &&
+                        isset($center_data['map_location']['lng']) &&
+                        abs((float)$center_data['map_location']['lng'] - $lng) < 0.0001) {
+                        $row_index = $idx;
+                        break 2;
+                    }
+                }
+            }
+        }
+    }
+    
+    // If we found the row index, update the fields
+    if ($row_index !== null) {
+        // Update the fields for this specific row using field keys
+        $field_key = $field['key'] ?? '';
+        $parent_field = acf_get_field($field['parent'] ?? '');
+        
+        if ($parent_field && $parent_field['type'] === 'repeater') {
+            // Get the repeater field
+            $repeater_key = $parent_field['key'] ?? '';
+            
+            // Find country, state, city field keys in the same repeater
+            $country_field = acf_get_field('field_locate_center_country');
+            $state_field = acf_get_field('field_locate_center_state');
+            $city_field = acf_get_field('field_locate_center_city');
+            
+            if ($country_field && !empty($location_data['country'])) {
+                update_field($repeater_key . '_' . $row_index . '_' . $country_field['name'], $location_data['country'], $post_id);
+            }
+            if ($state_field && !empty($location_data['state'])) {
+                update_field($repeater_key . '_' . $row_index . '_' . $state_field['name'], $location_data['state'], $post_id);
+            }
+            if ($city_field && !empty($location_data['city'])) {
+                update_field($repeater_key . '_' . $row_index . '_' . $city_field['name'], $location_data['city'], $post_id);
+            }
+        } else {
+            // Fallback: use field name pattern
+            $row_prefix = 'service_centers_section_centers_' . $row_index . '_';
+            
+            if (!empty($location_data['country'])) {
+                update_field($row_prefix . 'country', $location_data['country'], $post_id);
+            }
+            if (!empty($location_data['state'])) {
+                update_field($row_prefix . 'state', $location_data['state'], $post_id);
+            }
+            if (!empty($location_data['city'])) {
+                update_field($row_prefix . 'city', $location_data['city'], $post_id);
+            }
+        }
+    }
+    
+    return $value;
+}
+
+/**
+ * Helper function to get location data from coordinates using Google Maps Geocoding API
+ */
+function petromin_get_location_from_coordinates($lat, $lng, $api_key) {
+    // Call Google Maps Geocoding API
+    $geocode_url = sprintf(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&key=%s',
+        urlencode($lat),
+        urlencode($lng),
+        urlencode($api_key)
+    );
+    
+    $response = wp_remote_get($geocode_url, [
+        'timeout' => 10,
+        'sslverify' => true,
+    ]);
+    
+    if (is_wp_error($response)) {
+        return [];
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    if (empty($data['results']) || $data['status'] !== 'OK') {
+        return [];
+    }
+    
+    // Extract address components from the first result
+    $result = $data['results'][0];
+    $address_components = $result['address_components'] ?? [];
+    
+    $country = '';
+    $state = '';
+    $city = '';
+    
+    foreach ($address_components as $component) {
+        $types = $component['types'] ?? [];
+        $long_name = $component['long_name'] ?? '';
+        
+        // Extract country
+        if (in_array('country', $types) && empty($country)) {
+            $country = $long_name;
+        }
+        
+        // Extract state (administrative_area_level_1)
+        if (in_array('administrative_area_level_1', $types) && empty($state)) {
+            $state = $long_name;
+        }
+        
+        // Extract city (locality or administrative_area_level_2)
+        if (in_array('locality', $types) && empty($city)) {
+            $city = $long_name;
+        } elseif (in_array('administrative_area_level_2', $types) && empty($city)) {
+            $city = $long_name;
+        }
+    }
+    
+    return [
+        'country' => $country,
+        'state' => $state,
+        'city' => $city,
+    ];
+}
+
+/**
+ * Alternative approach: Use acf/save_post to update location fields after save
+ * This is a backup method in case the update_value filter doesn't work
+ */
+add_action('acf/save_post', 'petromin_save_location_fields_on_post_save', 20);
+function petromin_save_location_fields_on_post_save($post_id) {
+    // Skip autosaves and revisions
+    if (wp_is_post_autosave($post_id) || wp_is_post_revision($post_id)) {
+        return;
+    }
+    
+    // Only process on locate us page template
+    $template = get_page_template_slug($post_id);
+    if ($template !== 'locate-us.php') {
+        return;
+    }
+    
+    $service_centers = get_field('service_centers_section', $post_id);
+    
+    if (empty($service_centers['centers']) || !is_array($service_centers['centers'])) {
+        return;
+    }
+    
+    // Get Google Maps API key from ACF settings or filter
+    $api_key = '';
+    $api_config = apply_filters('acf/fields/google_map/api', []);
+    if (is_array($api_config) && !empty($api_config['key'])) {
+        $api_key = $api_config['key'];
+    } elseif (!empty(acf_get_setting('google_api_key'))) {
+        $api_key = acf_get_setting('google_api_key');
+    }
+    
+    if (empty($api_key)) {
+        return;
+    }
+    
+    // Process each center
+    foreach ($service_centers['centers'] as $index => $center) {
+        $map_location = $center['map_location'] ?? null;
+        
+        if (empty($map_location) || !is_array($map_location) || 
+            empty($map_location['lat']) || empty($map_location['lng'])) {
+            continue;
+        }
+        
+        $lat = (float) $map_location['lat'];
+        $lng = (float) $map_location['lng'];
+        
+        // Always fetch and update location data when map_location exists
+        // This ensures fields are updated even if location changes
+        $location_data = petromin_get_location_from_coordinates($lat, $lng, $api_key);
+        
+        if (!empty($location_data)) {
+            // Update fields using the correct field name pattern
+            $row_prefix = 'service_centers_section_centers_' . $index . '_';
+            
+            if (!empty($location_data['country'])) {
+                update_field($row_prefix . 'country', $location_data['country'], $post_id);
+            }
+            if (!empty($location_data['state'])) {
+                update_field($row_prefix . 'state', $location_data['state'], $post_id);
+            }
+            if (!empty($location_data['city'])) {
+                update_field($row_prefix . 'city', $location_data['city'], $post_id);
+            }
+        }
+    }
+}
+
+/**
  * Disable offers archive page
  */
 function disable_offers_archive($query) {
@@ -3917,6 +4190,30 @@ function disable_offers_archive($query) {
     }
 }
 add_action('pre_get_posts', 'disable_offers_archive');
+
+/**
+ * Hide country, state, and city fields in ACF admin panel
+ */
+add_action('acf/input/admin_head', 'petromin_hide_location_fields');
+function petromin_hide_location_fields() {
+    ?>
+    <style>
+        /* Hide country, state, and city fields in ACF admin */
+        .acf-field[data-name="country"],
+        .acf-field[data-name="state"],
+        .acf-field[data-name="city"] {
+            display: none !important;
+        }
+        
+        /* Alternative: Hide using field key if data-name doesn't work */
+        .acf-field[data-key="field_locate_center_country"],
+        .acf-field[data-key="field_locate_center_state"],
+        .acf-field[data-key="field_locate_center_city"] {
+            display: none !important;
+        }
+    </style>
+    <?php
+}
 
 /**
  * Change offers archive slug to avoid conflicts
