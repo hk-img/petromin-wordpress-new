@@ -506,194 +506,9 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<script>
-jQuery(function($) {
-    var $popup = $('#carPopup'),
-        $mobile = $('#mobileToggle'),
-        $desk = $('#desktopToggle'),
-        $chk = $('#toggle'),
-        $inner = $popup.find('.w-full.lg\\:w-1\\/3, .w-full').first(),
-        show = function() {
-            $popup.removeClass('hidden').addClass('flex flex-col lg:flex-row animate-slideUp');
-            $inner.css({
-                maxHeight: '',
-                overflow: ''
-            });
-            $chk.prop('checked', false);
-        },
-        hide = function() {
-            $popup.addClass('hidden').removeClass('flex flex-col lg:flex-row animate-slideUp');
-            $inner.css({
-                maxHeight: '0px',
-                overflow: 'hidden'
-            });
-            $chk.prop('checked', false);
-        },
-        toggle = function() {
-            $popup.hasClass('hidden') ? show() : hide();
-        };
-
-    $mobile.add($desk).on('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        toggle();
-    });
-    $('label[for="toggle"]').on('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        hide();
-    });
-    $(document).on('click', function(e) {
-        if (!$popup.is(e.target) && $popup.has(e.target).length === 0 && !$(e.target).is($mobile.add(
-                $desk))) hide();
-    });
-    show();
-});
-</script>
 
 
-<script>
-function setupDropdown({
-    inputId,
-    dropdownId,
-    itemSelector,
-    searchId = null,
-    iconId = null
-}) {
-    const $input = $('#' + inputId);
-    const $dropdown = $('#' + dropdownId);
-    const $search = searchId ? $('#' + searchId) : null;
-    const $icon = iconId ? $('#' + iconId) : null;
 
-    // Input click toggle
-    $input.on('click', function(e) {
-        e.stopPropagation();
-        const isOpen = !$dropdown.hasClass('hidden');
-        $dropdown.toggleClass('hidden');
-        $input.toggleClass('open', !isOpen);
-
-        // background + text color
-        if (!isOpen) {
-            $input.css({
-                'background-color': '#650916',
-                'color': '#fff',
-                '--placeholder-color': '#fff'
-            });
-        } else {
-            $input.css({
-                'background-color': '#fff',
-                'color': '#000'
-            });
-        }
-
-        // icon change
-        if ($icon.length) {
-            if (!isOpen) {
-                $icon.html(`
-          <div class="relative flex items-center gap-1 text-white text-sm bg-[#ff8300] py-3 px-3 -right-4">
-            <img src="<?php echo $arrow_icon_url; ?>"
-              alt="arrow-icon" class="rotate-180 lg:size-[21px] size-4 invert brightness-0">
-            <span>Back</span>
-          </div>
-        `);
-            } else {
-                $icon.html(`
-          <img src="<?php echo $arrow_icon_url; ?>"
-            alt="arrow-icon" class="lg:size-[21px] size-4">
-        `);
-            }
-        }
-    });
-
-    // Outside click close
-    $(document).on('click', function(e) {
-        if (!$dropdown.is(e.target) && !$input.is(e.target) && $dropdown.has(e.target).length === 0) {
-            $dropdown.addClass('hidden');
-            $input.removeClass('open').css({
-                'background-color': '#fff',
-                'color': '#000'
-            });
-            if ($icon.length) {
-                $icon.html(`
-          <img src="<?php echo $arrow_icon_url; ?>"
-            alt="arrow-icon" class="lg:size-[21px] size-4">
-        `);
-            }
-        }
-    });
-
-    // Dropdown item click
-    $dropdown.find(itemSelector).on('click', function() {
-        const value = $(this).data('value');
-        $input.val(value).css({
-            'background-color': '#fff',
-            'color': '#000'
-        });
-        $dropdown.addClass('hidden');
-        if ($icon.length) {
-            $icon.html(`
-        <img src="<?php echo $arrow_icon_url; ?>"
-          alt="arrow-icon" class="lg:size-[21px] size-4">
-      `);
-        }
-    });
-
-    // Search filter
-    if ($search && $search.length) {
-        $search.on('input', function() {
-            const term = $(this).val().toLowerCase();
-            $dropdown.find(itemSelector).each(function() {
-                const name = $(this).data('value').toLowerCase();
-                $(this).toggle(name.includes(term));
-            });
-        });
-    }
-}
-
-// Initialize dropdowns
-$(document).ready(function() {
-    setupDropdown({
-        inputId: 'cityInput',
-        dropdownId: 'cityDropdown',
-        itemSelector: '[data-value]',
-        iconId: 'cityIcon'
-    });
-
-    setupDropdown({
-        inputId: 'brandInput',
-        dropdownId: 'brandDropdown',
-        itemSelector: '[data-value]',
-        iconId: 'brandIcon'
-    });
-
-    setupDropdown({
-        inputId: 'modelInput',
-        dropdownId: 'modelDropdown',
-        itemSelector: '[data-value]',
-        iconId: 'modelIcon'
-    });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileToggle = document.getElementById('mobileToggle');
-    const carPopup = document.getElementById('carPopup');
-
-    const observer = new MutationObserver(() => {
-        if (window.getComputedStyle(carPopup).display !== 'none') {
-            mobileToggle.classList.add('hidden'); // hide button
-        } else {
-            mobileToggle.classList.remove('hidden'); // show button again
-        }
-    });
-
-    observer.observe(carPopup, {
-        attributes: true,
-        attributeFilter: ['style', 'class']
-    });
-});
-</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -1071,10 +886,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const arrow = document.getElementById("arrow");
     const container = document.getElementById("wheelContainer");
 
+    // ✅ Check if required elements exist before proceeding
+    if (!arrow || !container) {
+        return; // Exit early if elements don't exist
+    }
+
     let currentActive = null;
 
     // ✅ Arrow distance adjusted for mobile view
     function computeArrowDistance() {
+        if (!container) return 0; // Safety check
         const rect = container.getBoundingClientRect();
         const radius = rect.width / 2;
 
@@ -1087,6 +908,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function moveArrow(angle) {
+        if (!arrow) return; // Safety check
         const distance = computeArrowDistance();
         arrow.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${distance}px)`;
     }
