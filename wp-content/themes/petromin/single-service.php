@@ -89,7 +89,7 @@ function get_service_icon($icon_input) {
     
     // If it's a URL (from image upload), display it directly
     if (is_string($icon_input) && (strpos($icon_input, 'http') === 0 || strpos($icon_input, '/') === 0)) {
-        return '<img fetchpriority="low" loading="lazy" src="' . esc_url($icon_input) . '" alt="icon" class="size-8 object-contain">';
+        return '<img fetchpriority="low" loading="lazy" src="' . esc_url($icon_input) . '" alt="icon" class="size-[3.75rem] object-contain">';
     }
     
     // Otherwise, use legacy icon type selection
@@ -105,7 +105,7 @@ function get_service_icon($icon_input) {
         case 'comfort':
             return '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Comfort Icon SVG --></svg>';
         default: // engine
-            return '<img fetchpriority="low" loading="lazy" src="' . esc_url($images_url . '/car_service_icon.webp') . '" alt="engine" class="size-8 object-contain">';
+            return '<img fetchpriority="low" loading="lazy" src="' . esc_url($images_url . '/car_service_icon.webp') . '" alt="engine" class="size-full object-contain">';
     }
 }
 ?>
@@ -167,7 +167,7 @@ function get_service_icon($icon_input) {
             <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-x-6 md:gap-x-16 md:gap-y-16 gap-y-8">
                 <?php foreach ($problems as $problem) : ?>
                 <div class="relative w-full flex items-center gap-3">
-                    <span class="bg-[#F7E0DA] rounded-lg p-1 size-11 flex justify-center items-center">
+                    <span class="size-[3.75rem] flex justify-center items-center">
                         <?php echo get_service_icon($problem['icon']); ?>
                     </span>
                     <h3 class="font-medium text-[#121212] md:text-xl text-lg"><?php echo esc_html($problem['title']); ?>
@@ -396,7 +396,7 @@ function get_service_icon($icon_input) {
                                 <?php echo esc_html(get_the_title($post->ID)); ?>
                             </h3>
 
-                            <p class="lg:text-base md:text-sm text-xs text-[#475467] text-balance line-clamp-2">
+                            <p class="lg:text-base md:text-sm text-xs text-[#475467] text-balance line-clamp-4">
                                 <?php 
                                         $excerpt = get_the_excerpt($post->ID);
                                         if (empty($excerpt)) {
