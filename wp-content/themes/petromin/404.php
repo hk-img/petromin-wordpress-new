@@ -278,7 +278,7 @@ get_header();
                 </a>
 
                 <!-- Contact Link -->
-                <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 border-l-4 border-blue-500">
+                <a href="<?php echo esc_url(home_url('/locate-us')); ?>" class="p-6 bg-white rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 border-l-4 border-blue-500">
                     <div class="text-3xl mb-2">📞</div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Contact</h3>
                     <p class="text-gray-600 text-sm">Get in touch with us</p>
@@ -332,7 +332,7 @@ get_header();
             <p class="text-white text-lg mb-8 max-w-2xl mx-auto">
                 Our team is here to assist you. Get in touch with us today!
             </p>
-            <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="inline-block px-8 py-4 bg-white text-red-600 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-300">
+            <a href="<?php echo esc_url(home_url('/locate-us')); ?>" class="inline-block px-8 py-4 bg-white text-red-600 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-300">
                 Contact Us Today
             </a>
         </div>

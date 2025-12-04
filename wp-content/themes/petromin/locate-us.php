@@ -525,7 +525,7 @@ if (empty($processed_faq_categories)) {
                             <h3 class="md:text-base text-lg font-semibold md:font-medium text-black">
                                 <?php echo esc_html($center['name']); ?></h3>
                             <div class="flex flex-col space-y-[0.688rem]">
-                                <div class="flex items-start justify-center gap-2">
+                                <div class="flex items-start gap-2">
                                     <svg class="size-4 shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -558,8 +558,8 @@ if (empty($processed_faq_categories)) {
                 </div>
             </div>
 
-            <div class="md:w-2/3 w-full md:sticky md:top-20">
-                <div class="h-[20rem] md:h-[53.188rem] w-full">
+            <div class="md:w-2/3 w-full md:h-[calc(100vh-7rem)] md:sticky md:top-20">
+                <div class="h-[20rem] md:h-full w-full">
                     <iframe data-map-frame title="Service center location map"
                         src="<?php echo esc_url($default_map_src ?: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5122760.8817607!2d10.454119350000001!3d51.17580699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sde!4v1760714693105!5m2!1sen!2sde'); ?>"
                         width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"

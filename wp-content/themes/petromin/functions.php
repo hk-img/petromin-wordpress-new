@@ -2340,21 +2340,30 @@ add_action('acf/init', function () {
                         'label' => 'Heading Prefix',
                         'name' => 'heading_prefix',
                         'type' => 'text',
-                        'default_value' => 'All-round expert'
+                        'default_value' => 'All-round expert',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_hero_heading_highlight',
                         'label' => 'Heading Highlight Text',
                         'name' => 'heading_highlight',
                         'type' => 'text',
-                        'default_value' => 'car care'
+                        'default_value' => 'car care',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_hero_heading_suffix',
                         'label' => 'Heading Suffix',
                         'name' => 'heading_suffix',
                         'type' => 'text',
-                        'default_value' => 'all at one place.'
+                        'default_value' => 'all at one place.',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_hero_description',
@@ -2486,21 +2495,30 @@ add_action('acf/init', function () {
                         'label' => 'Heading Line 1',
                         'name' => 'heading_line1',
                         'type' => 'text',
-                        'default_value' => 'Tap.'
+                        'default_value' => 'Tap.',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_app_heading_line2',
                         'label' => 'Heading Line 2',
                         'name' => 'heading_line2',
                         'type' => 'text',
-                        'default_value' => 'Track.'
+                        'default_value' => 'Track.',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_app_heading_line3',
                         'label' => 'Heading Line 3',
                         'name' => 'heading_line3',
                         'type' => 'text',
-                        'default_value' => 'Take control.'
+                        'default_value' => 'Take control.',
+                        'wrapper' => [
+                            'width' => '33.333%',
+                        ],
                     ],
                     [
                         'key' => 'field_services_app_description',
@@ -2523,13 +2541,19 @@ add_action('acf/init', function () {
                                 'type' => 'image',
                                 'return_format' => 'id',
                                 'preview_size' => 'medium',
+                                'wrapper' => [
+                                    'width' => '25%',
+                                ],
                             ],
                             [
                                 'key' => 'field_services_play_store_link',
                                 'label' => 'Play Store Link',
                                 'name' => 'play_store_link',
-                                'type' => 'page_link',
-                                'default_value' => '#'
+                                'type' => 'url',
+                                'default_value' => '#',
+                                'wrapper' => [
+                                    'width' => '25%',
+                                ],
                             ],
                             [
                                 'key' => 'field_services_app_store_image',
@@ -2538,13 +2562,19 @@ add_action('acf/init', function () {
                                 'type' => 'image',
                                 'return_format' => 'id',
                                 'preview_size' => 'medium',
+                                'wrapper' => [
+                                    'width' => '25%',
+                                ],
                             ],
                             [
                                 'key' => 'field_services_app_store_link',
                                 'label' => 'App Store Link',
                                 'name' => 'app_store_link',
-                                'type' => 'page_link',
-                                'default_value' => '#'
+                                'type' => 'url',
+                                'default_value' => '#',
+                                'wrapper' => [
+                                    'width' => '25%',
+                                ],
                             ]
                         ]
                     ],
