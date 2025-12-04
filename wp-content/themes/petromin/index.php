@@ -1734,25 +1734,28 @@ if (!empty($home_offers)):
 <?php endif; ?>
 
 
-<section class="w-full relative font-inter lg:py-12 py-8">
+<section class="w-full relative font-inter  py-12">
     <?php if ($digital_checkup_bg_desktop_data && !empty($digital_checkup_bg_desktop_data['url'])): ?>
     <div
         class="absolute right-0 h-full md:bottom-0 md:top-auto top-0 justify-center items-center w-full md:flex flex-col z-0 overflow-hidden hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($digital_checkup_bg_desktop_data['url']); ?>"
+        <img loading="eager" fetchpriority="high" decoding="async"
+            src="<?php echo esc_url($digital_checkup_bg_desktop_data['url']); ?>"
             alt="<?php echo esc_attr($digital_checkup_bg_desktop_data['alt']); ?>" width="108" height="108"
             class="w-full object-cover object-center h-full" />
     </div>
     <?php endif; ?>
     <?php if ($digital_checkup_bg_mobile_data && !empty($digital_checkup_bg_mobile_data['url'])): ?>
-    <div class="w-full  flex-col absolute right-0 top-0 bottom-auto flex md:hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($digital_checkup_bg_mobile_data['url']); ?>"
-            alt="<?php echo esc_attr($digital_checkup_bg_mobile_data['alt']); ?>" width="108" height="108"
+    <div class="w-full  flex-col absolute right-0 top-0 bottom-auto flex md:hidden h-full">
+        <img loading="eager" fetchpriority="high" decoding="async"
+            src="<?php echo esc_url($digital_checkup_bg_mobile_data['url']); ?>"
+            alt="<?php echo esc_attr($digital_checkup_bg_mobile_data['alt']); ?>" width="430" height="604"
             class="w-full h-full object-cover object-right" />
     </div>
     <?php endif; ?>
     <div class="view">
         <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6">
-            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10 md:h-full">
+            <div
+                class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-10 md:h-full lg:pt-10 md:pt-14 pt-6">
                 <div class="flex flex-col gap-y-12">
                     <h2 class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem]
                             font-bold italic text-black text-start whitespace-nowrap
@@ -1790,7 +1793,7 @@ if (!empty($home_offers)):
                 </div>
             </div>
 
-            <div class="xl:w-1/2 lg:w-1/2 w-full flex items-center relative z-10  max-sm:pt-6">
+            <div class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-10">
                 <?php if ($main_image_data && !empty($main_image_data['url'])): ?>
                 <img loading="eager" fetchpriority="high" decoding="async"
                     src="<?php echo esc_url($main_image_data['url']); ?>"
@@ -1801,7 +1804,7 @@ if (!empty($home_offers)):
         </div>
     </div>
 
-    <div class="view pl-0 md:absolute 2xl:-bottom-3  md:bottom-0 z-30 -bottom-[3rem]">
+    <div class="view pl-0 md:absolute z-30 md:-bottom-[2rem] max-sm:h-full max-sm:-mb-[4.75rem]">
         <div
             class="lg:pl-[5rem] md:pl-[4rem] pl-[3rem] md:pt-11 pt-8 md:pr-[5.5rem] pr-[2rem] md:pb-[4.125rem] pb-[2.125rem] relative w-fit bg-gradient-to-r from-[#000000] to-[#414141]  z-[99] origin-top -skew-x-[14deg] ">
             <div class="relative flex items-start gap-5 skew-x-[14deg] ">
@@ -1984,15 +1987,19 @@ if (!empty($home_offers)):
 
     <?php if ($app_bg_desktop_data && !empty($app_bg_desktop_data['url'])): ?>
     <div class="absolute inset-0 w-full h-full -z-10 md:flex hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($app_bg_desktop_data['url']); ?>"
-            alt="<?php echo esc_attr($app_bg_desktop_data['alt']); ?>" class="w-full h-full object-cover object-right" />
+        <img loading="eager" fetchpriority="high" decoding="async"
+            src="<?php echo esc_url($app_bg_desktop_data['url']); ?>"
+            alt="<?php echo esc_attr($app_bg_desktop_data['alt']); ?>"
+            class="w-full h-full object-cover object-right" />
     </div>
     <?php endif; ?>
 
     <?php if ($app_bg_mobile_data && !empty($app_bg_mobile_data['url'])): ?>
     <div class="absolute inset-0 w-full h-full -z-10 flex md:hidden">
-        <img loading="eager" fetchpriority="high" decoding="async" src="<?php echo esc_url($app_bg_mobile_data['url']); ?>"
-            alt="<?php echo esc_attr($app_bg_mobile_data['alt']); ?>" class="w-full h-full object-cover object-center" />
+        <img loading="eager" fetchpriority="high" decoding="async"
+            src="<?php echo esc_url($app_bg_mobile_data['url']); ?>"
+            alt="<?php echo esc_attr($app_bg_mobile_data['alt']); ?>"
+            class="w-full h-full object-cover object-center" />
     </div>
     <?php endif; ?>
 </section>
