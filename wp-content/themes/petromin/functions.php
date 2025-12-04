@@ -1135,6 +1135,7 @@ add_action('acf/init', function () {
                         'type' => 'repeater',
                         'layout' => 'block',
                         'button_label' => 'Add Testimonial Slide',
+                        'instructions' => 'Note: Please add minimum 3 slides to ensure the swiper displays properly in loop mode with centered slides enabled.',
                         'sub_fields' => [
                             [
                                 'key' => 'field_testimonial_type',
@@ -3028,6 +3029,15 @@ add_action('acf/init', function () {
         'key' => 'group_offers_page',
         'title' => 'Offers Page',
         'fields' => [
+            [
+                'key' => 'field_offers_page_note',
+                'label' => 'Important Note',
+                'name' => '',
+                'type' => 'message',
+                'message' => 'Note: Please add minimum 3 offers (as separate Offer posts) to ensure the Latest Offers carousel displays properly in loop mode with centered slides enabled.',
+                'new_lines' => 'wpautop',
+                'esc_html' => 0,
+            ],
             // Hero Section
             [
                 'key' => 'field_offers_hero_background',
@@ -3792,7 +3802,7 @@ function create_offer_post_type() {
     
     $args = array(
         'label'                 => 'Offer',
-        'description'           => 'Car Service Offers',
+        'description'           => 'Car Service Offers. Note: For the Latest Offers carousel (with centered slides), please ensure at least 3 offers are published.',
         'labels'                => $labels,
         'supports'              => array('title', 'editor', 'thumbnail', 'excerpt', 'revisions'),
         'hierarchical'          => false,
