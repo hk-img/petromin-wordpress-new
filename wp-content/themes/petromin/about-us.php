@@ -997,4 +997,85 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
 
 </section>
 
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const labels = Array.from(document.querySelectorAll(".label"));
+            const arrow = document.getElementById("arrow");
+            const container = document.getElementById("wheelContainer");
+
+            let currentActive = null;
+
+            // ✅ Arrow distance adjusted for mobile view
+            function computeArrowDistance() {
+                if (!container) return 0;
+                const rect = container.getBoundingClientRect();
+                const radius = rect.width / 2;
+
+                // 🔸 Push arrow slightly outward on mobile
+                if (window.innerWidth <= 640) {
+                    return Math.round(radius * 1); // small outward shift for mobile
+                } else {
+                    return Math.round(radius * 0.96); // normal for desktop
+                }
+            }
+
+            function moveArrow(angle) {
+                if (!arrow) return;
+                const distance = computeArrowDistance();
+                arrow.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${distance}px)`;
+            }
+
+            function clearActiveLabels() {
+                labels.forEach((lbl) => {
+                    lbl.classList.remove("text-[#CB122D]", "scale-110");
+                    const sub = lbl.querySelector(".subtext");
+                    if (sub) {
+                        sub.classList.remove("opacity-100", "translate-y-1");
+                        sub.classList.add("opacity-0", "translate-y-3");
+                    }
+                });
+            }
+
+            function activateByIndex(index) {
+                const target = document.querySelector(`.label[data-index="${index}"]`);
+                if (!target) return;
+                clearActiveLabels();
+                target.classList.add("text-[#CB122D]", "scale-110");
+                const sub = target.querySelector(".subtext");
+                if (sub) {
+                    sub.classList.remove("opacity-0", "translate-y-3");
+                    sub.classList.add("opacity-100", "translate-y-1");
+                }
+                const angle = Number(target.dataset.angle) || 0;
+                moveArrow(angle);
+                currentActive = Number(index);
+            }
+
+            labels.forEach((label) => {
+                const idx = Number(label.dataset.index);
+                label.addEventListener("mouseenter", () => activateByIndex(idx));
+                label.addEventListener("focus", () => activateByIndex(idx));
+            });
+
+            window.addEventListener("resize", () => {
+                if (currentActive !== null) {
+                    activateByIndex(currentActive);
+                } else {
+                    moveArrow(0);
+                }
+            });
+
+            // ✅ Detect device width and activate accordingly
+            if (labels.length > 0) {
+                if (window.innerWidth <= 640) {
+                    // Mobile view
+                    activateByIndex(1);
+                } else {
+                    // Desktop view
+                    activateByIndex(0);
+                }
+            }
+        });
+    </script>
+
 <?php get_footer(); ?>
