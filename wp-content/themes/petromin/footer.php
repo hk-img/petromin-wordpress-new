@@ -512,13 +512,16 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const benefitSwiper = new Swiper(".benefitSwiper", {
-        speed: 800,
+    <?php 
+    $benefitSettings = petromin_get_swiper_settings('benefitsSectionSwiper');
+    ?>
+    const benefitSwiper = new Swiper(".benefitsSectionSwiper", {
+        speed: <?php echo esc_js($benefitSettings['speed']); ?>,
         centeredSlides: true,
-        autoplay: {
-            delay: 3000,
+        autoplay: <?php echo $benefitSettings['autoplay'] ? '{
+            delay: ' . esc_js($benefitSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 24,
         loop: true,
         pagination: {
@@ -569,12 +572,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const featureSwiper = new Swiper(".featureSwiper", {
-        speed: 800,
-        autoplay: {
-            delay: 3000,
+    <?php 
+    $featureSettings = petromin_get_swiper_settings('timelineSectionSwiper');
+    ?>
+    const featureSwiper = new Swiper(".timelineSectionSwiper", {
+        speed: <?php echo esc_js($featureSettings['speed']); ?>,
+        autoplay: <?php echo $featureSettings['autoplay'] ? '{
+            delay: ' . esc_js($featureSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 30,
         loop: true,
         // autoHeight: true,
@@ -606,12 +612,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const partnerSliderSwiper = new Swiper(".partnerSlider", {
-        speed: 800,
-        autoplay: {
-            delay: 3000,
+    <?php 
+    $partnerSliderSettings = petromin_get_swiper_settings('partnersFooterSectionSwiper');
+    ?>
+    const partnerSliderSwiper = new Swiper(".partnersFooterSectionSwiper", {
+        speed: <?php echo esc_js($partnerSliderSettings['speed']); ?>,
+        autoplay: <?php echo $partnerSliderSettings['autoplay'] ? '{
+            delay: ' . esc_js($partnerSliderSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 24,
         loop: true,
         pagination: {
@@ -650,16 +659,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    <?php 
+    $brandLeftSettings = petromin_get_swiper_settings('brandsSectionSwiperLeft');
+    ?>
     // Left-to-right Swiper
-    const swiperLeft = new Swiper(".brandSwiperLeft", {
+    const swiperLeft = new Swiper(".brandsSectionSwiperLeft", {
         spaceBetween: 12,
-        speed: 3000, // adjust speed for smoothness
+        speed: <?php echo esc_js($brandLeftSettings['speed']); ?>,
         loop: true,
-        autoplay: {
-            delay: 0,
+        autoplay: <?php echo $brandLeftSettings['autoplay'] ? '{
+            delay: ' . esc_js($brandLeftSettings['delay']) . ',
             disableOnInteraction: false,
             reverseDirection: false,
-        },
+        }' : 'false'; ?>,
         allowTouchMove: false, // optional: prevents manual drag
         breakpoints: {
             320: {
@@ -685,16 +697,19 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 
+    <?php 
+    $brandLeft1Settings = petromin_get_swiper_settings('brandsSectionSwiperMobile');
+    ?>
     // Left-to-right Swiper
-    const swiperLeft1 = new Swiper(".brandSwiperLeft1", {
+    const swiperLeft1 = new Swiper(".brandsSectionSwiperMobile", {
         spaceBetween: 12,
-        speed: 3000, // adjust speed for smoothness
+        speed: <?php echo esc_js($brandLeft1Settings['speed']); ?>,
         loop: true,
-        autoplay: {
-            delay: 0,
+        autoplay: <?php echo $brandLeft1Settings['autoplay'] ? '{
+            delay: ' . esc_js($brandLeft1Settings['delay']) . ',
             disableOnInteraction: false,
             reverseDirection: false,
-        },
+        }' : 'false'; ?>,
         allowTouchMove: false, // optional: prevents manual drag
         breakpoints: {
             320: {
@@ -719,17 +734,20 @@ document.addEventListener("DOMContentLoaded", function() {
             },
         },
     });
+    <?php 
+    $brandRightSettings = petromin_get_swiper_settings('brandsSectionSwiperRight');
+    ?>
     // Right-to-left Swiper
-    const swiperRight = new Swiper(".brandSwiperRight", {
+    const swiperRight = new Swiper(".brandsSectionSwiperRight", {
         slidesPerView: 9.2,
         spaceBetween: 12,
-        speed: 3000,
+        speed: <?php echo esc_js($brandRightSettings['speed']); ?>,
         loop: true,
-        autoplay: {
-            delay: 0,
+        autoplay: <?php echo $brandRightSettings['autoplay'] ? '{
+            delay: ' . esc_js($brandRightSettings['delay']) . ',
             disableOnInteraction: false,
             reverseDirection: true, // <-- key for opposite direction
-        },
+        }' : 'false'; ?>,
         breakpoints: {
             320: {
                 slidesPerView: 3.8,
@@ -759,14 +777,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const testimonialSwiper = new Swiper(".testimonialSwiper", {
-        speed: 800,
+    <?php 
+    $testimonialSettings = petromin_get_swiper_settings('testimonialsSectionSwiper');
+    ?>
+    const testimonialSwiper = new Swiper(".testimonialsSectionSwiper", {
+        speed: <?php echo esc_js($testimonialSettings['speed']); ?>,
         autoHeight: true,
         centeredSlides: true,
-        autoplay: {
-            delay: 3000,
+        autoplay: <?php echo $testimonialSettings['autoplay'] ? '{
+            delay: ' . esc_js($testimonialSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 24,
         loop: true,
         pagination: {
@@ -805,17 +826,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const partnerSwiper = new Swiper(".partnerSwiper", {
+    <?php 
+    $partnerSettings = petromin_get_swiper_settings('partnersSectionSwiper');
+    ?>
+    const partnerSwiper = new Swiper(".partnersSectionSwiper", {
         loop: true,
         autoSlide: true,
         spaceBetween: 24,
         freeMode: true,
         freeModeMomentum: false,
-        speed: 5000,
-        autoplay: {
-            delay: 0,
+        speed: <?php echo esc_js($partnerSettings['speed']); ?>,
+        autoplay: <?php echo $partnerSettings['autoplay'] ? '{
+            delay: ' . esc_js($partnerSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         allowTouchMove: false,
         breakpoints: {
             320: {
@@ -966,10 +990,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const categorySliderSwiper = new Swiper(".category-slider", {
+    <?php 
+    $categorySliderSettings = petromin_get_swiper_settings('newsCategorySectionSwiper');
+    ?>
+    const categorySliderSwiper = new Swiper(".newsCategorySectionSwiper", {
         slidesPerView: "auto",
         spaceBetween: 20,
-        speed: 700,
+        speed: <?php echo esc_js($categorySliderSettings['speed']); ?>,
+        autoplay: <?php echo $categorySliderSettings['autoplay'] ? '{
+            delay: ' . esc_js($categorySliderSettings['delay']) . ',
+            disableOnInteraction: false,
+        }' : 'false'; ?>,
         navigation: {
             nextEl: ".swiper-next",
             prevEl: ".swiper-prev",

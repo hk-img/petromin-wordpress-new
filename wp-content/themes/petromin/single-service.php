@@ -251,7 +251,7 @@ function get_service_icon($icon_input) {
     </div>
     <div class="view">
         <div
-            class="swiper moreServiceCarousel relative font-inter z-0 pt-6">
+            class="swiper moreServicesSectionSwiper relative font-inter z-0 pt-6">
             <div class="swiper-wrapper h-auto">
                 <?php if (!empty($other_services)) : ?>
                     <?php foreach ($other_services as $service) :
@@ -381,7 +381,7 @@ function get_service_icon($icon_input) {
             </div>
         </div>
         <div class="w-full relative">
-            <div class="swiper bestKnowCarousel relative z-0 py-10 font-inter">
+            <div class="swiper bestKnownSectionSwiper relative z-0 py-10 font-inter">
                 <div class="swiper-wrapper">
                     <?php if ($blog_posts) : ?>
                     <?php foreach ($blog_posts as $post) : 
@@ -440,15 +440,18 @@ function get_service_icon($icon_input) {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const bestKnowCarouselSwiper = new Swiper(".bestKnowCarousel", {
+    <?php 
+    $bestKnowSettings = petromin_get_swiper_settings('bestKnownSectionSwiper');
+    ?>
+    const bestKnowCarouselSwiper = new Swiper(".bestKnownSectionSwiper", {
         slidesPerView: 1,
         spaceBetween: 20,
         loop: true,
-        speed: 800,
-        autoplay: {
-            delay: 3000,
+        speed: <?php echo esc_js($bestKnowSettings['speed']); ?>,
+        autoplay: <?php echo $bestKnowSettings['autoplay'] ? '{
+            delay: ' . esc_js($bestKnowSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         breakpoints: {
             640: {
                 slidesPerView: 2
@@ -466,13 +469,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const swiper = new Swiper(".moreServiceCarousel", {
-                speed: 800,
+            <?php 
+            $moreServiceSettings = petromin_get_swiper_settings('moreServicesSectionSwiper');
+            ?>
+            const swiper = new Swiper(".moreServicesSectionSwiper", {
+                speed: <?php echo esc_js($moreServiceSettings['speed']); ?>,
                 autoHeight: true,
-                autoplay: {
-                    delay: 3000,
+                autoplay: <?php echo $moreServiceSettings['autoplay'] ? '{
+                    delay: ' . esc_js($moreServiceSettings['delay']) . ',
                     disableOnInteraction: false,
-                },
+                }' : 'false'; ?>,
                 spaceBetween: 24,
                 loop: true,
                 pagination: {

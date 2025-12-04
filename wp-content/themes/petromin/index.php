@@ -1302,7 +1302,7 @@ if (!empty($home_offers)):
         </div>
     </div>
     <div class="w-full relative">
-        <div class="swiper latestSaveCarousel relative z-0  font-inter">
+        <div class="swiper latestOfferSwiper relative z-0 font-inter">
             <div class="swiper-wrapper py-5 md:py-10">
                 <?php
                 $home_offers = petromin_get_offers([
@@ -1313,7 +1313,7 @@ if (!empty($home_offers)):
                 if (!empty($home_offers)):
                     foreach ($home_offers as $offer):
                 ?>
-                <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30">
+                <div class="swiper-slide !h-auto max-w-[33vw] transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30">
                     <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
                         <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
                             <img fetchpriority="low" loading="lazy" 
@@ -1658,7 +1658,7 @@ if (!empty($home_offers)):
         </div>
     </div>
     <div class="w-full relative">
-        <div class="swiper featureSwiper relative z-0 py-10 font-inter">
+        <div class="swiper timelineSectionSwiper relative z-0 py-10 font-inter">
             <div class="swiper-wrapper px-8">
                 <?php foreach ($timeline_slides as $slide): ?>
                 <div class="swiper-slide !h-auto">
@@ -1712,7 +1712,7 @@ if (!empty($home_offers)):
             after:bg-gradient-to-l after:w-16
             after:from-[#FFFFFF] after:to-[#ffffff00]
             after:z-20 after:pointer-events-none">
-        <div class="swiper partnerSwiper relative">
+        <div class="swiper partnersSectionSwiper relative">
             <div class="swiper-wrapper !ease-linear flex items-center">
                 <?php foreach ($partner_highlights_items as $item_text): ?>
                 <div class="swiper-slide flex items-center gap-4 justify-between min-w-max">
@@ -1852,7 +1852,7 @@ if (!empty($home_offers)):
 
         <!-- Left Slider (Desktop) -->
         <?php if (!empty($left_brands)): ?>
-        <div class="swiper brandSwiperLeft relative z-0 lg:pt-[4.5rem]">
+        <div class="swiper brandsSectionSwiperLeft relative z-0 lg:pt-[4.5rem]">
             <div class="w-full swiper-wrapper flex !ease-linear">
                 <?php foreach ($left_brands as $brand): ?>
                 <div class="swiper-slide">
@@ -1868,7 +1868,7 @@ if (!empty($home_offers)):
 
         <!-- Right Slider (Desktop) -->
         <?php if (!empty($right_brands)): ?>
-        <div class="swiper brandSwiperRight relative z-0">
+        <div class="swiper brandsSectionSwiperRight relative z-0">
             <div class="w-full swiper-wrapper !ease-linear flex">
                 <?php foreach ($right_brands as $brand): ?>
                 <div class="swiper-slide">
@@ -1884,7 +1884,7 @@ if (!empty($home_offers)):
 
         <!-- Mobile Slider -->
         <?php if (!empty($mobile_brands)): ?>
-        <div class="swiper brandSwiperLeft1 relative z-0 lg:hidden block">
+        <div class="swiper brandsSectionSwiperMobile relative z-0 lg:hidden block">
             <div class="w-full swiper-wrapper !ease-linear flex !ease-linear">
                 <?php foreach ($mobile_brands as $brand): ?>
                 <div class="swiper-slide">
@@ -2034,7 +2034,7 @@ if (!empty($home_offers)):
     </div>
 
     <?php if (!empty($slides)): ?>
-    <div class="swiper testimonialSwiper relative font-inter z-0 pt-6">
+    <div class="swiper testimonialsSectionSwiper relative font-inter z-0 pt-6">
         <div class="swiper-wrapper h-auto">
             <?php foreach ($slides as $slide): ?>
             <?php if ($slide['type'] === 'text'): ?>
@@ -2234,13 +2234,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     <script> document.addEventListener("DOMContentLoaded", function () {
-        const swiper = new Swiper(".latestSaveCarousel", {
-                speed: 800,
-                autoplay: {
-                    delay: 3000,
+        <?php 
+        $latestSaveSettings = petromin_get_swiper_settings('latestOfferSwiper');
+        ?>
+        const swiper = new Swiper(".latestOfferSwiper", {
+                speed: <?php echo esc_js($latestSaveSettings['speed']); ?>,
+                autoplay: <?php echo $latestSaveSettings['autoplay'] ? '{
+                    delay: ' . esc_js($latestSaveSettings['delay']) . ',
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
-                },
+                }' : 'false'; ?>,
                 spaceBetween: 30,
                 loop: true,
                 centeredSlides: true,

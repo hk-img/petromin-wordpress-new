@@ -463,13 +463,16 @@ $faq_data = [
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const ourServiceCarouselSwiper = new Swiper(".ourServiceCarousel", {
-        speed: 800,
-        autoplay: {
-            delay: 3000,
+    <?php 
+    $ourServiceSettings = petromin_get_swiper_settings('ourServicesSectionSwiper');
+    ?>
+    const ourServiceCarouselSwiper = new Swiper(".ourServicesSectionSwiper", {
+        speed: <?php echo esc_js($ourServiceSettings['speed']); ?>,
+        autoplay: <?php echo $ourServiceSettings['autoplay'] ? '{
+            delay: ' . esc_js($ourServiceSettings['delay']) . ',
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 30,
         loop: true,
         // autoHeight: true,

@@ -252,7 +252,7 @@ foreach ($press_releases_items as $item) {
                 </div>
 
                 <!-- Slider -->
-                <div class="swiper category-slider relative">
+                <div class="swiper newsCategorySectionSwiper relative">
                     <div class="swiper-wrapper">
                         <?php foreach ($sidebar_categories as $category) : 
                             $name = $category['name'] ?? '';
@@ -604,9 +604,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize Swiper for mobile category slider
     if (typeof Swiper !== 'undefined') {
-        const categorySwiper = new Swiper('.category-slider', {
+        <?php 
+        $categorySwiperSettings = petromin_get_swiper_settings('newsCategorySectionSwiper');
+        ?>
+        const categorySwiper = new Swiper('.newsCategorySectionSwiper', {
             slidesPerView: 'auto',
             spaceBetween: 20,
+            speed: <?php echo esc_js($categorySwiperSettings['speed']); ?>,
+            autoplay: <?php echo $categorySwiperSettings['autoplay'] ? '{
+                delay: ' . esc_js($categorySwiperSettings['delay']) . ',
+                disableOnInteraction: false,
+            }' : 'false'; ?>,
             navigation: {
                 nextEl: '.swiper-next',
                 prevEl: '.swiper-prev',

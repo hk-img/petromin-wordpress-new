@@ -506,7 +506,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                     </div>
                 </div>
                 <div class="w-full relative">
-                    <div class="swiper featureSwiper relative z-0 py-10 font-inter">
+                    <div class="swiper timelineSectionSwiper relative z-0 py-10 font-inter">
                         <div class="swiper-wrapper ">
                             <?php foreach ($journey_slides as $slide) : ?>
                             <div class="swiper-slide !h-auto">

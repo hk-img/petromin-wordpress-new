@@ -163,7 +163,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                 </div>
             </div>
             <div class="w-full relative py-10">
-                <div class="swiper latestSaveCarousel relative z-0 py-5 md:py-10 font-inter">
+                <div class="swiper latestOfferSwiper relative z-0 py-5 md:py-10 font-inter">
                     <div class="swiper-wrapper  md:py-10">
                         <?php
                         $offers = petromin_get_offers([
@@ -347,13 +347,16 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 
 <script> 
     document.addEventListener("DOMContentLoaded", function () {
-        const swiper = new Swiper(".latestSaveCarousel", {
-            speed: 800,
-            autoplay: {
-                delay: 3000,
+        <?php 
+        $latestSaveSettings = petromin_get_swiper_settings('latestOfferSwiper');
+        ?>
+        const swiper = new Swiper(".latestOfferSwiper", {
+            speed: <?php echo esc_js($latestSaveSettings['speed']); ?>,
+            autoplay: <?php echo $latestSaveSettings['autoplay'] ? '{
+                delay: ' . esc_js($latestSaveSettings['delay']) . ',
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
-            },
+            }' : 'false'; ?>,
             spaceBetween: 30,
             loop: true,
             centeredSlides: true,

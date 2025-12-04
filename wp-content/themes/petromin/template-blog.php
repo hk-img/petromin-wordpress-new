@@ -66,7 +66,7 @@ $blog_query = new WP_Query($blog_args);
 
 <section class="hero_section w-full relative md:min-h-dvh h-dvh md:!h-auto z-10">
     <div class="relative w-full h-full overflow-hidden">
-        <div class="swiper blogHeroSlider relative">
+        <div class="swiper blogHeroSectionSwiper relative">
             <div class="swiper-wrapper">
                 <?php if ($featured_posts) : 
                     foreach ($featured_posts as $post) : 
@@ -279,14 +279,17 @@ $blog_query = new WP_Query($blog_args);
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Initialize Swiper
-    const blogHeroSwiper = new Swiper(".blogHeroSlider", {
+    <?php 
+    $blogHeroSettings = petromin_get_swiper_settings('blogHeroSectionSwiper');
+    ?>
+    const blogHeroSwiper = new Swiper(".blogHeroSectionSwiper", {
         slidesPerView: 1,
         loop: true,
-        speed: 800,
-        autoplay: {
-            delay: 3000,
+        speed: <?php echo esc_js($blogHeroSettings['speed']); ?>,
+        autoplay: <?php echo $blogHeroSettings['autoplay'] ? '{
+            delay: ' . esc_js($blogHeroSettings['delay']) . ',
             disableOnInteraction: false,
-        },
+        }' : 'false'; ?>,
         spaceBetween: 0,
         navigation: {
             nextEl: ".swiper-next",

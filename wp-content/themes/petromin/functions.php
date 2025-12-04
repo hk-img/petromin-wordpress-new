@@ -196,6 +196,16 @@ add_action('acf/init', function () {
         'position' => 31
     ]);
 
+    acf_add_options_page([
+        'page_title' => 'Swiper Settings',
+        'menu_title' => 'Swiper Settings',
+        'menu_slug' => 'swiper-settings',
+        'capability' => 'edit_posts',
+        'redirect' => false,
+        'position' => 32,
+        'icon_url' => 'dashicons-admin-settings',
+    ]);
+
     // ACF Field Group for Header Settings
     acf_add_local_field_group([
         'key' => 'group_header_settings',
@@ -349,7 +359,7 @@ add_action('acf/init', function () {
             ],
         ],
     ]);
-
+    // ACF Field Group for Footer Settings
     acf_add_local_field_group([
         'key' => 'group_footer_settings',
         'title' => 'Footer Settings',
@@ -600,6 +610,625 @@ add_action('acf/init', function () {
                     'param' => 'options_page',
                     'operator' => '==',
                     'value' => 'footer-settings',
+                ],
+            ],
+        ],
+    ]);
+
+    // Swiper Settings ACF Fields - Fixed Fields for All Swipers
+    acf_add_local_field_group([
+        'key' => 'group_swiper_settings',
+        'title' => 'Swiper Settings',
+        'fields' => [
+            // Latest Offers Swiper
+            [
+                'key' => 'field_swiper_latest_offers',
+                'label' => 'Latest Offers Swiper',
+                'name' => 'swiper_latest_offers',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_latest_offers_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_latest_offers_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_latest_offers_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Timeline Section Swiper
+            [
+                'key' => 'field_swiper_timeline',
+                'label' => 'Timeline Section Swiper',
+                'name' => 'swiper_timeline',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_timeline_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_timeline_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_timeline_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Partners Section Swiper
+            [
+                'key' => 'field_swiper_partners',
+                'label' => 'Partners Section Swiper',
+                'name' => 'swiper_partners',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_partners_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_partners_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_partners_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Partners Footer Section Swiper
+            [
+                'key' => 'field_swiper_partners_footer',
+                'label' => 'Partners Footer Section Swiper',
+                'name' => 'swiper_partners_footer',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_partners_footer_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_partners_footer_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_partners_footer_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Brands Section Swiper Left
+            [
+                'key' => 'field_swiper_brands_left',
+                'label' => 'Brands Section Swiper (Left)',
+                'name' => 'swiper_brands_left',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_brands_left_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_left_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 0,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_left_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Brands Section Swiper Right
+            [
+                'key' => 'field_swiper_brands_right',
+                'label' => 'Brands Section Swiper (Right)',
+                'name' => 'swiper_brands_right',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_brands_right_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_right_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 0,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_right_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Brands Section Swiper Mobile
+            [
+                'key' => 'field_swiper_brands_mobile',
+                'label' => 'Brands Section Swiper (Mobile)',
+                'name' => 'swiper_brands_mobile',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_brands_mobile_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_mobile_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 0,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_brands_mobile_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Testimonials Section Swiper
+            [
+                'key' => 'field_swiper_testimonials',
+                'label' => 'Testimonials Section Swiper',
+                'name' => 'swiper_testimonials',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_testimonials_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_testimonials_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_testimonials_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Benefits Section Swiper
+            [
+                'key' => 'field_swiper_benefits',
+                'label' => 'Benefits Section Swiper',
+                'name' => 'swiper_benefits',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_benefits_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_benefits_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_benefits_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // More Services Section Swiper
+            [
+                'key' => 'field_swiper_more_services',
+                'label' => 'More Services Section Swiper',
+                'name' => 'swiper_more_services',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_more_services_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_more_services_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_more_services_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Best Known Section Swiper
+            [
+                'key' => 'field_swiper_best_known',
+                'label' => 'Best Known Section Swiper',
+                'name' => 'swiper_best_known',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_best_known_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_best_known_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_best_known_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Our Services Section Swiper
+            [
+                'key' => 'field_swiper_our_services',
+                'label' => 'Our Services Section Swiper',
+                'name' => 'swiper_our_services',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_our_services_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_our_services_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_our_services_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // Blog Hero Section Swiper
+            [
+                'key' => 'field_swiper_blog_hero',
+                'label' => 'Blog Hero Section Swiper',
+                'name' => 'swiper_blog_hero',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_blog_hero_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 800,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_blog_hero_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_blog_hero_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 1,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+            // News Category Section Swiper
+            [
+                'key' => 'field_swiper_news_category',
+                'label' => 'News Category Section Swiper',
+                'name' => 'swiper_news_category',
+                'type' => 'group',
+                'layout' => 'block',
+                'sub_fields' => [
+                    [
+                        'key' => 'field_swiper_news_category_speed',
+                        'label' => 'Speed (ms)',
+                        'name' => 'speed',
+                        'type' => 'range',
+                        'default_value' => 700,
+                        'min' => 100,
+                        'max' => 5000,
+                        'step' => 100,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_news_category_delay',
+                        'label' => 'Autoplay Delay (ms)',
+                        'name' => 'delay',
+                        'type' => 'range',
+                        'default_value' => 3000,
+                        'min' => 0,
+                        'max' => 10000,
+                        'step' => 500,
+                        'append' => 'ms',
+                        'wrapper' => ['width' => '40%'],
+                    ],
+                    [
+                        'key' => 'field_swiper_news_category_autoplay',
+                        'label' => 'Enable Autoplay',
+                        'name' => 'autoplay',
+                        'type' => 'true_false',
+                        'default_value' => 0,
+                        'ui' => 1,
+                        'wrapper' => ['width' => '20%'],
+                    ],
+                ],
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'swiper-settings',
                 ],
             ],
         ],
@@ -4190,6 +4819,65 @@ function disable_offers_archive($query) {
     }
 }
 add_action('pre_get_posts', 'disable_offers_archive');
+
+/**
+ * Get swiper settings from ACF options
+ * 
+ * @param string $swiper_class The swiper class name (without dot, e.g., 'latestOfferSwiper')
+ * @return array Returns array with speed, delay, and autoplay settings
+ */
+if (!function_exists('petromin_get_swiper_settings')) {
+    function petromin_get_swiper_settings($swiper_class) {
+        // Mapping of swiper class names to ACF field names
+        $swiper_field_mapping = [
+            'latestOfferSwiper' => 'swiper_latest_offers',
+            'timelineSectionSwiper' => 'swiper_timeline',
+            'partnersSectionSwiper' => 'swiper_partners',
+            'partnersFooterSectionSwiper' => 'swiper_partners_footer',
+            'brandsSectionSwiperLeft' => 'swiper_brands_left',
+            'brandsSectionSwiperRight' => 'swiper_brands_right',
+            'brandsSectionSwiperMobile' => 'swiper_brands_mobile',
+            'testimonialsSectionSwiper' => 'swiper_testimonials',
+            'benefitsSectionSwiper' => 'swiper_benefits',
+            'moreServicesSectionSwiper' => 'swiper_more_services',
+            'bestKnownSectionSwiper' => 'swiper_best_known',
+            'ourServicesSectionSwiper' => 'swiper_our_services',
+            'blogHeroSectionSwiper' => 'swiper_blog_hero',
+            'newsCategorySectionSwiper' => 'swiper_news_category',
+        ];
+        
+        // Get the field name for this swiper
+        $field_name = $swiper_field_mapping[$swiper_class] ?? null;
+        
+        if (!$field_name) {
+            // Return defaults if swiper not found in mapping
+            return [
+                'speed' => 800,
+                'delay' => 3000,
+                'autoplay' => true,
+            ];
+        }
+        
+        // Get settings from ACF options
+        $settings = get_field($field_name, 'option');
+        
+        if (empty($settings) || !is_array($settings)) {
+            // Return defaults if no settings found
+            return [
+                'speed' => 800,
+                'delay' => 3000,
+                'autoplay' => true,
+            ];
+        }
+        
+        // Return settings with defaults as fallback
+        return [
+            'speed' => (int)($settings['speed'] ?? 800),
+            'delay' => (int)($settings['delay'] ?? 3000),
+            'autoplay' => (bool)($settings['autoplay'] ?? true),
+        ];
+    }
+}
 
 /**
  * Hide country, state, and city fields in ACF admin panel
