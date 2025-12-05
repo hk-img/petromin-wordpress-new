@@ -1284,14 +1284,14 @@ if (!empty($home_offers)):
             </h2>
             <div
                 class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
-                <div class="swiper-prev cursor-pointer">
+                <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 rotate-180 skew-x-12 invert brightness-0" alt="arrow icon"
                             title="arrow icon">
                     </span>
                 </div>
-                <div class="swiper-next cursor-pointer">
+                <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                             class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
@@ -1637,7 +1637,7 @@ if (!empty($home_offers)):
             <?php if (!empty($timeline_nav_icon_data['url'])): ?>
             <div
                 class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
-                <div class="swiper-prev cursor-pointer">
+                <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
                             class="text-white md:size-8 size-5 rotate-180 skew-x-12 invert brightness-0"
@@ -1645,7 +1645,7 @@ if (!empty($home_offers)):
                             title="<?php echo esc_attr($timeline_nav_icon_data['alt']); ?>">
                     </span>
                 </div>
-                <div class="swiper-next cursor-pointer">
+                <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
                             class="text-white md:size-8 size-5 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
@@ -2014,14 +2014,14 @@ if (!empty($home_offers)):
             <?php if ($nav_icon_data && !empty($nav_icon_data['url'])): ?>
             <div
                 class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
-                <div class="swiper-prev cursor-pointer">
+                <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
                             class="text-white md:size-8 size-5 rotate-180 skew-x-12 invert brightness-0"
                             alt="<?php echo esc_attr($nav_icon_data['alt']); ?>">
                     </span>
                 </div>
-                <div class="swiper-next cursor-pointer">
+                <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
                             class="text-white md:size-8 size-5 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"

@@ -239,7 +239,7 @@ foreach ($press_releases_items as $item) {
         <div class="w-full relative mt-8 mb-8 pb-4 border-b border-[#E0E5EB] md:hidden block">
             <div class="flex items-center gap-3 group/cat">
                 <!-- Prev Button -->
-                <div class="swiper-prev cursor-pointer transition-opacity duration-300">
+                <div class="swiper-prev cursor-pointer transition-opacity duration-300 !opacity-100 !pointer-events-auto">
                     <span
                         class="border border-[#E0E5EB] bg-white shadow-[0_0_7px_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" width="16px"
@@ -269,7 +269,7 @@ foreach ($press_releases_items as $item) {
                 </div>
 
                 <!-- Next Button -->
-                <div class="swiper-next cursor-pointer">
+                <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                     <span
                         class="border border-[#E0E5EB] bg-white shadow-[0_0_7px_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"

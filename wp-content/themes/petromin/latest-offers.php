@@ -146,14 +146,14 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                 </div>
                 <div
                     class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
-                    <div class="swiper-prev cursor-pointer">
+                    <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                                 class="text-white size-8 rotate-180 skew-x-12 invert brightness-0" alt="arrow icon"
                                 title="arrow icon">
                         </span>
                     </div>
-                    <div class="swiper-next cursor-pointer">
+                    <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
                                 class="text-white size-8 skew-x-12 invert brightness-0 mb-[0.188rem] ml-3"
