@@ -48,14 +48,14 @@ class FrozenParameterBag extends \YoastSEO_Vendor\Symfony\Component\DependencyIn
     /**
      * {@inheritdoc}
      */
-    public function set(string $name, $value)
+    public function set($name, $value)
     {
         throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call set() on a frozen ParameterBag.');
     }
     /**
      * {@inheritdoc}
      */
-    public function remove(string $name)
+    public function remove($name)
     {
         throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call remove() on a frozen ParameterBag.');
     }

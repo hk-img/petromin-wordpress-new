@@ -42,7 +42,6 @@ class WPSEO_Installation {
 
 		$options['show_onboarding_notice'] = true;
 		$options['first_activated_on']     = time();
-		$options['first_activated_by']     = get_current_user_id();
 
 		update_option( 'wpseo', $options );
 	}

@@ -250,27 +250,6 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Gets the list of Elementor dependencies.
-	 *
-	 * @return array<string> The array of elementor dependencies.
-	 */
-	protected function get_elementor_dependencies() {
-		$dependencies = [
-			'backbone-marionette',
-			'elementor-common-modules',
-			self::PREFIX . 'api-client',
-			self::PREFIX . 'externals-components',
-			self::PREFIX . 'externals-contexts',
-			self::PREFIX . 'externals-redux',
-		];
-		// Conditionally add Elementor v2 dependency if available.
-		if ( wp_script_is( 'elementor-v2-editor-app-bar', 'registered' ) ) {
-			$dependencies[] = 'elementor-v2-editor-app-bar';
-		}
-		return $dependencies;
-	}
-
-	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
@@ -286,7 +265,6 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 			'redirect-old-features-tab',
 		];
-		$elementor_dependencies  = $this->get_elementor_dependencies();
 		$additional_dependencies = [
 			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
 			'api-client'               => [ 'wp-api' ],
@@ -294,7 +272,12 @@ class WPSEO_Admin_Asset_Manager {
 			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
 			'wincher-dashboard-widget' => [ self::PREFIX . 'api-client' ],
 			'editor-modules'           => [ 'jquery' ],
-			'elementor'                => $elementor_dependencies,
+			'elementor'                => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
 			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',

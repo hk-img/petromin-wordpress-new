@@ -243,7 +243,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'ai_free_sparks_started_on',
 		'enable_llms_txt',
 		'llms_txt_selection_mode',
-		'configuration_finished_steps',
 	];
 
 	/**
