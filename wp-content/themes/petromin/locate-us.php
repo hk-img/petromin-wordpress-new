@@ -312,7 +312,7 @@ $map_mobile_image = petromin_get_acf_image_data($map_field['mobile_image'] ?? nu
 $service_centers_field = function_exists('get_field') ? (get_field('service_centers_section') ?: []) : [];
 $service_centers_heading = trim($service_centers_field['section_heading'] ?? '') ?: $service_centers_defaults['heading'];
 
-// Fix service centers data processing
+// Fix service centres data processing
 $service_centers_items = [];
 if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
     $service_centers_items = $service_centers_field['centers'];
@@ -331,13 +331,13 @@ if (!empty($faq_field['categories']) && is_array($faq_field['categories'])) {
     $faq_categories = $faq_defaults['categories'];
 }
 
-// Process service centers with fallbacks
+// Process service centres with fallbacks
 
 $processed_centers = [];
 foreach ($service_centers_items as $index => $center) {
     $fallback = $service_centers_defaults['centers'][$index] ?? $service_centers_defaults['centers'][0] ?? [];
     
-    $name = trim($center['name'] ?? '') ?: ($fallback['name'] ?? 'Service Center');
+    $name = trim($center['name'] ?? '') ?: ($fallback['name'] ?? 'Service Centre');
     $map_location = $center['map_location'] ?? null;
     
     // Use Google Map address if available, otherwise fallback
@@ -742,7 +742,7 @@ if (empty($processed_faq_categories)) {
                     </div>
                     <?php endif; ?>
                     <span class="text-base font-medium text-[#637083]" data-center-count>
-                        Found <?php echo esc_html(count($processed_centers)); ?> service centers
+                        Found <?php echo esc_html(count($processed_centers)); ?> service centres
                     </span>
                 </div>
 
@@ -904,11 +904,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!visibleCount) {
             if (selectedCity) {
-                countElement.textContent = `No service centers available in ${selectedCity}`;
+                countElement.textContent = `No service centres available in ${selectedCity}`;
             } else if (selectedState) {
-                countElement.textContent = `No service centers available in ${selectedState}`;
+                countElement.textContent = `No service centres available in ${selectedState}`;
             } else {
-                countElement.textContent = 'No service centers available';
+                countElement.textContent = 'No service centres available';
             }
             return;
         }
@@ -1032,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Filter centers based on search term
+        // Filter centres based on search term
         const matchingCenters = centerCards.filter(function(card) {
             const name = (card.dataset.centerName || '').toLowerCase();
             const address = (card.dataset.centerAddress || '').toLowerCase();
@@ -1188,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize with no filters (show all centers)
+    // Initialize with no filters (show all centres)
     filterCardsByStateAndCity('', '');
     updateCityOptions('');
 

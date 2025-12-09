@@ -2340,7 +2340,7 @@ add_action('acf/init', function () {
             ],
             [
                 'key' => 'field_locate_service_centers',
-                'label' => 'Service Centers',
+                'label' => 'Service Centres',
                 'name' => 'service_centers_section',
                 'type' => 'group',
                 'layout' => 'block',
@@ -2353,7 +2353,7 @@ add_action('acf/init', function () {
                     ],
                     [
                         'key' => 'field_locate_service_centers_items',
-                        'label' => 'Service Centers',
+                        'label' => 'Service Centres',
                         'name' => 'centers',
                         'type' => 'repeater',
                         'layout' => 'block',

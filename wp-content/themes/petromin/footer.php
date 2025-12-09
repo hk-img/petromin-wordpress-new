@@ -207,7 +207,7 @@ $normalized_footer_columns = [
     [
         'column_title' => 'Latest Offers',
         'primary_links' => $offers_links,
-        'secondary_links' => $quick_links,
+        'secondary_links' => $other_links,
     ],
 ];
 
