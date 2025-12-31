@@ -4117,6 +4117,97 @@ function load_more_blog_posts() {
 add_action('wp_ajax_load_more_blog_posts', 'load_more_blog_posts');
 add_action('wp_ajax_nopriv_load_more_blog_posts', 'load_more_blog_posts');
 
+// AJAX handler for fetching car models
+function get_car_models() {
+    $car_make = isset($_POST['car_make']) ? sanitize_text_field($_POST['car_make']) : '';
+    
+    if (empty($car_make)) {
+        wp_send_json_error(array('message' => 'Car make is required'));
+        return;
+    }
+    
+    // Build API URL
+    $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_car_models?car_make=eq.' . urlencode($car_make);
+    
+    // Make API request (server-side)
+    $response = wp_remote_get($api_url, array(
+        'timeout' => 15,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+        )
+    ));
+    
+    if (is_wp_error($response)) {
+        wp_send_json_error(array('message' => 'Failed to fetch car models'));
+        return;
+    }
+    
+    $response_code = wp_remote_retrieve_response_code($response);
+    if ($response_code !== 200) {
+        wp_send_json_error(array('message' => 'API request failed'));
+        return;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $car_models = json_decode($body, true);
+    
+    if (!is_array($car_models)) {
+        $car_models = array();
+    }
+    
+    wp_send_json_success(array('models' => $car_models));
+}
+add_action('wp_ajax_get_car_models', 'get_car_models');
+add_action('wp_ajax_nopriv_get_car_models', 'get_car_models');
+
+// AJAX handler for fetching fuel types
+function get_fuel_types() {
+    $car_make = isset($_POST['car_make']) ? sanitize_text_field($_POST['car_make']) : '';
+    $car_model = isset($_POST['car_model']) ? sanitize_text_field($_POST['car_model']) : '';
+    
+    if (empty($car_make) || empty($car_model)) {
+        wp_send_json_error(array('message' => 'Car make and car model are required'));
+        return;
+    }
+    
+    // Build API URL
+    $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_fuel_types?car_make=eq.' . urlencode($car_make) . '&car_model=eq.' . urlencode($car_model) . '&select=fuel_type';
+    
+    // Make API request (server-side)
+    $response = wp_remote_get($api_url, array(
+        'timeout' => 15,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+        )
+    ));
+    
+    if (is_wp_error($response)) {
+        wp_send_json_error(array('message' => 'Failed to fetch fuel types'));
+        return;
+    }
+    
+    $response_code = wp_remote_retrieve_response_code($response);
+    if ($response_code !== 200) {
+        wp_send_json_error(array('message' => 'API request failed'));
+        return;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $fuel_types = json_decode($body, true);
+    
+    if (!is_array($fuel_types)) {
+        $fuel_types = array();
+    }
+    
+    wp_send_json_success(array('fuel_types' => $fuel_types));
+}
+add_action('wp_ajax_get_fuel_types', 'get_fuel_types');
+add_action('wp_ajax_nopriv_get_fuel_types', 'get_fuel_types');
+
 /**
  * Ensure the permalink structure uses /blog/%postname%/ so single posts live under the Blog path.
  */
