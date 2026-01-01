@@ -86,7 +86,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
     <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-40 xl:h-20">
         <div class="w-full relative flex justify-between items-center lg:px-0 px-4">
             <div
-                class="xl:w-1/6 lg:w-1/5 md: h-[4.125rem] relative lg:flex lg:flex-col items-center py-5 bg-white hidden -skew-x-[18deg] origin-top">
+                class="xl:w-1/6 lg:w-1/5 md: h-[4.125rem] relative lg:flex lg:flex-col items-center py-5 bg-white hidden -skew-x-[18deg] origin-top shadow-[0_0_1.25rem_0_#0000004D]">
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="lg:w-auto pl-3 w-auto flex items-center skew-x-[18deg] h-full">
                     <?php if (!empty($desktop_logo_data)) : ?>
                         <img src="<?php echo esc_url($desktop_logo_data['url']); ?>" 
@@ -109,7 +109,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
             </div>
 
             <div
-                class="xl:w-10/12 lg:w-4/5 h-[4.125rem] bg-white relative lg:flex lg:flex-row flex-col  items-center justify-start hidden -skew-x-[18deg] lg:px-[1.875rem] origin-bottom">
+                class="xl:w-10/12 lg:w-4/5 h-[4.125rem] bg-white relative lg:flex lg:flex-row flex-col  items-center justify-start hidden -skew-x-[18deg] lg:px-[1.875rem] origin-bottom shadow-[0_0_1.25rem_0_#0000004D]">
                 <div class="w-full flex justify-between items-center skew-x-[18deg]">
                     <ul class="nav-menu flex items-center 2xl:gap-14 xl:gap-8 gap-x-6 justify-between w-full">
                         <?php foreach ($nav_items as $nav_item) :
