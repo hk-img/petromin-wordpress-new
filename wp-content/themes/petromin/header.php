@@ -32,6 +32,8 @@
 
     <!-- WordPress head -->
     <?php wp_head(); ?>
+    <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
+    <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script>
 </head>
 
 <body <?php body_class('!font-inter'); ?>>
