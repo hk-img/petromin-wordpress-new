@@ -780,6 +780,199 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
     </div>
 </div>
 
+
+<div id="mobileVehicleFormModal" class="md:!hidden hidden cart_modal bg-white size-full group/cartPopup fixed inset-0 z-[100000]  duration-500 flex flex-col items-center">
+        <div class=" border-y z-30 border-[#E5E5E5] p-6 md:hidden block relative w-full bg-white ">
+          <button type="button"  id="closeCarFormPopover" class="flex items-center justify-start gap-4 uppercase text-[#121212] text-lg font-medium">
+              <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="9" height="15" viewBox="0 0 9 15" fill="none">
+                      <path d="M6.99902 13.412L1 7.41299L6.99902 1.41397" stroke="#121212" stroke-width="1.99967"
+                          stroke-linecap="square" stroke-linejoin="round" />
+                  </svg>
+              </span>
+              Your Cart
+          </button>
+        </div>
+        <div class="flex-1 w-full p-6 overflow-y-auto overflow-x-hidden"> 
+        <div class="flex flex-col gap-y-6">
+            <form action="" class="flex flex-col gap-y-6 border-t border-[#EFEFEF] pt-6">
+                <!-- Car Brand Dropdown -->
+                <div class="w-full relative">
+                    <label for=""
+                        class="font-semibold md:text-base text-sm text-[#6B6B6B]">Brand</label>
+                    <div class="relative mt-2">
+                        <input type="text" placeholder="Car Brand" id="mobileVehicleBrandInput" readonly=""
+                            value="<?php echo esc_attr($brand); ?>"
+                            class="w-full px-4 py-3 text-black bg-white border border-[#E3E3E3] placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg">
+                        <span id="mobileVehicleBrandIcon"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805"
+                                    stroke="#6B6B6B" stroke-width="1.33282"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div id="mobileVehicleBrandDropdown"
+                        class="absolute top-full left-0 w-full bg-white border border-gray-200 z-[100001] overflow-hidden hidden mt-1">
+                        <div class="p-3">
+                            <div class="flex items-center bg-gray-100 px-3 py-2 mb-2 rounded">
+                                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none"
+                                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <input type="text" id="mobileVehicleBrandSearch"
+                                    placeholder="Search Car Brand"
+                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 max-h-56 overflow-y-auto"
+                                id="mobileVehicleBrandList">
+                                <?php if (!empty($car_makes)) : ?>
+                                    <?php foreach ($car_makes as $make) : 
+                                        $car_make_name = isset($make['car_make']) ? $make['car_make'] : '';
+                                        $car_make_logo = isset($make['car_make_logo_url']) && !empty($make['car_make_logo_url']) ? $make['car_make_logo_url'] : '';
+                                        
+                                        // Use fallback logo if logo is not available
+                                        $has_logo = !empty($car_make_logo);
+                                        $logo_src = $has_logo ? esc_url($car_make_logo) : esc_url($img_url . 'petromin-logo-300x75-1.webp');
+                                        $fade_class = $has_logo ? '' : 'opacity-40';
+                                    ?>
+                                        <div class="cursor-pointer text-center" data-value="<?php echo esc_attr($car_make_name); ?>">
+                                            <img src="<?php echo $logo_src; ?>" 
+                                                alt="<?php echo esc_attr($car_make_name); ?>" 
+                                                class="w-16 mx-auto mb-1 aspect-square object-contain <?php echo $fade_class; ?>"
+                                                loading="lazy" 
+                                                fetchpriority="low"
+                                                onerror="this.src='<?php echo esc_url($img_url . 'petromin-logo-300x75-1.webp'); ?>'; this.classList.add('opacity-40');">
+                                            <p class="text-xs"><?php echo esc_html($car_make_name); ?></p>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                            <!-- Empty State -->
+                            <div id="mobileVehicleBrandEmptyState" class="hidden text-center py-8">
+                                <p class="text-gray-500 text-sm">No car brands found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Model Dropdown -->
+                <div class="w-full relative">
+                    <label for=""
+                        class="font-semibold md:text-base text-sm text-[#6B6B6B]">Model</label>
+                    <div class="relative mt-2">
+                        <input type="text" placeholder="Car Model (Select Car Brand first)"
+                            id="mobileVehicleModelInput" readonly=""
+                            value="<?php echo esc_attr($model); ?>"
+                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                        <span id="mobileVehicleModelIcon"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805"
+                                    stroke="#6B6B6B" stroke-width="1.33282"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div id="mobileVehicleModelDropdown"
+                        class="absolute top-full left-0 w-full bg-white border border-gray-200 z-[100001] overflow-hidden hidden mt-1">
+                        <div class="p-3">
+                            <div class="flex items-center bg-gray-100 px-3 py-2 mb-2 rounded">
+                                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none"
+                                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                <input type="text" id="mobileVehicleModelSearch"
+                                    placeholder="Search Car Model"
+                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 max-h-56 overflow-y-auto"
+                                id="mobileVehicleModelList">
+                                <!-- Models will be loaded dynamically via AJAX -->
+                            </div>
+                            <!-- Empty State -->
+                            <div id="mobileVehicleModelEmptyState" class="hidden text-center py-8">
+                                <p class="text-gray-500 text-sm">No car models found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fuel Type Dropdown -->
+                <div class="w-full relative">
+                    <label for="" class="font-semibold md:text-base text-sm text-[#6B6B6B]">Fuel
+                        Type</label>
+                    <div class="relative mt-2">
+                        <input type="text" placeholder="Fuel Type" id="mobileVehicleFuelInput" readonly=""
+                            value="<?php echo esc_attr($fuel); ?>"
+                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                        <span id="mobileVehicleFuelIcon"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805"
+                                    stroke="#6B6B6B" stroke-width="1.33282"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div id="mobileVehicleFuelType"
+                        class="absolute top-full left-0 w-full bg-white border border-gray-200 z-[100001] overflow-hidden hidden mt-1">
+                        <div class="p-3">
+                            <div class="grid grid-cols-3 gap-4 max-h-56 overflow-y-auto"
+                                id="mobileVehicleFuelList">
+                                <!-- Fuel types will be loaded dynamically via AJAX -->
+                            </div>
+                            <!-- Empty State -->
+                            <div id="mobileVehicleFuelEmptyState" class="hidden text-center py-8">
+                                <p class="text-gray-500 text-sm">No fuel types found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="bg-[#F9F9F9] border border-[#EFEFEF] text-[#6B6B6B] font-normal text-xs p-4 rounded-lg">
+                                        Updating your vehicle will refresh service availability and pricing.
+                                    </div> 
+        </div>
+        </div>
+          <div
+          class="h-[4.938rem] p-6 w-full flex justify-center items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
+          <button type="button" id="mobileConfirmVehicleUpdateBtn"
+          class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">
+          Confirm Vehicle Update
+      </button>
+      </div>
+      </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="bg-[#F9F9F9] border border-[#EFEFEF] text-[#6B6B6B] font-normal text-xs p-4 rounded-lg">
+                                        Updating your vehicle will refresh service availability and pricing.
+                                    </div> 
+        </div>
+        </div>
+          <div
+          class="h-[4.938rem] p-6 w-full flex justify-center items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
+          <button type="button" id="mobileConfirmVehicleUpdateBtn"
+          class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">
+          Confirm Vehicle Update
+      </button>
+      </div>
+      </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Helper functions
@@ -1691,6 +1884,379 @@ document.addEventListener('DOMContentLoaded', function() {
         closePopover.addEventListener('click', function(e) {
             e.preventDefault();
             cartModal.classList.add('hidden');
+        });
+    }
+    
+    // Mobile Vehicle Form Popup Functionality
+    const mobileVehicleFormModal = $('#mobileVehicleFormModal');
+    const carChangePopupBtn = $('#carChangePopupBtn');
+    const closeCarFormPopover = $('#closeCarFormPopover');
+    
+    // Open mobile vehicle form popup
+    if (carChangePopupBtn && mobileVehicleFormModal) {
+        carChangePopupBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileVehicleFormModal.classList.remove('hidden');
+            // Initialize mobile vehicle dropdowns when popup opens
+            initializeMobileVehicleDropdowns();
+        });
+    }
+    
+    // Close mobile vehicle form popup
+    if (closeCarFormPopover && mobileVehicleFormModal) {
+        closeCarFormPopover.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileVehicleFormModal.classList.add('hidden');
+        });
+    }
+    
+    // Function to fetch mobile vehicle models
+    function fetchMobileVehicleModels(carMake) {
+        if (!carMake) {
+            return;
+        }
+        
+        const modelList = $('#mobileVehicleModelList');
+        const modelInput = $('#mobileVehicleModelInput');
+        const modelIcon = $('#mobileVehicleModelIcon');
+        const modelEmptyState = $('#mobileVehicleModelEmptyState');
+        
+        if (!modelList || !modelInput || !modelIcon || !modelEmptyState) return;
+        
+        // Clear previous model selection
+        modelInput.value = '';
+        setDropdownEnabled('mobileVehicleModelInput', false);
+        setDropdownEnabled('mobileVehicleFuelInput', false);
+        $('#mobileVehicleFuelInput').value = '';
+        
+        // Show loading state
+        modelInput.placeholder = 'Loading models...';
+        modelIcon.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-[#CB122D]"></div>';
+        
+        modelList.innerHTML = '<div class="col-span-2 text-center py-8"><div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#CB122D]"></div><p class="text-gray-500 text-sm mt-2">Loading models...</p></div>';
+        modelEmptyState.classList.add('hidden');
+        
+        // Make AJAX call
+        const formData = new FormData();
+        formData.append('action', 'get_car_models');
+        formData.append('car_make', carMake);
+        
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.success && response.data.models && response.data.models.length > 0) {
+                let html = '';
+                response.data.models.forEach(function(model) {
+                    const modelName = model.car_model || '';
+                    if (modelName) {
+                        const escapedModelName = escapeHtml(modelName);
+                        const modelImage = model.car_model_image_url || '<?php echo esc_js($img_url . "car-brand.webp"); ?>';
+                        html += `
+                            <div class="cursor-pointer text-center" data-value="${escapedModelName}">
+                                <img src="${modelImage}" alt="${escapedModelName}" class="w-full h-24 object-cover mb-1 rounded" loading="lazy" fetchpriority="low" onerror="this.src='<?php echo esc_js($img_url . "car-brand.webp"); ?>';" />
+                                <p class="text-xs">${escapedModelName}</p>
+                            </div>
+                        `;
+                    }
+                });
+                modelList.innerHTML = html;
+                modelInput.placeholder = 'Car Model';
+                setDropdownEnabled('mobileVehicleModelInput', true);
+            } else {
+                modelList.innerHTML = '';
+                modelEmptyState.classList.remove('hidden');
+                modelInput.placeholder = 'No models found';
+            }
+            modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+        })
+        .catch(function() {
+            modelList.innerHTML = '';
+            modelEmptyState.classList.remove('hidden');
+            modelInput.placeholder = 'Failed to load models';
+            modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+        });
+    }
+    
+    // Function to fetch mobile vehicle fuel types
+    function fetchMobileVehicleFuelTypes(carMake, carModel) {
+        if (!carMake || !carModel) {
+            return;
+        }
+        
+        const fuelList = $('#mobileVehicleFuelList');
+        const fuelInput = $('#mobileVehicleFuelInput');
+        const fuelIcon = $('#mobileVehicleFuelIcon');
+        
+        if (!fuelList || !fuelInput || !fuelIcon) return;
+        
+        // Clear previous fuel type selection
+        fuelInput.value = '';
+        setDropdownEnabled('mobileVehicleFuelInput', false);
+        
+        // Show loading state
+        fuelInput.placeholder = 'Loading fuel types...';
+        fuelIcon.innerHTML = '<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-[#CB122D]"></div>';
+        
+        fuelList.innerHTML = '<div class="col-span-3 text-center py-8"><div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#CB122D]"></div><p class="text-gray-500 text-sm mt-2">Loading fuel types...</p></div>';
+        
+        // Make AJAX call
+        const formData = new FormData();
+        formData.append('action', 'get_fuel_types');
+        formData.append('car_make', carMake);
+        formData.append('car_model', carModel);
+        
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.success && response.data.fuel_types && response.data.fuel_types.length > 0) {
+                let html = '';
+                const defaultSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="md:size-12 size-8 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><g clip-path="url(#clip0_2808_4102)"><path d="M22.3773 20.1645C22.671 19.1058 23.4307 15.9298 23.3604 14.7287C23.2136 12.438 20.3409 6.96505 20.2323 6.75456C19.9068 6.01162 18.9939 5.69588 18.2661 6.04877C17.6086 6.36452 17.3213 7.1446 17.6086 7.81324L19.2428 11.4846H19.1343C18.2278 11.4846 17.5 12.1903 17.5 13.0695V15.1125C16.4786 15.9236 15.8657 17.1556 15.8657 18.431V20.1583C15.6104 20.3007 15.4316 20.5483 15.4316 20.8641V22.8019C15.4316 23.26 15.7955 23.6129 16.2679 23.6129H22.2305C22.7029 23.6129 23.0668 23.26 23.0668 22.8019V20.8641C23.0285 20.5483 22.7412 20.2264 22.3773 20.1583V20.1645ZM16.5935 18.5053C16.5935 17.3785 17.1361 16.3198 18.0873 15.645C18.1959 15.5769 18.2342 15.4716 18.2342 15.3602V13.1376C18.2342 12.6423 18.6683 12.2584 19.1407 12.2584C19.7216 12.2584 19.977 12.6113 20.0472 13.1376C20.0855 13.3852 20.0472 13.28 20.0472 16.1712C20.0472 16.3446 20.194 16.5241 20.4111 16.5241C20.6281 16.5241 20.775 16.3508 20.775 16.1712V13.1376C20.775 12.6794 20.5579 12.2213 20.1557 11.9056L18.2661 7.56559C18.1193 7.24985 18.2661 6.85981 18.5917 6.68646C18.9556 6.5131 19.3577 6.64931 19.5365 7.03935C19.5748 7.07649 22.4475 12.6113 22.5944 14.7658C22.6646 15.8617 21.8666 19.1058 21.6113 20.0592H16.5552V18.5053H16.5935ZM21.2155 22.3128C20.8899 22.3128 20.5962 22.028 20.5962 21.7123C20.5962 21.3965 20.8899 21.1117 21.2155 21.1117C21.541 21.1117 21.8347 21.3965 21.8347 21.7123C21.8347 22.028 21.5793 22.3128 21.2155 22.3128Z" fill="currentColor"></path><path d="M7.50174 20.0895V18.3621C7.50174 17.093 6.8825 15.8548 5.86746 15.0437V13.0007C5.86746 12.0101 4.92264 11.3043 4.11827 11.4157L5.72063 7.71346C6.01429 7.04482 5.72063 6.26474 5.06309 5.94899C4.33532 5.5961 3.42881 5.91185 3.13515 6.61763C3.02662 6.85908 0.153867 12.332 0.000653554 14.5856C-0.0695694 15.7867 0.690115 18.9627 0.983774 20.0214C0.581589 20.0895 0.294313 20.4114 0.294313 20.7953V22.7331C0.294313 23.1912 0.658195 23.5441 1.1306 23.5441H7.09317C7.56558 23.5441 7.92946 23.1912 7.92946 22.7331V20.7953C7.92946 20.4795 7.75071 20.1947 7.49535 20.0895H7.50174ZM0.734802 14.6227C0.881632 12.5054 3.75439 6.97052 3.79269 6.89623C3.93952 6.54334 4.37363 6.36999 4.73751 6.58049C5.06309 6.72288 5.20992 7.10673 5.06309 7.42867L3.17345 11.7686C2.80957 12.0534 2.55421 12.5116 2.55421 13.0007V16.0343C2.55421 16.2076 2.70104 16.3872 2.9181 16.3872C3.13515 16.3872 3.28198 16.2138 3.28198 16.0343V13.0688C3.3522 12.4001 3.75439 12.1525 4.18849 12.1525C4.6992 12.1525 5.09501 12.5425 5.09501 13.0316V15.2542C5.09501 15.3595 5.13331 15.4647 5.24184 15.539C6.18665 16.2076 6.73567 17.2663 6.73567 18.3993V19.9533H1.67962C1.46257 18.9627 0.658195 15.7185 0.734802 14.6289V14.6227ZM2.15203 22.1697C1.82645 22.1697 1.53279 21.8849 1.53279 21.5691C1.53279 21.2534 1.82645 20.9686 2.15203 20.9686C2.47761 20.9686 2.77127 21.2534 2.77127 21.5691C2.73296 21.8849 2.47761 22.1697 2.15203 22.1697Z" fill="currentColor"></path><path d="M5.93819 2.94642C6.08502 3.08882 6.30207 3.08882 6.4489 2.94642C6.59573 2.80403 6.59573 2.59353 6.4489 2.45113L5.42748 1.46056C5.28065 1.31816 5.06359 1.31816 4.91676 1.46056C4.76993 1.60295 4.76993 1.81345 4.91676 1.95584L5.93819 2.94642Z" fill="currentColor"></path><path d="M6.80563 1.85092C6.84393 2.02427 7.06098 2.16666 7.23973 2.09856C7.41848 2.06142 7.56531 1.85092 7.49509 1.67757L7.13121 0.265997C7.0929 0.0926462 6.87585 -0.0497491 6.6971 0.018353C6.51835 0.0554996 6.37152 0.265997 6.44175 0.439348L6.80563 1.85092Z" fill="currentColor"></path><path d="M3.64486 3.65165L5.10039 4.00454C5.27914 4.04169 5.50258 3.93644 5.5345 3.7569C5.56642 3.57736 5.46427 3.36686 5.27914 3.3359L3.82361 2.98301C3.64486 2.94587 3.42142 3.05111 3.38951 3.23066C3.31928 3.40401 3.45973 3.58355 3.64486 3.65165Z" fill="currentColor"></path><path d="M17.3205 2.94618C17.4674 3.08857 17.6844 3.08857 17.8312 2.94618L18.8144 1.9556C18.9612 1.8132 18.9612 1.60271 18.8144 1.46031C18.6675 1.31792 18.4505 1.31792 18.3037 1.46031L17.2822 2.45089C17.1737 2.55614 17.1737 2.80378 17.3205 2.94618Z" fill="currentColor"></path><path d="M16.5238 2.09852C16.7025 2.13567 16.926 2.03042 16.9579 1.85088L17.3218 0.439304C17.3601 0.265954 17.2515 0.0492651 17.0664 0.0183096C16.8813 -0.0126459 16.6642 0.0864117 16.6323 0.265954L16.2684 1.67752C16.1982 1.85088 16.3386 2.06756 16.5238 2.09852Z" fill="currentColor"></path><path d="M18.2347 3.75806C18.273 3.93141 18.4901 4.07381 18.6688 4.0057L20.1244 3.65281C20.3031 3.61567 20.4499 3.40517 20.3797 3.23182C20.3414 3.05847 20.1243 2.91607 19.9456 2.98417L18.4901 3.33707C18.3113 3.37421 18.1645 3.54756 18.2347 3.75806Z" fill="currentColor"></path><path d="M16.74 4.07335C16.74 3.75761 16.4846 3.50996 16.159 3.47282C14.0843 3.29947 12.9224 2.48224 12.3415 1.956C12.0861 1.70835 11.6839 1.70835 11.4669 1.956C10.8859 2.48224 9.71768 3.29947 7.64929 3.47282C7.32372 3.50996 7.06836 3.75761 7.06836 4.07335V7.67038C7.06836 9.15006 7.64929 10.5988 8.81755 11.5832C9.61554 12.2889 10.5987 12.7842 11.7286 13.1681C11.8754 13.2052 12.0223 13.2052 12.1308 13.1681C13.2607 12.8152 14.2375 12.2889 15.0419 11.5832C16.1718 10.5926 16.7527 9.15006 16.7527 7.67038V4.07335H16.74ZM11.901 10.0044C10.4837 10.0044 9.31549 8.87765 9.31549 7.49703C9.31549 6.11642 10.4774 4.98964 11.901 4.98964C13.3246 4.98964 14.4865 6.11642 14.4865 7.49703C14.4865 8.87765 13.3246 10.0044 11.901 10.0044Z" fill="currentColor"></path><path d="M12.5913 6.61721C12.553 6.65435 11.538 7.63874 11.5699 7.60778C11.5316 7.57064 11.1358 7.18679 11.1677 7.21774C11.0209 7.07535 10.8038 7.07535 10.657 7.21774C10.5102 7.36014 10.5102 7.57064 10.657 7.71303L11.3145 8.35071C11.4614 8.49311 11.6784 8.49311 11.8253 8.35071L13.0956 7.11869C13.2425 6.97629 13.2425 6.76579 13.0956 6.6234C12.9488 6.481 12.7318 6.481 12.5849 6.6234L12.5913 6.61721Z" fill="currentColor"></path></g><defs><clipPath id="clip0_2808_4102"><rect width="23" height="24" fill="currentColor"></rect></clipPath></defs></svg>`;
+                
+                response.data.fuel_types.forEach(function(fuelType) {
+                    const fuelTypeName = fuelType.fuel_type || '';
+                    if (fuelTypeName) {
+                        const escapedFuelTypeName = escapeHtml(fuelTypeName);
+                        html += `
+                            <div class="flex flex-col gap-2 items-center cursor-pointer text-center" data-value="${escapedFuelTypeName}">
+                                ${defaultSvg}
+                                <p class="md:text-sm text-xs font-normal">${escapedFuelTypeName}</p>
+                            </div>
+                        `;
+                    }
+                });
+                fuelList.innerHTML = html;
+                fuelInput.placeholder = 'Fuel Type';
+                setDropdownEnabled('mobileVehicleFuelInput', true);
+            } else {
+                fuelList.innerHTML = '';
+                fuelInput.placeholder = 'No fuel types found';
+            }
+            fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+        })
+        .catch(function() {
+            fuelList.innerHTML = '';
+            fuelInput.placeholder = 'Failed to load fuel types';
+            fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+        });
+    }
+    
+    // Setup mobile vehicle dropdowns
+    const allMobileVehicleDropdowns = [];
+    
+    function closeAllMobileVehicleDropdowns(exceptId) {
+        allMobileVehicleDropdowns.forEach(function(dropdown) {
+            if (dropdown.dropdownId !== exceptId) {
+                dropdown.dropdown.classList.add('hidden');
+            }
+        });
+    }
+    
+    function setupMobileVehicleDropdown({inputId, dropdownId, itemSelector, searchId = null, iconId = null, enabled = true}) {
+        const input = $('#' + inputId);
+        const dropdown = $('#' + dropdownId);
+        const search = searchId ? $('#' + searchId) : null;
+        const icon = iconId ? $('#' + iconId) : null;
+        
+        if (!input || !dropdown) return;
+        
+        allMobileVehicleDropdowns.push({
+            dropdownId: dropdownId,
+            inputId: inputId,
+            input: input,
+            dropdown: dropdown,
+            icon: icon,
+            enabled: enabled
+        });
+        
+        if (!enabled) {
+            setDropdownEnabled(inputId, false);
+        }
+        
+        // Input click toggle
+        input.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (input.disabled) {
+                return;
+            }
+            
+            const isOpen = !dropdown.classList.contains('hidden');
+            if (!isOpen) {
+                closeAllMobileVehicleDropdowns(dropdownId);
+            }
+            
+            dropdown.classList.toggle('hidden');
+        });
+        
+        // Icon click toggle
+        if (icon) {
+            icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                if (input.disabled) {
+                    return;
+                }
+                
+                const isOpen = !dropdown.classList.contains('hidden');
+                if (!isOpen) {
+                    closeAllMobileVehicleDropdowns(dropdownId);
+                }
+                
+                dropdown.classList.toggle('hidden');
+            });
+        }
+        
+        // Outside click close
+        document.addEventListener('click', function(e) {
+            var clickedOutside = true;
+            allMobileVehicleDropdowns.forEach(function(dropdownItem) {
+                if (dropdownItem.dropdown.contains(e.target) || 
+                    dropdownItem.input === e.target || 
+                    dropdownItem.dropdown === e.target ||
+                    (dropdownItem.icon && dropdownItem.icon.contains(e.target))) {
+                    clickedOutside = false;
+                }
+            });
+            
+            if (clickedOutside) {
+                closeAllMobileVehicleDropdowns(null);
+            }
+        });
+        
+        // Dropdown item click
+        dropdown.addEventListener('click', function(e) {
+            const clickedItem = e.target.closest(itemSelector);
+            if (!clickedItem) return;
+            
+            const value = clickedItem.getAttribute('data-value');
+            input.value = value;
+            dropdown.classList.add('hidden');
+            
+            // Enable next dropdown based on selection
+            if (inputId === 'mobileVehicleBrandInput') {
+                fetchMobileVehicleModels(value);
+                setDropdownEnabled('mobileVehicleModelInput', true);
+                setDropdownEnabled('mobileVehicleFuelInput', false);
+                $('#mobileVehicleModelInput').value = '';
+                $('#mobileVehicleFuelInput').value = '';
+            } else if (inputId === 'mobileVehicleModelInput') {
+                const selectedBrand = $('#mobileVehicleBrandInput').value;
+                fetchMobileVehicleFuelTypes(selectedBrand, value);
+                setDropdownEnabled('mobileVehicleFuelInput', true);
+                $('#mobileVehicleFuelInput').value = '';
+            }
+        });
+        
+        // Search filter
+        if (search) {
+            search.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            search.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const items = dropdown.querySelectorAll(itemSelector);
+                let foundItems = 0;
+                items.forEach(function(item) {
+                    const text = item.textContent.toLowerCase();
+                    if (text.indexOf(searchTerm) > -1) {
+                        item.style.display = '';
+                        foundItems++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                const emptyState = $('#' + dropdownId.replace('Dropdown', 'EmptyState'));
+                if (emptyState) {
+                    if (foundItems === 0) {
+                        emptyState.classList.remove('hidden');
+                    } else {
+                        emptyState.classList.add('hidden');
+                    }
+                }
+            });
+        }
+    }
+    
+    function initializeMobileVehicleDropdowns() {
+        // Clear previous dropdown instances
+        allMobileVehicleDropdowns.length = 0;
+        
+        setupMobileVehicleDropdown({
+            inputId: 'mobileVehicleBrandInput',
+            dropdownId: 'mobileVehicleBrandDropdown',
+            itemSelector: '[data-value]',
+            searchId: 'mobileVehicleBrandSearch',
+            iconId: 'mobileVehicleBrandIcon',
+            enabled: true
+        });
+        
+        setupMobileVehicleDropdown({
+            inputId: 'mobileVehicleModelInput',
+            dropdownId: 'mobileVehicleModelDropdown',
+            itemSelector: '[data-value]',
+            searchId: 'mobileVehicleModelSearch',
+            iconId: 'mobileVehicleModelIcon',
+            enabled: <?php echo !empty($brand) ? 'true' : 'false'; ?>
+        });
+        
+        setupMobileVehicleDropdown({
+            inputId: 'mobileVehicleFuelInput',
+            dropdownId: 'mobileVehicleFuelType',
+            itemSelector: '[data-value]',
+            iconId: 'mobileVehicleFuelIcon',
+            enabled: <?php echo (!empty($brand) && !empty($model)) ? 'true' : 'false'; ?>
+        });
+        
+        // If brand is already selected, fetch models
+        <?php if (!empty($brand)) : ?>
+            fetchMobileVehicleModels('<?php echo esc_js($brand); ?>');
+        <?php endif; ?>
+        
+        // If model is already selected, fetch fuel types
+        <?php if (!empty($brand) && !empty($model)) : ?>
+            fetchMobileVehicleFuelTypes('<?php echo esc_js($brand); ?>', '<?php echo esc_js($model); ?>');
+        <?php endif; ?>
+    }
+    
+    // Handle Mobile Confirm Vehicle Update button
+    const mobileConfirmVehicleUpdateBtn = $('#mobileConfirmVehicleUpdateBtn');
+    if (mobileConfirmVehicleUpdateBtn) {
+        mobileConfirmVehicleUpdateBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const brand = $('#mobileVehicleBrandInput').value.trim();
+            const model = $('#mobileVehicleModelInput').value.trim();
+            const fuel = $('#mobileVehicleFuelInput').value.trim();
+            const city = '<?php echo esc_js($city); ?>';
+            
+            if (!brand || !model || !fuel) {
+                alert('Please select Brand, Model, and Fuel Type');
+                return;
+            }
+            
+            // Clear cart when vehicle is updated
+            clearCart();
+            
+            // Build query string
+            const params = new URLSearchParams();
+            if (city) params.append('city', encodeURIComponent(city));
+            params.append('brand', encodeURIComponent(brand));
+            params.append('model', encodeURIComponent(model));
+            params.append('fuel', encodeURIComponent(fuel));
+            
+            // Close popup
+            if (mobileVehicleFormModal) {
+                mobileVehicleFormModal.classList.add('hidden');
+            }
+            
+            // Redirect to same page with updated query params
+            const redirectUrl = currentUrl + '?' + params.toString();
+            window.location.href = redirectUrl;
         });
     }
     
