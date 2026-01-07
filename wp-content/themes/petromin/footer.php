@@ -506,7 +506,7 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 
     <!-- Desktop Button -->
     <button id="desktopToggle"
-        class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-40">
+        class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-40 <?php echo (is_page_template('cost-estimator.php')) ? '!hidden' : ''; ?>">
         <span class="text-base font-bold italic text-white uppercase">
             GET INSTANT CAR SERVICE QUOTE
         </span>
@@ -521,7 +521,7 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
              w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)]
             flex flex-col lg:flex-row transtransform -translate-x-1/2 -translate-y-1/2
             animate-slideUp
-            opacity-100 pointer-events-auto h-full <?php echo (is_front_page() || is_home()) ? '' : 'hidden'; ?>">
+            opacity-100 pointer-events-auto h-full <?php echo (is_page_template('cost-estimator.php') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
         <input type="checkbox" id="toggle" class="hidden peer">
         <div class=" transition-all duration-500 ease-in-out w-full">
             <!-- Header -->
@@ -930,8 +930,10 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
                     hide();
             });
             
-            // Show popup by default only on home page
-            <?php if (is_front_page() || is_home()) : ?>
+            // Show popup by default only on home page, hide on cost-estimator page
+            <?php if (is_page_template('cost-estimator.php')) : ?>
+            hide();
+            <?php elseif (is_front_page() || is_home()) : ?>
             show();
             <?php else : ?>
             hide();
