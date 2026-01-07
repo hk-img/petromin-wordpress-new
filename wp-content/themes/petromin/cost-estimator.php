@@ -699,7 +699,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
     </div>
     <div class="w-full flex justify-end">
         <a href="#cartContentSection" class="bg-[#CB122D] w-fit px-8 rounded-2xl h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#650916]">
-            View Cart</a>
+            View Cart
+        </a>
     </div>
 </div>
 
