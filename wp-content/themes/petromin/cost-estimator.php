@@ -690,7 +690,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
     </div>
 </section>
 
-<div id="mobileCartSummary" class="view h-[4.938rem] group/check w-full fixed bottom-0 inset-x-0 md:hidden flex justify-between items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014] hidden">
+<div id="mobileCartSummary" class="view h-[4.938rem] group/check w-full fixed bottom-0 inset-x-0 md:hidden flex justify-between items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
     <div class="flex flex-col w-full">
         <div class="text-[#637083] text-xs font-normal">
             <span id="mobileCartItemCount">0</span> <span id="mobileCartItemText">item</span>
@@ -698,14 +698,14 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
         <div id="mobileCartTotal" class="text-[#121212] text-lg font-bold">₹0</div>
     </div>
     <div class="w-full flex justify-end">
-        <a href="#cartContentSection" class="bg-[#CB122D] w-fit px-8 rounded-2xl h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#650916]">
+        <button type="button" id="viewCartBtn" class="bg-[#CB122D] w-fit px-8 rounded-2xl h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#650916]">
             View Cart
-        </a>
+        </button>
     </div>
 </div>
 
 
-<div class="md:!hidden- hidden- cart_modal bg-white size-full group/cartPopup fixed inset-0 z-[100000] duration-500 flex flex-col items-center">
+<div class="md:!hidden hidden cart_modal bg-white size-full group/cartPopup fixed inset-0 z-[100000] duration-500 flex flex-col items-center">
     <div class="border-y z-30 border-[#E5E5E5] p-6 md:hidden block relative w-full bg-white">
         <button type="button" id="closePopover" class="flex items-center justify-start gap-4 uppercase text-[#121212] text-lg font-medium">
             <span>
@@ -723,8 +723,18 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     </span>
                     <div class="flex flex-col gap-y-1">
                         <div class="text-[#A6A6A6] uppercase text-xs font-semibold">Your Vehicle</div>
-                        <div class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">Hyundai i20</div>
-                        <div class="text-[#6F6F6F] text-sm font-nromal">Diesel</div>
+                        <div id="mobileCartVehicleName" class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">
+                            <?php
+                                $vehicle_title = trim($brand . ' ' . $model);
+                                echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Vehicle not selected');
+                            ?>
+                        </div>
+                        <div id="mobileCartVehicleFuel" class="text-[#6F6F6F] text-sm font-nromal">
+                            <?php
+                                $fuel_label = !empty($fuel) ? $fuel : 'Fuel not selected';
+                                echo esc_html($fuel_label);
+                            ?>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -732,90 +742,22 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     </button>
                 </div>
             </div>
-            <div class="w-full flex flex-col bg-white border border-[#EFEFEF] rounded-xl shadow-[0_0.125rem_0.25rem_-0.125rem_rgba(0,0,0,0.10)]">
-                <div class="p-3 flex flex-col gap-y-3">
-                    <div class="flex justify-between">
-                        <div class="flex gap-2">
-                            <div>
-                                <img fetchpriority="low" loading="lazy" src="img/premium-car-service.webp"
-                                class="size-20 object-cover  rounded-lg aspect-square"
-                                width="" height="" alt="" title="">
-                            </div>
-                            <div class="flex flex-col gap-2 justify-between">
-                                <div class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">Premium Car Service</div>
-                                <div class="flex items-center gap-3">
-                                    <!-- <div class="text-[#637083] font-nromal text-base line-through">
-                                        ₹4,999
-                                    </div> -->
-                                    <div class="text-[#121212]  text-md font-bold">₹2,999</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="" class="bg-transparent p-0 m-0 border-0 text-[#CB122D]s hover:text-[#650916] duration-500">
-                                <img src="<?php echo esc_url($img_url . 'mobileCartDeleteIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Delete Icon" />
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t border-[#F0F0F0] px-3 py-3">
-                    <a href="" class="flex items-center gap-2 text-xs font-medium text-[#000000A3] text-center justify-center">
-                        View Details
-                        <span>
-                            <img src="<?php echo esc_url($img_url . 'mobileCartViewDetailsArrow.svg'); ?>" width="10" height="6" alt="View Details Arrow" />
-                        </span>
-                    </a>
-                </div>
-                <!-- view details part -->
-                <div class="w-full border-t border-[#F0F0F0] p-3 hidden">
-                    <h2 class="text-[#121212] text-sm font-semibold text-start pb-2">What's included:</h2>
-                    <ul class="flex flex-col gap-y-3">
-                        <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
-                            <span>
-                                <img src="<?php echo esc_url($img_url . 'checkeddIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Check Icon" />
-                            </span>
-                            Full Body Respray
-                        </li>
-                        <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
-                            <span>
-                                <img src="<?php echo esc_url($img_url . 'checkeddIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Check Icon" />
-                            </span>
-                            Full Body Respray
-                        </li>
-                        <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
-                            <span>
-                                <img src="<?php echo esc_url($img_url . 'checkeddIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Check Icon" />
-                            </span>
-                            Full Body Respray
-                        </li>
-                        <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
-                            <span>
-                                <img src="<?php echo esc_url($img_url . 'checkeddIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Check Icon" />
-                            </span>
-                            Full Body Respray
-                        </li>
-                        <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
-                            <span>
-                                <img src="<?php echo esc_url($img_url . 'checkeddIcon.svg'); ?>" class="size-5" width="20" height="20" alt="Check Icon" />
-                            </span>
-                            Full Body Respray
-                        </li>
-                    </ul>
-                </div>
+            <div id="mobileCartItemsContainer" class="w-full flex flex-col gap-y-4">
+                <!-- Cart items will be loaded dynamically from sessionStorage -->
             </div>
         </div>
-        <div class="w-full flex flex-col items-start gap-2 bg-[#FAFAFA] border border-[#EFEFEF] rounded-xl shadow-[0_0.125rem_0.25rem_-0.125rem_rgba(0,0,0,0.10)] p-3 mt-4">
+        <div id="mobileCartPriceBreakdown" class="w-full flex flex-col items-start gap-2 bg-[#FAFAFA] border border-[#EFEFEF] rounded-xl shadow-[0_0.125rem_0.25rem_-0.125rem_rgba(0,0,0,0.10)] p-3 mt-4 hidden">
             <div class="flex flex-col gap-2 w-full text-start">
                 <h2 class="text-[#121212] font-bold text-base">Price Breakdown</h2>
                 <div class="w-full flex justify-between items-center gap-2">
-                    <div class="text-[#6B6B6B] text-sm font-medium">Subtotal (1 service)</div>
-                    <div class="text-[#121212] text-base font-bold">₹2,999</div>
+                    <div class="text-[#6B6B6B] text-sm font-medium">Subtotal (<span id="mobileCartSubtotalCount">0</span> service<span id="mobileCartSubtotalCountPlural">s</span>)</div>
+                    <div id="mobileCartSubtotal" class="text-[#121212] text-base font-bold">₹0</div>
                 </div>
             </div>
             <div class="flex flex-col gap-3 w-full text-start border-t border-[#E5E5E5] pt-3">
                 <div class="w-full flex justify-between items-center gap-2">
                     <h2 class="text-[#121212] font-bold text-base">Total</h2>
-                    <div class="text-[#CB122D] text-xl font-bold">₹3,998</div>
+                    <div id="mobileCartTotalPrice" class="text-[#CB122D] text-xl font-bold">₹0</div>
                 </div>
                 <p class="text-sm text-[#000000] font-normal flex gap-2">
                     <span>
@@ -829,8 +771,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
     </div>
     <div class="h-[4.938rem] p-6 w-full flex justify-between items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
         <div class="flex flex-col w-full">
-            <div class="text-[#637083] text-xs font-normal">1 item</div>
-            <div class="text-[#121212] text-lg font-bold">₹2,999</div>
+            <div class="text-[#637083] text-xs font-normal"><span id="mobileCartFooterItemCount">0</span> item<span id="mobileCartFooterItemCountPlural">s</span></div>
+            <div id="mobileCartFooterTotal" class="text-[#121212] text-lg font-bold">₹0</div>
         </div>
         <div class="w-full flex justify-end">
             <a href="" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Checkout</a>
@@ -1465,7 +1407,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show subtotal and checkout sections
             if (cartSubtotalSection) cartSubtotalSection.classList.remove('hidden');
             if (checkoutButtonSection) checkoutButtonSection.classList.remove('hidden');
-            if (mobileCartSummary) mobileCartSummary.classList.remove('hidden');
             
             // Update count and subtotal
             if (cartItemCount) {
@@ -1492,8 +1433,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hide subtotal and checkout sections
             if (cartSubtotalSection) cartSubtotalSection.classList.add('hidden');
             if (checkoutButtonSection) checkoutButtonSection.classList.add('hidden');
-            if (mobileCartSummary) mobileCartSummary.classList.add('hidden');
+            
+            // Update mobile cart summary to 0 when cart is empty
+            if (mobileCartItemCount) {
+                mobileCartItemCount.textContent = 0;
+            }
+            if (mobileCartItemText) {
+                mobileCartItemText.textContent = 'item';
+            }
+            if (mobileCartTotal) {
+                mobileCartTotal.textContent = formatPrice(0, 'INR');
+            }
         }
+        
+        // Render mobile cart popup
+        renderMobileCart();
         
         // Add event listeners to remove buttons
         const removeButtons = document.querySelectorAll('.remove-cart-item');
@@ -1501,6 +1455,193 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.addEventListener('click', function() {
                 const serviceId = this.getAttribute('data-service-id');
                 removeFromCart(serviceId);
+            });
+        });
+    }
+    
+    // Function to render mobile cart popup
+    function renderMobileCart() {
+        const cart = getCart();
+        const mobileCartItemsContainer = $('#mobileCartItemsContainer');
+        const mobileCartVehicleName = $('#mobileCartVehicleName');
+        const mobileCartVehicleFuel = $('#mobileCartVehicleFuel');
+        const mobileCartSubtotalCount = $('#mobileCartSubtotalCount');
+        const mobileCartSubtotalCountPlural = $('#mobileCartSubtotalCountPlural');
+        const mobileCartSubtotal = $('#mobileCartSubtotal');
+        const mobileCartTotalPrice = $('#mobileCartTotalPrice');
+        const mobileCartFooterItemCount = $('#mobileCartFooterItemCount');
+        const mobileCartFooterItemCountPlural = $('#mobileCartFooterItemCountPlural');
+        const mobileCartFooterTotal = $('#mobileCartFooterTotal');
+        
+        if (!mobileCartItemsContainer) return;
+        
+        // Update vehicle info
+        if (mobileCartVehicleName) {
+            const vehicleTitle = (cart.vehicle.brand || '') + ' ' + (cart.vehicle.model || '');
+            mobileCartVehicleName.textContent = vehicleTitle.trim() || 'Vehicle not selected';
+        }
+        if (mobileCartVehicleFuel) {
+            mobileCartVehicleFuel.textContent = cart.vehicle.fuel || 'Fuel not selected';
+        }
+        
+        // Clear existing items
+        mobileCartItemsContainer.innerHTML = '';
+        
+        // Render cart items
+        if (cart.items.length > 0) {
+            cart.items.forEach(function(item) {
+                const serviceName = item.service_name || item.name || 'Service';
+                const servicePrice = item.price || 0;
+                const serviceCurrency = item.currency || 'INR';
+                const serviceImage = item.service_image_url || item.image_url || imgUrl + 'car-brand.webp';
+                const serviceDetails = item.service_details || [];
+                
+                // Generate service details HTML
+                let detailsHtml = '';
+                if (serviceDetails && serviceDetails.length > 0) {
+                    serviceDetails.forEach(function(detail) {
+                        const detailText = detail.detail || detail || '';
+                        if (detailText) {
+                            detailsHtml += `
+                                <li class="w-full flex items-center gap-2 font-normal text-sm text-[#121212]">
+                                    <span>
+                                        <img src="${imgUrl}checkeddIcon.svg" class="size-5" width="20" height="20" alt="Check Icon" />
+                                    </span>
+                                    ${escapeHtml(detailText)}
+                                </li>
+                            `;
+                        }
+                    });
+                }
+                
+                const itemHtml = `
+                    <div class="w-full flex flex-col bg-white border border-[#EFEFEF] rounded-xl shadow-[0_0.125rem_0.25rem_-0.125rem_rgba(0,0,0,0.10)]" data-cart-item-id="${item.id}">
+                        <div class="p-3 flex flex-col gap-y-3">
+                            <div class="flex justify-between">
+                                <div class="flex gap-2">
+                                    <div>
+                                        <img fetchpriority="low" loading="lazy" src="${serviceImage}" class="size-20 object-cover rounded-lg aspect-square" alt="${escapeHtml(serviceName)}" onerror="this.src='${imgUrl}car-brand.webp';" />
+                                    </div>
+                                    <div class="flex flex-col gap-2 justify-between">
+                                        <div class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">${escapeHtml(serviceName)}</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-[#121212] text-md font-bold">${formatPrice(servicePrice, serviceCurrency)}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" class="remove-mobile-cart-item bg-transparent p-0 m-0 border-0 text-[#CB122D] hover:text-[#650916] duration-500" data-service-id="${item.id}">
+                                        <img src="${imgUrl}mobileCartDeleteIcon.svg" class="size-5" width="20" height="20" alt="Delete Icon" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        ${detailsHtml ? `
+                        <div class="border-t border-[#F0F0F0] px-3 py-3">
+                            <a href="javascript:void(0);" class="mobile-view-details-btn flex items-center gap-2 text-xs font-medium text-[#000000A3] text-center justify-center" data-service-id="${item.id}">
+                                View Details
+                                <span>
+                                    <img src="${imgUrl}mobileCartViewDetailsArrow.svg" width="10" height="6" alt="View Details Arrow" />
+                                </span>
+                            </a>
+                        </div>
+                        <div class="mobile-service-details w-full border-t border-[#F0F0F0] p-3 hidden" data-service-id="${item.id}">
+                            <h2 class="text-[#121212] text-sm font-semibold text-start pb-2">What's included:</h2>
+                            <ul class="flex flex-col gap-y-3">
+                                ${detailsHtml}
+                            </ul>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                mobileCartItemsContainer.innerHTML += itemHtml;
+            });
+        } else {
+            // Show empty cart state
+            mobileCartItemsContainer.innerHTML = `
+                <div class="w-full flex flex-col gap-y-4 text-center mx-auto py-6">
+                    <div class="bg-[#F7F7F7] size-20 rounded-full flex items-center justify-center mx-auto">
+                        <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.1749 7.58028C19.9001 7.86066 19.7462 8.23762 19.7462 8.63024C19.7462 9.02285 19.9001 9.39981 20.1749 9.68019L22.5748 12.0801C22.8552 12.3549 23.2322 12.5089 23.6248 12.5089C24.0174 12.5089 24.3944 12.3549 24.6748 12.0801L29.3336 7.42278C29.8135 6.9398 30.628 7.0928 30.808 7.74977C31.2612 9.39802 31.2356 11.1412 30.7342 12.7755C30.2328 14.4097 29.2763 15.8673 27.9767 16.9778C26.6771 18.0882 25.0881 18.8056 23.3957 19.0459C21.7033 19.2862 19.9774 19.0396 18.42 18.3348L6.55548 30.1994C5.95877 30.7959 5.14953 31.1309 4.30579 31.1308C3.46205 31.1306 2.65293 30.7953 2.05641 30.1986C1.4599 29.6019 1.12486 28.7927 1.125 27.9489C1.12514 27.1052 1.46045 26.2961 2.05716 25.6995L13.9217 13.835C13.2169 12.2777 12.9703 10.5518 13.2106 8.85935C13.4509 7.16692 14.1683 5.57793 15.2788 4.27833C16.3892 2.97873 17.8469 2.02227 19.4811 1.52086C21.1153 1.01945 22.8585 0.993842 24.5068 1.44702C25.1637 1.62702 25.3167 2.43998 24.8352 2.92296L20.1749 7.58028Z" stroke="#AFAFAF" stroke-width="2.24991" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="w-full flex flex-col gap-y-1">
+                        <h3 class="text-[#6F6F6F] text-sm font-normal">Your cart is empty</h3>
+                        <p class="text-[#AFAFAF] text-xs font-normal">Add services to get started</p>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Update mobile cart price breakdown
+        const itemCount = cart.items.length;
+        const subtotal = cart.items.reduce((sum, item) => sum + (item.price || 0), 0);
+        const mobileCartPriceBreakdown = $('#mobileCartPriceBreakdown');
+        
+        if (itemCount > 0) {
+            // Show price breakdown section
+            if (mobileCartPriceBreakdown) {
+                mobileCartPriceBreakdown.classList.remove('hidden');
+            }
+            
+            if (mobileCartSubtotalCount) {
+                mobileCartSubtotalCount.textContent = itemCount;
+            }
+            if (mobileCartSubtotalCountPlural) {
+                mobileCartSubtotalCountPlural.textContent = itemCount === 1 ? '' : 's';
+            }
+            if (mobileCartSubtotal) {
+                mobileCartSubtotal.textContent = formatPrice(subtotal, 'INR');
+            }
+            if (mobileCartTotalPrice) {
+                mobileCartTotalPrice.textContent = formatPrice(subtotal, 'INR');
+            }
+            if (mobileCartFooterItemCount) {
+                mobileCartFooterItemCount.textContent = itemCount;
+            }
+            if (mobileCartFooterItemCountPlural) {
+                mobileCartFooterItemCountPlural.textContent = itemCount === 1 ? '' : 's';
+            }
+            if (mobileCartFooterTotal) {
+                mobileCartFooterTotal.textContent = formatPrice(subtotal, 'INR');
+            }
+        } else {
+            // Hide price breakdown section when cart is empty
+            if (mobileCartPriceBreakdown) {
+                mobileCartPriceBreakdown.classList.add('hidden');
+            }
+            
+            // Reset footer values to 0
+            if (mobileCartFooterItemCount) {
+                mobileCartFooterItemCount.textContent = 0;
+            }
+            if (mobileCartFooterItemCountPlural) {
+                mobileCartFooterItemCountPlural.textContent = 's';
+            }
+            if (mobileCartFooterTotal) {
+                mobileCartFooterTotal.textContent = formatPrice(0, 'INR');
+            }
+        }
+        
+        // Add event listeners to mobile remove buttons
+        const removeMobileButtons = document.querySelectorAll('.remove-mobile-cart-item');
+        removeMobileButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const serviceId = this.getAttribute('data-service-id');
+                removeFromCart(serviceId);
+            });
+        });
+        
+        // Add event listeners to mobile view details buttons
+        const viewDetailsButtons = document.querySelectorAll('.mobile-view-details-btn');
+        viewDetailsButtons.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const serviceId = this.getAttribute('data-service-id');
+                const detailsSection = document.querySelector('.mobile-service-details[data-service-id="' + serviceId + '"]');
+                if (detailsSection) {
+                    detailsSection.classList.toggle('hidden');
+                }
             });
         });
     }
@@ -1531,6 +1672,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    
+    // Mobile cart popup open/close functionality
+    const cartModal = $('.cart_modal');
+    const viewCartBtn = $('#viewCartBtn');
+    const closePopover = $('#closePopover');
+    
+    // Open mobile cart popup
+    if (viewCartBtn && cartModal) {
+        viewCartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartModal.classList.remove('hidden');
+        });
+    }
+    
+    // Close mobile cart popup
+    if (closePopover && cartModal) {
+        closePopover.addEventListener('click', function(e) {
+            e.preventDefault();
+            cartModal.classList.add('hidden');
+        });
+    }
     
     // Initial cart render and button states update
     renderCart();
