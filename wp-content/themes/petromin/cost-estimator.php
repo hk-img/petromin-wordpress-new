@@ -11,6 +11,32 @@ $fuel = isset($_GET['fuel']) ? sanitize_text_field(urldecode($_GET['fuel'])) : '
 // Get theme assets directory URL for images
 $img_url = get_template_directory_uri() . '/assets/img/';
 
+// Get verify page URL
+function get_verify_page_url() {
+    // Try different template name formats
+    $template_names = array('verify.php', 'page-verify.php');
+    
+    foreach ($template_names as $template_name) {
+        $verify_page = get_pages(array(
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template_name,
+            'number' => 1
+        ));
+        if (!empty($verify_page)) {
+            return get_permalink($verify_page[0]->ID);
+        }
+    }
+    
+    // Fallback: try to find page by slug or title
+    $verify_page = get_page_by_path('verify');
+    if ($verify_page) {
+        return get_permalink($verify_page->ID);
+    }
+    
+    return '#';
+}
+$verify_page_url = get_verify_page_url();
+
 // Fetch service categories from API
 $categories_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_service_category';
 $categories_response = wp_remote_get($categories_api_url, array(
@@ -383,7 +409,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                     </div>
                                 </div>
                                 <div id="checkoutButtonSection" class="w-full hidden">
-                                    <a href=""
+                                    <a href="<?php echo esc_url($verify_page_url); ?>"
                                         class="h-[3.438rem] w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">Proceed
                                         to Checkout</a>
                                 </div>
@@ -775,7 +801,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
             <div id="mobileCartFooterTotal" class="text-[#121212] text-lg font-bold">₹0</div>
         </div>
         <div class="w-full flex justify-end">
-            <a href="" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Checkout</a>
+            <a href="<?php echo esc_url($verify_page_url); ?>" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Checkout</a>
         </div>
     </div>
 </div>
