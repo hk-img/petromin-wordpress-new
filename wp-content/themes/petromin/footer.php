@@ -530,12 +530,12 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
         </svg>
     </button>
 
-    <div id="carPopup" class="popup fixed 2xl:top-32 top-16 lg:top-auto lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] z-50  w-full mx-auto 
+    <div id="carPopup" class="popup fixed top-auto lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] z-50  w-full mx-auto max-h-[calc(100dvh-70px)] 
            overflow-y-scroll scrollNone font-inter
              w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)]
             flex flex-col lg:flex-row transtransform -translate-x-1/2 -translate-y-1/2
             animate-slideUp
-            opacity-100 pointer-events-auto h-full <?php echo (is_page_template('cost-estimator.php') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+            opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
         <input type="checkbox" id="toggle" class="hidden peer">
         <div class=" transition-all duration-500 ease-in-out w-full">
             <!-- Header -->
