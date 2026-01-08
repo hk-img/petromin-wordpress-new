@@ -81,19 +81,20 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                     +91
                                 </div>
                                 <div class="w-full">
-                                    <input type="text" class="bg-white border md:rounded-none rounded-lg border-[#E5E5E5] h-[2.875rem] w-full text-[#0A0A0A80] p-6" value="2312313423">
+                                    <input type="tel" id="mobileNumberInput" name="mobile_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" class="bg-white border md:rounded-none rounded-lg border-[#E5E5E5] h-[2.875rem] w-full text-[#0A0A0A80] p-6" placeholder="Enter 10 digit mobile number" value="">
                                 </div>
                             </div>
                         </div>
+                        <a href="" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500">Send OTP</a>
                         <div class="flex flex-col gap-2 w-full">
                             <label class="block text-sm font-semibold text-[#2F2F2F]">Enter OTP</label>
-                            <div class="flex items-center gap-3">
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
-                                <input type="text" maxlength="1" class="sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" />
+                            <div class="flex items-center gap-3" id="otpInputContainer">
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="0" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="1" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="2" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="3" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="4" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="5" />
                             </div>
                             <a href="" class="text-start text-[#6B6B6B] text-sm font-normal">Resend OTP in 27s</a>
                         </div>
@@ -343,6 +344,298 @@ $img_url = get_template_directory_uri() . '/assets/img/';
         document.addEventListener('DOMContentLoaded', populateBookingSummary);
     } else {
         populateBookingSummary();
+    }
+})();
+
+// OTP Input Management
+(function() {
+    'use strict';
+    
+    const otpInputs = document.querySelectorAll('.otp-input');
+    
+    if (otpInputs.length === 0) return;
+    
+    // Check if all inputs are empty
+    function areAllInputsEmpty() {
+        return Array.from(otpInputs).every(input => input.value === '');
+    }
+    
+    // Get first empty input index
+    function getFirstEmptyIndex() {
+        for (let i = 0; i < otpInputs.length; i++) {
+            if (otpInputs[i].value === '') {
+                return i;
+            }
+        }
+        return -1; // All filled
+    }
+    
+    // Handle paste event
+    function handlePaste(e) {
+        e.preventDefault();
+        const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+        const numbers = pastedData.replace(/\D/g, ''); // Remove non-numeric
+        
+        if (numbers.length === 0) return;
+        
+        // Start from first empty input or current input
+        const startIndex = areAllInputsEmpty() ? 0 : Array.from(otpInputs).indexOf(e.target);
+        
+        // Fill inputs with pasted numbers
+        for (let i = 0; i < numbers.length && (startIndex + i) < otpInputs.length; i++) {
+            otpInputs[startIndex + i].value = numbers[i];
+        }
+        
+        // Focus on next empty input or last input
+        const nextEmptyIndex = getFirstEmptyIndex();
+        if (nextEmptyIndex !== -1 && nextEmptyIndex < otpInputs.length) {
+            otpInputs[nextEmptyIndex].focus();
+        } else {
+            otpInputs[otpInputs.length - 1].focus();
+        }
+    }
+    
+    // Handle input event
+    function handleInput(e) {
+        const currentInput = e.target;
+        const currentIndex = parseInt(currentInput.getAttribute('data-otp-index'));
+        
+        // Allow only numeric input
+        const value = currentInput.value.replace(/\D/g, '');
+        currentInput.value = value;
+        
+        // If value entered, move to next input
+        if (value && currentIndex < otpInputs.length - 1) {
+            otpInputs[currentIndex + 1].focus();
+        }
+    }
+    
+    // Handle keydown event
+    function handleKeyDown(e) {
+        const currentInput = e.target;
+        const currentIndex = parseInt(currentInput.getAttribute('data-otp-index'));
+        
+        // Handle backspace/delete
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            if (currentInput.value === '' && currentIndex > 0) {
+                // If current is empty and we're not at first input, move to previous and clear it
+                otpInputs[currentIndex - 1].value = '';
+                otpInputs[currentIndex - 1].focus();
+            } else {
+                // Clear current input
+                currentInput.value = '';
+            }
+            e.preventDefault();
+        }
+        
+        // Handle arrow keys
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            otpInputs[currentIndex - 1].focus();
+            e.preventDefault();
+        }
+        if (e.key === 'ArrowRight' && currentIndex < otpInputs.length - 1) {
+            otpInputs[currentIndex + 1].focus();
+            e.preventDefault();
+        }
+    }
+    
+    // Handle focus event
+    function handleFocus(e) {
+        const currentInput = e.target;
+        const currentIndex = parseInt(currentInput.getAttribute('data-otp-index'));
+        
+        // Check if there's any empty field before the current field
+        let hasEmptyBefore = false;
+        for (let i = 0; i < currentIndex; i++) {
+            if (otpInputs[i].value === '') {
+                hasEmptyBefore = true;
+                break;
+            }
+        }
+        
+        // If there's an empty field before current, focus on first empty field instead
+        if (hasEmptyBefore) {
+            const firstEmptyIndex = getFirstEmptyIndex();
+            if (firstEmptyIndex !== -1 && firstEmptyIndex < otpInputs.length) {
+                e.preventDefault();
+                setTimeout(() => {
+                    otpInputs[firstEmptyIndex].focus();
+                }, 0);
+                return;
+            }
+        }
+        
+        // If all inputs are empty and user clicks in middle, focus first empty
+        if (areAllInputsEmpty()) {
+            const firstEmptyIndex = getFirstEmptyIndex();
+            if (firstEmptyIndex !== -1 && firstEmptyIndex < otpInputs.length) {
+                if (firstEmptyIndex !== currentIndex) {
+                    e.preventDefault();
+                    setTimeout(() => {
+                        otpInputs[firstEmptyIndex].focus();
+                    }, 0);
+                    return;
+                }
+            }
+        }
+        
+        // Select all text in current input for easy replacement
+        currentInput.select();
+    }
+    
+    // Attach event listeners to all OTP inputs
+    otpInputs.forEach(input => {
+        input.addEventListener('paste', handlePaste);
+        input.addEventListener('input', handleInput);
+        input.addEventListener('keydown', handleKeyDown);
+        input.addEventListener('focus', handleFocus);
+        
+        // Prevent non-numeric input and check for empty fields before
+        input.addEventListener('keypress', function(e) {
+            const char = String.fromCharCode(e.which);
+            if (!/[0-9]/.test(char)) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Check if there's any empty field before current
+            const currentIndex = parseInt(e.target.getAttribute('data-otp-index'));
+            let hasEmptyBefore = false;
+            for (let i = 0; i < currentIndex; i++) {
+                if (otpInputs[i].value === '') {
+                    hasEmptyBefore = true;
+                    break;
+                }
+            }
+            
+            // If there's empty field before, prevent input and focus first empty
+            if (hasEmptyBefore) {
+                e.preventDefault();
+                const firstEmptyIndex = getFirstEmptyIndex();
+                if (firstEmptyIndex !== -1 && firstEmptyIndex < otpInputs.length) {
+                    otpInputs[firstEmptyIndex].focus();
+                    // Set the value in first empty field
+                    otpInputs[firstEmptyIndex].value = char;
+                    // Move to next if not last
+                    if (firstEmptyIndex < otpInputs.length - 1) {
+                        setTimeout(() => {
+                            otpInputs[firstEmptyIndex + 1].focus();
+                        }, 0);
+                    }
+                }
+            }
+        });
+    });
+    
+    // Handle click on container - focus first empty input
+    const otpContainer = document.getElementById('otpInputContainer');
+    if (otpContainer) {
+        otpContainer.addEventListener('click', function(e) {
+            // Only handle if click is directly on container, not on an input
+            if (e.target === otpContainer) {
+                const firstEmptyIndex = getFirstEmptyIndex();
+                if (firstEmptyIndex !== -1 && firstEmptyIndex < otpInputs.length) {
+                    otpInputs[firstEmptyIndex].focus();
+                }
+            }
+        });
+    }
+})();
+
+// Mobile Number Input Management for Indian Numbers
+(function() {
+    'use strict';
+    
+    const mobileInput = document.getElementById('mobileNumberInput');
+    if (!mobileInput) return;
+    
+    // Function to clean and format Indian mobile number
+    function cleanIndianNumber(value) {
+        // Remove all non-numeric characters
+        let cleaned = value.replace(/\D/g, '');
+        
+        // Remove +91 or 91 from the start if present
+        if (cleaned.startsWith('91')) {
+            cleaned = cleaned.substring(2);
+        }
+        
+        // Only keep first 10 digits (Indian mobile numbers are 10 digits)
+        cleaned = cleaned.substring(0, 10);
+        
+        return cleaned;
+    }
+    
+    // Handle paste event
+    function handleMobilePaste(e) {
+        e.preventDefault();
+        const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+        const cleaned = cleanIndianNumber(pastedData);
+        mobileInput.value = cleaned;
+        
+        // Move cursor to end
+        setTimeout(() => {
+            mobileInput.setSelectionRange(cleaned.length, cleaned.length);
+        }, 0);
+    }
+    
+    // Handle input event
+    function handleMobileInput(e) {
+        const currentValue = e.target.value;
+        const cleaned = cleanIndianNumber(currentValue);
+        
+        // Only update if value changed (to avoid cursor jumping)
+        if (cleaned !== currentValue) {
+            const cursorPosition = e.target.selectionStart;
+            mobileInput.value = cleaned;
+            
+            // Try to maintain cursor position relative to content
+            const newPosition = Math.min(cursorPosition, cleaned.length);
+            setTimeout(() => {
+                mobileInput.setSelectionRange(newPosition, newPosition);
+            }, 0);
+        }
+        
+        // Validate if number starts with 6, 7, 8, or 9 (valid Indian mobile number prefixes)
+        if (cleaned.length > 0 && !/^[6-9]/.test(cleaned)) {
+            // Remove invalid first digit
+            const validNumber = cleaned.substring(1);
+            mobileInput.value = validNumber;
+        }
+    }
+    
+    // Handle keypress to prevent non-numeric input
+    function handleMobileKeyPress(e) {
+        const char = String.fromCharCode(e.which || e.keyCode);
+        
+        // Allow: backspace, delete, tab, escape, enter, and arrow keys
+        if ([8, 9, 27, 13, 46, 35, 36, 37, 38, 39, 40].indexOf(e.keyCode || e.which) !== -1 ||
+            (e.keyCode === 65 && e.ctrlKey === true) || // Allow Ctrl+A
+            (e.keyCode === 67 && e.ctrlKey === true) || // Allow Ctrl+C
+            (e.keyCode === 86 && e.ctrlKey === true) || // Allow Ctrl+V
+            (e.keyCode === 88 && e.ctrlKey === true) || // Allow Ctrl+X
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            return;
+        }
+        
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+        
+        // Check if first digit is valid (6-9 for Indian numbers)
+        if (mobileInput.value.length === 0 && !/[6-9]/.test(char)) {
+            e.preventDefault();
+        }
+    }
+    
+    // Attach event listeners
+    mobileInput.addEventListener('paste', handleMobilePaste);
+    mobileInput.addEventListener('input', handleMobileInput);
+    mobileInput.addEventListener('keypress', handleMobileKeyPress);
+    
+    // Also handle the initial value cleanup if any
+    if (mobileInput.value) {
+        mobileInput.value = cleanIndianNumber(mobileInput.value);
     }
 })();
 </script>
