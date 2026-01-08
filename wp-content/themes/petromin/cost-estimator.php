@@ -954,24 +954,6 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
       </button>
       </div>
       </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class="bg-[#F9F9F9] border border-[#EFEFEF] text-[#6B6B6B] font-normal text-xs p-4 rounded-lg">
-                                        Updating your vehicle will refresh service availability and pricing.
-                                    </div> 
-        </div>
-        </div>
-          <div
-          class="h-[4.938rem] p-6 w-full flex justify-center items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
-          <button type="button" id="mobileConfirmVehicleUpdateBtn"
-          class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">
-          Confirm Vehicle Update
-      </button>
-      </div>
-      </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
