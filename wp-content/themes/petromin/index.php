@@ -1303,7 +1303,7 @@ if (!empty($home_offers)):
     </div>
     <div class="w-full relative">
         <div class="swiper latestOfferSwiper relative z-0 font-inter">
-            <div class="swiper-wrapper py-5 md:py-10">
+            <div class="swiper-wrapper py-5 md:py-10 !h-auto">
                 <?php
                 $home_offers = petromin_get_offers([
                     'posts_per_page' => 8,
@@ -1313,7 +1313,7 @@ if (!empty($home_offers)):
                 if (!empty($home_offers)):
                     foreach ($home_offers as $offer):
                 ?>
-                <div class="swiper-slide !h-auto max-w-[33vw] transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30">
+                <div class="swiper-slide !h-auto lg:max-w-[33vw] md:max-w-[40vw] max-w-[90vw] transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30">
                     <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
                         <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
                             <img fetchpriority="low" loading="lazy" 

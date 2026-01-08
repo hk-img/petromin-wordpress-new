@@ -504,6 +504,20 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 </footer>
 
 
+    <!-- mobile button -->
+    <div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-30 lg:hidden">
+        <button type="button"
+            class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center"
+            style="writing-mode: vertical-rl; text-orientation: mixed;">
+            GET INSTANT CAR SERVICE QUOTE
+            <svg class="size-4 ms-2 rotate-90" stroke="currentColor" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M13.0001 7.82843V20H11.0001V7.82843L5.63614 13.1924L4.22192 11.7782L12.0001 4L19.7783 11.7782L18.3641 13.1924L13.0001 7.82843Z">
+                </path>
+            </svg>
+        </button>
+    </div>
+
     <!-- Desktop Button -->
     <button id="desktopToggle"
         class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-40 <?php echo (is_page_template('cost-estimator.php')) ? '!hidden' : ''; ?>">
