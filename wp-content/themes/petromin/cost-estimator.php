@@ -331,7 +331,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     </div>
                     <div class="md:w-[30%] w-full md:block hidden">
                         <div
-                            class="w-full flex flex-col bg-white shadow-[0_0.125rem_0.25rem_-0.125rem_#919191] border border-[#E5E5E5] md:sticky top-6">
+                            class="w-full flex flex-col bg-white shadow-[0_0.125rem_0.25rem_-0.125rem_#919191] border border-[#E5E5E5] md:sticky top-20">
                             <div
                                 class="w-full flex items-center h-[3.125rem] p-6 bg-gradient-to-l  from-[#CB122D] to-[#650916] lg:text-xl md:text-lg text-base font-bold italic text-white uppercase">
                                 Your Cart
