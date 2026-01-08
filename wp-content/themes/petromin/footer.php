@@ -332,6 +332,25 @@ $arrow_icon_url = esc_url(get_template_directory_uri() . '/assets/img/fi_1902451
 
 // Check if this is verify page template - don't render footer UI
 $is_verify_page = is_page_template('verify.php');
+
+// Get theme assets directory URL - needed for JavaScript even on verify page
+$assets_img_url = get_template_directory_uri() . '/assets/img/';
+
+// Get cost-estimator page URL - needed for JavaScript even on verify page
+$cost_estimator_url = '';
+$cost_estimator_pages = get_pages(array(
+    'meta_key' => '_wp_page_template',
+    'meta_value' => 'cost-estimator.php'
+));
+if (!empty($cost_estimator_pages)) {
+    $cost_estimator_url = get_permalink($cost_estimator_pages[0]->ID);
+} else {
+    // Fallback: try to find by slug
+    $cost_estimator_page = get_page_by_path('cost-estimator');
+    if ($cost_estimator_page) {
+        $cost_estimator_url = get_permalink($cost_estimator_page->ID);
+    }
+}
 ?>
 <?php if (!$is_verify_page) : ?>
 <footer class="w-full bg-black relative text-white font-inter lg:py-8 py-4 z-10">
@@ -556,24 +575,7 @@ $is_verify_page = is_page_template('verify.php');
 
         <div class="p-5">
             <?php
-            // Get theme assets directory URL
-            $assets_img_url = get_template_directory_uri() . '/assets/img/';
-            
-            // Get cost-estimator page URL
-            $cost_estimator_url = '';
-            $cost_estimator_pages = get_pages(array(
-                'meta_key' => '_wp_page_template',
-                'meta_value' => 'cost-estimator.php'
-            ));
-            if (!empty($cost_estimator_pages)) {
-                $cost_estimator_url = get_permalink($cost_estimator_pages[0]->ID);
-            } else {
-                // Fallback: try to find by slug
-                $cost_estimator_page = get_page_by_path('cost-estimator');
-                if ($cost_estimator_page) {
-                    $cost_estimator_url = get_permalink($cost_estimator_page->ID);
-                }
-            }
+            // Note: $assets_img_url and $cost_estimator_url are already defined at the top of the file
             ?>
             <h2 class="mb-5 font-inter md:text-2xl lg:text-3xl  !leading-12 font-bold text-white">
                 Expert car care at <span class="block">express speed.</span>
@@ -1581,18 +1583,26 @@ $is_verify_page = is_page_template('verify.php');
             const mobileToggle = document.getElementById('mobileToggle');
             const carPopup = document.getElementById('carPopup');
 
-            const observer = new MutationObserver(() => {
-                if (window.getComputedStyle(carPopup).display !== 'none') {
-                    mobileToggle.classList.add('hidden'); // hide button
-                } else {
-                    mobileToggle.classList.remove('hidden'); // show button again
-                }
-            });
+            // Only run if mobileToggle exists
+            if (!mobileToggle) {
+                return; // Exit if mobileToggle doesn't exist
+            }
 
-            observer.observe(carPopup, {
-                attributes: true,
-                attributeFilter: ['style', 'class']
-            });
+            // Only observe if carPopup also exists
+            if (carPopup) {
+                const observer = new MutationObserver(() => {
+                    if (window.getComputedStyle(carPopup).display !== 'none') {
+                        mobileToggle.classList.add('hidden'); // hide button
+                    } else {
+                        mobileToggle.classList.remove('hidden'); // show button again
+                    }
+                });
+
+                observer.observe(carPopup, {
+                    attributes: true,
+                    attributeFilter: ['style', 'class']
+                });
+            }
         });
     </script>
 
@@ -1959,6 +1969,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabLinks = document.querySelectorAll(".m-tab");
     const tabContents = document.querySelectorAll(".cont-item");
 
+    // Only run if both .m-tab and .cont-item classes exist
+    if (tabLinks.length === 0 || tabContents.length === 0) {
+        return; // Exit if elements don't exist
+    }
+
     function resetTabs() {
         tabLinks.forEach(tab => {
             tab.className =
@@ -1998,7 +2013,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("wheelContainer");
 
     // ✅ Check if required elements exist before proceeding
-    if (!arrow || !container) {
+    if (!arrow || !container || labels.length === 0) {
         return; // Exit early if elements don't exist
     }
 
@@ -2098,17 +2113,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const prevBtn = document.querySelector(".swiper-prev");
     const nextBtn = document.querySelector(".swiper-next");
 
-    // Initially hide prev
-    prevBtn.classList.add("opacity-0", "pointer-events-none");
+    // Only manipulate buttons if they exist
+    if (prevBtn && nextBtn && categorySliderSwiper) {
+        // Initially hide prev
+        prevBtn.classList.add("opacity-0", "pointer-events-none");
 
-    // Show/hide prev button based on active slide index
-    categorySliderSwiper.on("slideChange", () => {
-        if (categorySliderSwiper.realIndex === 0) {
-            prevBtn.classList.add("opacity-0", "pointer-events-none");
-        } else {
-            prevBtn.classList.remove("opacity-0", "pointer-events-none");
-        }
-    });
+        // Show/hide prev button based on active slide index
+        categorySliderSwiper.on("slideChange", () => {
+            if (categorySliderSwiper.realIndex === 0) {
+                prevBtn.classList.add("opacity-0", "pointer-events-none");
+            } else {
+                prevBtn.classList.remove("opacity-0", "pointer-events-none");
+            }
+        });
+    }
 });
 </script>
 

@@ -5,11 +5,11 @@ The XML sitemap of this website can by found by following [this link](http://loc
 # Petromin
 
 ## Pages
+- [Verify]()
 - [Cost Estimator]()
 - [Offers]()
 - [Home]()
 - [Privacy Policy]()
-- [Services]()
 
 ## Posts
 - [New Blog](): The app offers unique set of features to manage your clinic seamlessly\. From telemedicine to patient management system to online prescription, our app has

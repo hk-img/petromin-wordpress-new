@@ -5013,3 +5013,158 @@ function flush_rewrite_rules_for_offers() {
     flush_rewrite_rules();
 }
 add_action('init', 'flush_rewrite_rules_for_offers', 1);
+
+// MSG91 OTP Configuration and AJAX Handlers
+if (!defined('MSG91_AUTH_KEY')) {
+    define('MSG91_AUTH_KEY', '481217AuDxkyUp693ab3c1P1');
+}
+if (!defined('MSG91_TEMPLATE_ID')) {
+    define('MSG91_TEMPLATE_ID', '693ab28155f110055e100886');
+}
+if (!defined('MSG91_SENDER_ID')) {
+    define('MSG91_SENDER_ID', 'ATOMCS');
+}
+
+// Handle AJAX requests for OTP
+add_action('wp_ajax_send_otp', 'handle_send_otp');
+add_action('wp_ajax_nopriv_send_otp', 'handle_send_otp');
+add_action('wp_ajax_verify_otp', 'handle_verify_otp');
+add_action('wp_ajax_nopriv_verify_otp', 'handle_verify_otp');
+
+function handle_send_otp() {
+    // Verify nonce - handle both POST and GET
+    $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : (isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : '');
+    
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'otp_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please refresh the page and try again.'));
+        wp_die();
+    }
+    
+    $mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : '';
+    
+    if (empty($mobile) || !preg_match('/^[6-9][0-9]{9}$/', $mobile)) {
+        wp_send_json_error(array('message' => 'Please enter a valid 10-digit mobile number'));
+        wp_die();
+    }
+    
+    // Generate 6-digit OTP
+    $otp = rand(100000, 999999);
+    
+    // Store OTP in session/transient for verification
+    set_transient('otp_' . $mobile, $otp, 120); // 2 minutes expiry
+    
+    // Prepare data for MSG91 API
+    $mobile_with_code = '91' . $mobile;
+    
+    // MSG91 OTP Send API - Using GET method
+    $url = 'https://control.msg91.com/api/v5/otp';
+    
+    $query_params = array(
+        'template_id' => MSG91_TEMPLATE_ID,
+        'mobile' => $mobile_with_code,
+        'authkey' => MSG91_AUTH_KEY,
+        'var1' => (string)$otp
+    );
+    
+    $url .= '?' . http_build_query($query_params);
+    
+    $args = array(
+        'method' => 'GET',
+        'timeout' => 30,
+        'headers' => array(
+            'Content-Type' => 'application/json'
+        )
+    );
+    
+    $response = wp_remote_get($url, $args);
+    
+    if (is_wp_error($response)) {
+        $error_message = $response->get_error_message();
+        wp_send_json_error(array('message' => 'Failed to connect to OTP service: ' . $error_message));
+        wp_die();
+    }
+    
+    $response_code = wp_remote_retrieve_response_code($response);
+    $response_body = wp_remote_retrieve_body($response);
+    
+    // MSG91 returns response as text, try to decode as JSON
+    $response_data = json_decode($response_body, true);
+    
+    // Check if response contains 'type' key (success) or if response_code is 200
+    if ($response_code === 200) {
+        // MSG91 success response can be in different formats
+        if (isset($response_data['type']) && $response_data['type'] === 'success') {
+            wp_send_json_success(array(
+                'message' => 'OTP sent successfully to your mobile number'
+            ));
+            wp_die();
+        } elseif (strpos(strtolower($response_body), 'success') !== false || strpos(strtolower($response_body), 'sent') !== false) {
+            wp_send_json_success(array(
+                'message' => 'OTP sent successfully to your mobile number'
+            ));
+            wp_die();
+        } else {
+            // Check for error in response
+            $error_msg = isset($response_data['message']) ? $response_data['message'] : (isset($response_data['error']) ? $response_data['error'] : 'Failed to send OTP. Please try again.');
+            wp_send_json_error(array('message' => $error_msg));
+            wp_die();
+        }
+    } else {
+        // Handle error response codes
+        $error_msg = 'Failed to send OTP';
+        if (isset($response_data['message'])) {
+            $error_msg = $response_data['message'];
+        } elseif (isset($response_data['error'])) {
+            $error_msg = $response_data['error'];
+        } elseif (!empty($response_body)) {
+            $error_msg = 'Server error: ' . $response_body;
+        }
+        wp_send_json_error(array('message' => $error_msg));
+        wp_die();
+    }
+}
+
+function handle_verify_otp() {
+    // Verify nonce - handle both POST and GET
+    $nonce = isset($_POST['nonce']) ? $_POST['nonce'] : (isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : '');
+    
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'otp_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please refresh the page and try again.'));
+        wp_die();
+    }
+    
+    $mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : '';
+    $otp = isset($_POST['otp']) ? sanitize_text_field($_POST['otp']) : '';
+    
+    if (empty($mobile) || !preg_match('/^[6-9][0-9]{9}$/', $mobile)) {
+        wp_send_json_error(array('message' => 'Invalid mobile number'));
+        wp_die();
+    }
+    
+    if (empty($otp) || !preg_match('/^[0-9]{6}$/', $otp)) {
+        wp_send_json_error(array('message' => 'Please enter a valid 6-digit OTP'));
+        wp_die();
+    }
+    
+    // Get stored OTP
+    $stored_otp = get_transient('otp_' . $mobile);
+    
+    if ($stored_otp === false) {
+        wp_send_json_error(array('message' => 'OTP has expired. Please request a new one.'));
+        wp_die();
+    }
+    
+    if ($stored_otp === $otp) {
+        // OTP verified successfully
+        delete_transient('otp_' . $mobile);
+        
+        // Store verified mobile in session/transient for next step
+        set_transient('verified_mobile_' . session_id(), $mobile, 3600);
+        
+        wp_send_json_success(array('message' => 'Mobile number verified successfully!'));
+        wp_die();
+    } else {
+        wp_send_json_error(array('message' => 'Invalid OTP. Please try again.'));
+        wp_die();
+    }
+}

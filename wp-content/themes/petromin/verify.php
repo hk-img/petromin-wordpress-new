@@ -2,9 +2,9 @@
 /* Template Name: verify page */
 get_header();
 
-
 // Get theme assets directory URL for images
 $img_url = get_template_directory_uri() . '/assets/img/';
+
 
 ?>
 
@@ -70,8 +70,11 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                         <h1 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verify Mobile Number</h1>
                         <p class="text-[#6B6B6B] text-sm font-medium">We'll send you an OTP to verify your number</p>
                     </div>
-                    <form class="w-full flex flex-col gap-y-6">
-                        <div class="flex flex-col gap-2 w-full">
+                    <form id="otpVerificationForm" class="w-full flex flex-col gap-y-6">
+                        <!-- Success/Error Messages -->
+                        <div id="otpMessage" class="hidden p-4 rounded-lg text-sm font-medium"></div>
+                        
+                        <div id="mobileNumberSection" class="flex flex-col gap-2 w-full">
                             <label class="block text-sm font-semibold text-[#2F2F2F]">Mobile Number</label>
                             <div class="flex items-center gap-3">
                                 <div class="w-20 shrink-0 flex md:rounded-none rounded-lg justify-center gap-1 bg-[#F8F8F8] border border-[#E5E5E5] items-center md:text-base text-sm font-medium text-[#2F2F2F] h-[2.875rem]">
@@ -81,24 +84,28 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                     +91
                                 </div>
                                 <div class="w-full">
-                                    <input type="tel" id="mobileNumberInput" name="mobile_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" class="bg-white border md:rounded-none rounded-lg border-[#E5E5E5] h-[2.875rem] w-full text-[#0A0A0A80] p-6" placeholder="Enter 10 digit mobile number" value="">
+                                    <input type="tel" id="mobileNumberInput" name="mobile_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" class="bg-white !border !border-solid md:rounded-none rounded-lg !border-[#E5E5E5] focus:!border-red-500 h-[2.875rem] w-full text-[#0A0A0A80] p-6" placeholder="Enter 10 digit mobile number" value="" required>
                                 </div>
                             </div>
                         </div>
-                        <a href="" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500">Send OTP</a>
-                        <div class="flex flex-col gap-2 w-full">
+                        <button type="button" id="sendOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed">Send OTP</button>
+                        
+                        <div id="otpSection" class="flex flex-col gap-2 w-full hidden">
                             <label class="block text-sm font-semibold text-[#2F2F2F]">Enter OTP</label>
                             <div class="flex items-center gap-3" id="otpInputContainer">
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="0" />
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="1" />
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="2" />
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="3" />
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="4" />
-                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white border border-[#E5E5E5] text-[#0A0A0A] focus:outline-none focus:border-red-500" data-otp-index="5" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="0" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="1" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="2" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="3" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="4" />
+                                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input sm:size-[3.25rem] w-full aspect-[1/1] md:rounded-none rounded-lg text-center text-lg font-bold bg-white !border !border-solid border-[#E5E5E5] text-[#0A0A0A] focus:!border-red-500" data-otp-index="5" />
                             </div>
-                            <a href="" class="text-start text-[#6B6B6B] text-sm font-normal">Resend OTP in 27s</a>
+                            <div class="text-start text-[#6B6B6B] text-sm font-normal">
+                                <span id="resendOtpText" class="hidden cursor-pointer hover:text-[#C1122C]" onclick="resendOTP()">Resend OTP</span>
+                                <span id="resendOtpTimer">Resend OTP in <span id="timerCount">120</span>s</span>
+                            </div>
                         </div>
-                        <a href="" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500">Verify OTP</a>
+                        <button type="button" id="verifyOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed hidden">Verify OTP</button>
                     </form>
                 </div>
             </div>
@@ -637,6 +644,254 @@ $img_url = get_template_directory_uri() . '/assets/img/';
     if (mobileInput.value) {
         mobileInput.value = cleanIndianNumber(mobileInput.value);
     }
+})();
+
+// MSG91 OTP Integration
+(function() {
+    'use strict';
+    
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const otpSection = document.getElementById('otpSection');
+    const mobileNumberSection = document.getElementById('mobileNumberSection');
+    const mobileInput = document.getElementById('mobileNumberInput');
+    const otpMessage = document.getElementById('otpMessage');
+    const otpInputs = document.querySelectorAll('.otp-input');
+    let resendTimer = null;
+    let timerCount = 120;
+    
+    // Get nonce value - check if it exists, if not create a placeholder
+    const otpNonce = '<?php echo wp_create_nonce("otp_nonce"); ?>';
+    const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
+    
+    // Function to show message
+    function showMessage(message, isError = false) {
+        otpMessage.textContent = message;
+        otpMessage.className = 'p-4 rounded-lg text-sm font-medium ' + (isError ? 'bg-red-100 text-red-700 border border-red-300' : 'bg-green-100 text-green-700 border border-green-300');
+        otpMessage.classList.remove('hidden');
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            otpMessage.classList.add('hidden');
+        }, 5000);
+    }
+    
+    // Function to start resend timer
+    function startResendTimer() {
+        timerCount = 120;
+        const timerCountEl = document.getElementById('timerCount');
+        const resendOtpText = document.getElementById('resendOtpText');
+        const resendOtpTimer = document.getElementById('resendOtpTimer');
+        
+        resendOtpText.classList.add('hidden');
+        resendOtpTimer.classList.remove('hidden');
+        
+        if (resendTimer) {
+            clearInterval(resendTimer);
+        }
+        
+        resendTimer = setInterval(function() {
+            timerCount--;
+            if (timerCountEl) {
+                timerCountEl.textContent = timerCount;
+            }
+            
+            if (timerCount <= 0) {
+                clearInterval(resendTimer);
+                resendOtpText.classList.remove('hidden');
+                resendOtpTimer.classList.add('hidden');
+            }
+        }, 1000);
+    }
+    
+    // Function to get OTP from inputs
+    function getOTP() {
+        let otp = '';
+        otpInputs.forEach(input => {
+            otp += input.value;
+        });
+        return otp;
+    }
+    
+    // Function to clear OTP inputs
+    function clearOTPInputs() {
+        otpInputs.forEach(input => {
+            input.value = '';
+        });
+    }
+    
+    // Function to send OTP
+    function sendOTP() {
+        const mobile = mobileInput.value.trim();
+        
+        if (!mobile || mobile.length !== 10 || !/^[6-9][0-9]{9}$/.test(mobile)) {
+            showMessage('Please enter a valid 10-digit mobile number', true);
+            mobileInput.focus();
+            return;
+        }
+        
+        // Disable button
+        sendOtpBtn.disabled = true;
+        sendOtpBtn.textContent = 'Sending...';
+        
+        // AJAX call to send OTP
+        const formData = new FormData();
+        formData.append('action', 'send_otp');
+        formData.append('nonce', otpNonce);
+        formData.append('mobile', mobile);
+        
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                const message = (data.data && data.data.message) ? data.data.message : 'OTP sent successfully!';
+                showMessage(message, false);
+                
+                // Hide mobile number section
+                if (mobileNumberSection) {
+                    mobileNumberSection.classList.add('hidden');
+                }
+                if (sendOtpBtn) {
+                    sendOtpBtn.classList.add('hidden');
+                }
+                
+                // Show OTP section
+                otpSection.classList.remove('hidden');
+                verifyOtpBtn.classList.remove('hidden');
+                startResendTimer();
+                
+                // Focus first OTP input
+                if (otpInputs.length > 0) {
+                    setTimeout(() => {
+                        otpInputs[0].focus();
+                    }, 100);
+                }
+            } else {
+                const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Failed to send OTP. Please try again.';
+                showMessage(errorMsg, true);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('An error occurred. Please try again. Error: ' + error.message, true);
+        })
+        .finally(() => {
+            sendOtpBtn.disabled = false;
+            sendOtpBtn.textContent = 'Send OTP';
+        });
+    }
+    
+    // Function to verify OTP
+    function verifyOTP() {
+        const mobile = mobileInput.value.trim();
+        const otp = getOTP();
+        
+        if (!mobile || mobile.length !== 10) {
+            showMessage('Please enter a valid mobile number', true);
+            return;
+        }
+        
+        if (otp.length !== 6) {
+            showMessage('Please enter complete 6-digit OTP', true);
+            otpInputs[0].focus();
+            return;
+        }
+        
+        // Disable button
+        verifyOtpBtn.disabled = true;
+        verifyOtpBtn.textContent = 'Verifying...';
+        
+        // AJAX call to verify OTP
+        const formData = new FormData();
+        formData.append('action', 'verify_otp');
+        formData.append('nonce', otpNonce);
+        formData.append('mobile', mobile);
+        formData.append('otp', otp);
+        
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                const message = (data.data && data.data.message) ? data.data.message : 'Mobile number verified successfully!';
+                showMessage(message, false);
+                clearOTPInputs();
+                
+                // Redirect to next page or show success
+                setTimeout(() => {
+                    // You can redirect to next step here
+                    // window.location.href = 'next-page-url';
+                    console.log('OTP verified successfully');
+                }, 2000);
+            } else {
+                const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
+                showMessage(errorMsg, true);
+                clearOTPInputs();
+                if (otpInputs.length > 0) {
+                    otpInputs[0].focus();
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('An error occurred. Please try again. Error: ' + error.message, true);
+        })
+        .finally(() => {
+            verifyOtpBtn.disabled = false;
+            verifyOtpBtn.textContent = 'Verify OTP';
+        });
+    }
+    
+    // Global function for resend OTP
+    window.resendOTP = function() {
+        sendOTP();
+    };
+    
+    // Event listeners
+    if (sendOtpBtn) {
+        sendOtpBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sendOTP();
+        });
+    }
+    
+    if (verifyOtpBtn) {
+        verifyOtpBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            verifyOTP();
+        });
+    }
+    
+    // Auto-submit OTP when all fields are filled
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+            if (input.value && index === otpInputs.length - 1) {
+                // Last input filled, check if all are filled
+                const otp = getOTP();
+                if (otp.length === 6) {
+                    // Auto verify after short delay
+                    setTimeout(() => {
+                        verifyOTP();
+                    }, 500);
+                }
+            }
+        });
+    });
 })();
 </script>
 
