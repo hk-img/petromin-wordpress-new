@@ -593,21 +593,62 @@ if (!empty($cost_estimator_pages)) {
                     <div id="cityDropdown"
                         class="absolute top-full left-0 w-full bg-white border border-gray-200 z-40 overflow-hidden hidden">
                         <div class="grid grid-cols-2 gap-2 p-3 max-h-56 overflow-y-auto">
-                            <div class="cursor-pointer group" data-value="Chennai">
+                            <?php
+                            // Get locate-us page ID by template
+                            $locate_us_page = get_pages(array(
+                                'meta_key' => '_wp_page_template',
+                                'meta_value' => 'locate-us.php',
+                                'number' => 1,
+                                'post_status' => 'publish'
+                            ));
+                            
+                            $locate_us_page_id = !empty($locate_us_page) ? $locate_us_page[0]->ID : null;
+                            
+                            // Get service centers from locate-us page
+                            $service_centers_field = [];
+                            if ($locate_us_page_id && function_exists('get_field')) {
+                                $service_centers_field = get_field('service_centers_section', $locate_us_page_id) ?: [];
+                            }
+                            
+                            // Extract unique cities from service centres
+                            $cities = array();
+                            if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
+                                foreach ($service_centers_field['centers'] as $center) {
+                                    $city = trim($center['city'] ?? '');
+                                    if (!empty($city) && !in_array($city, $cities)) {
+                                        $cities[] = $city;
+                                    }
+                                }
+                            }
+                            
+                            // Sort cities alphabetically
+                            sort($cities);
+                            
+                            // If no cities found, use default cities
+                            if (empty($cities)) {
+                                $cities = array('Chennai', 'Bengaluru');
+                            }
+                            
+                            // Render cities dynamically
+                            $city_img_index = 0;
+                            foreach ($cities as $city) {
+                                // Use city-img1.png, city-img2.png pattern, cycling through available images
+                                // For cities beyond 2, cycle through images 1 and 2
+                                $img_number = ($city_img_index % 2) + 1;
+                                $city_img = 'city-img' . $img_number . '.png';
+                                $city_img_index++;
+                            ?>
+                            <div class="cursor-pointer group" data-value="<?php echo esc_attr($city); ?>">
                                 <div class="relative rounded overflow-hidden">
-                                    <img src="<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>" alt="Chennai"
-                                        class="w-full h-48 xl:h-52 object-cover">
-                                    <p class="absolute top-2 left-2 text-white font-semibold">Chennai</p>
+                                    <img src="<?php echo esc_url($assets_img_url . $city_img); ?>" alt="<?php echo esc_attr($city); ?>"
+                                        class="w-full h-48 xl:h-52 object-cover"
+                                        onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
+                                    <p class="absolute top-2 left-2 text-white font-semibold"><?php echo esc_html($city); ?></p>
                                 </div>
                             </div>
-
-                            <div class="cursor-pointer group" data-value="Bengaluru">
-                                <div class="relative rounded overflow-hidden">
-                                    <img src="<?php echo esc_url($assets_img_url . 'city-img2.png'); ?>" alt="Bengaluru"
-                                        class="w-full h-48 xl:h-52 object-cover">
-                                    <p class="absolute top-2 left-2 text-white font-semibold">Bengaluru</p>
-                                </div>
-                            </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

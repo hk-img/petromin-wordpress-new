@@ -89,18 +89,56 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                             <p class="text-[#6B6B6B] text-sm font-medium">Choose the nearest location for your service</p>
                         </div>
                         <div class="relative w-full">
-                            <input type="text" class="w-full h-[2.875rem] text-[#0A0A0A80] pl-12 text-sm font-normal border border-[#E5E5E5] md:rounded-none rounded-lg" placeholder="Search by location or area">
+                            <input type="text" id="serviceCenterSearch" class="w-full h-[2.875rem] text-[#0A0A0A80] pl-12 text-sm font-normal border border-[#E5E5E5] md:rounded-none rounded-lg" placeholder="Search by location or area">
                             <button type="button" class="absolute top-3 left-3">
                                 <img src="<?php echo esc_url($img_url); ?>search-icon.svg" alt="search" class="size-[1.125rem]" />
                             </button>
                         </div>
 
-                        <div class="flex flex-col gap-y-4">
-                            <label for="service1" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D] p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg">
-                                <input type="radio" name="service" id="service1" class="hidden" checked>
+                        <div class="flex flex-col gap-y-4" id="serviceCentersList">
+                            <?php
+                            // Get locate-us page ID by template
+                            $locate_us_page = get_pages(array(
+                                'meta_key' => '_wp_page_template',
+                                'meta_value' => 'locate-us.php',
+                                'number' => 1,
+                                'post_status' => 'publish'
+                            ));
+                            
+                            $locate_us_page_id = !empty($locate_us_page) ? $locate_us_page[0]->ID : null;
+                            
+                            // Get service centers from locate-us page (same way as locate-us.php does)
+                            $service_centers_field = [];
+                            if ($locate_us_page_id && function_exists('get_field')) {
+                                $service_centers_field = get_field('service_centers_section', $locate_us_page_id) ?: [];
+                            }
+                            
+                            $service_centers_items = [];
+                            
+                            if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
+                                $service_centers_items = $service_centers_field['centers'];
+                            }
+                            
+                            if (!empty($service_centers_items)) :
+                                foreach ($service_centers_items as $index => $center) :
+                                    $center_name = trim($center['name'] ?? '');
+                                    $center_city = trim($center['city'] ?? '');
+                                    
+                                    // Skip if name is empty
+                                    if (empty($center_name)) {
+                                        continue;
+                                    }
+                                    
+                                    $service_id = 'service_' . ($index + 1);
+                                    $is_checked = $index === 0 ? 'checked' : '';
+                            ?>
+                            <label for="<?php echo esc_attr($service_id); ?>" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D] p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg service-center-item" data-center-name="<?php echo esc_attr(strtolower($center_name)); ?>" data-center-city="<?php echo esc_attr(strtolower($center_city)); ?>">
+                                <input type="radio" name="service" id="<?php echo esc_attr($service_id); ?>" class="hidden" value="<?php echo esc_attr($center_name); ?>" <?php echo $is_checked; ?>>
                                 <div class="flex flex-col gap-y-3">
-                                    <h3 class="text-[#2F2F2F] group-has-[:checked]/s:text-[#CB122D] font-semibold text-base">Petromin Express - Indiranagar</h3>
-                                    <div class="text-sm text-[#6B6B6B] font-normal">Indiranagar</div>
+                                    <h3 class="text-[#2F2F2F] group-has-[:checked]/s:text-[#CB122D] font-semibold text-base"><?php echo esc_html($center_name); ?></h3>
+                                    <?php if (!empty($center_city)) : ?>
+                                    <div class="text-sm text-[#6B6B6B] font-normal"><?php echo esc_html($center_city); ?></div>
+                                    <?php endif; ?>
                                     <div class="flex gap-4 items-center">
                                         <div class="flex items-center gap-1 text-sm text-[#AFAFAF] group-has-[:checked]/s:text-[#CB122D]">
                                             <span>
@@ -122,58 +160,12 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                     </a>
                                 </div>
                             </label>
-                            <label for="service2" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D]  p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg">
-                                <input type="radio" name="service" id="service2" class="hidden">
-                                <div class="flex flex-col gap-y-3">
-                                    <h3 class="text-[#2F2F2F] group-has-[:checked]/s:text-[#CB122D] font-semibold text-base">Petromin Express - Indiranagar</h3>
-                                    <div class="text-sm text-[#6B6B6B] font-normal">Indiranagar</div>
-                                    <div class="flex gap-4 items-center">
-                                        <div class="flex items-center gap-1 text-sm text-[#AFAFAF] group-has-[:checked]/s:text-[#CB122D]">
-                                            <span>
-                                                <img src="<?php echo esc_url($img_url); ?>location-pin-icon.svg" alt="location" class="size-[0.75rem]" />
-                                            </span>
-                                            2.5 km
-                                        </div>
-                                        <div class="flex items-center gap-1 text-sm text-[#AFAFAF] group-has-[:checked]/s:text-[#CB122D]">
-                                            <span>
-                                                <img src="<?php echo esc_url($img_url); ?>clock-icon.svg" alt="time" class="size-[0.75rem]" />
-                                            </span>
-                                            9:00 AM - 7:00 PM
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="" class="inline-block duration-500 hover:scale-110 opacity-20 group-has-[:checked]/s:opacity-100">
-                                        <img src="<?php echo esc_url($img_url); ?>arrow-right-icon.svg" alt="arrow right" class="size-[1.125rem]" />
-                                    </a>
-                                </div>
-                            </label>
-                            <label for="service3" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D]  p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg">
-                                <input type="radio" name="service" id="service3" class="hidden">
-                                <div class="flex flex-col gap-y-3">
-                                    <h3 class="text-[#2F2F2F] group-has-[:checked]/s:text-[#CB122D] font-semibold text-base">Petromin Express - Indiranagar</h3>
-                                    <div class="text-sm text-[#6B6B6B] font-normal">Indiranagar</div>
-                                    <div class="flex gap-4 items-center">
-                                        <div class="flex items-center gap-1 text-sm text-[#AFAFAF] group-has-[:checked]/s:text-[#CB122D]">
-                                            <span>
-                                                <img src="<?php echo esc_url($img_url); ?>location-pin-icon.svg" alt="location" class="size-[0.75rem]" />
-                                            </span>
-                                            2.5 km
-                                        </div>
-                                        <div class="flex items-center gap-1 text-sm text-[#AFAFAF] group-has-[:checked]/s:text-[#CB122D]">
-                                            <span>
-                                                <img src="<?php echo esc_url($img_url); ?>clock-icon.svg" alt="time" class="size-[0.75rem]" />
-                                            </span>
-                                            9:00 AM - 7:00 PM
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="" class="inline-block duration-500 hover:scale-110 opacity-20 group-has-[:checked]/s:opacity-100">
-                                        <img src="<?php echo esc_url($img_url); ?>arrow-right-icon.svg" alt="arrow right" class="size-[1.125rem]" />
-                                    </a>
-                                </div>
-                            </label>
+                            <?php
+                                endforeach;
+                            else :
+                            ?>
+                            <div class="text-center text-[#6B6B6B] text-sm py-4">No service centers available.</div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -418,6 +410,108 @@ $img_url = get_template_directory_uri() . '/assets/img/';
     } else {
         populateBookingSummary();
     }
+})();
+
+// Service Center Filter by City from SessionStorage and Search Functionality
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    
+    // Function to get cart from sessionStorage
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    // Function to get city from sessionStorage
+    function getCityFromSessionStorage() {
+        const cart = getCart();
+        if (cart && cart.vehicle && cart.vehicle.city) {
+            return cart.vehicle.city.trim();
+        }
+        return null;
+    }
+    
+    const searchInput = document.getElementById('serviceCenterSearch');
+    const centerItems = document.querySelectorAll('.service-center-item');
+    
+    if (!searchInput || centerItems.length === 0) {
+        return; // Exit if elements don't exist
+    }
+    
+    function filterCenters(searchTerm, filterByCity) {
+        const term = searchTerm.toLowerCase().trim();
+        const cityFilter = filterByCity ? filterByCity.toLowerCase().trim() : null;
+        let visibleCount = 0;
+        
+        centerItems.forEach(function(item) {
+            const centerName = (item.dataset.centerName || '').toLowerCase();
+            const centerCity = (item.dataset.centerCity || '').toLowerCase();
+            
+            // First filter by city if city is provided
+            let cityMatches = true;
+            if (cityFilter) {
+                cityMatches = centerCity === cityFilter;
+            }
+            
+            // Then filter by search term
+            const searchMatches = term === '' || 
+                          centerName.includes(term) || 
+                          centerCity.includes(term);
+            
+            // Show item only if both filters match
+            if (cityMatches && searchMatches) {
+                item.style.display = '';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Show message if no results
+        const listContainer = document.getElementById('serviceCentersList');
+        if (listContainer) {
+            let noResultsMsg = listContainer.querySelector('.no-results-message');
+            if (visibleCount === 0) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.className = 'no-results-message text-center text-[#6B6B6B] text-sm py-4';
+                    listContainer.appendChild(noResultsMsg);
+                }
+                if (cityFilter && term === '') {
+                    noResultsMsg.textContent = 'No service centers found in ' + filterByCity + '.';
+                } else if (cityFilter) {
+                    noResultsMsg.textContent = 'No service centers found in ' + filterByCity + ' matching your search.';
+                } else if (term !== '') {
+                    noResultsMsg.textContent = 'No service centers found matching your search.';
+                } else {
+                    noResultsMsg.textContent = 'No service centers available.';
+                }
+                noResultsMsg.style.display = 'block';
+            } else if (noResultsMsg) {
+                noResultsMsg.style.display = 'none';
+            }
+        }
+    }
+    
+    // Get city from sessionStorage
+    const selectedCity = getCityFromSessionStorage();
+    
+    // Add search input event listener
+    searchInput.addEventListener('input', function(e) {
+        filterCenters(e.target.value, selectedCity);
+    });
+    
+    // Initial filter on page load (filter by city if available, then apply search if any)
+    filterCenters(searchInput.value, selectedCity);
 })();
 </script>
 
