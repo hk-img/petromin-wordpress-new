@@ -246,7 +246,13 @@ body.verify-page.validation-passed {
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="sendOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed">Send OTP</button>
+                        <button type="button" id="sendOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                            <span id="sendOtpBtnText">Send OTP</span>
+                            <span id="sendOtpBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                                <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                <span>Sending...</span>
+                            </span>
+                        </button>
                         
                         <div id="otpSection" class="flex flex-col gap-2 w-full hidden">
                             <label class="block text-sm font-semibold text-[#2F2F2F]">Enter OTP</label>
@@ -263,7 +269,13 @@ body.verify-page.validation-passed {
                                 <span id="resendOtpTimer">Resend OTP in <span id="timerCount">120</span>s</span>
                             </div>
                         </div>
-                        <button type="button" id="verifyOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed hidden">Verify OTP</button>
+                        <button type="button" id="verifyOtpBtn" class="w-full flex justify-center items-center bg-[#C1122C] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed hidden relative">
+                            <span id="verifyOtpBtnText">Verify OTP</span>
+                            <span id="verifyOtpBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                                <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                <span>Verifying...</span>
+                            </span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -290,8 +302,8 @@ body.verify-page.validation-passed {
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
                             <p id="bookingDisclaimer" class="text-xs bg-[#FF83000D] p-4 font-medium flex gap-2 border border-[#DF7300] text-[#DF7300]">
-                                <span>
-                                    <img src="<?php echo $img_url; ?>info-icon.svg" alt="info icon" class="size-[0.813rem]" />
+                                <span class="inline-flex">
+                                    <img src="<?php echo $img_url; ?>info-icon.svg" alt="info icon" class="size-[0.813rem] shrink-0" />
                                 </span>
                                 <span id="disclaimerText">This is an estimated price, Final price may vary based on your car model and condition.</span>
                             </p>
@@ -806,7 +818,11 @@ body.verify-page.validation-passed {
     
     const CART_STORAGE_KEY = 'cost_estimator_cart';
     const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const sendOtpBtnText = document.getElementById('sendOtpBtnText');
+    const sendOtpBtnLoader = document.getElementById('sendOtpBtnLoader');
     const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const verifyOtpBtnText = document.getElementById('verifyOtpBtnText');
+    const verifyOtpBtnLoader = document.getElementById('verifyOtpBtnLoader');
     const otpSection = document.getElementById('otpSection');
     const mobileNumberSection = document.getElementById('mobileNumberSection');
     const mobileInput = document.getElementById('mobileNumberInput');
@@ -885,9 +901,14 @@ body.verify-page.validation-passed {
             return;
         }
         
-        // Disable button
+        // Show loader and disable button
+        if (sendOtpBtnText) {
+            sendOtpBtnText.classList.add('hidden');
+        }
+        if (sendOtpBtnLoader) {
+            sendOtpBtnLoader.classList.remove('hidden');
+        }
         sendOtpBtn.disabled = true;
-        sendOtpBtn.textContent = 'Sending...';
         
         // AJAX call to send OTP
         const formData = new FormData();
@@ -909,6 +930,15 @@ body.verify-page.validation-passed {
             if (data && data.success) {
                 const message = (data.data && data.data.message) ? data.data.message : 'OTP sent successfully!';
                 showMessage(message, false);
+                
+                // Reset loader state before hiding button
+                if (sendOtpBtnText) {
+                    sendOtpBtnText.classList.remove('hidden');
+                }
+                if (sendOtpBtnLoader) {
+                    sendOtpBtnLoader.classList.add('hidden');
+                }
+                sendOtpBtn.disabled = false;
                 
                 // Hide mobile number section
                 if (mobileNumberSection) {
@@ -932,15 +962,29 @@ body.verify-page.validation-passed {
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Failed to send OTP. Please try again.';
                 showMessage(errorMsg, true);
+                // Reset loader and re-enable button on error
+                if (sendOtpBtnText) {
+                    sendOtpBtnText.classList.remove('hidden');
+                }
+                if (sendOtpBtnLoader) {
+                    sendOtpBtnLoader.classList.add('hidden');
+                }
+                sendOtpBtn.disabled = false;
             }
         })
         .catch(error => {
             console.error('Error:', error);
             showMessage('An error occurred. Please try again. Error: ' + error.message, true);
-        })
-        .finally(() => {
-            sendOtpBtn.disabled = false;
-            sendOtpBtn.textContent = 'Send OTP';
+            // Reset loader and re-enable button on error
+            if (sendOtpBtnText) {
+                sendOtpBtnText.classList.remove('hidden');
+            }
+            if (sendOtpBtnLoader) {
+                sendOtpBtnLoader.classList.add('hidden');
+            }
+            if (sendOtpBtn) {
+                sendOtpBtn.disabled = false;
+            }
         });
     }
     
@@ -961,9 +1005,14 @@ body.verify-page.validation-passed {
             return;
         }
         
-        // Disable button
+        // Show loader and disable button
+        if (verifyOtpBtnText) {
+            verifyOtpBtnText.classList.add('hidden');
+        }
+        if (verifyOtpBtnLoader) {
+            verifyOtpBtnLoader.classList.remove('hidden');
+        }
         verifyOtpBtn.disabled = true;
-        verifyOtpBtn.textContent = 'Verifying...';
         
         // AJAX call to verify OTP
         const formData = new FormData();
@@ -990,6 +1039,9 @@ body.verify-page.validation-passed {
                 // Don't clear OTP inputs on success - keep them visible until redirect
                 // This prevents the inputs from appearing empty during redirect delay
                 
+                // Keep loader showing during redirect delay for better UX
+                // Don't reset loader state on success since we're redirecting
+                
                 // Save verified phone number to sessionStorage
                 try {
                     const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
@@ -1012,6 +1064,16 @@ body.verify-page.validation-passed {
                     } else {
                         console.error('Workstation page URL not found');
                         showMessage('Verification successful! Please continue.', false);
+                        // Reset loader if redirect failed
+                        if (verifyOtpBtnText) {
+                            verifyOtpBtnText.classList.remove('hidden');
+                        }
+                        if (verifyOtpBtnLoader) {
+                            verifyOtpBtnLoader.classList.add('hidden');
+                        }
+                        if (verifyOtpBtn) {
+                            verifyOtpBtn.disabled = false;
+                        }
                     }
                 }, 1500);
             } else {
@@ -1022,15 +1084,31 @@ body.verify-page.validation-passed {
                 if (otpInputs.length > 0) {
                     otpInputs[0].focus();
                 }
+                // Reset loader and re-enable button on error
+                if (verifyOtpBtnText) {
+                    verifyOtpBtnText.classList.remove('hidden');
+                }
+                if (verifyOtpBtnLoader) {
+                    verifyOtpBtnLoader.classList.add('hidden');
+                }
+                if (verifyOtpBtn) {
+                    verifyOtpBtn.disabled = false;
+                }
             }
         })
         .catch(error => {
             console.error('Error:', error);
             showMessage('An error occurred. Please try again. Error: ' + error.message, true);
-        })
-        .finally(() => {
-            verifyOtpBtn.disabled = false;
-            verifyOtpBtn.textContent = 'Verify OTP';
+            // Reset loader and re-enable button on error
+            if (verifyOtpBtnText) {
+                verifyOtpBtnText.classList.remove('hidden');
+            }
+            if (verifyOtpBtnLoader) {
+                verifyOtpBtnLoader.classList.add('hidden');
+            }
+            if (verifyOtpBtn) {
+                verifyOtpBtn.disabled = false;
+            }
         });
     }
     

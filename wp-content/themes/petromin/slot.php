@@ -64,17 +64,17 @@ $verify_page_url = get_verify_page_url();
             <div class="flex items-center justify-center">
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col items-center">
-                        <span class="text-gray-400 font-medium text-sm tracking-wide">
+                        <span class="text-[#20BD99] font-medium text-sm tracking-wide border-b-2 border-[#20BD99]">
                             VERIFY
                         </span>
                     </div>
-                    <div class="border-t border-dashed border-[#696B79] w-16"></div>
+                    <div class="border-t border-dashed border-[#20BD99] w-16"></div>
                     <div class="flex flex-col items-center">
-                        <span class="text-gray-400 font-medium text-sm tracking-wide">
+                        <span class="text-[#20BD99] font-medium text-sm tracking-wide border-b-2 border-[#20BD99]">
                             WORKSTATION
                         </span>
                     </div>
-                    <div class="border-t border-dashed border-[#696B79] w-16"></div>
+                    <div class="border-t border-dashed border-[#20BD99] w-16"></div>
                     <div class="flex flex-col items-center">
                         <span class="text-[#20BD99] font-medium text-sm tracking-wide border-b-2 border-[#20BD99]">
                             SLOT
@@ -400,8 +400,8 @@ $verify_page_url = get_verify_page_url();
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
                             <p id="bookingDisclaimer" class="text-xs  bg-[#FF83000D] p-4 font-medium flex  gap-2 border border-[#DF7300] text-[#DF7300]">
-                                <span>
-                                    <img src="<?php echo esc_url($img_url); ?>info-icon-disclaimer.svg" alt="info" class="size-[0.813rem]" />
+                                <span class="inline-flex">
+                                    <img src="<?php echo esc_url($img_url); ?>info-icon-disclaimer.svg" alt="info" class="size-[0.813rem] shrink-0" />
                                 </span>
                                 <span id="disclaimerText">This is an estimated price, Final price may vary based on your car model and condition.</span>
                             </p>

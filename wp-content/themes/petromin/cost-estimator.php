@@ -131,16 +131,10 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             $category_slug = get_category_slug($category_name);
                             $category_id = $category_slug . 'Service';
                             ?>
-                            <label for="<?php echo esc_attr($category_id); ?>"
-                                class="group/serviceTab cursor-pointer py-4 px-10 flex flex-col items-center gap-3 justify-center text-sm font-medium border-b-4 border-transparent has-[:checked]:border-[#980D22] has-[:checked]:font-bold has-[:checked]:text-[#CB122D]">
+                            <label for="<?php echo esc_attr($category_id); ?>" class="group/serviceTab cursor-pointer py-4 px-10 flex flex-col items-center gap-3 justify-center text-sm font-medium border-b-4 border-transparent has-[:checked]:border-[#980D22] has-[:checked]:font-bold has-[:checked]:text-[#CB122D]">
                                 <input type="radio" name="services" id="<?php echo esc_attr($category_id); ?>" class="hidden" <?php echo $first_category ? 'checked' : ''; ?> />
-                                <span
-                                    class="bg-gradient-to-br from-[#F3F4F6] to-[#F3F4F6] group-has-[:checked]/serviceTab:from-[#CB122D] group-has-[:checked]/serviceTab:to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center">
-                                    <img src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" 
-                                        class="brightness-[0.4] group-has-[:checked]/serviceTab:brightness-[1] size-7" 
-                                        alt="<?php echo esc_attr($category_name . ' Icon'); ?>" 
-                                        width="28" 
-                                        height="28" />
+                                <span class="bg-gradient-to-br from-[#F3F4F6] to-[#F3F4F6] group-has-[:checked]/serviceTab:from-[#CB122D] group-has-[:checked]/serviceTab:to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center">
+                                    <img src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" class="brightness-[0.4] group-has-[:checked]/serviceTab:brightness-[1] size-7" alt="<?php echo esc_attr($category_name . ' Icon'); ?>" width="28" height="28" />
                                 </span>
                                 <?php echo esc_html($category_name); ?>
                             </label>
@@ -409,9 +403,14 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                     </div>
                                 </div>
                                 <div id="checkoutButtonSection" class="w-full hidden">
-                                    <a href="<?php echo esc_url($verify_page_url); ?>"
-                                        class="h-[3.438rem] w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">Proceed
-                                        to Checkout</a>
+                                    <button type="button" id="desktopProceedToCheckoutBtn"
+                                        class="h-[3.438rem] w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                                        <span id="desktopProceedToCheckoutBtnText">Proceed to Checkout</span>
+                                        <span id="desktopProceedToCheckoutBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                                            <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                            <span>Processing...</span>
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                             <div id="vehicleFormSection" class="flex flex-col gap-y-6 bg-white md:p-6 hidden">
@@ -703,8 +702,12 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                     <div
                                         class="w-full relative h-[4.563rem] md:p-0 p-6 flex justify-center items-center">
                                         <button type="button" id="confirmVehicleUpdateBtn"
-                                            class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#1A1A1A] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">
-                                            Confirm Vehicle Update
+                                            class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#1A1A1A] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                                            <span id="confirmVehicleUpdateBtnText">Confirm Vehicle Update</span>
+                                            <span id="confirmVehicleUpdateBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                                                <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                                <span>Processing...</span>
+                                            </span>
                                         </button>
                                     </div>
                             </div>
@@ -786,8 +789,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     <div id="mobileCartTotalPrice" class="text-[#CB122D] text-xl font-bold">₹0</div>
                 </div>
                 <p class="text-sm text-[#000000] font-normal flex gap-2">
-                    <span>
-                        <img src="<?php echo esc_url($img_url . 'mobileCartInfoIcon.svg'); ?>" class="size-6" width="24" height="24" alt="Info Icon" />
+                    <span class="inline-flex">
+                        <img src="<?php echo esc_url($img_url . 'mobileCartInfoIcon.svg'); ?>" class="size-6 shrink-0" width="24" height="24" alt="Info Icon" />
                     </span>
                     This is an estimated price, Final price may vary based on your car
                     model and condition.
@@ -801,7 +804,13 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
             <div id="mobileCartFooterTotal" class="text-[#121212] text-lg font-bold">₹0</div>
         </div>
         <div class="w-full flex justify-end">
-            <a href="<?php echo esc_url($verify_page_url); ?>" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Checkout</a>
+            <button type="button" id="mobileProceedToCheckoutBtn" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                <span id="mobileProceedToCheckoutBtnText">Checkout</span>
+                <span id="mobileProceedToCheckoutBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                    <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    <span class="text-sm">Processing...</span>
+                </span>
+            </button>
         </div>
     </div>
 </div>
@@ -975,8 +984,12 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
           <div
           class="h-[4.938rem] p-6 w-full flex justify-center items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
           <button type="button" id="mobileConfirmVehicleUpdateBtn"
-          class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500">
-          Confirm Vehicle Update
+          class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+          <span id="mobileConfirmVehicleUpdateBtnText">Confirm Vehicle Update</span>
+          <span id="mobileConfirmVehicleUpdateBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+              <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              <span>Processing...</span>
+          </span>
       </button>
       </div>
       </div>
@@ -1100,11 +1113,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelInput.placeholder = 'No models found';
             }
             modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update button state after models are loaded
+            updateConfirmButtonState();
         })
         .catch(function() {
             modelList.innerHTML = '<div class="col-span-2 text-center py-8"><p class="text-gray-500 text-sm">Failed to load models</p></div>';
             modelInput.placeholder = 'Failed to load models';
             modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update button state on error
+            updateConfirmButtonState();
         });
     }
     
@@ -1166,11 +1183,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 fuelInput.placeholder = 'No fuel types found';
             }
             fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update button state after fuel types are loaded
+            updateConfirmButtonState();
         })
         .catch(function() {
             fuelList.innerHTML = '<div class="col-span-3 text-center py-8"><p class="text-gray-500 text-sm">Failed to load fuel types</p></div>';
             fuelInput.placeholder = 'Failed to load fuel types';
             fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update button state on error
+            updateConfirmButtonState();
         });
     }
     
@@ -1262,10 +1283,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (inputId === 'vehicleBrandInput') {
                 fetchVehicleModels(value);
                 setDropdownEnabled('vehicleFuelInput', false);
+                // Clear model and fuel when brand changes
+                $('#vehicleModelInput').value = '';
+                $('#vehicleFuelInput').value = '';
             } else if (inputId === 'vehicleModelInput') {
                 const selectedBrand = $('#vehicleBrandInput').value;
                 fetchVehicleFuelTypes(selectedBrand, value);
+                // Clear fuel when model changes
+                $('#vehicleFuelInput').value = '';
             }
+            
+            // Update button state after value change
+            updateConfirmButtonState();
         });
         
         // Search filter
@@ -1318,8 +1347,27 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchVehicleFuelTypes('<?php echo esc_js($brand); ?>', '<?php echo esc_js($model); ?>');
     <?php endif; ?>
     
+    // Function to update button state based on dropdown selections
+    function updateConfirmButtonState() {
+        const brand = $('#vehicleBrandInput').value.trim();
+        const model = $('#vehicleModelInput').value.trim();
+        const fuel = $('#vehicleFuelInput').value.trim();
+        
+        const confirmVehicleUpdateBtn = $('#confirmVehicleUpdateBtn');
+        if (confirmVehicleUpdateBtn) {
+            if (brand && model && fuel) {
+                confirmVehicleUpdateBtn.disabled = false;
+            } else {
+                confirmVehicleUpdateBtn.disabled = true;
+            }
+        }
+    }
+    
     // Handle Confirm Vehicle Update button
     const confirmVehicleUpdateBtn = $('#confirmVehicleUpdateBtn');
+    const confirmVehicleUpdateBtnText = document.getElementById('confirmVehicleUpdateBtnText');
+    const confirmVehicleUpdateBtnLoader = document.getElementById('confirmVehicleUpdateBtnLoader');
+    
     if (confirmVehicleUpdateBtn) {
         confirmVehicleUpdateBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -1329,10 +1377,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const fuel = $('#vehicleFuelInput').value.trim();
             const city = '<?php echo esc_js($city); ?>';
             
+            // Don't proceed if any field is empty (button should be disabled anyway)
             if (!brand || !model || !fuel) {
-                alert('Please select Brand, Model, and Fuel Type');
                 return;
             }
+            
+            // Show loader and disable button
+            if (confirmVehicleUpdateBtnText) {
+                confirmVehicleUpdateBtnText.classList.add('hidden');
+            }
+            if (confirmVehicleUpdateBtnLoader) {
+                confirmVehicleUpdateBtnLoader.classList.remove('hidden');
+            }
+            confirmVehicleUpdateBtn.disabled = true;
             
             // Clear cart when vehicle is updated
             clearCart();
@@ -1344,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', function() {
             params.append('model', encodeURIComponent(model));
             params.append('fuel', encodeURIComponent(fuel));
             
-            // Redirect to same page with updated query params
+            // Redirect immediately after showing loader
             const redirectUrl = currentUrl + '?' + params.toString();
             window.location.href = redirectUrl;
         });
@@ -1979,12 +2036,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelInput.placeholder = 'No models found';
             }
             modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update mobile button state after models are loaded
+            updateMobileConfirmButtonState();
         })
         .catch(function() {
             modelList.innerHTML = '';
             modelEmptyState.classList.remove('hidden');
             modelInput.placeholder = 'Failed to load models';
             modelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update mobile button state on error
+            updateMobileConfirmButtonState();
         });
     }
     
@@ -2046,11 +2107,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 fuelInput.placeholder = 'No fuel types found';
             }
             fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update mobile button state after fuel types are loaded
+            updateMobileConfirmButtonState();
         })
         .catch(function() {
             fuelList.innerHTML = '';
             fuelInput.placeholder = 'Failed to load fuel types';
             fuelIcon.innerHTML = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+            // Update mobile button state on error
+            updateMobileConfirmButtonState();
         });
     }
     
@@ -2158,6 +2223,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 setDropdownEnabled('mobileVehicleFuelInput', true);
                 $('#mobileVehicleFuelInput').value = '';
             }
+            
+            // Update mobile button state after value change
+            updateMobileConfirmButtonState();
         });
         
         // Search filter
@@ -2229,10 +2297,35 @@ document.addEventListener('DOMContentLoaded', function() {
         <?php if (!empty($brand) && !empty($model)) : ?>
             fetchMobileVehicleFuelTypes('<?php echo esc_js($brand); ?>', '<?php echo esc_js($model); ?>');
         <?php endif; ?>
+        
+        // Update button state after dropdowns are initialized
+        // Use setTimeout to ensure fetch functions have completed if they were called
+        setTimeout(function() {
+            updateMobileConfirmButtonState();
+        }, 500);
+    }
+    
+    // Function to update mobile button state based on dropdown selections (must be defined before initializeMobileVehicleDropdowns)
+    function updateMobileConfirmButtonState() {
+        const brand = $('#mobileVehicleBrandInput').value.trim();
+        const model = $('#mobileVehicleModelInput').value.trim();
+        const fuel = $('#mobileVehicleFuelInput').value.trim();
+        
+        const mobileConfirmVehicleUpdateBtn = $('#mobileConfirmVehicleUpdateBtn');
+        if (mobileConfirmVehicleUpdateBtn) {
+            if (brand && model && fuel) {
+                mobileConfirmVehicleUpdateBtn.disabled = false;
+            } else {
+                mobileConfirmVehicleUpdateBtn.disabled = true;
+            }
+        }
     }
     
     // Handle Mobile Confirm Vehicle Update button
     const mobileConfirmVehicleUpdateBtn = $('#mobileConfirmVehicleUpdateBtn');
+    const mobileConfirmVehicleUpdateBtnText = document.getElementById('mobileConfirmVehicleUpdateBtnText');
+    const mobileConfirmVehicleUpdateBtnLoader = document.getElementById('mobileConfirmVehicleUpdateBtnLoader');
+    
     if (mobileConfirmVehicleUpdateBtn) {
         mobileConfirmVehicleUpdateBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -2242,10 +2335,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const fuel = $('#mobileVehicleFuelInput').value.trim();
             const city = '<?php echo esc_js($city); ?>';
             
+            // Don't proceed if any field is empty (button should be disabled anyway)
             if (!brand || !model || !fuel) {
-                alert('Please select Brand, Model, and Fuel Type');
                 return;
             }
+            
+            // Show loader and disable button
+            if (mobileConfirmVehicleUpdateBtnText) {
+                mobileConfirmVehicleUpdateBtnText.classList.add('hidden');
+            }
+            if (mobileConfirmVehicleUpdateBtnLoader) {
+                mobileConfirmVehicleUpdateBtnLoader.classList.remove('hidden');
+            }
+            mobileConfirmVehicleUpdateBtn.disabled = true;
             
             // Clear cart when vehicle is updated
             clearCart();
@@ -2262,9 +2364,82 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileVehicleFormModal.classList.add('hidden');
             }
             
-            // Redirect to same page with updated query params
-            const redirectUrl = currentUrl + '?' + params.toString();
-            window.location.href = redirectUrl;
+            // Small delay to show loader, then redirect
+            setTimeout(function() {
+                const redirectUrl = currentUrl + '?' + params.toString();
+                window.location.href = redirectUrl;
+            }, 300);
+        });
+    }
+    
+    // Handle Desktop Proceed to Checkout button
+    const desktopProceedToCheckoutBtn = document.getElementById('desktopProceedToCheckoutBtn');
+    const desktopProceedToCheckoutBtnText = document.getElementById('desktopProceedToCheckoutBtnText');
+    const desktopProceedToCheckoutBtnLoader = document.getElementById('desktopProceedToCheckoutBtnLoader');
+    const verifyPageUrl = '<?php echo esc_js($verify_page_url); ?>';
+    
+    if (desktopProceedToCheckoutBtn) {
+        desktopProceedToCheckoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show loader and disable button
+            if (desktopProceedToCheckoutBtnText) {
+                desktopProceedToCheckoutBtnText.classList.add('hidden');
+            }
+            if (desktopProceedToCheckoutBtnLoader) {
+                desktopProceedToCheckoutBtnLoader.classList.remove('hidden');
+            }
+            desktopProceedToCheckoutBtn.disabled = true;
+            
+            // Redirect immediately after showing loader
+            if (verifyPageUrl && verifyPageUrl !== '') {
+                window.location.href = verifyPageUrl;
+            } else {
+                console.error('Verify page URL not found');
+                // Re-enable button on error
+                if (desktopProceedToCheckoutBtnText) {
+                    desktopProceedToCheckoutBtnText.classList.remove('hidden');
+                }
+                if (desktopProceedToCheckoutBtnLoader) {
+                    desktopProceedToCheckoutBtnLoader.classList.add('hidden');
+                }
+                desktopProceedToCheckoutBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Handle Mobile Proceed to Checkout button
+    const mobileProceedToCheckoutBtn = document.getElementById('mobileProceedToCheckoutBtn');
+    const mobileProceedToCheckoutBtnText = document.getElementById('mobileProceedToCheckoutBtnText');
+    const mobileProceedToCheckoutBtnLoader = document.getElementById('mobileProceedToCheckoutBtnLoader');
+    
+    if (mobileProceedToCheckoutBtn) {
+        mobileProceedToCheckoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show loader and disable button
+            if (mobileProceedToCheckoutBtnText) {
+                mobileProceedToCheckoutBtnText.classList.add('hidden');
+            }
+            if (mobileProceedToCheckoutBtnLoader) {
+                mobileProceedToCheckoutBtnLoader.classList.remove('hidden');
+            }
+            mobileProceedToCheckoutBtn.disabled = true;
+            
+            // Redirect immediately after showing loader
+            if (verifyPageUrl && verifyPageUrl !== '') {
+                window.location.href = verifyPageUrl;
+            } else {
+                console.error('Verify page URL not found');
+                // Re-enable button on error
+                if (mobileProceedToCheckoutBtnText) {
+                    mobileProceedToCheckoutBtnText.classList.remove('hidden');
+                }
+                if (mobileProceedToCheckoutBtnLoader) {
+                    mobileProceedToCheckoutBtnLoader.classList.add('hidden');
+                }
+                mobileProceedToCheckoutBtn.disabled = false;
+            }
         });
     }
     
