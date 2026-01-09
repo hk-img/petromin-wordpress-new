@@ -5,11 +5,112 @@ get_header();
 // Get theme assets directory URL for images
 $img_url = get_template_directory_uri() . '/assets/img/';
 
+// Get cost-estimator page URL
+function get_cost_estimator_page_url() {
+    // Try different template name formats
+    $template_names = array('cost-estimator.php', 'page-cost-estimator.php');
+    
+    foreach ($template_names as $template_name) {
+        $cost_estimator_page = get_pages(array(
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template_name,
+            'number' => 1,
+            'post_status' => 'publish'
+        ));
+        if (!empty($cost_estimator_page)) {
+            return get_permalink($cost_estimator_page[0]->ID);
+        }
+    }
+    
+    // Fallback: try to find page by slug or title
+    $cost_estimator_page = get_page_by_path('cost-estimator');
+    if ($cost_estimator_page) {
+        return get_permalink($cost_estimator_page->ID);
+    }
+    
+    return home_url('/');
+}
+$cost_estimator_page_url = get_cost_estimator_page_url();
 
 ?>
+<style>
+/* Hide page content initially until validation passes */
+body.workstation-page {
+    visibility: hidden;
+    opacity: 0;
+}
+body.workstation-page.validation-passed {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+}
+</style>
+<script>
+// Immediate validation before page renders
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
+    
+    // Function to get cart from sessionStorage
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            return null;
+        }
+        return null;
+    }
+    
+    // Validate required vehicle data
+    function validateVehicleData() {
+        const cart = getCart();
+        
+        // Check if cart exists
+        if (!cart || !cart.vehicle) {
+            return false;
+        }
+        
+        // Check for required fields: brand, model, fuel
+        const brand = cart.vehicle.brand && cart.vehicle.brand.trim() !== '';
+        const model = cart.vehicle.model && cart.vehicle.model.trim() !== '';
+        const fuel = cart.vehicle.fuel && cart.vehicle.fuel.trim() !== '';
+        
+        // Return true only if all three are present
+        return brand && model && fuel;
+    }
+    
+    // Add class to body for workstation page
+    if (document.body) {
+        document.body.classList.add('workstation-page');
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('workstation-page');
+        });
+    }
+    
+    // Check validation immediately
+    if (!validateVehicleData()) {
+        // Redirect immediately without showing content
+        window.location.replace(costEstimatorUrl);
+    } else {
+        // Show content if validation passes
+        if (document.body) {
+            document.body.classList.add('validation-passed');
+        } else {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.classList.add('validation-passed');
+            });
+        }
+    }
+})();
+</script>
 
-
-<header class="w-full md:flex hidden justify-center items-center top-0 right-0  bg-white font-poppins fixed z-40 h-24 border-b border-[#E5E7EB]">
+<header class="w-full md:flex hidden justify-center items-center top-0 right-0  bg-white font-poppins fixed z-40 h-24 border-b border-[#E5E5E5]">
     <div class="view w-full relative flex justify-between items-center">
         <div class="md:w-1/4 h-[4.125rem] relative flex  py-5 bg-white -skew-x-[18deg] origin-top">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="lg:w-auto w-auto flex items-center skew-x-[18deg] h-full">
@@ -240,6 +341,7 @@ $img_url = get_template_directory_uri() . '/assets/img/';
 </div>
 
 <script>
+// Booking Summary and Service Center Functionality
 (function() {
     'use strict';
     
