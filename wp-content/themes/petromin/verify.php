@@ -273,10 +273,6 @@ body.verify-page.validation-passed {
                     <!-- Services will be populated dynamically -->
                 </div>
             </div>
-            <div class="flex flex-col gap-2">
-                <div class="text-[#AFAFAF] text-xs font-bold uppercase">Location</div>
-                <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm">-</div>
-            </div>
         </div>
     </label>
     <a href="" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Confirm Booking</a>

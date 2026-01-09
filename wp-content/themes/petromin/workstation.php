@@ -32,6 +32,29 @@ function get_cost_estimator_page_url() {
 }
 $cost_estimator_page_url = get_cost_estimator_page_url();
 
+// Get slot page URL
+function get_slot_page_url() {
+    // Try to find page by slug 'slot'
+    $slot_page = get_page_by_path('slot');
+    if ($slot_page) {
+        return get_permalink($slot_page->ID);
+    }
+    
+    // Try to find page by template name
+    $slot_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'slot.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($slot_pages)) {
+        return get_permalink($slot_pages[0]->ID);
+    }
+    
+    return home_url('/slot');
+}
+$slot_page_url = get_slot_page_url();
+
 ?>
 <style>
 /* Hide page content initially until validation passes */
@@ -261,7 +284,8 @@ body.workstation-page.validation-passed {
                                     }
                                     
                                     $service_id = 'service_' . ($index + 1);
-                                    $is_checked = $index === 0 ? 'checked' : '';
+                                    // No default selection - user must click to select
+                                    $is_checked = '';
                             ?>
                             <?php
                             // Get map location coordinates
@@ -284,6 +308,13 @@ body.workstation-page.validation-passed {
                             ?>
                             <label for="<?php echo esc_attr($service_id); ?>" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D] p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg service-center-item" <?php echo $data_attrs; ?>>
                                 <input type="radio" name="service" id="<?php echo esc_attr($service_id); ?>" class="hidden" value="<?php echo esc_attr($center_name); ?>" <?php echo $is_checked; ?>>
+                                <!-- Loader Overlay -->
+                                <div class="service-center-loader-overlay absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50 hidden">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#CB122D]"></div>
+                                        <p class="text-gray-600 text-sm font-medium">Processing...</p>
+                                    </div>
+                                </div>
                                 <div class="flex flex-col gap-y-3">
                                     <h3 class="text-[#2F2F2F] group-has-[:checked]/s:text-[#CB122D] font-semibold text-base"><?php echo esc_html($center_name); ?></h3>
                                     <?php if (!empty($center_city)) : ?>
@@ -545,10 +576,23 @@ body.workstation-page.validation-passed {
             }
         }
         
-        // Location (Mobile)
+        // Location (Mobile) - Show selected service center or city
         const mobileLocationEl = document.getElementById('mobileLocation');
         if (mobileLocationEl) {
-            if (cart && cart.vehicle && cart.vehicle.city) {
+            if (cart && cart.service_center) {
+                // Show "centre name - city" format
+                const centerName = cart.service_center.name || '';
+                const centerCity = cart.service_center.city || '';
+                if (centerName && centerCity) {
+                    mobileLocationEl.textContent = centerName + ' - ' + centerCity;
+                } else if (centerName) {
+                    mobileLocationEl.textContent = centerName;
+                } else if (centerCity) {
+                    mobileLocationEl.textContent = centerCity;
+                } else {
+                    mobileLocationEl.textContent = '-';
+                }
+            } else if (cart && cart.vehicle && cart.vehicle.city) {
                 mobileLocationEl.textContent = cart.vehicle.city;
             } else {
                 mobileLocationEl.textContent = '-';
@@ -664,6 +708,135 @@ body.workstation-page.validation-passed {
     
     // Initial filter on page load (filter by city if available, then apply search if any)
     filterCenters(searchInput.value, selectedCity);
+})();
+
+// Service Center Selection Handler - Save to sessionStorage and Redirect to Slot Page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const slotPageUrl = '<?php echo esc_js($slot_page_url); ?>';
+    
+    // Function to get cart from sessionStorage
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    // Function to save cart to sessionStorage
+    function saveCart(cart) {
+        try {
+            sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Error saving cart:', e);
+        }
+    }
+    
+    // Function to update mobile location display
+    function updateMobileLocation(centerName, centerCity) {
+        const mobileLocationEl = document.getElementById('mobileLocation');
+        if (mobileLocationEl) {
+            if (centerName && centerCity) {
+                mobileLocationEl.textContent = centerName + ' - ' + centerCity;
+            } else if (centerName) {
+                mobileLocationEl.textContent = centerName;
+            } else if (centerCity) {
+                mobileLocationEl.textContent = centerCity;
+            } else {
+                mobileLocationEl.textContent = '-';
+            }
+        }
+    }
+    
+    // Handle service center radio button selection
+    function handleServiceCenterSelection() {
+        const radioButtons = document.querySelectorAll('input[name="service"][type="radio"]');
+        
+        radioButtons.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    // Get the parent label which has data attributes
+                    const label = this.closest('.service-center-item');
+                    if (label) {
+                        // Show loader overlay on this specific service center item
+                        const loaderOverlay = label.querySelector('.service-center-loader-overlay');
+                        if (loaderOverlay) {
+                            loaderOverlay.classList.remove('hidden');
+                        }
+                        
+                        // Disable pointer events on all service center items to prevent multiple clicks
+                        const allServiceItems = document.querySelectorAll('.service-center-item');
+                        allServiceItems.forEach(function(item) {
+                            item.style.pointerEvents = 'none';
+                            item.style.cursor = 'not-allowed';
+                        });
+                        
+                        const centerName = label.getAttribute('data-center-name') || '';
+                        const centerCity = label.getAttribute('data-center-city') || '';
+                        const centerLat = label.getAttribute('data-center-lat') || '';
+                        const centerLng = label.getAttribute('data-center-lng') || '';
+                        
+                        // Get actual display name (not lowercased) from the h3 element
+                        const nameElement = label.querySelector('h3');
+                        const displayName = nameElement ? nameElement.textContent.trim() : centerName;
+                        
+                        // Small delay to ensure loader is visible
+                        setTimeout(function() {
+                            // Get cart from sessionStorage
+                            let cart = getCart();
+                            if (!cart) {
+                                cart = { vehicle: {}, items: [] };
+                            }
+                            
+                            // Save selected service center to cart
+                            cart.service_center = {
+                                name: displayName,
+                                city: centerCity,
+                                lat: centerLat,
+                                lng: centerLng
+                            };
+                            
+                            // Save to sessionStorage
+                            saveCart(cart);
+                            
+                            // Update mobile location display immediately
+                            updateMobileLocation(displayName, centerCity);
+                            
+                            // Redirect to slot page
+                            if (slotPageUrl && slotPageUrl !== '') {
+                                window.location.href = slotPageUrl;
+                            } else {
+                                console.error('Slot page URL not found');
+                                // Hide loader if redirect fails
+                                if (loaderOverlay) {
+                                    loaderOverlay.classList.add('hidden');
+                                }
+                                // Re-enable pointer events
+                                allServiceItems.forEach(function(item) {
+                                    item.style.pointerEvents = '';
+                                    item.style.cursor = '';
+                                });
+                            }
+                        }, 100); // Small delay to show loader
+                    }
+                }
+            });
+        });
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', handleServiceCenterSelection);
+    } else {
+        handleServiceCenterSelection();
+    }
 })();
 
 // Dynamic Distance Calculation using Geolocation and Google Maps Distance Matrix API
