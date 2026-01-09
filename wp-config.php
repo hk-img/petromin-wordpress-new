@@ -17,7 +17,8 @@
  *
  * @package WordPress
  */
-
+// define('WP_HOME', 'http://192.168.1.52/petromin-wordpress-new');
+// define('WP_SITEURL', 'http://192.168.1.52/petromin-wordpress-new');
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'petromin-wordpress-new' );
