@@ -125,13 +125,13 @@ body.workstation-page.validation-passed {
             <div class="flex items-center justify-center">
                 <div class="flex items-center gap-3">
                     <div class="flex flex-col items-center">
-                        <span class="text-[#20BD99] font-medium text-sm tracking-wide border-b-2 border-[#20BD99]">
+                        <span class="text-gray-400 font-medium text-sm tracking-wide">
                             VERIFY
                         </span>
                     </div>
                     <div class="border-t border-dashed border-[#696B79] w-16"></div>
                     <div class="flex flex-col items-center">
-                        <span class="text-gray-400 font-medium text-sm tracking-wide">
+                        <span class="text-[#20BD99] font-medium text-sm tracking-wide border-b-2 border-[#20BD99]">
                             WORKSTATION
                         </span>
                     </div>

@@ -86,9 +86,10 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
 
 // Check if this is verify page template - don't render header UI
 $is_verify_page = is_page_template('verify.php');
+$is_workstation_page = is_page_template('workstation.php');
 ?>
 
-<?php if (!$is_verify_page) : ?>
+<?php if (!$is_verify_page && !$is_workstation_page) : ?>
     <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-40 xl:h-20">
         <div class="w-full relative flex justify-between items-center lg:px-0 px-4">
             <div
