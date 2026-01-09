@@ -363,7 +363,7 @@ $img_url = get_template_directory_uri() . '/assets/img/';
             </div>
         </div>
     </div>
-    </section>
+</section>
 
 <div class="view h-[4.938rem] group/check fixed bottom-0 inset-x-0 md:hidden flex justify-between items-center bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
     <label for="price" class="cursor-pointer w-1/2 flex items-center font-bold text-base text-[#C8102E] gap-2">
