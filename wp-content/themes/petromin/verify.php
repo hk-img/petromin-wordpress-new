@@ -75,6 +75,7 @@ body.verify-page.validation-passed {
     
     const CART_STORAGE_KEY = 'cost_estimator_cart';
     const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
+    const workstationUrl = '<?php echo esc_js($workstation_page_url); ?>';
     
     // Function to get cart from sessionStorage
     function getCart() {
@@ -107,6 +108,16 @@ body.verify-page.validation-passed {
         return brand && model && fuel;
     }
     
+    // Check if phone is already verified - if yes, redirect to workstation immediately
+    const currentCart = getCart();
+    if (currentCart && currentCart.phone_verified) {
+        // Phone already verified, redirect to workstation immediately without showing page
+        if (workstationUrl && workstationUrl !== '') {
+            window.location.replace(workstationUrl);
+            return; // Exit early, don't proceed with page initialization
+        }
+    }
+    
     // Add class to body for verify page
     if (document.body) {
         document.body.classList.add('verify-page');
@@ -130,6 +141,29 @@ body.verify-page.validation-passed {
             });
         }
     }
+    
+    // Additional check on page visibility change (when user navigates back)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible - check again if phone is verified
+            const currentCart = getCart();
+            if (currentCart && currentCart.phone_verified) {
+                if (workstationUrl && workstationUrl !== '') {
+                    window.location.replace(workstationUrl);
+                }
+            }
+        }
+    });
+    
+    // Also check on focus event (when user comes back to tab)
+    window.addEventListener('focus', function() {
+        const currentCart = getCart();
+        if (currentCart && currentCart.phone_verified) {
+            if (workstationUrl && workstationUrl !== '') {
+                window.location.replace(workstationUrl);
+            }
+        }
+    });
 })();
 </script>
 
@@ -242,8 +276,8 @@ body.verify-page.validation-passed {
                         <div class="w-full flex flex-row">
                             <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Vehicle</div>
                             <div class="w-2/3 flex flex-col gap-y-1">
-                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm">-</div>
-                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B]">-</div>
+                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
+                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -288,7 +322,7 @@ body.verify-page.validation-passed {
         <div class="view bg-white w-full duartion-300 group-has-[#price:checked]/check:flex hidden py-6 flex-col gap-y-4 absolute bottom-full inset-x-0 shadow-[0_-0.25rem_1rem_0_#00000014] border-t border-[#E5E5E5] max-h-[calc(100dvh-154px)] overflow-y-auto">
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Vehicle</div>
-                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase">-</div>
+                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase empty:hidden"></div>
             </div>
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Services</div>
@@ -952,7 +986,9 @@ body.verify-page.validation-passed {
             if (data && data.success) {
                 const message = (data.data && data.data.message) ? data.data.message : 'Mobile number verified successfully!';
                 showMessage(message, false);
-                clearOTPInputs();
+                
+                // Don't clear OTP inputs on success - keep them visible until redirect
+                // This prevents the inputs from appearing empty during redirect delay
                 
                 // Save verified phone number to sessionStorage
                 try {
@@ -968,10 +1004,11 @@ body.verify-page.validation-passed {
                     console.error('Error saving verified phone:', e);
                 }
                 
-                // Redirect to workstation page after short delay
+                // Redirect to workstation page after short delay using replace to prevent back navigation
                 setTimeout(() => {
                     if (workstationUrl && workstationUrl !== '') {
-                        window.location.href = workstationUrl;
+                        // Use replace instead of href to prevent verify page from being in history
+                        window.location.replace(workstationUrl);
                     } else {
                         console.error('Workstation page URL not found');
                         showMessage('Verification successful! Please continue.', false);
@@ -980,6 +1017,7 @@ body.verify-page.validation-passed {
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
                 showMessage(errorMsg, true);
+                // Only clear OTP inputs on error, not on success
                 clearOTPInputs();
                 if (otpInputs.length > 0) {
                     otpInputs[0].focus();

@@ -55,6 +55,29 @@ function get_slot_page_url() {
 }
 $slot_page_url = get_slot_page_url();
 
+// Get verify page URL
+function get_verify_page_url() {
+    // Try to find page by slug 'verify'
+    $verify_page = get_page_by_path('verify');
+    if ($verify_page) {
+        return get_permalink($verify_page->ID);
+    }
+    
+    // Try to find page by template name
+    $verify_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'verify.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($verify_pages)) {
+        return get_permalink($verify_pages[0]->ID);
+    }
+    
+    return home_url('/verify');
+}
+$verify_page_url = get_verify_page_url();
+
 ?>
 <style>
 /* Hide page content initially until validation passes */
@@ -75,6 +98,7 @@ body.workstation-page.validation-passed {
     
     const CART_STORAGE_KEY = 'cost_estimator_cart';
     const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
+    const slotPageUrl = '<?php echo esc_js($slot_page_url); ?>';
     
     // Function to get cart from sessionStorage
     function getCart() {
@@ -87,6 +111,16 @@ body.workstation-page.validation-passed {
             return null;
         }
         return null;
+    }
+    
+    // Check if service center is already selected - if yes, redirect to slot page immediately
+    const currentCart = getCart();
+    if (currentCart && currentCart.service_center) {
+        // Service center already selected, redirect to slot page immediately without showing page
+        if (slotPageUrl && slotPageUrl !== '') {
+            window.location.replace(slotPageUrl);
+            return; // Exit early, don't proceed with page initialization
+        }
     }
     
     // Validate required vehicle data
@@ -134,6 +168,29 @@ body.workstation-page.validation-passed {
         // Use a flag to indicate validation has passed and location can be requested
         window.workstationValidationPassed = true;
     }
+    
+    // Additional check on page visibility change (when user navigates back)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible - check again if service center is selected
+            const currentCart = getCart();
+            if (currentCart && currentCart.service_center) {
+                if (slotPageUrl && slotPageUrl !== '') {
+                    window.location.replace(slotPageUrl);
+                }
+            }
+        }
+    });
+    
+    // Also check on focus event (when user comes back to tab)
+    window.addEventListener('focus', function() {
+        const currentCart = getCart();
+        if (currentCart && currentCart.service_center) {
+            if (slotPageUrl && slotPageUrl !== '') {
+                window.location.replace(slotPageUrl);
+            }
+        }
+    });
 })();
 </script>
 
@@ -196,7 +253,7 @@ body.workstation-page.validation-passed {
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verify Mobile Number</h2>
-                            <p class="text-[#6B6B6B] text-sm font-medium">We'll send you an OTP to verify your number</p>
+                            <p class="text-[#6B6B6B] text-sm font-medium">Your mobile number has been verified successfully</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
                             <div class="flex items-center gap-3">
@@ -205,16 +262,16 @@ body.workstation-page.validation-passed {
                                 </span>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified Successfully</div>
-                                    <div class="text-[#637083] font-normal text-xs">+91 4323423423</div>
+                                    <div id="verifiedPhoneNumber" class="text-[#637083] font-normal text-xs">+91 -</div>
                                 </div>
                             </div>
-                            <a href="" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
+                            <a href="" id="changeMobileNumberBtn" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
                         </div>
                     </div>
-                    <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
+                    <div id="selectServiceCenterSection" class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Select Service Center</h2>
-                            <p class="text-[#6B6B6B] text-sm font-medium">Choose the nearest location for your service</p>
+                            <p class="text-[#6B6B6B] text-sm font-medium">Select the service center nearest to you</p>
                         </div>
                         <!-- Location Permission Blocked Message -->
                         <div id="locationPermissionBlockedMsg" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -359,8 +416,8 @@ body.workstation-page.validation-passed {
                         <div class="w-full flex flex-row">
                             <div class="w-1/3 text-[#A6A6A6] uppercase  text-xs font-semibold">Vehicle</div>
                             <div class="w-2/3 flex flex-col gap-y-1">
-                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm">-</div>
-                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B]">-</div>
+                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
+                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -404,7 +461,7 @@ body.workstation-page.validation-passed {
         <div class="view bg-white w-full duartion-300 group-has-[#price:checked]/check:flex hidden py-6 flex-col gap-y-4 absolute bottom-full inset-x-0 shadow-[0_-0.25rem_1rem_0_#00000014] border-t border-[#E5E5E5]">
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Vehicle</div>
-                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase">-</div>
+                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase empty:hidden"></div>
             </div>
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Services</div>
@@ -414,7 +471,7 @@ body.workstation-page.validation-passed {
             </div>
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Location</div>
-                <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm">-</div>
+                <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
             </div>
         </div>
     </label>
@@ -600,11 +657,33 @@ body.workstation-page.validation-passed {
         }
     }
     
+    // Function to populate verified phone number
+    function populateVerifiedPhoneNumber() {
+        const verifiedPhoneEl = document.getElementById('verifiedPhoneNumber');
+        if (verifiedPhoneEl) {
+            const cart = getCart();
+            if (cart && cart.verified_phone) {
+                const phoneNumber = cart.verified_phone.toString().trim();
+                if (phoneNumber) {
+                    verifiedPhoneEl.textContent = '+91 ' + phoneNumber;
+                } else {
+                    verifiedPhoneEl.textContent = '+91 -';
+                }
+            } else {
+                verifiedPhoneEl.textContent = '+91 -';
+            }
+        }
+    }
+    
     // Initialize on page load
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', populateBookingSummary);
+        document.addEventListener('DOMContentLoaded', function() {
+            populateBookingSummary();
+            populateVerifiedPhoneNumber();
+        });
     } else {
         populateBookingSummary();
+        populateVerifiedPhoneNumber();
     }
 })();
 
@@ -809,9 +888,9 @@ body.workstation-page.validation-passed {
                             // Update mobile location display immediately
                             updateMobileLocation(displayName, centerCity);
                             
-                            // Redirect to slot page
+                            // Redirect to slot page using replace to prevent back navigation
                             if (slotPageUrl && slotPageUrl !== '') {
-                                window.location.href = slotPageUrl;
+                                window.location.replace(slotPageUrl);
                             } else {
                                 console.error('Slot page URL not found');
                                 // Hide loader if redirect fails
@@ -1528,6 +1607,151 @@ body.workstation-page.validation-passed {
     } else {
         // DOM already loaded
         setTimeout(initDistanceCalculation, 200);
+    }
+})();
+
+// Prevent back button navigation to verify page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const verifyPageUrl = '<?php echo esc_js($verify_page_url); ?>';
+    
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    const cart = getCart();
+    if (cart && cart.phone_verified) {
+        // User has verified phone, prevent going back to verify page
+        // Remove verify page from history by replacing it
+        if (window.history && window.history.replaceState) {
+            // Replace any verify page entry in history with current page
+            const currentUrl = window.location.href;
+            if (verifyPageUrl && currentUrl.includes(verifyPageUrl.split('/').pop())) {
+                // If somehow on verify page, redirect immediately
+                return;
+            }
+            
+            // Push a new state to prevent back navigation to verify page
+            history.pushState({ page: 'workstation' }, '', window.location.href);
+            
+            // Listen for popstate event (back/forward button)
+            window.addEventListener('popstate', function(event) {
+                // Check if trying to go back to verify page
+                const currentCart = getCart();
+                if (currentCart && currentCart.phone_verified) {
+                    // Phone is verified, don't allow going back to verify page
+                    // Push forward again to stay on current page
+                    history.pushState({ page: 'workstation' }, '', window.location.href);
+                    
+                    // Also check URL and redirect if somehow on verify page
+                    if (verifyPageUrl && window.location.href.includes(verifyPageUrl.split('/').pop())) {
+                        window.location.replace(window.location.href.replace(verifyPageUrl.split('/').pop(), 'workstation'));
+                    }
+                }
+            });
+        }
+    }
+})();
+
+// Handle Change button click to remove verified phone and redirect to verify page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const verifyPageUrl = '<?php echo esc_js($verify_page_url); ?>';
+    
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    function saveCart(cart) {
+        try {
+            sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Error saving cart:', e);
+        }
+    }
+    
+    function handleChangeButtonClick() {
+        // Get Change button by ID
+        const changeMobileBtn = document.getElementById('changeMobileNumberBtn');
+        
+        if (changeMobileBtn) {
+            changeMobileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove verified phone from sessionStorage
+                let cart = getCart();
+                if (cart) {
+                    delete cart.verified_phone;
+                    delete cart.phone_verified;
+                    saveCart(cart);
+                }
+                
+                // Redirect to verify page using replace to prevent back navigation
+                if (verifyPageUrl && verifyPageUrl !== '') {
+                    window.location.replace(verifyPageUrl);
+                } else {
+                    console.error('Verify page URL not found');
+                }
+            });
+        }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', handleChangeButtonClick);
+    } else {
+        handleChangeButtonClick();
+    }
+})();
+
+// Smooth scroll to Select Service Center section after page load
+(function() {
+    'use strict';
+    
+    function scrollToServiceCenterSection() {
+        const serviceCenterSection = document.getElementById('selectServiceCenterSection');
+        if (serviceCenterSection) {
+            // Calculate offset to account for fixed header
+            const headerOffset = 100; // Adjust this value based on your header height
+            const elementPosition = serviceCenterSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            // Smooth scroll
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    // Wait for page to fully load and then scroll
+    // Small delay to ensure all content is rendered (including validation, distance calculation, etc.)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(scrollToServiceCenterSection, 1000);
+        });
+    } else {
+        setTimeout(scrollToServiceCenterSection, 1000);
     }
 })();
 </script>

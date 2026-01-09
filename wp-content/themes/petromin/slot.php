@@ -5,6 +5,52 @@ get_header();
 // Get theme assets directory URL for images
 $img_url = get_template_directory_uri() . '/assets/img/';
 
+// Get workstation page URL
+function get_workstation_page_url() {
+    // Try to find page by slug 'workstation'
+    $workstation_page = get_page_by_path('workstation');
+    if ($workstation_page) {
+        return get_permalink($workstation_page->ID);
+    }
+    
+    // Try to find page by template name
+    $workstation_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'workstation.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($workstation_pages)) {
+        return get_permalink($workstation_pages[0]->ID);
+    }
+    
+    return home_url('/workstation');
+}
+$workstation_page_url = get_workstation_page_url();
+
+// Get verify page URL
+function get_verify_page_url() {
+    // Try to find page by slug 'verify'
+    $verify_page = get_page_by_path('verify');
+    if ($verify_page) {
+        return get_permalink($verify_page->ID);
+    }
+    
+    // Try to find page by template name
+    $verify_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'verify.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($verify_pages)) {
+        return get_permalink($verify_pages[0]->ID);
+    }
+    
+    return home_url('/verify');
+}
+$verify_page_url = get_verify_page_url();
+
 ?>
 
 <header class="w-full md:flex hidden justify-center items-center top-0 right-0  bg-white font-poppins fixed z-40 h-24 border-b border-[#E5E5E5]">
@@ -67,7 +113,7 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verify Mobile Number</h2>
-                            <p class="text-[#6B6B6B] text-sm font-medium">We'll send you an OTP to verify your number</p>
+                            <p class="text-[#6B6B6B] text-sm font-medium">Your mobile number has been verified successfully</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
                             <div class="flex items-center gap-3">
@@ -76,16 +122,16 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                 </span>
                                 <div class="flex flex-col gap-1">
                                     <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified Successfully</div>
-                                    <div class="text-[#637083] font-normal text-xs">+91 4323423423</div>
+                                    <div id="verifiedPhoneNumberSlot" class="text-[#637083] font-normal text-xs">+91 -</div>
                                 </div>
                             </div>
-                            <a href="" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
+                            <a href="" id="changeMobileNumberBtnSlot" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
                         </div>
                     </div>
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Select Service Center</h2>
-                            <p class="text-[#6B6B6B] text-sm font-medium">Choose the nearest location for your service</p>
+                            <p class="text-[#6B6B6B] text-sm font-medium">Your selected service center location</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
                             <div class="flex items-center gap-3">
@@ -93,14 +139,14 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                     <img src="<?php echo esc_url($img_url); ?>success-check-icon.svg" alt="success check" class="size-9" />
                                 </span>
                                 <div class="flex flex-col gap-1">
-                                    <div class="text-base text-[#2F2F2F] font-semibold">Petromin Express - Indiranagar</div>
-                                    <div class="text-[#637083] font-normal text-xs">Indiranagar • 2.5 km</div>
+                                    <div id="selectedServiceCenterName" class="text-base text-[#2F2F2F] font-semibold empty:hidden"></div>
+                                    <div id="selectedServiceCenterLocation" class="text-[#637083] font-normal text-xs empty:hidden"></div>
                                 </div>
                             </div>
-                            <a href="" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
+                            <a href="" id="changeServiceCenterBtn" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
                         </div>
                     </div>
-                    <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
+                    <div id="selectDateTimeSection" class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Select Date & Time</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Choose your preferred slot</p>
@@ -330,8 +376,8 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                         <div class="w-full flex flex-row">
                             <div class="w-1/3 text-[#A6A6A6] uppercase  text-xs font-semibold">Vehicle</div>
                             <div class="w-2/3 flex flex-col gap-y-1">
-                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm">-</div>
-                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B]">-</div>
+                                <div id="bookingVehicleName" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
+                                <div id="bookingVehicleFuel" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -340,6 +386,16 @@ $img_url = get_template_directory_uri() . '/assets/img/';
                                 <div id="bookingServicesList" class="w-2/3 flex flex-col gap-y-3">
                                     <!-- Services will be populated dynamically -->
                                 </div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-row border-t border-[#EFEFEF] pt-6">
+                            <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Location
+                            </div>
+                            <div class="w-2/3 flex flex-col gap-y-1">
+                                <div id="bookingServiceCenterName" class="text-[#2F2F2F] font-bold text-sm">
+                                    -
+                                </div>
+                                <div id="bookingServiceCenterCity" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -375,7 +431,7 @@ $img_url = get_template_directory_uri() . '/assets/img/';
         <div class="view bg-white w-full duartion-300 group-has-[#price:checked]/check:flex hidden py-6 flex-col gap-y-4 absolute bottom-full inset-x-0 shadow-[0_-0.25rem_1rem_0_#00000014] border-t border-[#E5E5E5]">
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Vehicle</div>
-                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase">-</div>
+                <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase empty:hidden"></div>
             </div>
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Services</div>
@@ -385,7 +441,7 @@ $img_url = get_template_directory_uri() . '/assets/img/';
             </div>
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Location</div>
-                <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm">-</div>
+                <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
             </div>
         </div>
     </label>
@@ -486,6 +542,22 @@ $img_url = get_template_directory_uri() . '/assets/img/';
             }
         }
         
+        // Populate service center location (Desktop)
+        const bookingServiceCenterNameEl = document.getElementById('bookingServiceCenterName');
+        const bookingServiceCenterCityEl = document.getElementById('bookingServiceCenterCity');
+        if (bookingServiceCenterNameEl && bookingServiceCenterCityEl) {
+            if (cart && cart.service_center) {
+                const centerName = cart.service_center.name || '';
+                const centerCity = cart.service_center.city || '';
+                
+                bookingServiceCenterNameEl.textContent = centerName || '-';
+                bookingServiceCenterCityEl.textContent = centerCity || '-';
+            } else {
+                bookingServiceCenterNameEl.textContent = '-';
+                bookingServiceCenterCityEl.textContent = '-';
+            }
+        }
+        
         // Populate disclaimer
         const disclaimerTextEl = document.getElementById('disclaimerText');
         if (disclaimerTextEl) {
@@ -571,11 +643,275 @@ $img_url = get_template_directory_uri() . '/assets/img/';
         }
     }
     
+    // Function to populate verified phone number
+    function populateVerifiedPhoneNumber() {
+        const verifiedPhoneEl = document.getElementById('verifiedPhoneNumberSlot');
+        if (verifiedPhoneEl) {
+            const cart = getCart();
+            if (cart && cart.verified_phone) {
+                const phoneNumber = cart.verified_phone.toString().trim();
+                if (phoneNumber) {
+                    verifiedPhoneEl.textContent = '+91 ' + phoneNumber;
+                } else {
+                    verifiedPhoneEl.textContent = '+91 -';
+                }
+            } else {
+                verifiedPhoneEl.textContent = '+91 -';
+            }
+        }
+    }
+    
+    // Function to populate selected service center details
+    function populateSelectedServiceCenter() {
+        const centerNameEl = document.getElementById('selectedServiceCenterName');
+        const centerLocationEl = document.getElementById('selectedServiceCenterLocation');
+        
+        if (centerNameEl || centerLocationEl) {
+            const cart = getCart();
+            
+            if (cart && cart.service_center) {
+                const centerName = cart.service_center.name || '';
+                const centerCity = cart.service_center.city || '';
+                
+                // Populate service center name (format: "name - city" or just "name")
+                if (centerNameEl) {
+                    if (centerName && centerCity) {
+                        centerNameEl.textContent = centerName;
+                    } else if (centerName) {
+                        centerNameEl.textContent = centerName;
+                    } else {
+                        centerNameEl.textContent = '-';
+                    }
+                }
+                
+                // Populate location (format: "city • distance" - for now just city, distance can be added later)
+                if (centerLocationEl) {
+                    if (centerCity) {
+                        centerLocationEl.textContent = centerCity;
+                    } else {
+                        centerLocationEl.textContent = '-';
+                    }
+                }
+            } else {
+                // No service center selected
+                if (centerNameEl) {
+                    centerNameEl.textContent = '-';
+                }
+                if (centerLocationEl) {
+                    centerLocationEl.textContent = '-';
+                }
+            }
+        }
+    }
+    
     // Initialize on page load
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', populateBookingSummary);
+        document.addEventListener('DOMContentLoaded', function() {
+            populateBookingSummary();
+            populateVerifiedPhoneNumber();
+            populateSelectedServiceCenter();
+        });
     } else {
         populateBookingSummary();
+        populateVerifiedPhoneNumber();
+        populateSelectedServiceCenter();
+    }
+})();
+
+// Prevent back button navigation to workstation page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const workstationPageUrl = '<?php echo esc_js($workstation_page_url); ?>';
+    
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    const cart = getCart();
+    if (cart && cart.service_center) {
+        // User has selected service center, prevent going back to workstation page
+        // Push a new state to prevent back navigation to workstation page
+        if (window.history && window.history.replaceState) {
+            history.pushState({ page: 'slot' }, '', window.location.href);
+            
+            // Listen for popstate event (back/forward button)
+            window.addEventListener('popstate', function(event) {
+                // Check if trying to go back to workstation page
+                const currentCart = getCart();
+                if (currentCart && currentCart.service_center) {
+                    // Service center is selected, don't allow going back to workstation page
+                    // Push forward again to stay on current page
+                    history.pushState({ page: 'slot' }, '', window.location.href);
+                    
+                    // Also check URL and redirect if somehow on workstation page
+                    if (workstationPageUrl && window.location.href.includes(workstationPageUrl.split('/').pop())) {
+                        window.location.replace(window.location.href.replace(workstationPageUrl.split('/').pop(), 'slot'));
+                    }
+                }
+            });
+        }
+    }
+})();
+
+// Handle Change button click to remove service center and redirect to workstation page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const workstationPageUrl = '<?php echo esc_js($workstation_page_url); ?>';
+    
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    function saveCart(cart) {
+        try {
+            sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Error saving cart:', e);
+        }
+    }
+    
+    function handleChangeButtonClick() {
+        // Get Change button by ID
+        const changeServiceCenterBtn = document.getElementById('changeServiceCenterBtn');
+        
+        if (changeServiceCenterBtn) {
+            changeServiceCenterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove service center from sessionStorage
+                let cart = getCart();
+                if (cart) {
+                    delete cart.service_center;
+                    saveCart(cart);
+                }
+                
+                // Redirect to workstation page using replace to prevent back navigation
+                if (workstationPageUrl && workstationPageUrl !== '') {
+                    window.location.replace(workstationPageUrl);
+                } else {
+                    console.error('Workstation page URL not found');
+                }
+            });
+        }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', handleChangeButtonClick);
+    } else {
+        handleChangeButtonClick();
+    }
+})();
+
+// Handle Change button click for mobile verification - redirect to verify page
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const verifyPageUrl = '<?php echo esc_js($verify_page_url); ?>';
+    
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    function saveCart(cart) {
+        try {
+            sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Error saving cart:', e);
+        }
+    }
+    
+    function handleMobileChangeButtonClick() {
+        // Get Change button by ID
+        const changeMobileBtn = document.getElementById('changeMobileNumberBtnSlot');
+        
+        if (changeMobileBtn) {
+            changeMobileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove verified phone from sessionStorage
+                let cart = getCart();
+                if (cart) {
+                    delete cart.verified_phone;
+                    delete cart.phone_verified;
+                    saveCart(cart);
+                }
+                
+                // Redirect to verify page using replace to prevent back navigation
+                if (verifyPageUrl && verifyPageUrl !== '') {
+                    window.location.replace(verifyPageUrl);
+                } else {
+                    console.error('Verify page URL not found');
+                }
+            });
+        }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', handleMobileChangeButtonClick);
+    } else {
+        handleMobileChangeButtonClick();
+    }
+})();
+
+// Smooth scroll to Select Date & Time section after page load
+(function() {
+    'use strict';
+    
+    function scrollToDateTimeSection() {
+        const dateTimeSection = document.getElementById('selectDateTimeSection');
+        if (dateTimeSection) {
+            // Calculate offset to account for fixed header
+            const headerOffset = 100; // Adjust this value based on your header height
+            const elementPosition = dateTimeSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            // Smooth scroll
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    // Wait for page to fully load and then scroll
+    // Small delay to ensure all content is rendered
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(scrollToDateTimeSection, 500);
+        });
+    } else {
+        setTimeout(scrollToDateTimeSection, 500);
     }
 })();
 </script>
