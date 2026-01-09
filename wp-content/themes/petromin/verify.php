@@ -32,6 +32,29 @@ function get_cost_estimator_page_url() {
 }
 $cost_estimator_page_url = get_cost_estimator_page_url();
 
+// Get workstation page URL
+function get_workstation_page_url() {
+    // Try to find page by slug 'workstation'
+    $workstation_page = get_page_by_path('workstation');
+    if ($workstation_page) {
+        return get_permalink($workstation_page->ID);
+    }
+    
+    // Try to find page by template name
+    $workstation_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'workstation.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($workstation_pages)) {
+        return get_permalink($workstation_pages[0]->ID);
+    }
+    
+    return home_url('/workstation');
+}
+$workstation_page_url = get_workstation_page_url();
+
 ?>
 <style>
 /* Hide page content initially until validation passes */
@@ -747,6 +770,7 @@ body.verify-page.validation-passed {
 (function() {
     'use strict';
     
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
     const sendOtpBtn = document.getElementById('sendOtpBtn');
     const verifyOtpBtn = document.getElementById('verifyOtpBtn');
     const otpSection = document.getElementById('otpSection');
@@ -890,6 +914,7 @@ body.verify-page.validation-passed {
     function verifyOTP() {
         const mobile = mobileInput.value.trim();
         const otp = getOTP();
+        const workstationUrl = '<?php echo esc_js($workstation_page_url); ?>';
         
         if (!mobile || mobile.length !== 10) {
             showMessage('Please enter a valid mobile number', true);
@@ -929,12 +954,29 @@ body.verify-page.validation-passed {
                 showMessage(message, false);
                 clearOTPInputs();
                 
-                // Redirect to next page or show success
+                // Save verified phone number to sessionStorage
+                try {
+                    const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+                    let cart = cartData ? JSON.parse(cartData) : { vehicle: {}, items: [] };
+                    
+                    // Save verified phone number
+                    cart.verified_phone = mobile;
+                    cart.phone_verified = true;
+                    
+                    sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+                } catch (e) {
+                    console.error('Error saving verified phone:', e);
+                }
+                
+                // Redirect to workstation page after short delay
                 setTimeout(() => {
-                    // You can redirect to next step here
-                    // window.location.href = 'next-page-url';
-                    console.log('OTP verified successfully');
-                }, 2000);
+                    if (workstationUrl && workstationUrl !== '') {
+                        window.location.href = workstationUrl;
+                    } else {
+                        console.error('Workstation page URL not found');
+                        showMessage('Verification successful! Please continue.', false);
+                    }
+                }, 1500);
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
                 showMessage(errorMsg, true);

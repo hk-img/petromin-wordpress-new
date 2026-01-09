@@ -5050,33 +5050,48 @@ function handle_send_otp() {
     // Generate 6-digit OTP
     $otp = rand(100000, 999999);
     
-    // Store OTP in session/transient for verification
-    set_transient('otp_' . $mobile, $otp, 120); // 2 minutes expiry
+    // Encrypt OTP using base64 encoding (contains OTP|timestamp|mobile)
+    $otp_encrypted = base64_encode($otp . '|' . time() . '|' . $mobile);
     
-    // Prepare data for MSG91 API
+    // Save encrypted OTP in cookie (expires in 2 minutes / 120 seconds)
+    // Use proper cookie settings for security
+    $cookie_domain = parse_url(home_url(), PHP_URL_HOST);
+    setcookie('otp_verification', $otp_encrypted, time() + 120, '/', $cookie_domain, is_ssl(), true);
+    
+    // Also set in $_COOKIE for immediate access in same request
+    $_COOKIE['otp_verification'] = $otp_encrypted;
+    
+    // Prepare data for MSG91 Flow API
     $mobile_with_code = '91' . $mobile;
     
-    // MSG91 OTP Send API - Using GET method
-    $url = 'https://control.msg91.com/api/v5/otp';
+    // MSG91 Flow API - Using POST method
+    $url = 'https://control.msg91.com/api/v5/flow';
     
-    $query_params = array(
+    // Prepare JSON payload as per MSG91 Flow API documentation
+    $payload = array(
         'template_id' => MSG91_TEMPLATE_ID,
-        'mobile' => $mobile_with_code,
-        'authkey' => MSG91_AUTH_KEY,
-        'var1' => (string)$otp
-    );
-    
-    $url .= '?' . http_build_query($query_params);
-    
-    $args = array(
-        'method' => 'GET',
-        'timeout' => 30,
-        'headers' => array(
-            'Content-Type' => 'application/json'
+        'short_url' => '1',
+        'short_url_expiry' => '120',
+        'realTimeResponse' => '1',
+        'recipients' => array(
+            array(
+                'mobiles' => $mobile_with_code,
+                'var1' => (string)$otp
+            )
         )
     );
     
-    $response = wp_remote_get($url, $args);
+    $args = array(
+        'method' => 'POST',
+        'timeout' => 30,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'authkey' => MSG91_AUTH_KEY
+        ),
+        'body' => json_encode($payload)
+    );
+    
+    $response = wp_remote_post($url, $args);
     
     if (is_wp_error($response)) {
         $error_message = $response->get_error_message();
@@ -5087,18 +5102,18 @@ function handle_send_otp() {
     $response_code = wp_remote_retrieve_response_code($response);
     $response_body = wp_remote_retrieve_body($response);
     
-    // MSG91 returns response as text, try to decode as JSON
+    // MSG91 returns response as JSON
     $response_data = json_decode($response_body, true);
     
-    // Check if response contains 'type' key (success) or if response_code is 200
+    // Check if response is successful
     if ($response_code === 200) {
-        // MSG91 success response can be in different formats
+        // Check for success indicators in response
         if (isset($response_data['type']) && $response_data['type'] === 'success') {
             wp_send_json_success(array(
                 'message' => 'OTP sent successfully to your mobile number'
             ));
             wp_die();
-        } elseif (strpos(strtolower($response_body), 'success') !== false || strpos(strtolower($response_body), 'sent') !== false) {
+        } elseif (isset($response_data['request_id']) || (isset($response_data['message']) && stripos($response_data['message'], 'success') !== false)) {
             wp_send_json_success(array(
                 'message' => 'OTP sent successfully to your mobile number'
             ));
@@ -5146,22 +5161,52 @@ function handle_verify_otp() {
         wp_die();
     }
     
-    // Get stored OTP
-    $stored_otp = get_transient('otp_' . $mobile);
-    
-    if ($stored_otp === false) {
+    // Get encrypted OTP from cookie
+    if (!isset($_COOKIE['otp_verification'])) {
         wp_send_json_error(array('message' => 'OTP has expired. Please request a new one.'));
         wp_die();
     }
     
+    // Decrypt OTP from cookie
+    $otp_encrypted = $_COOKIE['otp_verification'];
+    $otp_data = base64_decode($otp_encrypted);
+    $otp_parts = explode('|', $otp_data);
+    
+    if (count($otp_parts) !== 3) {
+        wp_send_json_error(array('message' => 'Invalid OTP data. Please request a new OTP.'));
+        wp_die();
+    }
+    
+    $stored_otp = $otp_parts[0];
+    $timestamp = isset($otp_parts[1]) ? intval($otp_parts[1]) : 0;
+    $stored_mobile = isset($otp_parts[2]) ? $otp_parts[2] : '';
+    
+    // Check if OTP has expired (2 minutes = 120 seconds)
+    if ((time() - $timestamp) > 120) {
+        $cookie_domain = parse_url(home_url(), PHP_URL_HOST);
+        setcookie('otp_verification', '', time() - 3600, '/', $cookie_domain, is_ssl(), true);
+        unset($_COOKIE['otp_verification']);
+        wp_send_json_error(array('message' => 'OTP has expired. Please request a new one.'));
+        wp_die();
+    }
+    
+    // Verify mobile number matches
+    if ($stored_mobile !== $mobile) {
+        wp_send_json_error(array('message' => 'Mobile number mismatch. Please request a new OTP.'));
+        wp_die();
+    }
+    
+    // Verify OTP
     if ($stored_otp === $otp) {
-        // OTP verified successfully
-        delete_transient('otp_' . $mobile);
+        // OTP verified successfully - delete cookie
+        $cookie_domain = parse_url(home_url(), PHP_URL_HOST);
+        setcookie('otp_verification', '', time() - 3600, '/', $cookie_domain, is_ssl(), true);
+        unset($_COOKIE['otp_verification']);
         
-        // Store verified mobile in session/transient for next step
-        set_transient('verified_mobile_' . session_id(), $mobile, 3600);
-        
-        wp_send_json_success(array('message' => 'Mobile number verified successfully!'));
+        wp_send_json_success(array(
+            'message' => 'Mobile number verified successfully!',
+            'mobile' => $mobile
+        ));
         wp_die();
     } else {
         wp_send_json_error(array('message' => 'Invalid OTP. Please try again.'));
