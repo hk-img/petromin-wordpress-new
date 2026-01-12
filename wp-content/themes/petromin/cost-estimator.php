@@ -228,8 +228,13 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 
                                                 $service_recommended_timeline = ($vendor_service_data && isset($vendor_service_data['recommended_timeline'])) ? $vendor_service_data['recommended_timeline'] : 'As Required';
                                                 $service_is_offer = ($vendor_service_data && isset($vendor_service_data['is_offer'])) ? (bool)$vendor_service_data['is_offer'] : false;
+                                                $service_is_active = ($vendor_service_data && isset($vendor_service_data['is_active'])) ? (bool)$vendor_service_data['is_active'] : true;
+                                                $service_card_class = 'w-full flex flex-col gap-y-6 md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]';
+                                                if (!$service_is_active) {
+                                                    $service_card_class .= ' grayscale opacity-50 pointer-events-none';
+                                                }
                                                 ?>
-                                                <div class="w-full flex flex-col gap-y-6 md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]" data-service-id="<?php echo esc_attr($service_id); ?>">
+                                                <div class="<?php echo esc_attr($service_card_class); ?>" data-service-id="<?php echo esc_attr($service_id); ?>">
                                                     <div class="flex md:flex-row flex-col gap-3">
                                                         <div class="md:w-1/4 w-full relative">
                                                             <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'ImageWithFallback.webp'); ?>"
@@ -342,9 +347,10 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                             </div>
                                                             <div>
                                                                 <button type="button" 
-                                                                    class="add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500"
+                                                                    class="add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
                                                                     data-service-id="<?php echo esc_attr($service_id); ?>"
-                                                                    data-service-data="<?php echo esc_attr($service_data_json); ?>">
+                                                                    data-service-data="<?php echo esc_attr($service_data_json); ?>"
+                                                                    <?php if (!$service_is_active) : ?>disabled<?php endif; ?>>
                                                                     <span>
                                                                         <img class="size-[0.875rem]"  width="14" height="14" src="<?php echo esc_url($img_url . 'plusWhiteIcon.svg'); ?>" alt="Add to Cart Icon" />
                                                                     </span>
