@@ -396,9 +396,9 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     </div>
                     <div class="md:w-[30%] w-full md:block hidden">
                         <div
-                            class="w-full flex flex-col bg-white shadow-[0_0.125rem_0.25rem_-0.125rem_#919191] border border-[#E5E5E5] md:sticky top-20">
+                            class="w-full flex flex-col bg-white shadow-[0_0.125rem_0.25rem_-0.125rem_#919191] border border-[#E5E5E5] md:sticky top-20 h-[calc(100dvh-90px)] overflow-y-auto overflow-x-hidden">
                             <div
-                                class="w-full flex items-center h-[3.125rem] p-6 bg-gradient-to-l  from-[#CB122D] to-[#650916] lg:text-xl md:text-lg text-base font-bold italic text-white uppercase">
+                                class="w-full flex items-center h-[3.125rem] p-6 bg-gradient-to-l  from-[#CB122D] to-[#650916] lg:text-xl md:text-lg text-base font-bold italic text-white uppercase sticky top-0 z-10">
                                 Your Cart
                             </div>
                             <div id="cartContentSection" class="flex flex-col gap-y-6 bg-white p-6">
@@ -447,7 +447,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                             diagnosis</p>
                                     </div>
                                 </div>
-                                <div id="checkoutButtonSection" class="w-full hidden">
+                                <div id="checkoutButtonSection" class="w-full hidden sticky bottom-6 z-10 before:absolute before:-inset-x-2 before:bottom-0 before:h-6 before:translate-y-full before:bg-white after:absolute after:-inset-x-2 after:top-0 after:h-2 after:-translate-y-full after:bg-gradient-to-t from-white to-transparent">
                                     <button type="button" id="desktopProceedToCheckoutBtn"
                                         class="h-[3.438rem] w-full bg-[#CB122D] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
                                         <span id="desktopProceedToCheckoutBtnText">Proceed to Checkout</span>
@@ -745,7 +745,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                     Updating your vehicle will refresh service availability and pricing.
                                 </div>
                                     <div
-                                        class="w-full relative h-[4.563rem] md:p-0 p-6 flex justify-center items-center">
+                                        class="w-full md:p-0 p-6 flex justify-center items-center sticky bottom-6 z-10 before:absolute before:-inset-x-2 before:bottom-0 before:h-6 before:translate-y-full before:bg-white after:absolute after:-inset-x-2 after:top-0 after:h-2 after:-translate-y-full after:bg-gradient-to-t from-white to-transparent">
                                         <button type="button" id="confirmVehicleUpdateBtn"
                                             class="h-[3.438rem] md:rounded-none rounded-lg w-full bg-[#1A1A1A] text-base flex justify-center items-center text-white font-bold hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
                                             <span id="confirmVehicleUpdateBtnText">Confirm Vehicle Update</span>
