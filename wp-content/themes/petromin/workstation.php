@@ -366,7 +366,7 @@ body.workstation-page.validation-passed {
                             <label for="<?php echo esc_attr($service_id); ?>" class="group/s cursor-pointer w-full relative border border-[#E5E5E5] has-[:checked]:border-[#CB122D] p-4 bg-white flex justify-between gap-2 md:rounded-none rounded-lg service-center-item" <?php echo $data_attrs; ?>>
                                 <input type="radio" name="service" id="<?php echo esc_attr($service_id); ?>" class="hidden" value="<?php echo esc_attr($center_name); ?>" <?php echo $is_checked; ?>>
                                 <!-- Loader Overlay -->
-                                <div class="service-center-loader-overlay absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50 hidden">
+                                <div class="service-center-loader-overlay absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50 hidden md:rounded-none rounded-lg">
                                     <div class="flex flex-col items-center gap-2">
                                         <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#CB122D]"></div>
                                         <p class="text-gray-600 text-sm font-medium">Processing...</p>
@@ -475,7 +475,7 @@ body.workstation-page.validation-passed {
             </div>
         </div>
     </label>
-    <a href="" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Confirm Booking</a>
+    <button type="button" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed disabled" disabled="true">Confirm Booking</button>
 </div>
 
 <script>
