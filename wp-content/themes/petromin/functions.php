@@ -5032,6 +5032,8 @@ add_action('wp_ajax_verify_otp', 'handle_verify_otp');
 add_action('wp_ajax_nopriv_verify_otp', 'handle_verify_otp');
 add_action('wp_ajax_save_booking_data', 'handle_save_booking_data');
 add_action('wp_ajax_nopriv_save_booking_data', 'handle_save_booking_data');
+add_action('wp_ajax_save_booking_with_leadsquared', 'handle_save_booking_with_leadsquared');
+add_action('wp_ajax_nopriv_save_booking_with_leadsquared', 'handle_save_booking_with_leadsquared');
 
 function handle_send_otp() {
     // Verify nonce - handle both POST and GET
@@ -5368,6 +5370,7 @@ function add_booking_custom_columns($columns) {
     
     // Add custom columns
     $columns['booking_id'] = 'Lead ID';
+    $columns['leadsquared_prospect_id'] = 'LeadSquared Prospect ID';
     $columns['vehicle_info'] = 'Vehicle';
     $columns['services_count'] = 'Services';
     $columns['total_amount'] = 'Total Amount';
@@ -5397,6 +5400,24 @@ function populate_booking_custom_columns($column, $post_id) {
                 echo '<strong><a class="row-title" href="' . esc_url($edit_link) . '">' . esc_html($booking_id) . '</a></strong>';
             } else {
                 echo '—';
+            }
+            break;
+            
+        case 'leadsquared_prospect_id':
+            $leadsquared_prospect_id = get_post_meta($post_id, '_leadsquared_prospect_id', true);
+            $api_success = get_post_meta($post_id, '_leadsquared_api_success', true);
+            
+            if ($leadsquared_prospect_id) {
+                echo '<strong style="color: #46b450;">' . esc_html($leadsquared_prospect_id) . '</strong>';
+                if ($api_success) {
+                    echo ' <span style="color: #46b450; font-weight: bold;" title="API Success">✓</span>';
+                }
+            } else {
+                if ($api_success === false) {
+                    echo '<span style="color: #d63638;">API Failed</span>';
+                } else {
+                    echo '—';
+                }
             }
             break;
             
@@ -5600,6 +5621,7 @@ function apply_booking_custom_filters($query) {
 add_filter('manage_edit-booking_sortable_columns', 'make_booking_columns_sortable');
 function make_booking_columns_sortable($columns) {
     $columns['booking_id'] = 'booking_id';
+    $columns['leadsquared_prospect_id'] = 'leadsquared_prospect_id';
     $columns['booking_date'] = 'booking_date';
     $columns['total_amount'] = 'total_amount';
     $columns['verified_phone'] = 'verified_phone';
@@ -5622,6 +5644,11 @@ function handle_booking_column_sorting($query) {
     switch ($orderby) {
         case 'booking_id':
             $query->set('meta_key', '_booking_id');
+            $query->set('orderby', 'meta_value');
+            break;
+            
+        case 'leadsquared_prospect_id':
+            $query->set('meta_key', '_leadsquared_prospect_id');
             $query->set('orderby', 'meta_value');
             break;
             
@@ -5775,6 +5802,285 @@ function handle_save_booking_data() {
     wp_die();
 }
 
+/**
+ * Handle booking save with LeadSquared API integration
+ * Always generates LEAD- ID for all bookings
+ * Calls LeadSquared API and saves RelatedProspectId separately if API succeeds
+ */
+function handle_save_booking_with_leadsquared() {
+    // Verify nonce
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+    
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'otp_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please refresh the page and try again.'));
+        wp_die();
+    }
+    
+    // Get booking data from POST
+    $booking_data_json = isset($_POST['booking_data']) ? $_POST['booking_data'] : '';
+    
+    if (empty($booking_data_json)) {
+        wp_send_json_error(array('message' => 'No booking data provided.'));
+        wp_die();
+    }
+    
+    // Decode JSON data
+    $booking_data = json_decode(stripslashes($booking_data_json), true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($booking_data)) {
+        wp_send_json_error(array('message' => 'Invalid booking data format.'));
+        wp_die();
+    }
+    
+    // Prepare LeadSquared API payload
+    $phone_number = isset($booking_data['verified_phone']) ? $booking_data['verified_phone'] : '';
+    if (empty($phone_number)) {
+        wp_send_json_error(array('message' => 'Phone number is required.'));
+        wp_die();
+    }
+    
+    // Format phone number with +91 prefix
+    $formatted_phone = '+91' . $phone_number;
+    
+    // Get vehicle data
+    $vehicle_brand = isset($booking_data['vehicle']['brand']) ? $booking_data['vehicle']['brand'] : '';
+    $vehicle_model = isset($booking_data['vehicle']['model']) ? $booking_data['vehicle']['model'] : '';
+    $vehicle_fuel = isset($booking_data['vehicle']['fuel']) ? $booking_data['vehicle']['fuel'] : '';
+    $vehicle_city = isset($booking_data['vehicle']['city']) ? $booking_data['vehicle']['city'] : '';
+    
+    // Get created date (current date time in format: YYYY-MM-DD HH:MM:SS)
+    $created_date = current_time('Y-m-d H:i:s');
+    
+    // Always generate LEAD- ID first (will be used for all bookings regardless of API success)
+    $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
+    
+    // Build LeadSquared API request body
+    $leadsquared_payload = array(
+        'LeadDetails' => array(
+            array(
+                'Attribute' => 'Phone',
+                'Value' => $formatted_phone
+            ),
+            array(
+                'Attribute' => 'SearchBy',
+                'Value' => 'ProspectId'
+            ),
+            array(
+                'Attribute' => '__UseUserDefinedGuid__',
+                'Value' => 'true'
+            )
+        ),
+        'Opportunity' => array(
+            'OpportunityEventCode' => 12000,
+            'OpportunityNote' => 'Opportunity capture api overwrite',
+            'UpdateEmptyFields' => true,
+            'DoNotPostDuplicateActivity' => true,
+            'DoNotChangeOwner' => true,
+            'Fields' => array(
+                array(
+                    'SchemaName' => 'mx_Custom_1',
+                    'Value' => 'Test'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_2',
+                    'Value' => 'Book My service'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_3',
+                    'Value' => 'Open'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_19',
+                    'Value' => 'Comments'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_30',
+                    'Value' => $vehicle_fuel ? $vehicle_fuel : 'Petrol'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_15',
+                    'Value' => $vehicle_city ? $vehicle_city : 'Bangalore'
+                ),
+                // mx_Custom_18 commented out as per client request - will implement when client provides
+                // array(
+                //     'SchemaName' => 'mx_Custom_18',
+                //     'Value' => 'Express Car Service @ ₹999'
+                // ),
+                array(
+                    'SchemaName' => 'mx_Custom_27',
+                    'Value' => $created_date
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_4',
+                    'Value' => $vehicle_brand ? $vehicle_brand : 'Maruti Suzuki'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_12',
+                    'Value' => $vehicle_model ? $vehicle_model : 'Alto'
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_43',
+                    'Value' => 'Service Type - text'
+                )
+            )
+        )
+    );
+    
+    // LeadSquared API URL
+    $leadsquared_url = 'https://api-in21.leadsquared.com/v2/OpportunityManagement.svc/Capture?accessKey=u%24r0413f07ac8b67751e2a996372c279214&secretKey=9d4ba5b88cb6f3ab35dd03290f691fb391de9ac7';
+    
+    // Make API call to LeadSquared
+    $api_response = wp_remote_post($leadsquared_url, array(
+        'method' => 'POST',
+        'headers' => array(
+            'Content-Type' => 'application/json',
+        ),
+        'body' => json_encode($leadsquared_payload),
+        'timeout' => 30,
+    ));
+    
+    $related_prospect_id = null;
+    $api_success = false;
+    $api_response_data = null;
+    
+    // Check if API call was successful
+    if (!is_wp_error($api_response)) {
+        $response_code = wp_remote_retrieve_response_code($api_response);
+        $response_body = wp_remote_retrieve_body($api_response);
+        $api_response_data = json_decode($response_body, true);
+        
+        if ($response_code === 200 && $api_response_data) {
+            // Check if RelatedProspectId exists in response
+            if (isset($api_response_data['RelatedProspectId']) && !empty($api_response_data['RelatedProspectId'])) {
+                $related_prospect_id = $api_response_data['RelatedProspectId'];
+                $api_success = true;
+            }
+        }
+    }
+    
+    // Prepare title for the booking post (always use LEAD- ID)
+    $vehicle_name = '';
+    if (!empty($vehicle_brand) && !empty($vehicle_model)) {
+        $vehicle_name = trim($vehicle_brand . ' ' . $vehicle_model);
+    }
+    if (empty($vehicle_name)) {
+        $vehicle_name = 'Vehicle Not Specified';
+    }
+    
+    $title = $booking_id . ' - ' . $vehicle_name;
+    
+    // Create booking post
+    $post_data = array(
+        'post_title'    => sanitize_text_field($title),
+        'post_content'  => '',
+        'post_status'   => 'publish',
+        'post_type'     => 'booking',
+    );
+    
+    $post_id = wp_insert_post($post_data);
+    
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(array(
+            'message' => 'Failed to create booking. Please try again.',
+            'api_response' => $api_response_data
+        ));
+        wp_die();
+    }
+    
+    // Save all booking data as post meta
+    // Always save LEAD- ID as booking_id (for all bookings)
+    update_post_meta($post_id, '_booking_id', $booking_id);
+    
+    // Save RelatedProspectId separately if API was successful
+    if ($api_success && !empty($related_prospect_id)) {
+        update_post_meta($post_id, '_leadsquared_prospect_id', $related_prospect_id);
+    }
+    
+    // Save API success status
+    update_post_meta($post_id, '_leadsquared_api_success', $api_success);
+    
+    // Save API response for debugging
+    if ($api_response_data) {
+        update_post_meta($post_id, '_leadsquared_api_response', $api_response_data);
+    }
+    
+    // Save vehicle information
+    if (isset($booking_data['vehicle'])) {
+        update_post_meta($post_id, '_vehicle_data', $booking_data['vehicle']);
+        if (isset($booking_data['vehicle']['brand'])) {
+            update_post_meta($post_id, '_vehicle_brand', sanitize_text_field($booking_data['vehicle']['brand']));
+        }
+        if (isset($booking_data['vehicle']['model'])) {
+            update_post_meta($post_id, '_vehicle_model', sanitize_text_field($booking_data['vehicle']['model']));
+        }
+        if (isset($booking_data['vehicle']['fuel'])) {
+            update_post_meta($post_id, '_vehicle_fuel', sanitize_text_field($booking_data['vehicle']['fuel']));
+        }
+        if (isset($booking_data['vehicle']['city'])) {
+            update_post_meta($post_id, '_vehicle_city', sanitize_text_field($booking_data['vehicle']['city']));
+        }
+    }
+    
+    // Save services/items
+    if (isset($booking_data['items']) && is_array($booking_data['items'])) {
+        update_post_meta($post_id, '_booking_items', $booking_data['items']);
+        
+        // Calculate total amount
+        $total_amount = 0;
+        $currency = 'INR';
+        foreach ($booking_data['items'] as $item) {
+            if (isset($item['price'])) {
+                $total_amount += floatval($item['price']);
+            }
+            if (isset($item['currency'])) {
+                $currency = $item['currency'];
+            }
+        }
+        update_post_meta($post_id, '_booking_total_amount', $total_amount);
+        update_post_meta($post_id, '_booking_currency', $currency);
+        update_post_meta($post_id, '_booking_items_count', count($booking_data['items']));
+    }
+    
+    // Save verified phone number
+    if (isset($booking_data['verified_phone'])) {
+        update_post_meta($post_id, '_verified_phone', sanitize_text_field($booking_data['verified_phone']));
+    }
+    
+    // Save phone verification status
+    if (isset($booking_data['phone_verified'])) {
+        update_post_meta($post_id, '_phone_verified', (bool)$booking_data['phone_verified']);
+    }
+    
+    // Save service center data if available
+    if (isset($booking_data['service_center'])) {
+        update_post_meta($post_id, '_service_center_data', $booking_data['service_center']);
+        if (isset($booking_data['service_center']['name'])) {
+            update_post_meta($post_id, '_service_center_name', sanitize_text_field($booking_data['service_center']['name']));
+        }
+        if (isset($booking_data['service_center']['city'])) {
+            update_post_meta($post_id, '_service_center_city', sanitize_text_field($booking_data['service_center']['city']));
+        }
+    }
+    
+    // Save booking date/time
+    update_post_meta($post_id, '_booking_date', current_time('mysql'));
+    update_post_meta($post_id, '_booking_timestamp', current_time('timestamp'));
+    
+    // Save complete raw data as JSON for reference
+    update_post_meta($post_id, '_booking_raw_data', $booking_data_json);
+    
+    // Return success with booking ID and API response
+    wp_send_json_success(array(
+        'message' => 'Booking saved successfully.',
+        'booking_id' => $booking_id,
+        'related_prospect_id' => $related_prospect_id,
+        'post_id' => $post_id,
+        'api_success' => $api_success,
+        'api_response' => $api_response_data
+    ));
+    wp_die();
+}
+
 // Add custom meta box to display booking details in edit screen
 add_action('add_meta_boxes', 'add_booking_details_meta_box');
 function add_booking_details_meta_box() {
@@ -5800,6 +6106,8 @@ function render_booking_details_meta_box($post) {
     $booking_raw_data = get_post_meta($post->ID, '_booking_raw_data', true);
     $total_amount = get_post_meta($post->ID, '_booking_total_amount', true);
     $currency = get_post_meta($post->ID, '_booking_currency', true);
+    $leadsquared_prospect_id = get_post_meta($post->ID, '_leadsquared_prospect_id', true);
+    $leadsquared_api_success = get_post_meta($post->ID, '_leadsquared_api_success', true);
     
     // Parse raw data if available (for complete data display)
     $raw_data_parsed = null;
@@ -5916,6 +6224,24 @@ function render_booking_details_meta_box($post) {
                 <th>Lead ID</th>
                 <td><strong><?php echo esc_html($booking_id ?: 'N/A'); ?></strong></td>
             </tr>
+            <?php if (!empty($leadsquared_prospect_id)): ?>
+            <tr>
+                <th>LeadSquared Prospect ID</th>
+                <td>
+                    <strong style="color: #46b450;"><?php echo esc_html($leadsquared_prospect_id); ?></strong>
+                    <?php if ($leadsquared_api_success): ?>
+                        <span class="verified-badge">✓ API Success</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php elseif ($leadsquared_api_success === false): ?>
+            <tr>
+                <th>LeadSquared Prospect ID</th>
+                <td>
+                    <span style="color: #d63638;">API call failed or no Prospect ID received</span>
+                </td>
+            </tr>
+            <?php endif; ?>
             <tr>
                 <th>Phone Number</th>
                 <td>

@@ -1067,9 +1067,9 @@ body.verify-page.validation-passed {
                     
                     sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
                     
-                    // Save booking data to WordPress database
+                    // Call LeadSquared API and save booking data to WordPress database
                     const saveBookingFormData = new FormData();
-                    saveBookingFormData.append('action', 'save_booking_data');
+                    saveBookingFormData.append('action', 'save_booking_with_leadsquared');
                     saveBookingFormData.append('nonce', otpNonce);
                     saveBookingFormData.append('booking_data', JSON.stringify(cart));
                     
@@ -1079,12 +1079,19 @@ body.verify-page.validation-passed {
                     })
                     .then(response => response.json())
                     .then(saveData => {
+                        // Log API response to console for debugging
+                        console.log('LeadSquared API Response:', saveData);
+                        
                         if (saveData && saveData.success) {
                             console.log('Booking saved successfully with ID:', saveData.data.booking_id);
+                            console.log('API Success:', saveData.data.api_success);
+                            console.log('Full API Response:', saveData.data.api_response);
+                            
                             // Optionally save booking ID to sessionStorage
                             if (saveData.data && saveData.data.booking_id) {
                                 try {
                                     cart.booking_id = saveData.data.booking_id;
+                                    cart.leadsquared_prospect_id = saveData.data.booking_id;
                                     sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
                                 } catch (e) {
                                     console.error('Error saving booking ID:', e);
@@ -1103,29 +1110,33 @@ body.verify-page.validation-passed {
                 }
                 
                 // Redirect to workstation page after short delay using replace to prevent back navigation
-                setTimeout(() => {
-                    if (workstationUrl && workstationUrl !== '') {
-                        // Use replace instead of href to prevent verify page from being in history
-                        window.location.replace(workstationUrl);
-                    } else {
-                        console.error('Workstation page URL not found');
-                        showMessage('Verification successful! Please continue.', false);
-                        // Re-enable OTP input fields if redirect failed
-                        otpInputs.forEach(function(input) {
-                            input.disabled = false;
-                        });
-                        // Reset loader if redirect failed
-                        if (verifyOtpBtnText) {
-                            verifyOtpBtnText.classList.remove('hidden');
-                        }
-                        if (verifyOtpBtnLoader) {
-                            verifyOtpBtnLoader.classList.add('hidden');
-                        }
-                        if (verifyOtpBtn) {
-                            verifyOtpBtn.disabled = false;
-                        }
-                    }
-                }, 1500);
+                // COMMENTED OUT: Don't redirect for now so API response can be checked in console
+                // setTimeout(() => {
+                //     if (workstationUrl && workstationUrl !== '') {
+                //         // Use replace instead of href to prevent verify page from being in history
+                //         window.location.replace(workstationUrl);
+                //     } else {
+                //         console.error('Workstation page URL not found');
+                //         showMessage('Verification successful! Please continue.', false);
+                //         // Re-enable OTP input fields if redirect failed
+                //         otpInputs.forEach(function(input) {
+                //             input.disabled = false;
+                //         });
+                //         // Reset loader if redirect failed
+                //         if (verifyOtpBtnText) {
+                //             verifyOtpBtnText.classList.remove('hidden');
+                //         }
+                //         if (verifyOtpBtnLoader) {
+                //             verifyOtpBtnLoader.classList.add('hidden');
+                //         }
+                //         if (verifyOtpBtn) {
+                //             verifyOtpBtn.disabled = false;
+                //         }
+                //     }
+                // }, 1500);
+                
+                // Show success message instead of redirecting
+                showMessage('Verification successful! API response logged to console.', false);
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
                 showMessage(errorMsg, true);
