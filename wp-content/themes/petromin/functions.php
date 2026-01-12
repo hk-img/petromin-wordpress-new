@@ -5668,8 +5668,8 @@ function handle_save_booking_data() {
         wp_die();
     }
     
-    // Generate unique booking ID (format: BOOK-YYYYMMDD-XXXXXX)
-    $booking_id = 'BOOK-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
+    // Generate unique booking ID (format: LEAD-YYYYMMDD-XXXXXX)
+    $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
     
     // Prepare title for the booking post
     $vehicle_name = '';
