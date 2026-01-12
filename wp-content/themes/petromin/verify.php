@@ -344,7 +344,7 @@ body.verify-page.validation-passed {
             </div>
         </div>
     </label>
-    <a href="" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Confirm Booking</a>
+    <button type="button" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed disabled" disabled="true">Confirm Booking</button>
 </div>
 
 <script>

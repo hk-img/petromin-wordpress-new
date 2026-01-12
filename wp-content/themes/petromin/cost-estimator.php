@@ -851,7 +851,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
         <div class="w-full flex justify-end">
             <button type="button" id="mobileProceedToCheckoutBtn" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed relative">
                 <span id="mobileProceedToCheckoutBtnText">Checkout</span>
-                <span id="mobileProceedToCheckoutBtnLoader" class="hidden absolute inset-0 flex items-center justify-center">
+                <span id="mobileProceedToCheckoutBtnLoader" class="hidden flex items-center justify-center">
                     <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     <span class="text-sm">Processing...</span>
                 </span>
