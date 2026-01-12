@@ -210,7 +210,7 @@ body.verify-page.validation-passed {
 </header>
 
 <div class="view border-y z-30 border-[#E5E5E5] py-6 md:hidden block md:relative sticky top-0 inset-x-0 bg-white">
-    <a href="" class="flex items-center gap-4 uppercase text-[#121212] text-lg font-medium">
+    <a href="javascript:void(0);" id="backButton" class="flex items-center gap-4 uppercase text-[#121212] text-lg font-medium">
         <span>
             <img src="<?php echo $img_url; ?>back-arrow.svg" alt="back arrow" class="w-[9px] h-[15px]" />
         </span>
@@ -1014,6 +1014,11 @@ body.verify-page.validation-passed {
         }
         verifyOtpBtn.disabled = true;
         
+        // Disable all OTP input fields during verification
+        otpInputs.forEach(function(input) {
+            input.disabled = true;
+        });
+        
         // AJAX call to verify OTP
         const formData = new FormData();
         formData.append('action', 'verify_otp');
@@ -1033,14 +1038,23 @@ body.verify-page.validation-passed {
         })
         .then(data => {
             if (data && data.success) {
-                const message = (data.data && data.data.message) ? data.data.message : 'Mobile number verified successfully!';
-                showMessage(message, false);
+                // Hide loader and show success in button text
+                if (verifyOtpBtnLoader) {
+                    verifyOtpBtnLoader.classList.add('hidden');
+                }
+                if (verifyOtpBtnText) {
+                    verifyOtpBtnText.textContent = 'Verified ✓';
+                    verifyOtpBtnText.classList.remove('hidden');
+                }
+                // Change button styling to success (green)
+                if (verifyOtpBtn) {
+                    verifyOtpBtn.classList.remove('bg-[#C1122C]', 'hover:bg-[#650916]');
+                    verifyOtpBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    verifyOtpBtn.disabled = true; // Keep disabled to prevent multiple clicks
+                }
                 
                 // Don't clear OTP inputs on success - keep them visible until redirect
                 // This prevents the inputs from appearing empty during redirect delay
-                
-                // Keep loader showing during redirect delay for better UX
-                // Don't reset loader state on success since we're redirecting
                 
                 // Save verified phone number to sessionStorage
                 try {
@@ -1064,6 +1078,10 @@ body.verify-page.validation-passed {
                     } else {
                         console.error('Workstation page URL not found');
                         showMessage('Verification successful! Please continue.', false);
+                        // Re-enable OTP input fields if redirect failed
+                        otpInputs.forEach(function(input) {
+                            input.disabled = false;
+                        });
                         // Reset loader if redirect failed
                         if (verifyOtpBtnText) {
                             verifyOtpBtnText.classList.remove('hidden');
@@ -1081,6 +1099,10 @@ body.verify-page.validation-passed {
                 showMessage(errorMsg, true);
                 // Only clear OTP inputs on error, not on success
                 clearOTPInputs();
+                // Re-enable OTP input fields on error
+                otpInputs.forEach(function(input) {
+                    input.disabled = false;
+                });
                 if (otpInputs.length > 0) {
                     otpInputs[0].focus();
                 }
@@ -1099,6 +1121,10 @@ body.verify-page.validation-passed {
         .catch(error => {
             console.error('Error:', error);
             showMessage('An error occurred. Please try again. Error: ' + error.message, true);
+            // Re-enable OTP input fields on error
+            otpInputs.forEach(function(input) {
+                input.disabled = false;
+            });
             // Reset loader and re-enable button on error
             if (verifyOtpBtnText) {
                 verifyOtpBtnText.classList.remove('hidden');
@@ -1116,6 +1142,24 @@ body.verify-page.validation-passed {
     window.resendOTP = function() {
         sendOTP();
     };
+    
+    // Back button handler - redirect to previous page
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Use browser history to go back, or fallback to cost-estimator page
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // Fallback: redirect to cost-estimator page if no history
+                const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
+                if (costEstimatorUrl && costEstimatorUrl !== '') {
+                    window.location.href = costEstimatorUrl;
+                }
+            }
+        });
+    }
     
     // Event listeners
     if (sendOtpBtn) {

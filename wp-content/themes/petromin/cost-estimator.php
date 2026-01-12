@@ -764,7 +764,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
     </div>
 </section>
 
-<div id="mobileCartSummary" class="view h-[4.938rem] group/check w-full fixed bottom-0 inset-x-0 md:hidden flex justify-between items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
+<div id="mobileCartSummary" class="view h-[4.938rem] group/check w-full fixed z-20 bottom-0 inset-x-0 md:hidden flex justify-between items-center gap-2 bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
     <div class="flex flex-col w-full">
         <div class="text-[#637083] text-xs font-normal">
             <span id="mobileCartItemCount">0</span> <span id="mobileCartItemText">item</span>
