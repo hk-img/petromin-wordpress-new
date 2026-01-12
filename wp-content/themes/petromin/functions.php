@@ -5030,6 +5030,8 @@ add_action('wp_ajax_send_otp', 'handle_send_otp');
 add_action('wp_ajax_nopriv_send_otp', 'handle_send_otp');
 add_action('wp_ajax_verify_otp', 'handle_verify_otp');
 add_action('wp_ajax_nopriv_verify_otp', 'handle_verify_otp');
+add_action('wp_ajax_save_booking_data', 'handle_save_booking_data');
+add_action('wp_ajax_nopriv_save_booking_data', 'handle_save_booking_data');
 
 function handle_send_otp() {
     // Verify nonce - handle both POST and GET
@@ -5212,4 +5214,789 @@ function handle_verify_otp() {
         wp_send_json_error(array('message' => 'Invalid OTP. Please try again.'));
         wp_die();
     }
+}
+
+// Register Custom Post Type for Bookings
+if (!function_exists('register_booking_post_type')) {
+    function register_booking_post_type() {
+        $labels = array(
+            'name'                  => 'Leads',
+            'singular_name'         => 'Lead',
+            'menu_name'             => 'Leads',
+            'name_admin_bar'        => 'Lead',
+            'archives'              => 'Lead Archives',
+            'attributes'            => 'Lead Attributes',
+            'parent_item_colon'     => 'Parent Lead:',
+            'all_items'             => 'All Leads',
+            'add_new_item'          => 'Add New Lead',
+            'add_new'               => 'Add New',
+            'new_item'              => 'New Lead',
+            'edit_item'             => 'Edit Lead',
+            'update_item'           => 'Update Lead',
+            'view_item'             => 'View Lead',
+            'view_items'            => 'View Leads',
+            'search_items'          => 'Search Lead',
+            'not_found'             => 'Not found',
+            'not_found_in_trash'    => 'Not found in Trash',
+        );
+        
+        $args = array(
+            'label'                 => 'Lead',
+            'description'           => 'Customer Service Leads',
+            'labels'                => $labels,
+            'supports'              => array('title', 'custom-fields'),
+            'hierarchical'          => false,
+            'public'                => false,
+            'show_ui'               => true,
+            'show_in_menu'          => true,
+            'menu_position'         => 20,
+            'menu_icon'             => 'dashicons-calendar-alt',
+            'show_in_admin_bar'     => false,
+            'show_in_nav_menus'     => false,
+            'can_export'            => true,
+            'has_archive'           => false,
+            'exclude_from_search'   => true,
+            'publicly_queryable'    => false,
+            'capability_type'       => 'post',
+            'show_in_rest'          => false,
+        );
+        
+        register_post_type('booking', $args);
+    }
+}
+add_action('init', 'register_booking_post_type', 0);
+
+// Remove "Add New Booking" from admin menu
+add_action('admin_menu', 'remove_add_new_booking_menu');
+function remove_add_new_booking_menu() {
+    global $submenu;
+    if (isset($submenu['edit.php?post_type=booking'])) {
+        foreach ($submenu['edit.php?post_type=booking'] as $key => $item) {
+            if ($item[2] === 'post-new.php?post_type=booking') {
+                unset($submenu['edit.php?post_type=booking'][$key]);
+            }
+        }
+    }
+}
+
+// Remove "Add New" button from bookings list page
+add_action('admin_head', 'remove_add_new_booking_button');
+function remove_add_new_booking_button() {
+    global $typenow;
+    if ($typenow === 'booking') {
+        echo '<style>
+            .page-title-action,
+            .wrap .page-title-action,
+            .wp-heading-inline + .page-title-action {
+                display: none !important;
+            }
+        </style>';
+    }
+}
+
+// Remove editor and publish meta boxes, keep only our custom meta box
+add_action('admin_init', 'remove_booking_editor_meta_boxes');
+function remove_booking_editor_meta_boxes() {
+    remove_post_type_support('booking', 'editor');
+    
+    // Remove publish meta box
+    remove_meta_box('submitdiv', 'booking', 'side');
+    
+    // Remove other unnecessary meta boxes
+    remove_meta_box('slugdiv', 'booking', 'normal');
+    remove_meta_box('authordiv', 'booking', 'normal');
+    remove_meta_box('postcustom', 'booking', 'normal');
+    remove_meta_box('commentsdiv', 'booking', 'normal');
+    remove_meta_box('commentstatusdiv', 'booking', 'normal');
+    remove_meta_box('trackbacksdiv', 'booking', 'normal');
+    remove_meta_box('revisionsdiv', 'booking', 'normal');
+}
+
+// Make title field read-only and add read-only notice
+add_action('admin_footer', 'make_booking_title_readonly');
+function make_booking_title_readonly() {
+    global $post_type, $post;
+    if ($post_type === 'booking' && isset($post) && $post->ID) {
+        ?>
+        <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            // Make title read-only
+            $('#title').prop('readonly', true).css('background-color', '#f5f5f5');
+            
+            // Hide any remaining add new buttons
+            $('.page-title-action').hide();
+            $('a[href*="post-new.php?post_type=booking"]').hide();
+            
+            // Hide publish meta box completely
+            $('#submitdiv').hide();
+        });
+        </script>
+        <style>
+            /* Hide editor and other unnecessary elements */
+            #post-body-content,
+            #postdivrich,
+            .wp-editor-wrap,
+            #post-status-info,
+            #minor-publishing-actions,
+            #major-publishing-actions {
+                display: none !important;
+            }
+            
+            /* Hide add new button in admin bar */
+            #wp-admin-bar-new-booking {
+                display: none !important;
+            }
+            
+            /* Style for read-only notice */
+            .booking-readonly-notice {
+                margin: 15px 0;
+            }
+        </style>
+        <?php
+    }
+}
+
+
+// Add custom columns to Bookings list table
+add_filter('manage_booking_posts_columns', 'add_booking_custom_columns');
+function add_booking_custom_columns($columns) {
+    // Remove title column (duplicate data - already in booking_id and vehicle columns)
+    unset($columns['title']);
+    
+    // Remove default date/published column
+    unset($columns['date']);
+    
+    // Add custom columns
+    $columns['booking_id'] = 'Lead ID';
+    $columns['vehicle_info'] = 'Vehicle';
+    $columns['services_count'] = 'Services';
+    $columns['total_amount'] = 'Total Amount';
+    $columns['verified_phone'] = 'Phone Number';
+    $columns['booking_date'] = 'Booking Date';
+    
+    return $columns;
+}
+
+// Set booking_id as primary column (makes it clickable)
+add_filter('list_table_primary_column', 'set_booking_primary_column', 10, 2);
+function set_booking_primary_column($column, $screen) {
+    if ($screen === 'edit-booking') {
+        return 'booking_id';
+    }
+    return $column;
+}
+
+// Populate custom columns with data
+add_action('manage_booking_posts_custom_column', 'populate_booking_custom_columns', 10, 2);
+function populate_booking_custom_columns($column, $post_id) {
+    switch ($column) {
+        case 'booking_id':
+            $booking_id = get_post_meta($post_id, '_booking_id', true);
+            $edit_link = get_edit_post_link($post_id);
+            if ($booking_id) {
+                echo '<strong><a class="row-title" href="' . esc_url($edit_link) . '">' . esc_html($booking_id) . '</a></strong>';
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'vehicle_info':
+            $vehicle_brand = get_post_meta($post_id, '_vehicle_brand', true);
+            $vehicle_model = get_post_meta($post_id, '_vehicle_model', true);
+            $vehicle_fuel = get_post_meta($post_id, '_vehicle_fuel', true);
+            
+            if ($vehicle_brand || $vehicle_model) {
+                $vehicle_name = trim(($vehicle_brand ?: '') . ' ' . ($vehicle_model ?: ''));
+                echo esc_html($vehicle_name ?: '—');
+                if ($vehicle_fuel) {
+                    echo '<br><small style="color: #666;">' . esc_html($vehicle_fuel) . '</small>';
+                }
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'services_count':
+            $items_count = get_post_meta($post_id, '_booking_items_count', true);
+            $items = get_post_meta($post_id, '_booking_items', true);
+            
+            if ($items_count) {
+                echo '<strong>' . esc_html($items_count) . '</strong> service' . ($items_count > 1 ? 's' : '');
+                
+                // Show service names on hover or as tooltip
+                if (is_array($items) && !empty($items)) {
+                    $service_names = array();
+                    foreach ($items as $item) {
+                        if (isset($item['service_name'])) {
+                            $service_names[] = esc_html($item['service_name']);
+                        }
+                    }
+                    if (!empty($service_names)) {
+                        echo '<br><small style="color: #666;" title="' . esc_attr(implode(', ', $service_names)) . '">';
+                        echo esc_html(implode(', ', array_slice($service_names, 0, 2)));
+                        if (count($service_names) > 2) {
+                            echo ' +' . (count($service_names) - 2) . ' more';
+                        }
+                        echo '</small>';
+                    }
+                }
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'total_amount':
+            $total_amount = get_post_meta($post_id, '_booking_total_amount', true);
+            $currency = get_post_meta($post_id, '_booking_currency', true);
+            
+            if ($total_amount !== '' && $total_amount !== false) {
+                $currency_symbol = ($currency === 'INR') ? '₹' : $currency;
+                echo '<strong>' . esc_html($currency_symbol . ' ' . number_format(floatval($total_amount), 2)) . '</strong>';
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'verified_phone':
+            $verified_phone = get_post_meta($post_id, '_verified_phone', true);
+            $phone_verified = get_post_meta($post_id, '_phone_verified', true);
+            
+            if ($verified_phone) {
+                echo esc_html('+91 ' . $verified_phone);
+                if ($phone_verified) {
+                    echo ' <span style="color: #46b450; font-weight: bold;" title="Phone Verified">✓</span>';
+                }
+            } else {
+                echo '—';
+            }
+            break;
+            
+        case 'booking_date':
+            $booking_date = get_post_meta($post_id, '_booking_date', true);
+            if ($booking_date) {
+                $timestamp = get_post_meta($post_id, '_booking_timestamp', true);
+                if ($timestamp) {
+                    echo date('Y/m/d g:i a', $timestamp);
+                } else {
+                    echo esc_html($booking_date);
+                }
+            } else {
+                echo '—';
+            }
+            break;
+    }
+}
+
+// Add custom filters for bookings
+add_action('restrict_manage_posts', 'add_booking_custom_filters');
+function add_booking_custom_filters() {
+    global $typenow;
+    
+    if ($typenow === 'booking') {
+        // Vehicle Brand Filter
+        $selected_brand = isset($_GET['filter_vehicle_brand']) ? $_GET['filter_vehicle_brand'] : '';
+        $brands = get_posts(array(
+            'post_type' => 'booking',
+            'posts_per_page' => -1,
+            'meta_key' => '_vehicle_brand',
+            'fields' => 'ids'
+        ));
+        $unique_brands = array();
+        foreach ($brands as $post_id) {
+            $brand = get_post_meta($post_id, '_vehicle_brand', true);
+            if ($brand && !in_array($brand, $unique_brands)) {
+                $unique_brands[] = $brand;
+            }
+        }
+        sort($unique_brands);
+        
+        if (!empty($unique_brands)) {
+            echo '<select name="filter_vehicle_brand" id="filter_vehicle_brand">';
+            echo '<option value="">All Brands</option>';
+            foreach ($unique_brands as $brand) {
+                echo '<option value="' . esc_attr($brand) . '" ' . selected($selected_brand, $brand, false) . '>' . esc_html($brand) . '</option>';
+            }
+            echo '</select>';
+        }
+        
+        // Fuel Type Filter
+        $selected_fuel = isset($_GET['filter_vehicle_fuel']) ? $_GET['filter_vehicle_fuel'] : '';
+        $fuels = get_posts(array(
+            'post_type' => 'booking',
+            'posts_per_page' => -1,
+            'meta_key' => '_vehicle_fuel',
+            'fields' => 'ids'
+        ));
+        $unique_fuels = array();
+        foreach ($fuels as $post_id) {
+            $fuel = get_post_meta($post_id, '_vehicle_fuel', true);
+            if ($fuel && !in_array($fuel, $unique_fuels)) {
+                $unique_fuels[] = $fuel;
+            }
+        }
+        sort($unique_fuels);
+        
+        if (!empty($unique_fuels)) {
+            echo '<select name="filter_vehicle_fuel" id="filter_vehicle_fuel">';
+            echo '<option value="">All Fuel Types</option>';
+            foreach ($unique_fuels as $fuel) {
+                echo '<option value="' . esc_attr($fuel) . '" ' . selected($selected_fuel, $fuel, false) . '>' . esc_html($fuel) . '</option>';
+            }
+            echo '</select>';
+        }
+        
+        // Phone Verified Filter
+        $selected_verified = isset($_GET['filter_phone_verified']) ? $_GET['filter_phone_verified'] : '';
+        echo '<select name="filter_phone_verified" id="filter_phone_verified">';
+        echo '<option value="">All Phone Status</option>';
+        echo '<option value="1" ' . selected($selected_verified, '1', false) . '>Verified</option>';
+        echo '<option value="0" ' . selected($selected_verified, '0', false) . '>Not Verified</option>';
+        echo '</select>';
+    }
+}
+
+// Apply custom filters to booking query
+add_action('pre_get_posts', 'apply_booking_custom_filters');
+function apply_booking_custom_filters($query) {
+    global $pagenow, $typenow;
+    
+    if ($pagenow === 'edit.php' && $typenow === 'booking' && $query->is_main_query()) {
+        $meta_query = array();
+        
+        // Filter by vehicle brand
+        if (isset($_GET['filter_vehicle_brand']) && $_GET['filter_vehicle_brand'] !== '') {
+            $meta_query[] = array(
+                'key' => '_vehicle_brand',
+                'value' => sanitize_text_field($_GET['filter_vehicle_brand']),
+                'compare' => '='
+            );
+        }
+        
+        // Filter by vehicle fuel
+        if (isset($_GET['filter_vehicle_fuel']) && $_GET['filter_vehicle_fuel'] !== '') {
+            $meta_query[] = array(
+                'key' => '_vehicle_fuel',
+                'value' => sanitize_text_field($_GET['filter_vehicle_fuel']),
+                'compare' => '='
+            );
+        }
+        
+        // Filter by phone verified status
+        if (isset($_GET['filter_phone_verified']) && $_GET['filter_phone_verified'] !== '') {
+            $meta_query[] = array(
+                'key' => '_phone_verified',
+                'value' => sanitize_text_field($_GET['filter_phone_verified']),
+                'compare' => '='
+            );
+        }
+        
+        if (!empty($meta_query)) {
+            $query->set('meta_query', $meta_query);
+        }
+    }
+}
+
+// Make columns sortable
+add_filter('manage_edit-booking_sortable_columns', 'make_booking_columns_sortable');
+function make_booking_columns_sortable($columns) {
+    $columns['booking_id'] = 'booking_id';
+    $columns['booking_date'] = 'booking_date';
+    $columns['total_amount'] = 'total_amount';
+    $columns['verified_phone'] = 'verified_phone';
+    return $columns;
+}
+
+// Handle sorting
+add_action('pre_get_posts', 'handle_booking_column_sorting');
+function handle_booking_column_sorting($query) {
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+    
+    if ($query->get('post_type') !== 'booking') {
+        return;
+    }
+    
+    $orderby = $query->get('orderby');
+    
+    switch ($orderby) {
+        case 'booking_id':
+            $query->set('meta_key', '_booking_id');
+            $query->set('orderby', 'meta_value');
+            break;
+            
+        case 'booking_date':
+            $query->set('meta_key', '_booking_timestamp');
+            $query->set('orderby', 'meta_value_num');
+            break;
+            
+        case 'total_amount':
+            $query->set('meta_key', '_booking_total_amount');
+            $query->set('orderby', 'meta_value_num');
+            break;
+            
+        case 'verified_phone':
+            $query->set('meta_key', '_verified_phone');
+            $query->set('orderby', 'meta_value');
+            break;
+    }
+}
+
+// AJAX Handler to Save Booking Data
+function handle_save_booking_data() {
+    // Verify nonce
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+    
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'otp_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please refresh the page and try again.'));
+        wp_die();
+    }
+    
+    // Get booking data from POST
+    $booking_data_json = isset($_POST['booking_data']) ? $_POST['booking_data'] : '';
+    
+    if (empty($booking_data_json)) {
+        wp_send_json_error(array('message' => 'No booking data provided.'));
+        wp_die();
+    }
+    
+    // Decode JSON data
+    $booking_data = json_decode(stripslashes($booking_data_json), true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($booking_data)) {
+        wp_send_json_error(array('message' => 'Invalid booking data format.'));
+        wp_die();
+    }
+    
+    // Generate unique booking ID (format: BOOK-YYYYMMDD-XXXXXX)
+    $booking_id = 'BOOK-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
+    
+    // Prepare title for the booking post
+    $vehicle_name = '';
+    if (isset($booking_data['vehicle']['brand']) && isset($booking_data['vehicle']['model'])) {
+        $vehicle_name = trim($booking_data['vehicle']['brand'] . ' ' . $booking_data['vehicle']['model']);
+    }
+    if (empty($vehicle_name)) {
+        $vehicle_name = 'Vehicle Not Specified';
+    }
+    
+    $title = $booking_id . ' - ' . $vehicle_name;
+    
+    // Create booking post
+    $post_data = array(
+        'post_title'    => sanitize_text_field($title),
+        'post_content'  => '',
+        'post_status'   => 'publish',
+        'post_type'     => 'booking',
+    );
+    
+    $post_id = wp_insert_post($post_data);
+    
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(array('message' => 'Failed to create booking. Please try again.'));
+        wp_die();
+    }
+    
+    // Save all booking data as post meta
+    // Save booking ID
+    update_post_meta($post_id, '_booking_id', $booking_id);
+    
+    // Save vehicle information
+    if (isset($booking_data['vehicle'])) {
+        update_post_meta($post_id, '_vehicle_data', $booking_data['vehicle']);
+        if (isset($booking_data['vehicle']['brand'])) {
+            update_post_meta($post_id, '_vehicle_brand', sanitize_text_field($booking_data['vehicle']['brand']));
+        }
+        if (isset($booking_data['vehicle']['model'])) {
+            update_post_meta($post_id, '_vehicle_model', sanitize_text_field($booking_data['vehicle']['model']));
+        }
+        if (isset($booking_data['vehicle']['fuel'])) {
+            update_post_meta($post_id, '_vehicle_fuel', sanitize_text_field($booking_data['vehicle']['fuel']));
+        }
+        if (isset($booking_data['vehicle']['city'])) {
+            update_post_meta($post_id, '_vehicle_city', sanitize_text_field($booking_data['vehicle']['city']));
+        }
+    }
+    
+    // Save services/items
+    if (isset($booking_data['items']) && is_array($booking_data['items'])) {
+        update_post_meta($post_id, '_booking_items', $booking_data['items']);
+        
+        // Calculate total amount
+        $total_amount = 0;
+        $currency = 'INR';
+        foreach ($booking_data['items'] as $item) {
+            if (isset($item['price'])) {
+                $total_amount += floatval($item['price']);
+            }
+            if (isset($item['currency'])) {
+                $currency = $item['currency'];
+            }
+        }
+        update_post_meta($post_id, '_booking_total_amount', $total_amount);
+        update_post_meta($post_id, '_booking_currency', $currency);
+        update_post_meta($post_id, '_booking_items_count', count($booking_data['items']));
+    }
+    
+    // Save verified phone number
+    if (isset($booking_data['verified_phone'])) {
+        update_post_meta($post_id, '_verified_phone', sanitize_text_field($booking_data['verified_phone']));
+    }
+    
+    // Save phone verification status
+    if (isset($booking_data['phone_verified'])) {
+        update_post_meta($post_id, '_phone_verified', (bool)$booking_data['phone_verified']);
+    }
+    
+    // Save service center data if available
+    if (isset($booking_data['service_center'])) {
+        update_post_meta($post_id, '_service_center_data', $booking_data['service_center']);
+        if (isset($booking_data['service_center']['name'])) {
+            update_post_meta($post_id, '_service_center_name', sanitize_text_field($booking_data['service_center']['name']));
+        }
+        if (isset($booking_data['service_center']['city'])) {
+            update_post_meta($post_id, '_service_center_city', sanitize_text_field($booking_data['service_center']['city']));
+        }
+    }
+    
+    // Save booking date/time
+    update_post_meta($post_id, '_booking_date', current_time('mysql'));
+    update_post_meta($post_id, '_booking_timestamp', current_time('timestamp'));
+    
+    // Save complete raw data as JSON for reference
+    update_post_meta($post_id, '_booking_raw_data', $booking_data_json);
+    
+    // Return success with booking ID
+    wp_send_json_success(array(
+        'message' => 'Booking saved successfully.',
+        'booking_id' => $booking_id,
+        'post_id' => $post_id
+    ));
+    wp_die();
+}
+
+// Add custom meta box to display booking details in edit screen
+add_action('add_meta_boxes', 'add_booking_details_meta_box');
+function add_booking_details_meta_box() {
+    add_meta_box(
+        'booking_details_meta_box',
+        'Lead Details',
+        'render_booking_details_meta_box',
+        'booking',
+        'normal',
+        'high'
+    );
+}
+
+// Render booking details meta box
+function render_booking_details_meta_box($post) {
+    // Get all booking data
+    $booking_id = get_post_meta($post->ID, '_booking_id', true);
+    $vehicle_data = get_post_meta($post->ID, '_vehicle_data', true);
+    $booking_items = get_post_meta($post->ID, '_booking_items', true);
+    $verified_phone = get_post_meta($post->ID, '_verified_phone', true);
+    $phone_verified = get_post_meta($post->ID, '_phone_verified', true);
+    $service_center_data = get_post_meta($post->ID, '_service_center_data', true);
+    $booking_raw_data = get_post_meta($post->ID, '_booking_raw_data', true);
+    $total_amount = get_post_meta($post->ID, '_booking_total_amount', true);
+    $currency = get_post_meta($post->ID, '_booking_currency', true);
+    
+    // Parse raw data if available (for complete data display)
+    $raw_data_parsed = null;
+    if ($booking_raw_data) {
+        $raw_data_parsed = json_decode(stripslashes($booking_raw_data), true);
+    }
+    
+    // Use parsed raw data if available, otherwise use individual meta fields
+    $display_data = $raw_data_parsed ? $raw_data_parsed : array(
+        'vehicle' => $vehicle_data,
+        'items' => $booking_items,
+        'booking_id' => $booking_id,
+        'verified_phone' => $verified_phone,
+        'phone_verified' => $phone_verified,
+        'service_center' => $service_center_data
+    );
+    
+    // Always ensure service_center data is available (even if updated later via AJAX)
+    // If service_center_data exists in meta but not in display_data, add it
+    if ($service_center_data && (empty($display_data['service_center']) || !is_array($display_data['service_center']))) {
+        $display_data['service_center'] = $service_center_data;
+    }
+    
+    // Also check individual meta fields if service_center_data is empty
+    if (empty($display_data['service_center']) || !is_array($display_data['service_center'])) {
+        $service_center_name = get_post_meta($post->ID, '_service_center_name', true);
+        $service_center_city = get_post_meta($post->ID, '_service_center_city', true);
+        $service_center_lat = get_post_meta($post->ID, '_service_center_lat', true);
+        $service_center_lng = get_post_meta($post->ID, '_service_center_lng', true);
+        
+        if ($service_center_name || $service_center_city || $service_center_lat || $service_center_lng) {
+            $display_data['service_center'] = array(
+                'name' => $service_center_name,
+                'city' => $service_center_city,
+                'lat' => $service_center_lat,
+                'lng' => $service_center_lng
+            );
+        }
+    }
+    
+    ?>
+    <div class="booking-details-container" style="padding: 15px;">
+        <style>
+            .booking-details-container table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            .booking-details-container table th {
+                background: #f5f5f5;
+                padding: 12px;
+                text-align: left;
+                border: 1px solid #ddd;
+                font-weight: 600;
+                width: 200px;
+            }
+            .booking-details-container table td {
+                padding: 12px;
+                border: 1px solid #ddd;
+                vertical-align: top;
+            }
+            .booking-details-container .section-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin: 20px 0 10px 0;
+                padding-bottom: 5px;
+                border-bottom: 2px solid #0073aa;
+            }
+            .booking-details-container .service-item {
+                background: #f9f9f9;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-left: 3px solid #0073aa;
+            }
+            .booking-details-container .service-item h4 {
+                margin: 0 0 8px 0;
+                color: #0073aa;
+            }
+            .booking-details-container .service-detail {
+                margin: 5px 0;
+                font-size: 13px;
+            }
+            .booking-details-container .service-detail strong {
+                color: #555;
+            }
+            .booking-details-container .verified-badge {
+                display: inline-block;
+                background: #46b450;
+                color: white;
+                padding: 3px 8px;
+                border-radius: 3px;
+                font-size: 11px;
+                font-weight: bold;
+                margin-left: 5px;
+            }
+            .booking-details-container .json-view {
+                background: #f5f5f5;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                max-height: 400px;
+                overflow-y: auto;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        </style>
+        
+        <!-- Lead ID -->
+        <div class="section-title">Lead Information</div>
+        <table>
+            <tr>
+                <th>Lead ID</th>
+                <td><strong><?php echo esc_html($booking_id ?: 'N/A'); ?></strong></td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>
+                    <?php if ($verified_phone): ?>
+                        +91 <?php echo esc_html($verified_phone); ?>
+                        <?php if ($phone_verified): ?>
+                            <span class="verified-badge">✓ Verified</span>
+                        <?php else: ?>
+                            <span style="color: #d63638;">(Not Verified)</span>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <span style="color: #999;">Not provided</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <tr>
+                <th>Total Amount</th>
+                <td>
+                    <strong style="font-size: 16px; color: #d63638;">
+                        <?php 
+                        $currency_symbol = ($currency === 'INR') ? '₹' : $currency;
+                        echo esc_html($currency_symbol . ' ' . number_format((float)$total_amount, 2));
+                        ?>
+                    </strong>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Vehicle Information -->
+        <?php if (!empty($display_data['vehicle'])): ?>
+        <div class="section-title">Vehicle Information</div>
+        <table>
+            <?php if (!empty($display_data['vehicle']['brand'])): ?>
+            <tr>
+                <th>Brand</th>
+                <td><?php echo esc_html($display_data['vehicle']['brand']); ?></td>
+            </tr>
+            <?php endif; ?>
+            <?php if (!empty($display_data['vehicle']['model'])): ?>
+            <tr>
+                <th>Model</th>
+                <td><?php echo esc_html($display_data['vehicle']['model']); ?></td>
+            </tr>
+            <?php endif; ?>
+            <?php if (!empty($display_data['vehicle']['fuel'])): ?>
+            <tr>
+                <th>Fuel Type</th>
+                <td><?php echo esc_html($display_data['vehicle']['fuel']); ?></td>
+            </tr>
+            <?php endif; ?>
+            <?php if (!empty($display_data['vehicle']['city'])): ?>
+            <tr>
+                <th>City</th>
+                <td><?php echo esc_html($display_data['vehicle']['city']); ?></td>
+            </tr>
+            <?php endif; ?>
+        </table>
+        <?php endif; ?>
+        
+        <!-- Services/Items -->
+        <?php if (!empty($display_data['items']) && is_array($display_data['items'])): ?>
+        <div class="section-title">Services (<?php echo count($display_data['items']); ?>)</div>
+        <?php foreach ($display_data['items'] as $index => $item): ?>
+        <div class="service-item">
+            <h4><?php echo ($index + 1) . '. ' . esc_html($item['service_name'] ?? 'Service'); ?></h4>
+            
+            <div class="service-detail">
+                <strong>Service ID:</strong> <?php echo esc_html($item['id'] ?? 'N/A'); ?>
+            </div>
+            
+            <div class="service-detail">
+                <strong>Price:</strong> 
+                <?php 
+                $item_currency = $item['currency'] ?? 'INR';
+                $currency_symbol = ($item_currency === 'INR') ? '₹' : $item_currency;
+                echo esc_html($currency_symbol . ' ' . number_format((float)($item['price'] ?? 0), 2));
+                ?>
+            </div>
+        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <?php
 }

@@ -1066,6 +1066,38 @@ body.verify-page.validation-passed {
                     cart.phone_verified = true;
                     
                     sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+                    
+                    // Save booking data to WordPress database
+                    const saveBookingFormData = new FormData();
+                    saveBookingFormData.append('action', 'save_booking_data');
+                    saveBookingFormData.append('nonce', otpNonce);
+                    saveBookingFormData.append('booking_data', JSON.stringify(cart));
+                    
+                    fetch(ajaxUrl, {
+                        method: 'POST',
+                        body: saveBookingFormData
+                    })
+                    .then(response => response.json())
+                    .then(saveData => {
+                        if (saveData && saveData.success) {
+                            console.log('Booking saved successfully with ID:', saveData.data.booking_id);
+                            // Optionally save booking ID to sessionStorage
+                            if (saveData.data && saveData.data.booking_id) {
+                                try {
+                                    cart.booking_id = saveData.data.booking_id;
+                                    sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+                                } catch (e) {
+                                    console.error('Error saving booking ID:', e);
+                                }
+                            }
+                        } else {
+                            console.error('Failed to save booking:', saveData);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error saving booking data:', error);
+                        // Don't block user flow even if save fails
+                    });
                 } catch (e) {
                     console.error('Error saving verified phone:', e);
                 }
