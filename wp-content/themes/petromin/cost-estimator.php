@@ -160,6 +160,30 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 
                                 // Fetch services for this category with filters from URL params
                                 $services = get_services_by_category($category_name, $brand, $model, $fuel);
+                                
+                                // Fetch vendor distinct services data for warranty, recommended_timeline, and is_offer
+                                $vendor_services_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/vendor_distinct_services?service_category=eq.' . urlencode($category_name) . '&select=service_name,warranty,recommended_timeline,is_active,is_offer';
+                                $vendor_services_response = wp_remote_get($vendor_services_api_url, array(
+                                    'timeout' => 15,
+                                    'headers' => array(
+                                        'Content-Type' => 'application/json',
+                                        'Accept' => 'application/json',
+                                        'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+                                    )
+                                ));
+                                $vendor_services_lookup = array();
+                                
+                                if (!is_wp_error($vendor_services_response) && wp_remote_retrieve_response_code($vendor_services_response) === 200) {
+                                    $vendor_services_data = json_decode(wp_remote_retrieve_body($vendor_services_response), true);
+                                    if (is_array($vendor_services_data)) {
+                                        foreach ($vendor_services_data as $vendor_service) {
+                                            $vendor_service_name = isset($vendor_service['service_name']) ? $vendor_service['service_name'] : '';
+                                            if (!empty($vendor_service_name)) {
+                                                $vendor_services_lookup[$vendor_service_name] = $vendor_service;
+                                            }
+                                        }
+                                    }
+                                }
                                 ?>
                                 <div class="group-has-[#<?php echo esc_attr($category_id); ?>:checked]/services:flex hidden h-full">
                                     <div class="flex flex-col md:gap-y-12 gap-y-8 w-full">
@@ -191,6 +215,19 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 
                                                 // Prepare complete service data for sessionStorage
                                                 $service_data_json = json_encode($service);
+                                                
+                                                // Get vendor service data for warranty, recommended_timeline, and is_offer
+                                                $vendor_service_data = isset($vendor_services_lookup[$service_name]) ? $vendor_services_lookup[$service_name] : null;
+                                                $service_warranty_raw = ($vendor_service_data && isset($vendor_service_data['warranty'])) ? $vendor_service_data['warranty'] : 'No Warranty';
+                                                
+                                                // Format warranty text - if it already contains "Warranty" or is "No Warranty", use as is, otherwise add "Warranty" suffix
+                                                $service_warranty = $service_warranty_raw;
+                                                if (stripos($service_warranty_raw, 'warranty') === false) {
+                                                    $service_warranty = $service_warranty_raw . ' Warranty';
+                                                }
+                                                
+                                                $service_recommended_timeline = ($vendor_service_data && isset($vendor_service_data['recommended_timeline'])) ? $vendor_service_data['recommended_timeline'] : 'As Required';
+                                                $service_is_offer = ($vendor_service_data && isset($vendor_service_data['is_offer'])) ? (bool)$vendor_service_data['is_offer'] : false;
                                                 ?>
                                                 <div class="w-full flex flex-col gap-y-6 md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]" data-service-id="<?php echo esc_attr($service_id); ?>">
                                                     <div class="flex md:flex-row flex-col gap-3">
@@ -198,10 +235,12 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                             <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'ImageWithFallback.webp'); ?>"
                                                                 class="size-full md:rounded-none rounded-lg aspect-square"
                                                                 width="189" height="189" alt="" title="">
+                                                            <?php if ($service_is_offer) : ?>
                                                             <div class="absolute -top-[3.2rem] -left-[3rem]">
                                                                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'limitedOffer.webp'); ?>"
                                                                     class="h-[14.75rem] w-auto object-contain" alt="" title="">
                                                             </div>
+                                                            <?php endif; ?>
                                                         </div>
                                                         <div class="md:w-3/4 w-full">
                                                             <div class="flex flex-col gap-y-6 p-4">
@@ -227,9 +266,9 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                                                 class="size-[0.875rem]" 
                                                                                 width="14" 
                                                                                 height="14" 
-                                                                                alt="Warrnety Icon" />
+                                                                                alt="Warranty Icon" />
                                                                         </span>
-                                                                        3 Month Warrnety
+                                                                        <?php echo esc_html($service_warranty); ?>
                                                                     </li>
                                                                     <li
                                                                         class="border border-[#DF7300] bg-[#FF83000D] rounded-md py-2 px-3 flex gap-1 items-center font-medium text-[#DF7300] text-xs">
@@ -240,7 +279,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                                                 height="14" 
                                                                                 alt="Recommended Icon" />
                                                                         </span>
-                                                                        Recommended every 10,000 KM
+                                                                        Recommended <?php echo esc_html($service_recommended_timeline); ?>
                                                                     </li>
                                                                 </ul>
                                                                 <ul class="flex flex-wrap justify-between gap-y-3 items-center">
