@@ -849,7 +849,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
             <div id="mobileCartFooterTotal" class="text-[#121212] text-lg font-bold">₹0</div>
         </div>
         <div class="w-full flex justify-end">
-            <button type="button" id="mobileProceedToCheckoutBtn" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+            <button type="button" id="mobileProceedToCheckoutBtn" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed relative" disabled>
                 <span id="mobileProceedToCheckoutBtnText">Checkout</span>
                 <span id="mobileProceedToCheckoutBtnLoader" class="hidden flex items-center justify-center">
                     <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -1622,6 +1622,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }
         });
+        
+        // Update mobile checkout button state
+        const mobileProceedToCheckoutBtn = document.getElementById('mobileProceedToCheckoutBtn');
+        if (mobileProceedToCheckoutBtn) {
+            if (cart.items && cart.items.length > 0) {
+                // Enable button if at least one service is in cart
+                mobileProceedToCheckoutBtn.disabled = false;
+            } else {
+                // Disable button if no services in cart
+                mobileProceedToCheckoutBtn.disabled = true;
+            }
+        }
     }
     
     // Function to format price
