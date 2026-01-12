@@ -51,7 +51,160 @@ function get_verify_page_url() {
 }
 $verify_page_url = get_verify_page_url();
 
+// Get cost estimator page URL
+function get_cost_estimator_page_url() {
+    // Try different template name formats
+    $template_names = array('cost-estimator.php', 'page-cost-estimator.php');
+    
+    foreach ($template_names as $template_name) {
+        $cost_estimator_page = get_pages(array(
+            'meta_key' => '_wp_page_template',
+            'meta_value' => $template_name,
+            'number' => 1
+        ));
+        if (!empty($cost_estimator_page)) {
+            return get_permalink($cost_estimator_page[0]->ID);
+        }
+    }
+    
+    // Fallback: try to find page by slug or title
+    $cost_estimator_page = get_page_by_path('cost-estimator');
+    if ($cost_estimator_page) {
+        return get_permalink($cost_estimator_page->ID);
+    }
+    
+    return home_url('/cost-estimator');
+}
+$cost_estimator_page_url = get_cost_estimator_page_url();
+
 ?>
+<style>
+/* Hide page content initially until validation passes */
+body.slot-page {
+    visibility: hidden;
+    opacity: 0;
+}
+body.slot-page.validation-passed {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+}
+</style>
+<script>
+// Immediate validation before page renders
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
+    const workstationPageUrl = '<?php echo esc_js($workstation_page_url); ?>';
+    
+    // Function to get cart from sessionStorage
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            return null;
+        }
+        return null;
+    }
+    
+    // Validate required vehicle data
+    function validateVehicleData() {
+        const cart = getCart();
+        
+        // Check if cart exists
+        if (!cart || !cart.vehicle) {
+            return false;
+        }
+        
+        // Check for required fields: brand, model, fuel
+        const brand = cart.vehicle.brand && cart.vehicle.brand.trim() !== '';
+        const model = cart.vehicle.model && cart.vehicle.model.trim() !== '';
+        const fuel = cart.vehicle.fuel && cart.vehicle.fuel.trim() !== '';
+        
+        // Return true only if all three are present
+        return brand && model && fuel;
+    }
+    
+    // Validate service center data
+    function validateServiceCenterData() {
+        const cart = getCart();
+        return cart && cart.service_center;
+    }
+    
+    // Add class to body for slot page
+    if (document.body) {
+        document.body.classList.add('slot-page');
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('slot-page');
+        });
+    }
+    
+    // Check validation immediately
+    const cart = getCart();
+    
+    // First check if vehicle data is missing - redirect to cost-estimator
+    if (!validateVehicleData()) {
+        // Redirect immediately without showing content
+        window.location.replace(costEstimatorUrl);
+        return; // Exit early
+    }
+    
+    // Then check if service center is missing - redirect to workstation
+    if (!validateServiceCenterData()) {
+        // Redirect immediately without showing content
+        window.location.replace(workstationPageUrl);
+        return; // Exit early
+    }
+    
+    // If all validations pass, show content
+    if (document.body) {
+        document.body.classList.add('validation-passed');
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('validation-passed');
+        });
+    }
+    
+    // Additional check on page visibility change (when user navigates back)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            // Page became visible - check again
+            const currentCart = getCart();
+            
+            if (!validateVehicleData()) {
+                if (costEstimatorUrl && costEstimatorUrl !== '') {
+                    window.location.replace(costEstimatorUrl);
+                }
+            } else if (!validateServiceCenterData()) {
+                if (workstationPageUrl && workstationPageUrl !== '') {
+                    window.location.replace(workstationPageUrl);
+                }
+            }
+        }
+    });
+    
+    // Additional check on window focus (when user switches back to tab)
+    window.addEventListener('focus', function() {
+        const currentCart = getCart();
+        
+        if (!validateVehicleData()) {
+            if (costEstimatorUrl && costEstimatorUrl !== '') {
+                window.location.replace(costEstimatorUrl);
+            }
+        } else if (!validateServiceCenterData()) {
+            if (workstationPageUrl && workstationPageUrl !== '') {
+                window.location.replace(workstationPageUrl);
+            }
+        }
+    });
+})();
+</script>
 
 <header class="w-full md:flex hidden justify-center items-center top-0 right-0  bg-white font-poppins fixed z-40 h-24 border-b border-[#E5E5E5]">
     <div class="view w-full relative flex justify-between items-center">
