@@ -161,8 +161,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 // Fetch services for this category with filters from URL params
                                 $services = get_services_by_category($category_name, $brand, $model, $fuel);
                                 
-                                // Fetch vendor distinct services data for warranty, recommended_timeline, and is_offer
-                                $vendor_services_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/vendor_distinct_services?service_category=eq.' . urlencode($category_name) . '&select=service_name,warranty,recommended_timeline,is_active,is_offer';
+                                // Fetch vendor distinct services data for warranty, recommended_timeline, is_offer, and estimated_completion_time
+                                $vendor_services_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/vendor_distinct_services?service_category=eq.' . urlencode($category_name) . '&select=service_name,warranty,recommended_timeline,is_active,is_offer,estimated_completion_time';
                                 $vendor_services_response = wp_remote_get($vendor_services_api_url, array(
                                     'timeout' => 15,
                                     'headers' => array(
@@ -216,7 +216,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 // Prepare complete service data for sessionStorage
                                                 $service_data_json = json_encode($service);
                                                 
-                                                // Get vendor service data for warranty, recommended_timeline, and is_offer
+                                                // Get vendor service data for warranty, recommended_timeline, is_offer, and estimated_completion_time
                                                 $vendor_service_data = isset($vendor_services_lookup[$service_name]) ? $vendor_services_lookup[$service_name] : null;
                                                 $service_warranty_raw = ($vendor_service_data && isset($vendor_service_data['warranty'])) ? $vendor_service_data['warranty'] : 'No Warranty';
                                                 
@@ -227,6 +227,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 }
                                                 
                                                 $service_recommended_timeline = ($vendor_service_data && isset($vendor_service_data['recommended_timeline'])) ? $vendor_service_data['recommended_timeline'] : 'As Required';
+                                                $service_estimated_time = ($vendor_service_data && isset($vendor_service_data['estimated_completion_time']) && !empty($vendor_service_data['estimated_completion_time'])) ? $vendor_service_data['estimated_completion_time'] : '4 Hours';
                                                 $service_is_offer = ($vendor_service_data && isset($vendor_service_data['is_offer'])) ? (bool)$vendor_service_data['is_offer'] : false;
                                                 $service_is_active = ($vendor_service_data && isset($vendor_service_data['is_active'])) ? (bool)$vendor_service_data['is_active'] : true;
                                                 $service_card_class = 'w-full flex flex-col gap-y-6 md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]';
@@ -262,7 +263,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                                                 height="14" 
                                                                                 alt="Estimated Time Icon" />
                                                                         </span>
-                                                                        Estimated Time is 4 Hours
+                                                                        Estimated Time is <?php echo esc_html($service_estimated_time); ?>
                                                                     </li>
                                                                     <li
                                                                         class="border border-[#DF7300] bg-[#FF83000D] rounded-md py-2 px-3 flex gap-1 items-center font-medium text-[#DF7300] text-xs">
