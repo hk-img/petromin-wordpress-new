@@ -1352,6 +1352,62 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 0);
                 }
             });
+
+            // Restore date and time slot from sessionStorage on page load
+            function restoreDateAndTimeSlot() {
+                try {
+                    const cart = getCart();
+                    
+                    // Restore date if exists
+                    if (cart.selected_date && flatpickrInstanceRef) {
+                        // Convert d-m-Y format to Date object
+                        const dateParts = cart.selected_date.split('-');
+                        if (dateParts.length === 3) {
+                            const day = parseInt(dateParts[0], 10);
+                            const month = parseInt(dateParts[1], 10) - 1; // Month is 0-indexed
+                            const year = parseInt(dateParts[2], 10);
+                            const dateObj = new Date(year, month, day);
+                            
+                            // Set date in flatpickr
+                            flatpickrInstanceRef.setDate(dateObj, false);
+                            
+                            // Update time slots based on restored date
+                            updateTimeSlots([dateObj]);
+                            
+                            // Restore time slot if exists
+                            if (cart.selected_time_slot) {
+                                // Find the time slot input that matches the saved time slot text
+                                timeSlots.forEach(slot => {
+                                    const input = document.getElementById(slot.id);
+                                    if (input) {
+                                        const label = input.closest('label');
+                                        const timeTextDiv = label ? label.querySelector('div.text-sm') : null;
+                                        const timeSlotText = timeTextDiv ? timeTextDiv.textContent.trim() : slot.label;
+                                        
+                                        // Check if this time slot matches the saved one
+                                        if (timeSlotText === cart.selected_time_slot) {
+                                            // Only check if input is not disabled
+                                            if (!input.disabled) {
+                                                input.checked = true;
+                                                // Trigger change event to ensure UI updates
+                                                input.dispatchEvent(new Event('change'));
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error restoring date and time slot from sessionStorage:', e);
+                }
+            }
+
+            // Restore date and time slot after flatpickr is initialized
+            // Use setTimeout to ensure flatpickr is fully ready
+            setTimeout(function() {
+                restoreDateAndTimeSlot();
+            }, 100);
         }
     }
 });
