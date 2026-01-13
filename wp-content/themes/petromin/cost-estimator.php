@@ -792,8 +792,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
         <div class="w-full flex flex-col gap-y-6">
             <div class="w-full flex flex-row justify-between bg-white border border-[#EFEFEF] rounded-xl shadow-[0_0.125rem_0.25rem_-0.125rem_rgba(0,0,0,0.10)] p-3">
                 <div class="flex flex-row items-center gap-4">
-                    <span>
-                        <img src="<?php echo esc_url($img_url . 'mobileCartVehicleIcon.svg'); ?>" class="size-10" width="28" height="28" alt="Vehicle Icon" />                      
+                    <span id="mobileVehicleDisplayImageSpan">
+                        <img id="mobileVehicleDisplayImage" src="<?php echo esc_url($img_url . 'mobileCartVehicleIcon.svg'); ?>" class="size-10 object-contain" width="28" height="28" alt="Vehicle Icon" />                      
                     </span>
                     <div class="flex flex-col gap-y-1">
                         <div class="text-[#A6A6A6] uppercase text-xs font-semibold">Your Vehicle</div>
@@ -1105,13 +1105,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update vehicle display image
     function updateVehicleDisplayImage(imageUrl) {
         const defaultImage = '<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>';
+        const defaultMobileImage = '<?php echo esc_js($img_url . "mobileCartVehicleIcon.svg"); ?>';
+        
+        // Desktop vehicle image
         const vehicleImage = document.getElementById('vehicleDisplayImage');
         const vehicleImageSpan = document.getElementById('vehicleDisplayImageSpan');
         
+        // Mobile vehicle image
+        const mobileVehicleImage = document.getElementById('mobileVehicleDisplayImage');
+        const mobileVehicleImageSpan = document.getElementById('mobileVehicleDisplayImageSpan');
+        
+        // Check if image is from API (not default/empty)
+        const isApiImage = imageUrl && imageUrl.trim() !== '' && imageUrl !== '<?php echo esc_js($img_url . "car-brand.webp"); ?>' && imageUrl !== defaultImage;
+        
+        // Update desktop vehicle image
         if (vehicleImage && vehicleImageSpan) {
-            // Check if image is from API (not default/empty)
-            const isApiImage = imageUrl && imageUrl.trim() !== '' && imageUrl !== '<?php echo esc_js($img_url . "car-brand.webp"); ?>' && imageUrl !== defaultImage;
-            
             // Use the provided image URL or default if empty/invalid
             const finalImageUrl = isApiImage ? imageUrl : defaultImage;
             vehicleImage.src = finalImageUrl;
@@ -1127,6 +1135,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.src = defaultImage;
                 // Remove active class if image fails to load
                 vehicleImageSpan.classList.remove('active');
+            };
+        }
+        
+        // Update mobile vehicle image
+        if (mobileVehicleImage && mobileVehicleImageSpan) {
+            // Use the provided image URL or default if empty/invalid
+            const finalMobileImageUrl = isApiImage ? imageUrl : defaultMobileImage;
+            mobileVehicleImage.src = finalMobileImageUrl;
+            
+            // Add or remove 'active' class based on whether image is from API
+            if (isApiImage) {
+                mobileVehicleImageSpan.classList.add('active');
+            } else {
+                mobileVehicleImageSpan.classList.remove('active');
+            }
+            
+            mobileVehicleImage.onerror = function() {
+                this.src = defaultMobileImage;
+                // Remove active class if image fails to load
+                mobileVehicleImageSpan.classList.remove('active');
             };
         }
     }
