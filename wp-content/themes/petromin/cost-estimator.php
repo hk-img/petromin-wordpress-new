@@ -404,8 +404,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             <div id="cartContentSection" class="flex flex-col gap-y-6 bg-white p-6">
                                 <div id="vehicleDisplaySection" class="w-full flex flex-row justify-between bg-white border border-[#EFEFEF] p-6">
                                     <div class="flex flex-row gap-2">
-                                        <span class="bg-gradient-to-br from-[#CB122D] to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center">
-                                            <img src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" alt="<?php echo esc_attr(!empty($brand) ? $brand . ' Logo' : 'Vehicle'); ?>" class="size-[1.75rem]" width="28" height="28" />
+                                        <span id="vehicleDisplayImageSpan" class="bg-gradient-to-br from-[#CB122D] to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center group/model [&.active]:bg-white [&.active]:[background-image:none]">
+                                            <img id="vehicleDisplayImage" src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" alt="<?php echo esc_attr(!empty($brand) ? $brand . ' Logo' : 'Vehicle'); ?>" class="size-[1.75rem] group-[.active]/model:size-full group-[.active]/model:object-contain" width="28" height="28" />
                                         </span>
                                         <div class="flex flex-col gap-y-1">
                                             <div class="text-[#A6A6A6] uppercase text-xs font-semibold">Your Vehicle</div>
@@ -1102,6 +1102,35 @@ document.addEventListener('DOMContentLoaded', function() {
         return div.innerHTML;
     }
     
+    // Function to update vehicle display image
+    function updateVehicleDisplayImage(imageUrl) {
+        const defaultImage = '<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>';
+        const vehicleImage = document.getElementById('vehicleDisplayImage');
+        const vehicleImageSpan = document.getElementById('vehicleDisplayImageSpan');
+        
+        if (vehicleImage && vehicleImageSpan) {
+            // Check if image is from API (not default/empty)
+            const isApiImage = imageUrl && imageUrl.trim() !== '' && imageUrl !== '<?php echo esc_js($img_url . "car-brand.webp"); ?>' && imageUrl !== defaultImage;
+            
+            // Use the provided image URL or default if empty/invalid
+            const finalImageUrl = isApiImage ? imageUrl : defaultImage;
+            vehicleImage.src = finalImageUrl;
+            
+            // Add or remove 'active' class based on whether image is from API
+            if (isApiImage) {
+                vehicleImageSpan.classList.add('active');
+            } else {
+                vehicleImageSpan.classList.remove('active');
+            }
+            
+            vehicleImage.onerror = function() {
+                this.src = defaultImage;
+                // Remove active class if image fails to load
+                vehicleImageSpan.classList.remove('active');
+            };
+        }
+    }
+    
     // Function to fetch car models from API
     function fetchVehicleModels(carMake) {
         if (!carMake) {
@@ -1143,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const escapedModelName = escapeHtml(modelName);
                         const modelImage = model.car_model_image_url || '<?php echo esc_js($img_url . "car-brand.webp"); ?>';
                         html += `
-                            <div class="cursor-pointer text-center" data-value="${escapedModelName}">
+                            <div class="cursor-pointer text-center" data-value="${escapedModelName}" data-image="${escapeHtml(modelImage)}">
                                 <img src="${modelImage}" alt="${escapedModelName}" class="w-full h-24 object-cover mb-1 rounded" loading="lazy" fetchpriority="low" onerror="this.src='<?php echo esc_js($img_url . "car-brand.webp"); ?>';" />
                                 <p class="text-xs">${escapedModelName}</p>
                             </div>
@@ -1153,6 +1182,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelList.innerHTML = html;
                 modelInput.placeholder = 'Car Model';
                 setDropdownEnabled('vehicleModelInput', true);
+                
+                // If model is already selected from URL params, update the image
+                const currentModel = '<?php echo esc_js($model); ?>';
+                if (currentModel) {
+                    const modelItem = modelList.querySelector('[data-value="' + escapeHtml(currentModel) + '"]');
+                    if (modelItem) {
+                        const modelImage = modelItem.getAttribute('data-image');
+                        if (modelImage) {
+                            updateVehicleDisplayImage(modelImage);
+                        }
+                    }
+                }
             } else {
                 modelList.innerHTML = '<div class="col-span-2 text-center py-8"><p class="text-gray-500 text-sm">No models found</p></div>';
                 modelInput.placeholder = 'No models found';
@@ -1331,11 +1372,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Clear model and fuel when brand changes
                 $('#vehicleModelInput').value = '';
                 $('#vehicleFuelInput').value = '';
+                // Reset vehicle image to default when brand changes
+                updateVehicleDisplayImage('<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>');
             } else if (inputId === 'vehicleModelInput') {
                 const selectedBrand = $('#vehicleBrandInput').value;
                 fetchVehicleFuelTypes(selectedBrand, value);
                 // Clear fuel when model changes
                 $('#vehicleFuelInput').value = '';
+                // Update vehicle image when model is selected
+                const modelImage = clickedItem.getAttribute('data-image');
+                if (modelImage) {
+                    updateVehicleDisplayImage(modelImage);
+                } else {
+                    updateVehicleDisplayImage('<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>');
+                }
             }
             
             // Update button state after value change
@@ -1430,10 +1480,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Wait for models to load, then set model value
                     setTimeout(() => {
                         const modelInput = $('#vehicleModelInput');
-                        if (modelInput) {
+                        const modelList = $('#vehicleModelList');
+                        if (modelInput && modelList) {
                             modelInput.value = selectedModel;
                             modelInput.style.backgroundColor = '#fff';
                             modelInput.style.color = '#000';
+                            
+                            // Update vehicle image if model item exists
+                            const modelItem = modelList.querySelector('[data-value="' + escapeHtml(selectedModel) + '"]');
+                            if (modelItem) {
+                                const modelImage = modelItem.getAttribute('data-image');
+                                if (modelImage) {
+                                    updateVehicleDisplayImage(modelImage);
+                                }
+                            }
                             
                             // Fetch fuel types for the selected brand and model
                             fetchVehicleFuelTypes(selectedBrand, selectedModel);
@@ -2158,7 +2218,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const escapedModelName = escapeHtml(modelName);
                         const modelImage = model.car_model_image_url || '<?php echo esc_js($img_url . "car-brand.webp"); ?>';
                         html += `
-                            <div class="cursor-pointer text-center" data-value="${escapedModelName}">
+                            <div class="cursor-pointer text-center" data-value="${escapedModelName}" data-image="${escapeHtml(modelImage)}">
                                 <img src="${modelImage}" alt="${escapedModelName}" class="w-full h-24 object-cover mb-1 rounded" loading="lazy" fetchpriority="low" onerror="this.src='<?php echo esc_js($img_url . "car-brand.webp"); ?>';" />
                                 <p class="text-xs">${escapedModelName}</p>
                             </div>
@@ -2168,6 +2228,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelList.innerHTML = html;
                 modelInput.placeholder = 'Car Model';
                 setDropdownEnabled('mobileVehicleModelInput', true);
+                
+                // If model is already selected from URL params, update the image
+                const currentModel = '<?php echo esc_js($model); ?>';
+                if (currentModel) {
+                    const modelItem = modelList.querySelector('[data-value="' + escapeHtml(currentModel) + '"]');
+                    if (modelItem) {
+                        const modelImage = modelItem.getAttribute('data-image');
+                        if (modelImage) {
+                            updateVehicleDisplayImage(modelImage);
+                        }
+                    }
+                }
             } else {
                 modelList.innerHTML = '';
                 modelEmptyState.classList.remove('hidden');
@@ -2355,11 +2427,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 setDropdownEnabled('mobileVehicleFuelInput', false);
                 $('#mobileVehicleModelInput').value = '';
                 $('#mobileVehicleFuelInput').value = '';
+                // Reset vehicle image to default when brand changes
+                updateVehicleDisplayImage('<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>');
             } else if (inputId === 'mobileVehicleModelInput') {
                 const selectedBrand = $('#mobileVehicleBrandInput').value;
                 fetchMobileVehicleFuelTypes(selectedBrand, value);
                 setDropdownEnabled('mobileVehicleFuelInput', true);
                 $('#mobileVehicleFuelInput').value = '';
+                // Update vehicle image when model is selected
+                const modelImage = clickedItem.getAttribute('data-image');
+                if (modelImage) {
+                    updateVehicleDisplayImage(modelImage);
+                } else {
+                    updateVehicleDisplayImage('<?php echo esc_js($img_url . "carServiceIcon.webp"); ?>');
+                }
             }
             
             // Update mobile button state after value change
@@ -2474,10 +2555,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Wait for models to load, then set model value
                         setTimeout(() => {
                             const modelInput = $('#mobileVehicleModelInput');
-                            if (modelInput) {
+                            const modelList = $('#mobileVehicleModelList');
+                            if (modelInput && modelList) {
                                 modelInput.value = selectedModel;
                                 modelInput.style.backgroundColor = '#fff';
                                 modelInput.style.color = '#000';
+                                
+                                // Update vehicle image if model item exists
+                                const modelItem = modelList.querySelector('[data-value="' + escapeHtml(selectedModel) + '"]');
+                                if (modelItem) {
+                                    const modelImage = modelItem.getAttribute('data-image');
+                                    if (modelImage) {
+                                        updateVehicleDisplayImage(modelImage);
+                                    }
+                                }
                                 
                                 // Fetch fuel types for the selected brand and model
                                 fetchMobileVehicleFuelTypes(selectedBrand, selectedModel);
