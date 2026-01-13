@@ -1186,16 +1186,25 @@ body.verify-page.validation-passed {
         sendOTP();
     };
     
-    // Back button handler - redirect to previous page
+    // Back button handler - redirect to saved URL or cost-estimator page
     const backButton = document.getElementById('backButton');
     if (backButton) {
         backButton.addEventListener('click', function(e) {
             e.preventDefault();
-            // Use browser history to go back, or fallback to cost-estimator page
-            if (window.history.length > 1) {
-                window.history.back();
+            
+            // Try to get saved URL from sessionStorage
+            let redirectUrl = null;
+            try {
+                redirectUrl = sessionStorage.getItem('cost_estimator_previous_url');
+            } catch (e) {
+                console.error('Error reading URL from sessionStorage:', e);
+            }
+            
+            // If saved URL exists, use it; otherwise use base cost-estimator URL
+            if (redirectUrl && redirectUrl !== '') {
+                window.location.href = redirectUrl;
             } else {
-                // Fallback: redirect to cost-estimator page if no history
+                // Fallback: redirect to base cost-estimator page
                 const costEstimatorUrl = '<?php echo esc_js($cost_estimator_page_url); ?>';
                 if (costEstimatorUrl && costEstimatorUrl !== '') {
                     window.location.href = costEstimatorUrl;

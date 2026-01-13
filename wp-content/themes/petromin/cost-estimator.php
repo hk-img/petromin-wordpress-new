@@ -2448,6 +2448,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             desktopProceedToCheckoutBtn.disabled = true;
             
+            // Save current URL with query params to sessionStorage before redirecting
+            const currentUrl = window.location.href;
+            try {
+                sessionStorage.setItem('cost_estimator_previous_url', currentUrl);
+            } catch (e) {
+                console.error('Error saving URL to sessionStorage:', e);
+            }
+            
             // Redirect immediately after showing loader
             if (verifyPageUrl && verifyPageUrl !== '') {
                 window.location.href = verifyPageUrl;
@@ -2482,6 +2490,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileProceedToCheckoutBtnLoader.classList.remove('hidden');
             }
             mobileProceedToCheckoutBtn.disabled = true;
+            
+            // Save current URL with query params to sessionStorage before redirecting
+            const currentUrl = window.location.href;
+            try {
+                sessionStorage.setItem('cost_estimator_previous_url', currentUrl);
+            } catch (e) {
+                console.error('Error saving URL to sessionStorage:', e);
+            }
             
             // Redirect immediately after showing loader
             if (verifyPageUrl && verifyPageUrl !== '') {
