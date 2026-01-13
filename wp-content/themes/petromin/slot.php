@@ -382,11 +382,11 @@ body.slot-page.validation-passed {
                             </label>
                             <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4">
                                 <label for="morningTimeCheck1" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="selectTiming" id="morningTimeCheck1" class="hidden" checked>
-                                    <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">08:00 - 09:00 AM</div>
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck1" class="hidden">
+                                    <div class="text-sm font-medium text-[#AFAFAF] group-has-[:checked]/p:text-[#CB122D]">08:00 - 09:00 AM</div>
                                 </label>
-                                <label for="morningTimeCheck2" class="group/p md:rounded-none rounded-lg bg-[#F7F7F7] border border-[#EDEDED] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E] cursor-not-allowed">
-                                    <input type="radio" name="selectTiming" id="morningTimeCheck2" class="hidden" disabled>
+                                <label for="morningTimeCheck2" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck2" class="hidden">
                                     <div class="text-sm font-medium text-[#AFAFAF] group-has-[:checked]/p:text-[#CB122D]">09:00 - 10:00 AM</div>
                                 </label>
                                 <label for="morningTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
@@ -1072,6 +1072,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!window.__serviceDatePickerInitialized) {
         window.__serviceDatePickerInitialized = true;
 
+        // Define getCart and saveCart functions in this scope
+        const CART_STORAGE_KEY = 'cost_estimator_cart';
+        
+        function getCart() {
+            try {
+                const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+                if (cartData) {
+                    return JSON.parse(cartData);
+                }
+            } catch (e) {
+                console.error('Error loading cart:', e);
+            }
+            return { vehicle: {}, items: [] };
+        }
+        
+        function saveCart(cart) {
+            try {
+                sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            } catch (e) {
+                console.error('Error saving cart:', e);
+            }
+        }
+
         // Helper: Find first 2 Sundays for current shown month
         function getFirstTwoSundays(year, month) {
             // month: 0-indexed!
@@ -1091,7 +1114,195 @@ document.addEventListener('DOMContentLoaded', function() {
         // Find the input
         const serviceDateInput = document.getElementById('serviceDateInput');
         if (serviceDateInput && window.flatpickr) {
-            flatpickr(serviceDateInput, {
+            // Time slots configuration with their start times
+            const timeSlots = [
+                { id: 'morningTimeCheck1', startTime: '08:00', label: '08:00 - 09:00 AM' },
+                { id: 'morningTimeCheck2', startTime: '09:00', label: '09:00 - 10:00 AM' },
+                { id: 'morningTimeCheck3', startTime: '10:00', label: '10:00 - 11:00 AM' },
+                { id: 'morningTimeCheck4', startTime: '11:00', label: '11:00 AM - 12:00 PM' },
+                { id: 'afternoonTimeCheck1', startTime: '12:00', label: '12:00 - 01:00 PM' },
+                { id: 'afternoonTimeCheck2', startTime: '13:00', label: '01:00 - 02:00 PM' },
+                { id: 'afternoonTimeCheck3', startTime: '14:00', label: '02:00 - 03:00 PM' },
+                { id: 'afternoonTimeCheck4', startTime: '15:00', label: '03:00 - 04:00 PM' },
+                { id: 'eveningTimeCheck1', startTime: '16:00', label: '04:00 - 05:00 PM' },
+                { id: 'eveningTimeCheck2', startTime: '17:00', label: '05:00 - 06:00 PM' },
+                { id: 'eveningTimeCheck3', startTime: '18:00', label: '06:00 - 07:00 PM' }
+            ];
+
+            // Function to disable all time slots
+            function disableAllTimeSlots() {
+                timeSlots.forEach(slot => {
+                    const input = document.getElementById(slot.id);
+                    const label = input ? input.closest('label') : null;
+                    if (input && label) {
+                        input.disabled = true;
+                        label.classList.add('cursor-not-allowed');
+                        label.classList.remove('cursor-pointer');
+                        label.classList.add('bg-[#F7F7F7]');
+                        label.classList.remove('bg-white');
+                        label.classList.add('border-[#EDEDED]');
+                        label.classList.remove('border-[#E5E5E5]');
+                        const textDiv = label.querySelector('div');
+                        if (textDiv) {
+                            textDiv.classList.add('text-[#AFAFAF]');
+                            textDiv.classList.remove('text-[#2F2F2F]');
+                        }
+                    }
+                });
+            }
+
+            // Function to enable/disable time slots based on selected date
+            function updateTimeSlots(selectedDate) {
+                if (!selectedDate || selectedDate.length === 0) {
+                    disableAllTimeSlots();
+                    return;
+                }
+
+                const selected = selectedDate[0];
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const selectedDateOnly = new Date(selected);
+                selectedDateOnly.setHours(0,0,0,0);
+                
+                const isToday = selectedDateOnly.getTime() === today.getTime();
+                const currentTime = new Date();
+                const currentHour = currentTime.getHours();
+                const currentMinute = currentTime.getMinutes();
+                const currentTimeInMinutes = currentHour * 60 + currentMinute;
+
+                timeSlots.forEach(slot => {
+                    const input = document.getElementById(slot.id);
+                    const label = input ? input.closest('label') : null;
+                    if (!input || !label) return;
+
+                    // Parse slot start time
+                    const [hour, minute] = slot.startTime.split(':').map(Number);
+                    const slotTimeInMinutes = hour * 60 + (minute || 0);
+
+                    // Check if slot should be disabled
+                    let shouldDisable = false;
+                    if (isToday && slotTimeInMinutes <= currentTimeInMinutes) {
+                        shouldDisable = true;
+                    }
+
+                    if (shouldDisable) {
+                        input.disabled = true;
+                        label.classList.add('cursor-not-allowed');
+                        label.classList.remove('cursor-pointer');
+                        label.classList.add('bg-[#F7F7F7]');
+                        label.classList.remove('bg-white');
+                        label.classList.add('border-[#EDEDED]');
+                        label.classList.remove('border-[#E5E5E5]');
+                        const textDiv = label.querySelector('div');
+                        if (textDiv) {
+                            textDiv.classList.add('text-[#AFAFAF]');
+                            textDiv.classList.remove('text-[#2F2F2F]');
+                        }
+                    } else {
+                        input.disabled = false;
+                        label.classList.remove('cursor-not-allowed');
+                        label.classList.add('cursor-pointer');
+                        label.classList.remove('bg-[#F7F7F7]');
+                        label.classList.add('bg-white');
+                        label.classList.remove('border-[#EDEDED]');
+                        label.classList.add('border-[#E5E5E5]');
+                        const textDiv = label.querySelector('div');
+                        if (textDiv) {
+                            textDiv.classList.remove('text-[#AFAFAF]');
+                            textDiv.classList.add('text-[#2F2F2F]');
+                        }
+                    }
+                });
+            }
+
+            // Store flatpickr instance reference
+            let flatpickrInstanceRef = null;
+
+            // Function to save selected time slot to sessionStorage
+            function saveSelectedTimeSlot(slotId, slotLabel) {
+                try {
+                    let cart = getCart();
+                    
+                    // Ensure cart is an object
+                    if (!cart || typeof cart !== 'object') {
+                        cart = { vehicle: {}, items: [] };
+                    }
+                    
+                    // Get current selected date from flatpickr instance or input field
+                    let dateStr = '';
+                    
+                    if (flatpickrInstanceRef && flatpickrInstanceRef.selectedDates && flatpickrInstanceRef.selectedDates.length > 0) {
+                        const selectedDates = flatpickrInstanceRef.selectedDates;
+                        dateStr = flatpickrInstanceRef.formatDate(selectedDates[0], "d-m-Y");
+                    } else {
+                        // Fallback: get date from input field value
+                        dateStr = serviceDateInput.value;
+                    }
+                    
+                    // Save both date and time slot only if date is available
+                    if (dateStr) {
+                        cart.selected_date = dateStr; // Format: d-m-Y
+                        cart.selected_time_slot = slotLabel;
+                        saveCart(cart);
+                        console.log('Date and time slot saved to sessionStorage:', { 
+                            date: dateStr, 
+                            timeSlot: slotLabel
+                        });
+                    } else {
+                        console.warn('Cannot save time slot: No date selected. Please select a date first.');
+                    }
+                } catch (e) {
+                    console.error('Error saving time slot to sessionStorage:', e);
+                }
+            }
+
+            // Function to reset time slot selection
+            function resetTimeSlotSelection() {
+                try {
+                    // Uncheck all time slot radio buttons
+                    timeSlots.forEach(slot => {
+                        const input = document.getElementById(slot.id);
+                        if (input) {
+                            input.checked = false;
+                        }
+                    });
+                    
+                    // Remove time slot from sessionStorage
+                    const cart = getCart();
+                    delete cart.selected_time_slot;
+                    saveCart(cart);
+                } catch (e) {
+                    console.error('Error resetting time slot:', e);
+                }
+            }
+
+            // Add event listeners to all time slot radio buttons
+            timeSlots.forEach(slot => {
+                const input = document.getElementById(slot.id);
+                if (input) {
+                    input.addEventListener('change', function() {
+                        console.log('Time slot changed:', slot.id, 'Checked:', this.checked);
+                        if (this.checked) {
+                            // Get time slot text from the div inside the label
+                            const label = this.closest('label');
+                            const timeTextDiv = label ? label.querySelector('div.text-sm') : null;
+                            const timeSlotText = timeTextDiv ? timeTextDiv.textContent.trim() : slot.label;
+                            
+                            console.log('Saving time slot:', { slotId: slot.id, timeSlotText: timeSlotText });
+                            
+                            // Save both date and time slot
+                            saveSelectedTimeSlot(slot.id, timeSlotText);
+                        }
+                    });
+                } else {
+                    console.warn('Time slot input not found:', slot.id);
+                }
+            });
+
+            // Initially disable all time slots
+            disableAllTimeSlots();
+
+            flatpickrInstanceRef = flatpickr(serviceDateInput, {
                 dateFormat: "d-m-Y",
                 disable: [
                     function(date) {
@@ -1118,6 +1329,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 allowInput: false,
                 static: true,
                 monthSelectorType: "static",
+                onChange: function(selectedDates, dateStr, instance) {
+                    updateTimeSlots(selectedDates);
+                    
+                    // Reset time slot when date changes
+                    resetTimeSlotSelection();
+                    
+                    // Save selected date to sessionStorage
+                    if (selectedDates && selectedDates.length > 0) {
+                        try {
+                            const cart = getCart();
+                            cart.selected_date = dateStr; // Format: d-m-Y
+                            saveCart(cart);
+                        } catch (e) {
+                            console.error('Error saving date to sessionStorage:', e);
+                        }
+                    }
+                },
                 onOpen: function(selectedDates, dateStr, instance) {
                     setTimeout(function() {
                         // Add calendar icon highlight or whatever else UI needs
