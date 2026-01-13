@@ -5108,7 +5108,10 @@ function handle_send_otp() {
     
     if (is_wp_error($response)) {
         $error_message = $response->get_error_message();
-        wp_send_json_error(array('message' => 'Failed to connect to OTP service: ' . $error_message));
+        // Log technical error to error log (for debugging)
+        error_log('OTP Service Error: ' . $error_message);
+        // Send generic message to user
+        wp_send_json_error(array('message' => 'Failed to connect to OTP service. Please try again later.'));
         wp_die();
     }
     
@@ -5134,7 +5137,10 @@ function handle_send_otp() {
         } else {
             // Check for error in response
             $error_msg = isset($response_data['message']) ? $response_data['message'] : (isset($response_data['error']) ? $response_data['error'] : 'Failed to send OTP. Please try again.');
-            wp_send_json_error(array('message' => $error_msg));
+            // Log technical error to error log (for debugging)
+            error_log('OTP API Error Response: ' . json_encode($response_data));
+            // Send generic message to user
+            wp_send_json_error(array('message' => 'Failed to send OTP. Please try again.'));
             wp_die();
         }
     } else {
@@ -5147,7 +5153,10 @@ function handle_send_otp() {
         } elseif (!empty($response_body)) {
             $error_msg = 'Server error: ' . $response_body;
         }
-        wp_send_json_error(array('message' => $error_msg));
+        // Log technical error to error log (for debugging)
+        error_log('OTP API Error (HTTP ' . $response_code . '): ' . $error_msg);
+        // Send generic message to user
+        wp_send_json_error(array('message' => 'Failed to send OTP. Please try again.'));
         wp_die();
     }
 }

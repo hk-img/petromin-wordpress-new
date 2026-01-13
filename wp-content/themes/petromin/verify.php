@@ -961,7 +961,10 @@ body.verify-page.validation-passed {
                 }
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Failed to send OTP. Please try again.';
-                showMessage(errorMsg, true);
+                // Log technical error to console (for debugging)
+                console.error('OTP Send Error:', errorMsg);
+                // Show generic message to user
+                showMessage('Failed to send OTP. Please try again.', true);
                 // Reset loader and re-enable button on error
                 if (sendOtpBtnText) {
                     sendOtpBtnText.classList.remove('hidden');
@@ -973,8 +976,10 @@ body.verify-page.validation-passed {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showMessage('An error occurred. Please try again. Error: ' + error.message, true);
+            // Log technical error to console (for debugging)
+            console.error('OTP Send Network Error:', error);
+            // Show generic message to user
+            showMessage('An error occurred. Please try again.', true);
             // Reset loader and re-enable button on error
             if (sendOtpBtnText) {
                 sendOtpBtnText.classList.remove('hidden');
@@ -1109,37 +1114,33 @@ body.verify-page.validation-passed {
                     console.error('Error saving verified phone:', e);
                 }
                 
-                // Redirect to workstation page after short delay using replace to prevent back navigation
-                // COMMENTED OUT: Don't redirect for now so API response can be checked in console
-                // setTimeout(() => {
-                //     if (workstationUrl && workstationUrl !== '') {
-                //         // Use replace instead of href to prevent verify page from being in history
-                //         window.location.replace(workstationUrl);
-                //     } else {
-                //         console.error('Workstation page URL not found');
-                //         showMessage('Verification successful! Please continue.', false);
-                //         // Re-enable OTP input fields if redirect failed
-                //         otpInputs.forEach(function(input) {
-                //             input.disabled = false;
-                //         });
-                //         // Reset loader if redirect failed
-                //         if (verifyOtpBtnText) {
-                //             verifyOtpBtnText.classList.remove('hidden');
-                //         }
-                //         if (verifyOtpBtnLoader) {
-                //             verifyOtpBtnLoader.classList.add('hidden');
-                //         }
-                //         if (verifyOtpBtn) {
-                //             verifyOtpBtn.disabled = false;
-                //         }
-                //     }
-                // }, 1500);
-                
-                // Show success message instead of redirecting
-                showMessage('Verification successful! API response logged to console.', false);
+                // Redirect to workstation page immediately using replace to prevent back navigation
+                if (workstationUrl && workstationUrl !== '') {
+                    // Use replace instead of href to prevent verify page from being in history
+                    window.location.replace(workstationUrl);
+                } else {
+                    console.error('Workstation page URL not found');
+                    // Re-enable OTP input fields if redirect failed
+                    otpInputs.forEach(function(input) {
+                        input.disabled = false;
+                    });
+                    // Reset loader if redirect failed
+                    if (verifyOtpBtnText) {
+                        verifyOtpBtnText.classList.remove('hidden');
+                    }
+                    if (verifyOtpBtnLoader) {
+                        verifyOtpBtnLoader.classList.add('hidden');
+                    }
+                    if (verifyOtpBtn) {
+                        verifyOtpBtn.disabled = false;
+                    }
+                }
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
-                showMessage(errorMsg, true);
+                // Log technical error to console (for debugging)
+                console.error('OTP Verify Error:', errorMsg);
+                // Show generic message to user
+                showMessage('Invalid OTP. Please try again.', true);
                 // Only clear OTP inputs on error, not on success
                 clearOTPInputs();
                 // Re-enable OTP input fields on error
@@ -1162,8 +1163,10 @@ body.verify-page.validation-passed {
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            showMessage('An error occurred. Please try again. Error: ' + error.message, true);
+            // Log technical error to console (for debugging)
+            console.error('OTP Verify Network Error:', error);
+            // Show generic message to user
+            showMessage('An error occurred. Please try again.', true);
             // Re-enable OTP input fields on error
             otpInputs.forEach(function(input) {
                 input.disabled = false;
