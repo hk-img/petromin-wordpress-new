@@ -360,9 +360,9 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                             </div>
                                                         </div>
                                                         <p class="text-xs text-[#000000] font-normal flex items-center gap-2">
-                                                            <span>
+                                                            <span class="inline-flex>
                                                                 <img src="<?php echo esc_url($img_url . 'estimatedIcon.svg'); ?>" 
-                                                                    class="size-[0.875rem]" 
+                                                                    class="size-[0.875rem] shrink-0" 
                                                                     width="14" 
                                                                     height="14" 
                                                                     alt="Estimated Icon" />
@@ -1506,11 +1506,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // After models are loaded, pre-select model if available
                 if (selectedModel) {
-                    // Wait for models to load, then set model value
-                    setTimeout(() => {
+                    // Check if models are already loaded, otherwise wait for them
+                    const checkModelLoaded = () => {
                         const modelInput = $('#vehicleModelInput');
                         const modelList = $('#vehicleModelList');
-                        if (modelInput && modelList) {
+                        if (modelInput && modelList && modelList.querySelector('[data-value]')) {
                             modelInput.value = selectedModel;
                             modelInput.style.backgroundColor = '#fff';
                             modelInput.style.color = '#000';
@@ -1529,18 +1529,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             // After fuel types are loaded, pre-select fuel if available
                             if (selectedFuel) {
-                                setTimeout(() => {
+                                const checkFuelLoaded = () => {
                                     const fuelInput = $('#vehicleFuelInput');
-                                    if (fuelInput) {
+                                    const fuelList = $('#vehicleFuelList');
+                                    if (fuelInput && fuelList && fuelList.querySelector('[data-value]')) {
                                         fuelInput.value = selectedFuel;
                                         fuelInput.style.backgroundColor = '#fff';
                                         fuelInput.style.color = '#000';
                                         updateConfirmButtonState();
+                                    } else {
+                                        setTimeout(checkFuelLoaded, 100);
                                     }
-                                }, 800);
+                                };
+                                setTimeout(checkFuelLoaded, 100);
                             }
+                        } else {
+                            setTimeout(checkModelLoaded, 100);
                         }
-                    }, 800);
+                    };
+                    setTimeout(checkModelLoaded, 100);
                 }
             }
         }
@@ -1557,10 +1564,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php endif; ?>
     
     // Pre-select dropdowns from sessionStorage or URL parameters on page load
-    // Use setTimeout to ensure dropdowns are initialized first
-    setTimeout(function() {
-        preSelectVehicleDropdowns();
-    }, 500);
+    preSelectVehicleDropdowns();
     
     // Function to update button state based on dropdown selections
     function updateConfirmButtonState() {
@@ -2005,7 +2009,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="flex justify-between">
                                 <div class="flex gap-2">
                                     <div>
-                                        <img fetchpriority="low" loading="lazy" src="${serviceImage}" class="size-20 object-cover rounded-lg aspect-square" alt="${escapeHtml(serviceName)}" onerror="this.src='${imgUrl}car-brand.webp';" />
+                                        <img fetchpriority="low" loading="lazy" src="${serviceImage}" class="size-20 object-contain bg-gray-100 rounded-lg aspect-square" alt="${escapeHtml(serviceName)}" onerror="this.src='${imgUrl}car-brand.webp';" />
                                     </div>
                                     <div class="flex flex-col gap-2 justify-between">
                                         <div class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">${escapeHtml(serviceName)}</div>
@@ -2581,11 +2585,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // After models are loaded, pre-select model if available
                     if (selectedModel) {
-                        // Wait for models to load, then set model value
-                        setTimeout(() => {
+                        // Check if models are already loaded, otherwise wait for them
+                        const checkMobileModelLoaded = () => {
                             const modelInput = $('#mobileVehicleModelInput');
                             const modelList = $('#mobileVehicleModelList');
-                            if (modelInput && modelList) {
+                            if (modelInput && modelList && modelList.querySelector('[data-value]')) {
                                 modelInput.value = selectedModel;
                                 modelInput.style.backgroundColor = '#fff';
                                 modelInput.style.color = '#000';
@@ -2604,18 +2608,25 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
                                 // After fuel types are loaded, pre-select fuel if available
                                 if (selectedFuel) {
-                                    setTimeout(() => {
+                                    const checkMobileFuelLoaded = () => {
                                         const fuelInput = $('#mobileVehicleFuelInput');
-                                        if (fuelInput) {
+                                        const fuelList = $('#mobileVehicleFuelList');
+                                        if (fuelInput && fuelList && fuelList.querySelector('[data-value]')) {
                                             fuelInput.value = selectedFuel;
                                             fuelInput.style.backgroundColor = '#fff';
                                             fuelInput.style.color = '#000';
                                             updateMobileConfirmButtonState();
+                                        } else {
+                                            setTimeout(checkMobileFuelLoaded, 100);
                                         }
-                                    }, 800);
+                                    };
+                                    setTimeout(checkMobileFuelLoaded, 100);
                                 }
+                            } else {
+                                setTimeout(checkMobileModelLoaded, 100);
                             }
-                        }, 800);
+                        };
+                        setTimeout(checkMobileModelLoaded, 100);
                     }
                 }
             }
@@ -2632,15 +2643,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <?php endif; ?>
         
         // Pre-select mobile dropdowns from sessionStorage or URL parameters on page load
-        setTimeout(function() {
-            preSelectMobileVehicleDropdowns();
-        }, 500);
+        preSelectMobileVehicleDropdowns();
         
         // Update button state after dropdowns are initialized
-        // Use setTimeout to ensure fetch functions have completed if they were called
-        setTimeout(function() {
-            updateMobileConfirmButtonState();
-        }, 1500);
+        updateMobileConfirmButtonState();
     }
     
     // Function to update mobile button state based on dropdown selections (must be defined before initializeMobileVehicleDropdowns)
@@ -2702,11 +2708,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileVehicleFormModal.classList.add('hidden');
             }
             
-            // Small delay to show loader, then redirect
-            setTimeout(function() {
-                const redirectUrl = currentUrl + '?' + params.toString();
-                window.location.href = redirectUrl;
-            }, 300);
+            // Redirect immediately
+            const redirectUrl = currentUrl + '?' + params.toString();
+            window.location.href = redirectUrl;
         });
     }
     

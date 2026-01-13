@@ -237,7 +237,7 @@ body.workstation-page.validation-passed {
 </header>
 
 <div class="view border-y z-30 border-[#E5E5E5] py-6 md:hidden block md:relative sticky top-0 inset-x-0 bg-white">
-    <a href="" class="flex items-center gap-4 uppercase text-[#121212] text-lg font-medium">
+    <a href="" id="changeMobileNumberBtn" class="flex items-center gap-4 uppercase text-[#121212] text-lg font-medium">
         <span>
             <img src="<?php echo $img_url; ?>back-arrow.svg" alt="back arrow" class="w-[9px] h-[15px]" />
         </span>

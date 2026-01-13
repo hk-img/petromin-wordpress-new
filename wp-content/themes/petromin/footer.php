@@ -356,7 +356,7 @@ if (!empty($cost_estimator_pages)) {
 }
 ?>
 <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page) : ?>
-<footer class="w-full bg-black relative text-white font-inter lg:py-8 py-4 z-10">
+<footer class="w-full bg-black relative text-white font-inter lg:py-8 py-4 z-10 overflow-x-hidden">
     <div class="py-12 relative view !pl-0">
         <div class="flex flex-col md:flex-row gap-12">
             <div class="md:w-3/5 w-full flex flex-col gap-8">
