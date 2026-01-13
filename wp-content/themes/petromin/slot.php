@@ -382,19 +382,19 @@ body.slot-page.validation-passed {
                             </label>
                             <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4">
                                 <label for="morningTimeCheck1" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="morningTime" id="morningTimeCheck1" class="hidden" checked>
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck1" class="hidden" checked>
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">08:00 - 09:00 AM</div>
                                 </label>
-                                <label for="morningTimeCheck2" class="group/p md:rounded-none rounded-lg bg-[#F7F7F7] cursor-pointer border border-[#EDEDED] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="morningTime" id="morningTimeCheck2" class="hidden">
+                                <label for="morningTimeCheck2" class="group/p md:rounded-none rounded-lg bg-[#F7F7F7] border border-[#EDEDED] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E] cursor-not-allowed">
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck2" class="hidden" disabled>
                                     <div class="text-sm font-medium text-[#AFAFAF] group-has-[:checked]/p:text-[#CB122D]">09:00 - 10:00 AM</div>
                                 </label>
-                                <label for="morningTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="morningTime" id="morningTimeCheck3" class="hidden">
+                                <label for="morningTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck3" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">10:00 - 11:00 AM</div>
                                 </label>
-                                <label for="morningTimeCheck4" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="morningTime" id="morningTimeCheck4" class="hidden">
+                                <label for="morningTimeCheck4" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="morningTimeCheck4" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">11:00 AM - 12:00 PM</div>
                                 </label>
                             </div>
@@ -443,19 +443,19 @@ body.slot-page.validation-passed {
                             </label>
                             <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4 group/timeCheck">
                                 <label for="afternoonTimeCheck1" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="afternoonTime" id="afternoonTimeCheck1" class="hidden" checked>
+                                    <input type="radio" name="selectTiming" id="afternoonTimeCheck1" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">12:00 - 01:00 PM</div>
                                 </label>
                                 <label for="afternoonTimeCheck2" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="afternoonTime" id="afternoonTimeCheck2" class="hidden">
+                                    <input type="radio" name="selectTiming" id="afternoonTimeCheck2" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">01:00 - 02:00 PM</div>
                                 </label>
-                                <label for="afternoonTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="afternoonTime" id="afternoonTimeCheck3" class="hidden">
+                                <label for="afternoonTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="afternoonTimeCheck3" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">02:00 - 03:00 PM</div>
                                 </label>
-                                <label for="afternoonTimeCheck4" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="afternoonTime" id="afternoonTimeCheck4" class="hidden">
+                                <label for="afternoonTimeCheck4" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="afternoonTimeCheck4" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">03:00 - 04:00 PM</div>
                                 </label>
                             </div>
@@ -502,15 +502,15 @@ body.slot-page.validation-passed {
                             </label>
                             <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-4 group/timeCheck">
                                 <label for="eveningTimeCheck1" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="eveningTime" id="eveningTimeCheck1" class="hidden" checked>
+                                    <input type="radio" name="selectTiming" id="eveningTimeCheck1" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">04:00 - 05:00 PM</div>
                                 </label>
                                 <label for="eveningTimeCheck2" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="eveningTime" id="eveningTimeCheck2" class="hidden">
+                                    <input type="radio" name="selectTiming" id="eveningTimeCheck2" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">05:00 - 06:00 PM</div>
                                 </label>
-                                <label for="eveningTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="eveningTime" id="eveningTimeCheck3" class="hidden">
+                                <label for="eveningTimeCheck3" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[2.688rem] flex flex-col justify-center items-center has-[:checked]:bg-[#FFF0F0] has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
+                                    <input type="radio" name="selectTiming" id="eveningTimeCheck3" class="hidden">
                                     <div class="text-sm font-medium text-[#2F2F2F] group-has-[:checked]/p:text-[#CB122D]">06:00 - 07:00 PM</div>
                                 </label>
                             </div>
