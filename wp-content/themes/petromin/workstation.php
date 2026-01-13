@@ -866,44 +866,41 @@ body.workstation-page.validation-passed {
                         const nameElement = label.querySelector('h3');
                         const displayName = nameElement ? nameElement.textContent.trim() : centerName;
                         
-                        // Small delay to ensure loader is visible
-                        setTimeout(function() {
-                            // Get cart from sessionStorage
-                            let cart = getCart();
-                            if (!cart) {
-                                cart = { vehicle: {}, items: [] };
+                        // Get cart from sessionStorage
+                        let cart = getCart();
+                        if (!cart) {
+                            cart = { vehicle: {}, items: [] };
+                        }
+                        
+                        // Save selected service center to cart
+                        cart.service_center = {
+                            name: displayName,
+                            city: centerCity,
+                            lat: centerLat,
+                            lng: centerLng
+                        };
+                        
+                        // Save to sessionStorage
+                        saveCart(cart);
+                        
+                        // Update mobile location display immediately
+                        updateMobileLocation(displayName, centerCity);
+                        
+                        // Redirect to slot page immediately using replace to prevent back navigation
+                        if (slotPageUrl && slotPageUrl !== '') {
+                            window.location.replace(slotPageUrl);
+                        } else {
+                            console.error('Slot page URL not found');
+                            // Hide loader if redirect fails
+                            if (loaderOverlay) {
+                                loaderOverlay.classList.add('hidden');
                             }
-                            
-                            // Save selected service center to cart
-                            cart.service_center = {
-                                name: displayName,
-                                city: centerCity,
-                                lat: centerLat,
-                                lng: centerLng
-                            };
-                            
-                            // Save to sessionStorage
-                            saveCart(cart);
-                            
-                            // Update mobile location display immediately
-                            updateMobileLocation(displayName, centerCity);
-                            
-                            // Redirect to slot page using replace to prevent back navigation
-                            if (slotPageUrl && slotPageUrl !== '') {
-                                window.location.replace(slotPageUrl);
-                            } else {
-                                console.error('Slot page URL not found');
-                                // Hide loader if redirect fails
-                                if (loaderOverlay) {
-                                    loaderOverlay.classList.add('hidden');
-                                }
-                                // Re-enable pointer events
-                                allServiceItems.forEach(function(item) {
-                                    item.style.pointerEvents = '';
-                                    item.style.cursor = '';
-                                });
-                            }
-                        }, 100); // Small delay to show loader
+                            // Re-enable pointer events
+                            allServiceItems.forEach(function(item) {
+                                item.style.pointerEvents = '';
+                                item.style.cursor = '';
+                            });
+                        }
                     }
                 }
             });
@@ -1307,10 +1304,8 @@ body.workstation-page.validation-passed {
                 // Hide any visible "Get Distance" buttons
                 hideGetDistanceButtons();
                 
-                // Wait a bit to ensure DOM is ready and city filter has run
-                setTimeout(function() {
-                    updateDistances(userLat, userLng);
-                }, 500);
+                // Update distances immediately
+                updateDistances(userLat, userLng);
             },
             function(error) {
                 // Error callback - handle all error cases (This is from button click)
@@ -1324,10 +1319,8 @@ body.workstation-page.validation-passed {
                     // This is called from button click, so show warning only if permanently blocked
                     isPermissionPermanentlyBlocked().then(function(isBlocked) {
                         if (isBlocked) {
-                            // Permission is permanently blocked - show warning message
-                            setTimeout(function() {
-                                showPermissionBlockedMessage();
-                            }, 500);
+                            // Permission is permanently blocked - show warning message immediately
+                            showPermissionBlockedMessage();
                         } else {
                             // Permission is just denied but not permanently blocked
                             // Hide any previously shown warning
@@ -1361,11 +1354,8 @@ body.workstation-page.validation-passed {
                     }
                 });
                 
-                // Small delay to ensure DOM is updated before showing buttons
-                setTimeout(function() {
-                    // Show "Get Distance" buttons for all error cases
-                    showGetDistanceButtons();
-                }, 100);
+                // Show "Get Distance" buttons immediately for all error cases
+                showGetDistanceButtons();
             },
             {
                 enableHighAccuracy: true,
@@ -1432,10 +1422,8 @@ body.workstation-page.validation-passed {
                 // Hide any visible "Get Distance" buttons
                 hideGetDistanceButtons();
                 
-                // Wait a bit to ensure DOM is ready and city filter has run
-                setTimeout(function() {
-                    updateDistances(userLat, userLng);
-                }, 500);
+                // Update distances immediately
+                updateDistances(userLat, userLng);
             },
             function(error) {
                 // Error callback (for page load - don't show warning here, only on button click)
@@ -1457,11 +1445,8 @@ body.workstation-page.validation-passed {
                     }
                 });
                 
-                // Small delay to ensure DOM is updated before showing buttons
-                setTimeout(function() {
-                    // Show "Get Distance" buttons for all error cases
-                    showGetDistanceButtons();
-                }, 100);
+                // Show "Get Distance" buttons immediately for all error cases
+                showGetDistanceButtons();
             },
             {
                 enableHighAccuracy: true,
@@ -1744,14 +1729,13 @@ body.workstation-page.validation-passed {
         }
     }
     
-    // Wait for page to fully load and then scroll
-    // Small delay to ensure all content is rendered (including validation, distance calculation, etc.)
+    // Scroll to service center section when page is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(scrollToServiceCenterSection, 1000);
+            scrollToServiceCenterSection();
         });
     } else {
-        setTimeout(scrollToServiceCenterSection, 1000);
+        scrollToServiceCenterSection();
     }
 })();
 </script>
