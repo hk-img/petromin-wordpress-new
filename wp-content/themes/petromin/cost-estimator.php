@@ -1382,6 +1382,81 @@ document.addEventListener('DOMContentLoaded', function() {
         enabled: <?php echo (!empty($brand) && !empty($model)) ? 'true' : 'false'; ?>
     });
     
+    // Function to pre-select dropdowns from sessionStorage or URL parameters
+    function preSelectVehicleDropdowns() {
+        // First check sessionStorage
+        let selectedBrand = '';
+        let selectedModel = '';
+        let selectedFuel = '';
+        
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                const cart = JSON.parse(cartData);
+                if (cart.vehicle) {
+                    selectedBrand = cart.vehicle.brand || '';
+                    selectedModel = cart.vehicle.model || '';
+                    selectedFuel = cart.vehicle.fuel || '';
+                }
+            }
+        } catch (e) {
+            console.error('Error reading sessionStorage:', e);
+        }
+        
+        // Fallback to URL parameters if sessionStorage doesn't have data
+        if (!selectedBrand) {
+            selectedBrand = '<?php echo esc_js($brand); ?>';
+        }
+        if (!selectedModel) {
+            selectedModel = '<?php echo esc_js($model); ?>';
+        }
+        if (!selectedFuel) {
+            selectedFuel = '<?php echo esc_js($fuel); ?>';
+        }
+        
+        // Pre-select brand if available
+        if (selectedBrand) {
+            const brandInput = $('#vehicleBrandInput');
+            if (brandInput) {
+                brandInput.value = selectedBrand;
+                brandInput.style.backgroundColor = '#fff';
+                brandInput.style.color = '#000';
+                
+                // Fetch models for the selected brand
+                fetchVehicleModels(selectedBrand);
+                
+                // After models are loaded, pre-select model if available
+                if (selectedModel) {
+                    // Wait for models to load, then set model value
+                    setTimeout(() => {
+                        const modelInput = $('#vehicleModelInput');
+                        if (modelInput) {
+                            modelInput.value = selectedModel;
+                            modelInput.style.backgroundColor = '#fff';
+                            modelInput.style.color = '#000';
+                            
+                            // Fetch fuel types for the selected brand and model
+                            fetchVehicleFuelTypes(selectedBrand, selectedModel);
+                            
+                            // After fuel types are loaded, pre-select fuel if available
+                            if (selectedFuel) {
+                                setTimeout(() => {
+                                    const fuelInput = $('#vehicleFuelInput');
+                                    if (fuelInput) {
+                                        fuelInput.value = selectedFuel;
+                                        fuelInput.style.backgroundColor = '#fff';
+                                        fuelInput.style.color = '#000';
+                                        updateConfirmButtonState();
+                                    }
+                                }, 800);
+                            }
+                        }
+                    }, 800);
+                }
+            }
+        }
+    }
+    
     // If brand is already selected, fetch models
     <?php if (!empty($brand)) : ?>
         fetchVehicleModels('<?php echo esc_js($brand); ?>');
@@ -1391,6 +1466,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php if (!empty($brand) && !empty($model)) : ?>
         fetchVehicleFuelTypes('<?php echo esc_js($brand); ?>', '<?php echo esc_js($model); ?>');
     <?php endif; ?>
+    
+    // Pre-select dropdowns from sessionStorage or URL parameters on page load
+    // Use setTimeout to ensure dropdowns are initialized first
+    setTimeout(function() {
+        preSelectVehicleDropdowns();
+    }, 500);
     
     // Function to update button state based on dropdown selections
     function updateConfirmButtonState() {
@@ -2345,6 +2426,81 @@ document.addEventListener('DOMContentLoaded', function() {
             enabled: <?php echo (!empty($brand) && !empty($model)) ? 'true' : 'false'; ?>
         });
         
+        // Function to pre-select mobile dropdowns from sessionStorage or URL parameters
+        function preSelectMobileVehicleDropdowns() {
+            // First check sessionStorage
+            let selectedBrand = '';
+            let selectedModel = '';
+            let selectedFuel = '';
+            
+            try {
+                const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+                if (cartData) {
+                    const cart = JSON.parse(cartData);
+                    if (cart.vehicle) {
+                        selectedBrand = cart.vehicle.brand || '';
+                        selectedModel = cart.vehicle.model || '';
+                        selectedFuel = cart.vehicle.fuel || '';
+                    }
+                }
+            } catch (e) {
+                console.error('Error reading sessionStorage:', e);
+            }
+            
+            // Fallback to URL parameters if sessionStorage doesn't have data
+            if (!selectedBrand) {
+                selectedBrand = '<?php echo esc_js($brand); ?>';
+            }
+            if (!selectedModel) {
+                selectedModel = '<?php echo esc_js($model); ?>';
+            }
+            if (!selectedFuel) {
+                selectedFuel = '<?php echo esc_js($fuel); ?>';
+            }
+            
+            // Pre-select brand if available
+            if (selectedBrand) {
+                const brandInput = $('#mobileVehicleBrandInput');
+                if (brandInput) {
+                    brandInput.value = selectedBrand;
+                    brandInput.style.backgroundColor = '#fff';
+                    brandInput.style.color = '#000';
+                    
+                    // Fetch models for the selected brand
+                    fetchMobileVehicleModels(selectedBrand);
+                    
+                    // After models are loaded, pre-select model if available
+                    if (selectedModel) {
+                        // Wait for models to load, then set model value
+                        setTimeout(() => {
+                            const modelInput = $('#mobileVehicleModelInput');
+                            if (modelInput) {
+                                modelInput.value = selectedModel;
+                                modelInput.style.backgroundColor = '#fff';
+                                modelInput.style.color = '#000';
+                                
+                                // Fetch fuel types for the selected brand and model
+                                fetchMobileVehicleFuelTypes(selectedBrand, selectedModel);
+                                
+                                // After fuel types are loaded, pre-select fuel if available
+                                if (selectedFuel) {
+                                    setTimeout(() => {
+                                        const fuelInput = $('#mobileVehicleFuelInput');
+                                        if (fuelInput) {
+                                            fuelInput.value = selectedFuel;
+                                            fuelInput.style.backgroundColor = '#fff';
+                                            fuelInput.style.color = '#000';
+                                            updateMobileConfirmButtonState();
+                                        }
+                                    }, 800);
+                                }
+                            }
+                        }, 800);
+                    }
+                }
+            }
+        }
+        
         // If brand is already selected, fetch models
         <?php if (!empty($brand)) : ?>
             fetchMobileVehicleModels('<?php echo esc_js($brand); ?>');
@@ -2355,11 +2511,16 @@ document.addEventListener('DOMContentLoaded', function() {
             fetchMobileVehicleFuelTypes('<?php echo esc_js($brand); ?>', '<?php echo esc_js($model); ?>');
         <?php endif; ?>
         
+        // Pre-select mobile dropdowns from sessionStorage or URL parameters on page load
+        setTimeout(function() {
+            preSelectMobileVehicleDropdowns();
+        }, 500);
+        
         // Update button state after dropdowns are initialized
         // Use setTimeout to ensure fetch functions have completed if they were called
         setTimeout(function() {
             updateMobileConfirmButtonState();
-        }, 500);
+        }, 1500);
     }
     
     // Function to update mobile button state based on dropdown selections (must be defined before initializeMobileVehicleDropdowns)
