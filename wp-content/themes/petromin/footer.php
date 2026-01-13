@@ -2218,6 +2218,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <!-- Fancybox JS -->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5/dist/fancybox/fancybox.umd.js"></script>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 Fancybox.bind('a[data-fancybox]', {
     on: {

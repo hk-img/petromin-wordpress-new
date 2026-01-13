@@ -306,43 +306,40 @@ body.slot-page.validation-passed {
                         </div>
                         <div class="w-full flex flex-col gap-3">
                             <label for="" class="block text-sm font-bold text-[#2F2F2F]">Select Date</label>
-                            <div class="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 gap-4 group/dateSelect">
-                                <label for="dateCheck1" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[4.188rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="date" id="dateCheck1" class="hidden" checked>
-                                    <div class="flex flex-col gap-1 justify-center items-center">
-                                        <div class="md:text-xl text-lg font-bold text-[#2F2F2F]">21</div>
-                                        <div class="text-[#6B6B6B] font-medium text-xs">FRI</div>
-                                    </div>
-                                </label>
-                                <label for="dateCheck2" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[4.188rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="date" id="dateCheck2" class="hidden">
-                                    <div class="flex flex-col gap-1 justify-center items-center">
-                                        <div class="md:text-xl text-lg font-bold text-[#2F2F2F]">22</div>
-                                        <div class="text-[#6B6B6B] font-medium text-xs">FRI</div>
-                                    </div>
-                                </label>
-                                <label for="dateCheck3" class="group/p md:rounded-none rounded-lg bg-[#F3F3F3] cursor-pointer border border-[#E5E5E5] w-full h-[4.188rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="date" id="dateCheck3" class="hidden">
-                                    <div class="flex flex-col gap-1 justify-center items-center">
-                                        <div class="md:text-xl text-lg font-bold text-[#2F2F2F]">23</div>
-                                        <div class="text-[#6B6B6B] font-medium text-xs">SUN</div>
-                                    </div>
-                                </label>
-                                <label for="dateCheck4" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[4.188rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="date" id="dateCheck4" class="hidden">
-                                    <div class="flex flex-col gap-1 justify-center items-center">
-                                        <div class="md:text-xl text-lg font-bold text-[#2F2F2F]">24</div>
-                                        <div class="text-[#6B6B6B] font-medium text-xs">MON</div>
-                                    </div>
-                                </label>
-                                <label for="dateCheck5" class="group/p md:rounded-none rounded-lg bg-white cursor-pointer border border-[#E5E5E5] w-full h-[4.188rem] flex flex-col justify-center items-center has-[:checked]:border-[#C8102E] has-[:checked]:shadow-[0_0_0_1_#C8102E]">
-                                    <input type="radio" name="date" id="dateCheck5" class="hidden">
-                                    <div class="flex flex-col gap-1 justify-center items-center">
-                                        <div class="md:text-xl text-lg font-bold text-[#2F2F2F]">25</div>
-                                        <div class="text-[#6B6B6B] font-medium text-xs">TUE</div>
-                                    </div>
-                                </label>
-                            </div>
+                        <!-- Date Picker Input Field -->
+                        <div class="relative w-full [&_.flatpickr-wrapper]:w-full [&_.flatpickr-calendar]:w-full [&_.flatpickr-calendar]:top-[calc(100%_+_12px)] [&_.flatpickr-calendar]:rounded-none [&_.flatpickr-calendar]:p-6 [&_.flatpickr-calendar]:before:hidden [&_.flatpickr-calendar]:after:hidden [&_.flatpickr-month]:order-first [&_.flatpickr-month]:w-auto [&_.flatpickr-current-month]:pt-0 [&_.flatpickr-current-month]:w-auto [&_.flatpickr-current-month]:left-0 [&_.cur-month]:!ml-0 [&_.cur-month]:!bg-white [&_.cur-month]:text-[#2F2F2F] [&_.cur-month]:md:text-lg [&_.cur-month]:text-base [&_.cur-month]:font-bold [&_.numInputWrapper]:bg-white [&_.numInput.cur-year]:text-[#2F2F2F] [&_.numInput.cur-year]:md:text-lg [&_.numInput.cur-year]:text-base [&_.numInput.cur-year]:font-bold [&_.numInputWrapper_.arrowUp]:border-[#000000] [&_.numInputWrapper_.arrowUp]:opacity-100 [&_.numInputWrapper_.arrowUp]:border-none [&_.numInputWrapper_.arrowDown]:border-[#000000] [&_.numInputWrapper_.arrowDown]:opacity-100 [&_.numInputWrapper_.arrowDown]:border-none [&_.flatpickr-prev-month]:relative [&_.flatpickr-next-month]:relative [&_.flatpickr-innerContainer_.flatpickr-rContainer]:w-full [&_.flatpickr-innerContainer_.flatpickr-rContainer_.flatpickr-days]:w-full [&_.flatpickr-rContainer_.dayContainer]:w-full [&_.flatpickr-rContainer_.dayContainer]:gap-1.5 [&_.flatpickr-rContainer_.dayContainer]:max-w-full [&_.dayContainer_.flatpickr-day]:max-w-full [&_.dayContainer_.flatpickr-day]:w-[16%] [&_.dayContainer_.flatpickr-day]:!flex-none [&_.dayContainer_.flatpickr-day]:rounded-none [&_.dayContainer_.flatpickr-day]:bg-[#F8F8F8] [&_.dayContainer_.flatpickr-day.today]:border-[#C8102E] [&_.dayContainer_.flatpickr-day.today]:bg-[#FFF0F0] [&_.dayContainer_.flatpickr-day.today]:!text-[#C8102E] [&_.dayContainer_.flatpickr-day.selected]:!bg-[#C8102E] [&_.dayContainer_.flatpickr-day.selected]:!text-white [&_.dayContainer_.flatpickr-day.selected]:!border-[#C8102E]" id="serviceDatePickerWrapper">
+                            <label for="serviceDateInput" class="sr-only">Choose a date for your service</label>
+                            <input
+                                type="text"
+                                id="serviceDateInput"
+                                name="serviceDateInput"
+                                class="w-full h-[3.25rem] calendar-input placeholder:text-[#AFAFAF] sm:text-sm text-xs font-normal text-[#2F2F2F] ring-1 ring-inset ring-[#E5E5E5] focus:ring-2 focus:ring-[#2F2F2F] outline-none border-none pl-12"
+                                placeholder="Choose a date for your service"
+                                readonly
+                                autocomplete="off"
+                            />
+                            <!-- Calendar Icon, visually similar to your screenshot -->
+                            <span class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_4810_1110)">
+                                        <path d="M6.66504 0.713623V4.0461" stroke="#AFAFAF" stroke-width="1.66624"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M13.3301 0.713623V4.0461" stroke="#AFAFAF" stroke-width="1.66624"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                        <path
+                                        d="M15.8289 2.37988H4.16526C3.24502 2.37988 2.49902 3.12588 2.49902 4.04612V15.7098C2.49902 16.63 3.24502 17.376 4.16526 17.376H15.8289C16.7492 17.376 17.4952 16.63 17.4952 15.7098V4.04612C17.4952 3.12588 16.7492 2.37988 15.8289 2.37988Z"
+                                        stroke="#AFAFAF" stroke-width="1.66624" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M2.49902 7.37866H17.4952" stroke="#AFAFAF" stroke-width="1.66624"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_4810_1110">
+                                        <rect width="19.9949" height="19.9949" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </span>
+                        </div>
                         </div>
                         <div class="w-full flex flex-col gap-3">
                             <label for="" class="flex items-center gap-2 text-sm font-bold text-[#2F2F2F] ">
@@ -1067,6 +1064,69 @@ body.slot-page.validation-passed {
         setTimeout(scrollToDateTimeSection, 500);
     }
 })();
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Only init if not already done
+    if (!window.__serviceDatePickerInitialized) {
+        window.__serviceDatePickerInitialized = true;
+
+        // Helper: Find first 2 Sundays for current shown month
+        function getFirstTwoSundays(year, month) {
+            // month: 0-indexed!
+            let firstSundays = [];
+            for (let d = 1; d <= 31 && firstSundays.length < 2; d++) {
+                let date = new Date(year, month, d);
+                if (date.getMonth() !== month) break;
+                if (date.getDay() === 0) { // 0 = Sunday
+                    firstSundays.push(date);
+                }
+            }
+            return firstSundays.map(dt =>
+                dt.toISOString().slice(0,10)
+            );
+        }
+
+        // Find the input
+        const serviceDateInput = document.getElementById('serviceDateInput');
+        if (serviceDateInput && window.flatpickr) {
+            flatpickr(serviceDateInput, {
+                dateFormat: "d-m-Y",
+                disable: [
+                    function(date) {
+                        const today = new Date();
+                        today.setHours(0,0,0,0);
+                        // Normalize the date parameter to compare only date part
+                        const dateToCheck = new Date(date);
+                        dateToCheck.setHours(0,0,0,0);
+                        // Disable all dates < today (past dates only, today is allowed)
+                        if (dateToCheck < today) return true;
+
+                        // Disable first 2 Sundays
+                        // For each month, compute first 2 Sundays:
+                        const year = date.getFullYear();
+                        const month = date.getMonth();
+                        const currentMonthSundays = getFirstTwoSundays(year, month);
+                        const dateISO = date.toISOString().slice(0,10);
+                        if (currentMonthSundays.includes(dateISO)) return true;
+
+                        return false; // everything else enabled
+                    }
+                ],
+                minDate: "today", // allow today and future dates
+                allowInput: false,
+                static: true,
+                monthSelectorType: "static",
+                onOpen: function(selectedDates, dateStr, instance) {
+                    setTimeout(function() {
+                        // Add calendar icon highlight or whatever else UI needs
+                    }, 0);
+                }
+            });
+        }
+    }
+});
 </script>
 
 <?php get_footer(); ?>
