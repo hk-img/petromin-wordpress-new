@@ -116,11 +116,11 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
 
 ?>
 
-<section class="bg-white md:py-20 py-20">
+<section class="bg-white md:py-20 py-16 max-md:overflow-hidden">
     <div class="w-full flex flex-col gap-y-6">
         <div class="w-full group/services">
-            <div class="max-md:pb-3 border-b border-[#E5E7EB]">
-                <div class="view w-full flex whitespace-nowrap max-md:overflow-x-auto">
+            <div class="md:border-b md:border-[#E5E7EB] max-md:shadow-[0px_2px_4px_-2px_#0000001A,0px_4px_6px_-1px_#0000001A]">
+                <div class="view w-full flex whitespace-nowrap max-md:overflow-x-auto max-md:gap-5">
                     <?php 
                     if (!empty($service_categories)) {
                         $first_category = true;
@@ -131,7 +131,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             $category_slug = get_category_slug($category_name);
                             $category_id = $category_slug . 'Service';
                             ?>
-                            <label for="<?php echo esc_attr($category_id); ?>" class="group/serviceTab cursor-pointer py-4 px-10 flex flex-col items-center gap-3 justify-center text-sm font-medium border-b-4 border-transparent has-[:checked]:border-[#980D22] has-[:checked]:font-bold has-[:checked]:text-[#CB122D]">
+                            <label for="<?php echo esc_attr($category_id); ?>" class="group/serviceTab cursor-pointer md:py-4 py-2 md:px-10 px-2 flex flex-col items-center md:gap-3 gap-1 justify-center text-sm font-medium border-b-4 border-transparent has-[:checked]:border-[#980D22] has-[:checked]:font-bold has-[:checked]:text-[#CB122D]">
                                 <input type="radio" name="services" id="<?php echo esc_attr($category_id); ?>" class="hidden" <?php echo $first_category ? 'checked' : ''; ?> />
                                 <span class="bg-gradient-to-br from-[#F3F4F6] to-[#F3F4F6] group-has-[:checked]/serviceTab:from-[#CB122D] group-has-[:checked]/serviceTab:to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center">
                                     <img src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" class="brightness-[0.4] group-has-[:checked]/serviceTab:brightness-[1] size-7" alt="<?php echo esc_attr($category_name . ' Icon'); ?>" width="28" height="28" />
@@ -145,7 +145,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     ?>
                 </div>
             </div>
-            <div class="view w-full pt-12">
+            <div class="view w-full lg:pt-12 md:pt-8 pt-5">
                 <div class="flex md:flex-row flex-col gap-6 relative">
                     <div class="md:w-[70%] w-full">
                         <!-- Tab content -->
@@ -230,26 +230,26 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 $service_estimated_time = ($vendor_service_data && isset($vendor_service_data['estimated_completion_time']) && !empty($vendor_service_data['estimated_completion_time'])) ? $vendor_service_data['estimated_completion_time'] : '4 Hours';
                                                 $service_is_offer = ($vendor_service_data && isset($vendor_service_data['is_offer'])) ? (bool)$vendor_service_data['is_offer'] : false;
                                                 $service_is_active = ($vendor_service_data && isset($vendor_service_data['is_active'])) ? (bool)$vendor_service_data['is_active'] : true;
-                                                $service_card_class = 'w-full flex flex-col gap-y-6 md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]';
+                                                $service_card_class = 'w-full flex flex-col md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]';
                                                 if (!$service_is_active) {
                                                     $service_card_class .= ' grayscale opacity-50 pointer-events-none';
                                                 }
                                                 ?>
                                                 <div class="<?php echo esc_attr($service_card_class); ?>" data-service-id="<?php echo esc_attr($service_id); ?>">
-                                                    <div class="flex md:flex-row flex-col gap-3">
+                                                    <div class="flex md:flex-row flex-col md:gap-3">
                                                         <div class="md:w-1/4 w-full relative">
                                                             <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'ImageWithFallback.webp'); ?>"
                                                                 class="size-full md:rounded-none rounded-lg aspect-square"
                                                                 width="189" height="189" alt="" title="">
                                                             <?php if ($service_is_offer) : ?>
-                                                            <div class="absolute -top-[3.2rem] -left-[3rem]">
+                                                            <div class="absolute md:-top-[3.2rem] -top-[1.188rem] md:-left-[3rem] -left-[1.25rem]">
                                                                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'limitedOffer.webp'); ?>"
-                                                                    class="h-[14.75rem] w-auto object-contain" alt="" title="">
+                                                                    class="md:h-[14.75rem] h-[5.875rem] w-auto object-contain" alt="" title="">
                                                             </div>
                                                             <?php endif; ?>
                                                         </div>
                                                         <div class="md:w-3/4 w-full">
-                                                            <div class="flex flex-col gap-y-6 p-4">
+                                                            <div class="flex flex-col md:gap-y-6 gap-y-3 p-4">
                                                                 <h2 class="font-bold lg:text-xl text-lg text-[#121212]">
                                                                     <?php echo esc_html($service_name); ?>
                                                                 </h2>
@@ -288,7 +288,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                                         Recommended <?php echo esc_html($service_recommended_timeline); ?>
                                                                     </li>
                                                                 </ul>
-                                                                <ul class="flex flex-wrap justify-between gap-y-3 items-center">
+                                                                <ul class="flex flex-wrap justify-between md:gap-y-3 gap-y-2 items-center">
                                                                     <?php 
                                                                     if (!empty($service_details)) {
                                                                         // Generate unique ID for this service's details
@@ -334,7 +334,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="w-full flex flex-col gap-y-2 p-6 border-t border-[#E5E7EB]">
+                                                    <div class="w-full flex flex-col gap-y-2 md:p-6 py-3 px-6 border-t border-[#E5E7EB]">
                                                         <div class="flex justify-between gap-3 items-center">
                                                             <div class="flex flex-col gap-y-2">
                                                                 <div class="flex items-center md:gap-6 gap-4">
@@ -348,7 +348,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                             </div>
                                                             <div>
                                                                 <button type="button" 
-                                                                    class="add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
+                                                                    class="add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500 max-md:rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
                                                                     data-service-id="<?php echo esc_attr($service_id); ?>"
                                                                     data-service-data="<?php echo esc_attr($service_data_json); ?>"
                                                                     <?php if (!$service_is_active) : ?>disabled<?php endif; ?>>
@@ -359,10 +359,10 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <p class="text-xs text-[#000000] font-normal flex items-center gap-2">
-                                                            <span class="inline-flex>
+                                                        <p class="text-xs md:text-[#000000] text-[#8B8B8B] font-normal flex gap-2">
+                                                            <span class="inline-flex pt-1">
                                                                 <img src="<?php echo esc_url($img_url . 'estimatedIcon.svg'); ?>" 
-                                                                    class="size-[0.875rem] shrink-0" 
+                                                                    class="size-[0.875rem] shrink-0 max-md:opacity-50" 
                                                                     width="14" 
                                                                     height="14" 
                                                                     alt="Estimated Icon" />
@@ -773,7 +773,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
         <div id="mobileCartTotal" class="text-[#121212] text-lg font-bold">₹0</div>
     </div>
     <div class="w-full flex justify-end">
-        <button type="button" id="viewCartBtn" class="bg-[#CB122D] w-fit px-8 rounded-2xl h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#650916]">
+        <button type="button" id="viewCartBtn" class="bg-[#CB122D] w-fit px-8 rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#650916]">
             View Cart
         </button>
     </div>
@@ -1776,7 +1776,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (isInCart) {
                 // Change to "Added" button
-                btn.className = 'add-to-cart-btn flex items-center gap-2 text-sm font-semibold text-[#4CAF50] bg-[#F1FAF1] h-[2.5rem] px-3 py-2 border border-transparent hover:border-[#4CAF50] duration-500';
+                btn.className = 'add-to-cart-btn flex items-center gap-2 text-sm font-semibold text-[#4CAF50] bg-[#F1FAF1] h-[2.5rem] px-3 py-2 border border-transparent hover:border-[#4CAF50] duration-500 max-md:rounded-lg';
                 btn.innerHTML = `
                     <span>
                         <svg class="size-[1.125rem]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -1787,7 +1787,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             } else {
                 // Change to "Add to Cart" button
-                btn.className = 'add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500';
+                btn.className = 'add-to-cart-btn flex flex-row-reverse items-center gap-2 text-sm font-semibold text-white bg-[#CB122D] h-[2.5rem] px-3 py-2 border border-transparent hover:bg-[#650916] duration-500 max-md:rounded-lg';
                 btn.innerHTML = `
                     <span>
                         <img class="size-[0.875rem]" width="14" height="14" src="${imgUrl}plusWhiteIcon.svg" alt="Add to Cart Icon" />
