@@ -923,12 +923,18 @@ if (!empty($cost_estimator_pages)) {
             </div>
             <!-- Button -->
             <button id="checkPricesBtn"
-                class="w-fit font-inter py-3 px-3 mt-6 text-base font-bold text-white bg-[#FF8300] hover:bg-[#EE8311] focus:outline-none focus:ring-4 focus:ring-[#EE8311] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-fit font-inter py-3 px-3 mt-6 text-base font-bold text-white bg-[#FF8300] hover:bg-[#EE8311] focus:outline-none focus:ring-4 focus:ring-[#EE8311] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed relative"
                 disabled>
-                Check Prices
-                <span class="ml-2 font-bold text-xl">
-                    <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon"
-                        class="xl:size-[1.313rem] size-4 invert brightness-0">
+                <span id="checkPricesBtnText" class="flex items-center">
+                    Check Prices
+                    <span class="ml-2 font-bold text-xl">
+                        <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon"
+                            class="xl:size-[1.313rem] size-4 invert brightness-0">
+                    </span>
+                </span>
+                <span id="checkPricesBtnLoader" class="hidden flex items-center justify-center">
+                    <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    <span>Processing...</span>
                 </span>
             </button>
             <div class="grid grid-cols-3 gap-4 text-center text-white font-inter py-4">
@@ -1620,6 +1626,17 @@ if (!empty($cost_estimator_pages)) {
                 const model = $('#modelInput').val().trim();
                 const fuel = $('#fuelInput').val().trim();
                 
+                // Show loader and hide button text
+                const $btnText = $('#checkPricesBtnText');
+                const $btnLoader = $('#checkPricesBtnLoader');
+                if ($btnText.length) {
+                    $btnText.addClass('hidden');
+                }
+                if ($btnLoader.length) {
+                    $btnLoader.removeClass('hidden');
+                }
+                $checkPricesBtn.prop('disabled', true);
+                
                 // Build query string
                 const params = new URLSearchParams();
                 params.append('city', encodeURIComponent(city));
@@ -1633,6 +1650,14 @@ if (!empty($cost_estimator_pages)) {
                     window.location.href = redirectUrl;
                 } else {
                     console.error('Cost estimator page URL not found');
+                    // Hide loader and show button text on error
+                    if ($btnText.length) {
+                        $btnText.removeClass('hidden');
+                    }
+                    if ($btnLoader.length) {
+                        $btnLoader.addClass('hidden');
+                    }
+                    $checkPricesBtn.prop('disabled', false);
                     alert('Error: Cost estimator page not found. Please contact support.');
                 }
             });
