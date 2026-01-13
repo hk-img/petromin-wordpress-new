@@ -607,40 +607,61 @@ if (!empty($cost_estimator_pages)) {
                                 $service_centers_field = get_field('service_centers_section', $locate_us_page_id) ?: [];
                             }
                             
-                            // Extract unique cities from service centres
-                            $cities = array();
+                            // Extract unique cities from service centres with their images
+                            $cities_data = array();
                             if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
                                 foreach ($service_centers_field['centers'] as $center) {
                                     $city = trim($center['city'] ?? '');
-                                    if (!empty($city) && !in_array($city, $cities)) {
-                                        $cities[] = $city;
+                                    if (!empty($city) && !isset($cities_data[$city])) {
+                                        // Get city image from ACF field
+                                        $city_image_id = $center['city_image'] ?? null;
+                                        $city_image_url = '';
+                                        if ($city_image_id) {
+                                            $city_image_data = petromin_get_acf_image_data($city_image_id, 'full', '', $city);
+                                            $city_image_url = $city_image_data['url'] ?? '';
+                                        }
+                                        
+                                        $cities_data[$city] = array(
+                                            'name' => $city,
+                                            'image' => $city_image_url
+                                        );
                                     }
                                 }
                             }
                             
                             // Sort cities alphabetically
-                            sort($cities);
+                            uksort($cities_data, 'strcasecmp');
                             
                             // If no cities found, use default cities
-                            if (empty($cities)) {
-                                $cities = array('Chennai', 'Bengaluru');
+                            if (empty($cities_data)) {
+                                $cities_data = array(
+                                    'Chennai' => array('name' => 'Chennai', 'image' => ''),
+                                    'Bengaluru' => array('name' => 'Bengaluru', 'image' => '')
+                                );
                             }
                             
                             // Render cities dynamically
                             $city_img_index = 0;
-                            foreach ($cities as $city) {
-                                // Use city-img1.png, city-img2.png pattern, cycling through available images
-                                // For cities beyond 2, cycle through images 1 and 2
-                                $img_number = ($city_img_index % 2) + 1;
-                                $city_img = 'city-img' . $img_number . '.png';
+                            foreach ($cities_data as $city_data) {
+                                $city = $city_data['name'];
+                                $city_image_url = $city_data['image'];
+                                
+                                // Use city image from ACF if available, otherwise fallback to default pattern
+                                if (!empty($city_image_url)) {
+                                    $city_img = $city_image_url;
+                                } else {
+                                    // Fallback: Use city-img1.png, city-img2.png pattern
+                                    $img_number = ($city_img_index % 2) + 1;
+                                    $city_img = $assets_img_url . 'city-img' . $img_number . '.png';
+                                }
                                 $city_img_index++;
                             ?>
                             <div class="cursor-pointer group" data-value="<?php echo esc_attr($city); ?>">
                                 <div class="relative rounded overflow-hidden">
-                                    <img src="<?php echo esc_url($assets_img_url . $city_img); ?>" alt="<?php echo esc_attr($city); ?>"
+                                    <img src="<?php echo esc_url($city_img); ?>" alt="<?php echo esc_attr($city); ?>"
                                         class="w-full h-48 xl:h-52 object-cover"
                                         onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
-                                    <p class="absolute top-2 left-2 text-white font-semibold"><?php echo esc_html($city); ?></p>
+                                    <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
                                 </div>
                             </div>
                             <?php

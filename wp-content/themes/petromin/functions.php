@@ -2417,6 +2417,15 @@ add_action('acf/init', function () {
                                 'return_format' => 'id',
                                 'preview_size' => 'medium',
                             ],
+                            [
+                                'key' => 'field_locate_center_city_image',
+                                'label' => 'City Image',
+                                'name' => 'city_image',
+                                'type' => 'image',
+                                'return_format' => 'id',
+                                'preview_size' => 'medium',
+                                'instructions' => 'Upload city image for home page popup dropdown. This image will be displayed in the city selection dropdown on the home page.',
+                            ],
                             // REMOVED: field_locate_center_image_alt - WordPress default alt text use karenge
                         ],
                     ],
