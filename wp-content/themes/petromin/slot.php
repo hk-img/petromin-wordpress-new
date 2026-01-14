@@ -77,6 +77,29 @@ function get_cost_estimator_page_url() {
 }
 $cost_estimator_page_url = get_cost_estimator_page_url();
 
+// Get payment page URL
+function get_payment_page_url() {
+    // Try to find page by slug 'payment'
+    $payment_page = get_page_by_path('payment');
+    if ($payment_page) {
+        return get_permalink($payment_page->ID);
+    }
+    
+    // Try to find page by template name
+    $payment_pages = get_pages(array(
+        'meta_key' => '_wp_page_template',
+        'meta_value' => 'payment.php',
+        'number' => 1,
+        'post_status' => 'publish'
+    ));
+    if (!empty($payment_pages)) {
+        return get_permalink($payment_pages[0]->ID);
+    }
+    
+    return home_url('/payment');
+}
+$payment_page_url = get_payment_page_url();
+
 ?>
 <style>
 /* Hide page content initially until validation passes */
@@ -1218,6 +1241,65 @@ document.addEventListener('DOMContentLoaded', function() {
             // Store flatpickr instance reference
             let flatpickrInstanceRef = null;
 
+            // Function to disable date picker
+            function disableDatePicker() {
+                if (serviceDateInput) {
+                    serviceDateInput.disabled = true;
+                    serviceDateInput.readOnly = true;
+                    serviceDateInput.style.cursor = 'not-allowed';
+                    serviceDateInput.style.opacity = '0.6';
+                    serviceDateInput.style.backgroundColor = '#F7F7F7';
+                }
+                // Close flatpickr calendar if open
+                if (flatpickrInstanceRef) {
+                    try {
+                        flatpickrInstanceRef.close();
+                    } catch (e) {
+                        // Ignore error if calendar is already closed
+                    }
+                }
+            }
+
+            // Function to show loader on selected time slot and disable others
+            function showLoaderAndDisableOtherSlots(selectedSlotId) {
+                timeSlots.forEach(slot => {
+                    const input = document.getElementById(slot.id);
+                    const label = input ? input.closest('label') : null;
+                    if (!input || !label) return;
+
+                    if (slot.id === selectedSlotId) {
+                        // Show loader on selected slot
+                        input.disabled = true;
+                        label.classList.add('cursor-not-allowed', 'opacity-75');
+                        label.classList.remove('cursor-pointer');
+                        
+                        // Add loader to the label
+                        const existingLoader = label.querySelector('.slot-loader');
+                        if (!existingLoader) {
+                            const loader = document.createElement('div');
+                            loader.className = 'slot-loader absolute inset-0 flex items-center justify-center bg-white/80 z-10';
+                            loader.innerHTML = '<div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-[#CB122D]"></div>';
+                            label.style.position = 'relative';
+                            label.appendChild(loader);
+                        }
+                    } else {
+                        // Disable all other slots
+                        input.disabled = true;
+                        label.classList.add('cursor-not-allowed');
+                        label.classList.remove('cursor-pointer');
+                        label.classList.add('bg-[#F7F7F7]');
+                        label.classList.remove('bg-white');
+                        label.classList.add('border-[#EDEDED]');
+                        label.classList.remove('border-[#E5E5E5]');
+                        const textDiv = label.querySelector('div.text-sm');
+                        if (textDiv) {
+                            textDiv.classList.add('text-[#AFAFAF]');
+                            textDiv.classList.remove('text-[#2F2F2F]');
+                        }
+                    }
+                });
+            }
+
             // Function to save selected time slot to sessionStorage
             function saveSelectedTimeSlot(slotId, slotLabel) {
                 try {
@@ -1248,6 +1330,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             date: dateStr, 
                             timeSlot: slotLabel
                         });
+                        
+                        // If both date and time slot are selected, disable date picker, show loader, and redirect
+                        disableDatePicker();
+                        showLoaderAndDisableOtherSlots(slotId);
+                        
+                        // Redirect to payment page immediately (no delay)
+                        const paymentPageUrl = '<?php echo esc_js($payment_page_url); ?>';
+                        if (paymentPageUrl && paymentPageUrl !== '') {
+                            window.location.href = paymentPageUrl;
+                        } else {
+                            console.error('Payment page URL not found');
+                        }
                     } else {
                         console.warn('Cannot save time slot: No date selected. Please select a date first.');
                     }
