@@ -335,6 +335,7 @@ $is_verify_page = is_page_template('verify.php');
 $is_workstation_page = is_page_template('workstation.php');
 $is_slot_page = is_page_template('slot.php');
 $is_cost_estimator_page = is_page_template('cost-estimator.php');
+$is_payment_page = is_page_template('payment.php');
 
 // Get theme assets directory URL - needed for JavaScript even on verify page
 $assets_img_url = get_template_directory_uri() . '/assets/img/';
@@ -355,7 +356,7 @@ if (!empty($cost_estimator_pages)) {
     }
 }
 ?>
-<?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page) : ?>
+<?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page) : ?>
 <footer class="w-full bg-black relative text-white font-inter lg:py-8 py-4 z-10 overflow-x-hidden">
     <div class="py-12 relative view !pl-0">
         <div class="flex flex-col md:flex-row gap-12">

@@ -389,7 +389,95 @@ body.payment-page.validation-passed {
                             <a href="" id="changeDateAndTimeBtn" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
                         </div>
                     </div>
-                    
+                    <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
+                        <div class="flex flex-col gap-y-2">
+                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Choose Payment Method</h2>
+                            <p class="text-[#6B6B6B] text-sm font-medium">Select how you'd like to pay for your service</p>
+                        </div>
+                        <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+                            <label for="paymentMethod1" class="w-full border border-[#E5E5E5] cursor-pointer hover:md:border-[#6B6B6B] has-[:checked]:!border-[#CB122D] has-[:checked]:!border-2 has-[:checked]:bg-[#FFF0F0]/10 p-6 flex flex-col gap-y-4 md:rounded-none rounded-lg">
+                                <input type="radio" name="paymentMethod" id="paymentMethod1" class="hidden" />
+                                <div>
+                                    <svg class="size-7" width="28" height="28" viewBox="0 0 27 28" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M21.0261 8.16459V4.66541C21.0261 4.35607 20.9095 4.05939 20.702 3.84065C20.4945 3.62191 20.213 3.49902 19.9196 3.49902H5.53439C4.94744 3.49902 4.38453 3.7448 3.96949 4.18228C3.55445 4.61976 3.32129 5.21311 3.32129 5.8318C3.32129 6.4505 3.55445 7.04385 3.96949 7.48133C4.38453 7.91881 4.94744 8.16459 5.53439 8.16459H22.1327C22.4261 8.16459 22.7076 8.28747 22.9151 8.50621C23.1226 8.72495 23.2392 9.02163 23.2392 9.33098V13.9965M23.2392 13.9965H19.9196C19.3326 13.9965 18.7697 14.2423 18.3547 14.6798C17.9396 15.1173 17.7064 15.7106 17.7064 16.3293C17.7064 16.948 17.9396 17.5414 18.3547 17.9788C18.7697 18.4163 19.3326 18.6621 19.9196 18.6621H23.2392C23.5327 18.6621 23.8141 18.5392 24.0217 18.3205C24.2292 18.1017 24.3458 17.8051 24.3458 17.4957V15.1629C24.3458 14.8536 24.2292 14.5569 24.0217 14.3382C23.8141 14.1194 23.5327 13.9965 23.2392 13.9965Z"
+                                            stroke="#6B6B6B" stroke-width="1.74959" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M3.32129 5.83203V22.1615C3.32129 22.7802 3.55445 23.3735 3.96949 23.811C4.38453 24.2485 4.94744 24.4943 5.53439 24.4943H22.1327C22.4261 24.4943 22.7076 24.3714 22.9151 24.1527C23.1226 23.9339 23.2392 23.6372 23.2392 23.3279V18.6623"
+                                            stroke="#6B6B6B" stroke-width="1.74959" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-lg font-semibold text-[#222222]">Pay at Service Center</h3>
+                                <p class="text-sm font-normal text-[#555555]">Cash, Card, or UPI at the service center</p>
+                                <div class="bg-[#F1FAF1] w-fit text-[#3DA683] py-2 px-4 font-medium rounded-xl">Full amount payable at service center</div>
+                                <div class="w-full relative flex items-center gap-3 border-t border-[#F0F0F0] pt-3">
+                                    <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
+                                        <span>
+                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_4118_5478)">
+                                                    <path
+                                                        d="M13.3274 3.33203H2.66485C1.92876 3.33203 1.33203 3.92876 1.33203 4.66485V11.329C1.33203 12.0651 1.92876 12.6618 2.66485 12.6618H13.3274C14.0635 12.6618 14.6602 12.0651 14.6602 11.329V4.66485C14.6602 3.92876 14.0635 3.33203 13.3274 3.33203Z"
+                                                        stroke="#999999" stroke-width="0.999616"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M1.33203 6.66406H14.6602" stroke="#999999"
+                                                        stroke-width="0.999616" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_4118_5478">
+                                                        <rect width="15.9939" height="15.9939" fill="white" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        UPI
+                                    </div>
+                                    <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
+                                        <span>
+                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_4118_5478)">
+                                                    <path
+                                                        d="M13.3274 3.33203H2.66485C1.92876 3.33203 1.33203 3.92876 1.33203 4.66485V11.329C1.33203 12.0651 1.92876 12.6618 2.66485 12.6618H13.3274C14.0635 12.6618 14.6602 12.0651 14.6602 11.329V4.66485C14.6602 3.92876 14.0635 3.33203 13.3274 3.33203Z"
+                                                        stroke="#999999" stroke-width="0.999616"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M1.33203 6.66406H14.6602" stroke="#999999"
+                                                        stroke-width="0.999616" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_4118_5478">
+                                                        <rect width="15.9939" height="15.9939" fill="white" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </span>
+                                        Card
+                                    </div>
+                                    <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
+                                        <span>
+                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M12.6626 4.66467V2.66543C12.6626 2.48869 12.5924 2.31919 12.4674 2.19421C12.3424 2.06923 12.1729 1.99902 11.9962 1.99902H3.33282C2.97933 1.99902 2.64033 2.13945 2.39037 2.3894C2.14042 2.63935 2 2.97836 2 3.33184C2 3.68533 2.14042 4.02434 2.39037 4.27429C2.64033 4.52424 2.97933 4.66467 3.33282 4.66467H13.329C13.5057 4.66467 13.6752 4.73488 13.8002 4.85985C13.9252 4.98483 13.9954 5.15433 13.9954 5.33108V7.99672M13.9954 7.99672H11.9962C11.6427 7.99672 11.3037 8.13714 11.0537 8.38709C10.8038 8.63705 10.6633 8.97605 10.6633 9.32954C10.6633 9.68303 10.8038 10.022 11.0537 10.272C11.3037 10.5219 11.6427 10.6624 11.9962 10.6624H13.9954C14.1721 10.6624 14.3416 10.5921 14.4666 10.4672C14.5916 10.3422 14.6618 10.1727 14.6618 9.99595V8.66313C14.6618 8.48639 14.5916 8.31688 14.4666 8.19191C14.3416 8.06693 14.1721 7.99672 13.9954 7.99672Z"
+                                                    stroke="#999999" stroke-width="0.999616" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M2 3.33203V12.6618C2 13.0153 2.14042 13.3543 2.39037 13.6042C2.64033 13.8542 2.97933 13.9946 3.33282 13.9946H13.329C13.5057 13.9946 13.6752 13.9244 13.8002 13.7994C13.9252 13.6744 13.9954 13.5049 13.9954 13.3282V10.6625"
+                                                    stroke="#999999" stroke-width="0.999616" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        Wallet
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="md:w-[30%] w-full md:block hidden">
@@ -420,11 +508,16 @@ body.payment-page.validation-passed {
                             </div>
                         </div>
                         <div class="w-full flex flex-row border-t border-[#EFEFEF] pt-6">
-                            <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Date & Time
-                            </div>
+                            <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Date & Time</div>
                             <div class="w-2/3 flex flex-col gap-y-1">
                                 <div id="bookingDate" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
                                 <div id="bookingTimeSlot" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-row border-t border-[#EFEFEF] pt-6">
+                            <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Payment</div>
+                            <div class="w-2/3 flex flex-col gap-y-1">
+                                <div class="text-[#2F2F2F] font-bold text-sm empty:hidden">Pay at Service Center</div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -445,6 +538,20 @@ body.payment-page.validation-passed {
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="footer bg-white border-t border-[#E5E7EB] py-8 w-full md:block hidden">
+    <div class="view">
+        <div class="w-full flex justify-between items-center gap-2">
+            <div class="w-1/2 relative">
+                <img src="<?php echo esc_url($img_url); ?>footerPayImg.webp" class="" alt="" title="">
+            </div>
+            <div class="w-1/2 flex items-center justify-end gap-1">
+                <a href="" class="text-sm font-medium #121212 duration-300 hover:underline">Need Help?</a>
+                <a href="" class="text-sm font-medium #121212 duration-300 hover:underline">Contact Us</a>
             </div>
         </div>
     </div>
@@ -475,6 +582,10 @@ body.payment-page.validation-passed {
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Date & Time</div>
                 <div id="mobileDateAndTime" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <div class="text-[#AFAFAF] text-xs font-bold uppercase">Payment</div>
+                <div class="text-[#2F2F2F] font-normal text-sm empty:hidden">Pay at Service Center</div>
             </div>
         </div>
     </label>

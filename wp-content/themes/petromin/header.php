@@ -91,9 +91,10 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
 $is_verify_page = is_page_template('verify.php');
 $is_workstation_page = is_page_template('workstation.php');
 $is_slot_page = is_page_template('slot.php');
+$is_payment_page = is_page_template('payment.php');
 ?>
 
-<?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page) : ?>
+<?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page) : ?>
     <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-40 xl:h-20 max-md:border-b max-md:border-[#E5E5E5]">
         <div class="w-full relative flex justify-between items-center lg:px-0 px-4">
             <div
