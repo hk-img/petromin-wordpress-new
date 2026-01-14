@@ -252,7 +252,7 @@ body.workstation-page.validation-passed {
                 <div class="flex flex-col gap-y-6">
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
-                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verify Mobile Number</h2>
+                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verified Mobile Number</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Your mobile number has been verified successfully</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">

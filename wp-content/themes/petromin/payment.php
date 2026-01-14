@@ -337,7 +337,7 @@ body.payment-page.validation-passed {
                 <div class="flex flex-col gap-y-6">
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
-                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verify Mobile Number</h2>
+                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Verified Mobile Number</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Your mobile number has been verified successfully</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
@@ -355,7 +355,7 @@ body.payment-page.validation-passed {
                     </div>
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
-                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Select Service Center</h2>
+                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Selected Service Center</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Your selected service center location</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
@@ -373,7 +373,7 @@ body.payment-page.validation-passed {
                     </div>
                     <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
-                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Select Date & Time</h2>
+                            <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Selected Date & Time</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Your selected date and time slot</p>
                         </div>
                         <div class="w-full bg-[#F1FAF1] border border-[#D1EAD1] p-6 flex justify-between items-center md:rounded-none rounded-lg">
@@ -735,7 +735,7 @@ body.payment-page.validation-passed {
         
         if (selectedDateAndTimeEl || selectedTimeSlotEl) {
             if (cart && cart.selected_date && cart.selected_time_slot) {
-                // Format date from d-m-Y to readable format
+                // Format date from d-m-Y to "DD MONTH, DAY" format (e.g., "23 MAY, SUN")
                 const dateParts = cart.selected_date.split('-');
                 if (dateParts.length === 3) {
                     const day = parseInt(dateParts[0], 10);
@@ -743,9 +743,17 @@ body.payment-page.validation-passed {
                     const year = parseInt(dateParts[2], 10);
                     const dateObj = new Date(year, month, day);
                     
-                    // Format date as "DD Month YYYY" (e.g., "15 January 2024")
-                    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                    const formattedDate = day + ' ' + monthNames[month] + ' ' + year;
+                    // Month names in uppercase
+                    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                    
+                    // Day names in uppercase (short form)
+                    const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                    
+                    // Get day of week (0 = Sunday, 1 = Monday, etc.)
+                    const dayOfWeek = dateObj.getDay();
+                    
+                    // Format date as "DD MONTH, DAY" (e.g., "23 MAY, SUN")
+                    const formattedDate = day + ' ' + monthNames[month] + ', ' + dayNames[dayOfWeek];
                     
                     if (selectedDateAndTimeEl) {
                         selectedDateAndTimeEl.textContent = formattedDate;
@@ -756,7 +764,7 @@ body.payment-page.validation-passed {
                     }
                 }
                 
-                // Display time slot
+                // Display time slot (already in correct format "12:00 - 01:00 PM")
                 if (selectedTimeSlotEl) {
                     selectedTimeSlotEl.textContent = cart.selected_time_slot;
                 }
