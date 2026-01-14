@@ -382,7 +382,7 @@ body.payment-page.validation-passed {
                                     <img src="<?php echo esc_url($img_url); ?>success-check-icon.svg" alt="success check" class="size-9" />
                                 </span>
                                 <div class="flex flex-col gap-1">
-                                    <div id="selectedDateAndTime" class="text-base text-[#2F2F2F] font-semibold empty:hidden">-</div>
+                                    <div id="selectedDateAndTime" class="text-base text-[#2F2F2F] font-semibold empty:hidden"></div>
                                     <div id="selectedTimeSlot" class="text-[#637083] font-normal text-xs empty:hidden"></div>
                                 </div>
                             </div>
@@ -415,10 +415,16 @@ body.payment-page.validation-passed {
                             <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Location
                             </div>
                             <div class="w-2/3 flex flex-col gap-y-1">
-                                <div id="bookingServiceCenterName" class="text-[#2F2F2F] font-bold text-sm">
-                                    -
-                                </div>
+                                <div id="bookingServiceCenterName" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
                                 <div id="bookingServiceCenterCity" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-row border-t border-[#EFEFEF] pt-6">
+                            <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Date & Time
+                            </div>
+                            <div class="w-2/3 flex flex-col gap-y-1">
+                                <div id="bookingDate" class="text-[#2F2F2F] font-bold text-sm empty:hidden"></div>
+                                <div id="bookingTimeSlot" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -465,6 +471,10 @@ body.payment-page.validation-passed {
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Location</div>
                 <div id="mobileLocation" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <div class="text-[#AFAFAF] text-xs font-bold uppercase">Date & Time</div>
+                <div id="mobileDateAndTime" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
             </div>
         </div>
     </label>
@@ -662,6 +672,84 @@ body.payment-page.validation-passed {
                 mobileLocationEl.textContent = cart.vehicle.city;
             } else {
                 mobileLocationEl.textContent = '-';
+            }
+        }
+        
+        // Date and Time (Desktop) - Populate from sessionStorage
+        const bookingDateEl = document.getElementById('bookingDate');
+        const bookingTimeSlotEl = document.getElementById('bookingTimeSlot');
+        if (bookingDateEl || bookingTimeSlotEl) {
+            if (cart && cart.selected_date && cart.selected_time_slot) {
+                // Format date from d-m-Y to "DD MONTH, DAY" format (e.g., "23 MAY, SUN")
+                const dateParts = cart.selected_date.split('-');
+                if (dateParts.length === 3) {
+                    const day = parseInt(dateParts[0], 10);
+                    const month = parseInt(dateParts[1], 10) - 1; // Month is 0-indexed
+                    const year = parseInt(dateParts[2], 10);
+                    const dateObj = new Date(year, month, day);
+                    
+                    // Month names in uppercase
+                    const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                    
+                    // Day names in uppercase (short form)
+                    const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                    
+                    // Get day of week (0 = Sunday, 1 = Monday, etc.)
+                    const dayOfWeek = dateObj.getDay();
+                    
+                    // Format date as "DD MONTH, DAY" (e.g., "23 MAY, SUN")
+                    const formattedDate = day + ' ' + monthNames[month] + ', ' + dayNames[dayOfWeek];
+                    
+                    if (bookingDateEl) {
+                        bookingDateEl.textContent = formattedDate;
+                    }
+                } else {
+                    if (bookingDateEl) {
+                        bookingDateEl.textContent = cart.selected_date;
+                    }
+                }
+                
+                // Display time slot
+                if (bookingTimeSlotEl) {
+                    bookingTimeSlotEl.textContent = cart.selected_time_slot;
+                }
+            } else {
+                if (bookingDateEl) {
+                    bookingDateEl.textContent = '-';
+                }
+                if (bookingTimeSlotEl) {
+                    bookingTimeSlotEl.textContent = '-';
+                }
+            }
+        }
+        
+        // Date and Time (Mobile) - Populate from sessionStorage
+        const mobileDateAndTimeEl = document.getElementById('mobileDateAndTime');
+        if (mobileDateAndTimeEl) {
+            if (cart && cart.selected_date && cart.selected_time_slot) {
+                // Format date from d-m-Y to "DD DAY" format (e.g., "22 SAT")
+                const dateParts = cart.selected_date.split('-');
+                if (dateParts.length === 3) {
+                    const day = parseInt(dateParts[0], 10);
+                    const month = parseInt(dateParts[1], 10) - 1; // Month is 0-indexed
+                    const year = parseInt(dateParts[2], 10);
+                    const dateObj = new Date(year, month, day);
+                    
+                    // Day names in uppercase (short form)
+                    const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                    
+                    // Get day of week (0 = Sunday, 1 = Monday, etc.)
+                    const dayOfWeek = dateObj.getDay();
+                    
+                    // Format date and time as "DD DAY • TIME" (e.g., "22 SAT • 12:00 - 01:00 PM")
+                    const formattedDateAndTime = day + ' ' + dayNames[dayOfWeek] + ' • ' + cart.selected_time_slot;
+                    
+                    mobileDateAndTimeEl.textContent = formattedDateAndTime;
+                } else {
+                    mobileDateAndTimeEl.textContent = cart.selected_date + ' • ' + (cart.selected_time_slot || '');
+                }
+            } else {
+                mobileDateAndTimeEl.textContent = '-';
             }
         }
     }
