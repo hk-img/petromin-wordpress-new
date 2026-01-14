@@ -396,7 +396,7 @@ body.payment-page.validation-passed {
                         </div>
                         <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
                             <label for="paymentMethod1" class="w-full border border-[#E5E5E5] cursor-pointer hover:md:border-[#6B6B6B] has-[:checked]:!border-[#CB122D] has-[:checked]:!border-2 has-[:checked]:bg-[#FFF0F0]/10 p-6 flex flex-col gap-y-4 md:rounded-none rounded-lg">
-                                <input type="radio" name="paymentMethod" id="paymentMethod1" class="hidden" />
+                                <input type="radio" name="paymentMethod" id="paymentMethod1" class="hidden" value="Pay at Service Center" />
                                 <div>
                                     <svg class="size-7" width="28" height="28" viewBox="0 0 27 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -514,10 +514,10 @@ body.payment-page.validation-passed {
                                 <div id="bookingTimeSlot" class="font-normal text-sm text-[#6B6B6B] empty:hidden"></div>
                             </div>
                         </div>
-                        <div class="w-full flex flex-row border-t border-[#EFEFEF] pt-6">
+                        <div id="bookingPaymentMethod" class="w-full flex flex-row border-t border-[#EFEFEF] pt-6 hidden">
                             <div class="w-1/3 text-[#A6A6A6] uppercase text-xs font-semibold">Payment</div>
                             <div class="w-2/3 flex flex-col gap-y-1">
-                                <div class="text-[#2F2F2F] font-bold text-sm empty:hidden">Pay at Service Center</div>
+                                <div id="bookingPaymentMethodText" class="text-[#2F2F2F] font-bold text-sm empty:hidden">-</div>
                             </div>
                         </div>
                         <div class="border-t border-[#EFEFEF] pt-6">
@@ -535,6 +535,20 @@ body.payment-page.validation-passed {
                                     <div id="bookingTotalAmount" class="text-[#C8102E] lg:text-2xl md:text-xl text-lg text-base font-bold">₹0</div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div class="border-t border-[#EFEFEF] pt-6">
+                            <button type="button" id="confirmBookingBtnDesktop" class="w-full flex justify-center items-center gap-2 bg-[#AFAFAF] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#CB122D] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled="true">Confirm Booking
+                                <span>
+                                    <svg class="size-[1.125rem]" width="18" height="18" viewBox="0 0 18 18"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.75 9H14.25" stroke="white" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M9 3.75L14.25 9L9 14.25" stroke="white" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -583,13 +597,13 @@ body.payment-page.validation-passed {
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Date & Time</div>
                 <div id="mobileDateAndTime" class="text-[#2F2F2F] font-normal text-sm empty:hidden"></div>
             </div>
-            <div class="flex flex-col gap-2">
+            <div id="mobilePaymentMethod" class="flex flex-col gap-2 hidden">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Payment</div>
-                <div class="text-[#2F2F2F] font-normal text-sm empty:hidden">Pay at Service Center</div>
+                <div id="mobilePaymentMethodText" class="text-[#2F2F2F] font-normal text-sm empty:hidden">-</div>
             </div>
         </div>
     </label>
-    <button type="button" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed disabled" disabled="true">Confirm Booking</button>
+    <button type="button" id="confirmBookingBtnMobile" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed" disabled="true">Confirm Booking</button>
 </div>
 
 <script>
@@ -1225,6 +1239,204 @@ body.payment-page.validation-passed {
                 }
             });
         }
+    }
+})();
+
+// Payment Method Selection and Button Functionality
+(function() {
+    'use strict';
+    
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    
+    // Function to get cart from sessionStorage
+    function getCart() {
+        try {
+            const cartData = sessionStorage.getItem(CART_STORAGE_KEY);
+            if (cartData) {
+                return JSON.parse(cartData);
+            }
+        } catch (e) {
+            console.error('Error loading cart:', e);
+        }
+        return null;
+    }
+    
+    // Function to save cart to sessionStorage
+    function saveCart(cart) {
+        try {
+            sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Error saving cart:', e);
+        }
+    }
+    
+    // Function to enable buttons
+    function enableButtons() {
+        const desktopBtn = document.getElementById('confirmBookingBtnDesktop');
+        const mobileBtn = document.getElementById('confirmBookingBtnMobile');
+        
+        if (desktopBtn) {
+            desktopBtn.disabled = false;
+            desktopBtn.classList.remove('bg-[#AFAFAF]');
+            desktopBtn.classList.add('bg-[#C1122C]');
+        }
+        
+        if (mobileBtn) {
+            mobileBtn.disabled = false;
+            mobileBtn.classList.remove('bg-[#AFAFAF]');
+            mobileBtn.classList.add('bg-[#CB122D]');
+        }
+    }
+    
+    // Function to disable buttons
+    function disableButtons() {
+        const desktopBtn = document.getElementById('confirmBookingBtnDesktop');
+        const mobileBtn = document.getElementById('confirmBookingBtnMobile');
+        
+        if (desktopBtn) {
+            desktopBtn.disabled = true;
+            desktopBtn.classList.remove('bg-[#C1122C]');
+            desktopBtn.classList.add('bg-[#AFAFAF]');
+        }
+        
+        if (mobileBtn) {
+            mobileBtn.disabled = true;
+            mobileBtn.classList.remove('bg-[#CB122D]');
+            mobileBtn.classList.add('bg-[#AFAFAF]');
+        }
+    }
+    
+    // Function to show payment method in booking summary
+    function showPaymentMethod(paymentMethod) {
+        const desktopPaymentEl = document.getElementById('bookingPaymentMethod');
+        const desktopPaymentTextEl = document.getElementById('bookingPaymentMethodText');
+        const mobilePaymentEl = document.getElementById('mobilePaymentMethod');
+        const mobilePaymentTextEl = document.getElementById('mobilePaymentMethodText');
+        
+        if (desktopPaymentEl && desktopPaymentTextEl) {
+            desktopPaymentTextEl.textContent = paymentMethod;
+            desktopPaymentEl.classList.remove('hidden');
+        }
+        
+        if (mobilePaymentEl && mobilePaymentTextEl) {
+            mobilePaymentTextEl.textContent = paymentMethod;
+            mobilePaymentEl.classList.remove('hidden');
+        }
+    }
+    
+    // Function to hide payment method in booking summary
+    function hidePaymentMethod() {
+        const desktopPaymentEl = document.getElementById('bookingPaymentMethod');
+        const mobilePaymentEl = document.getElementById('mobilePaymentMethod');
+        
+        if (desktopPaymentEl) {
+            desktopPaymentEl.classList.add('hidden');
+        }
+        
+        if (mobilePaymentEl) {
+            mobilePaymentEl.classList.add('hidden');
+        }
+    }
+    
+    // Handle payment method radio button selection
+    function handlePaymentMethodSelection() {
+        const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        
+        paymentRadios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const paymentMethod = this.value || 'Pay at Service Center';
+                    
+                    // Save payment method to sessionStorage
+                    let cart = getCart();
+                    if (!cart) {
+                        cart = { vehicle: {}, items: [] };
+                    }
+                    cart.payment_method = paymentMethod;
+                    saveCart(cart);
+                    
+                    // Enable buttons
+                    enableButtons();
+                    
+                    // Show payment method in booking summary
+                    showPaymentMethod(paymentMethod);
+                }
+            });
+        });
+    }
+    
+    // Handle confirm booking button click
+    function handleConfirmBooking() {
+        const desktopBtn = document.getElementById('confirmBookingBtnDesktop');
+        const mobileBtn = document.getElementById('confirmBookingBtnMobile');
+        
+        function redirectToBookingConfirmed() {
+            // Get booking confirmed page URL
+            const bookingConfirmedUrl = '<?php echo esc_url(home_url('/booking-confirmed')); ?>';
+            
+            // Clear sessionStorage
+            try {
+                sessionStorage.removeItem(CART_STORAGE_KEY);
+                sessionStorage.removeItem('cost_estimator_previous_url');
+            } catch (e) {
+                console.error('Error clearing sessionStorage:', e);
+            }
+            
+            // Redirect to booking confirmed page
+            if (bookingConfirmedUrl) {
+                window.location.href = bookingConfirmedUrl;
+            } else {
+                console.error('Booking confirmed page URL not found');
+            }
+        }
+        
+        if (desktopBtn) {
+            desktopBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!this.disabled) {
+                    redirectToBookingConfirmed();
+                }
+            });
+        }
+        
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!this.disabled) {
+                    redirectToBookingConfirmed();
+                }
+            });
+        }
+    }
+    
+    // Restore payment method selection on page load
+    function restorePaymentMethod() {
+        const cart = getCart();
+        
+        if (cart && cart.payment_method) {
+            // Find and check the radio button with matching value
+            const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+            paymentRadios.forEach(function(radio) {
+                if (radio.value === cart.payment_method) {
+                    radio.checked = true;
+                    // Trigger change event to enable buttons and show payment method
+                    radio.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+    }
+    
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            handlePaymentMethodSelection();
+            handleConfirmBooking();
+            restorePaymentMethod();
+        });
+    } else {
+        handlePaymentMethodSelection();
+        handleConfirmBooking();
+        restorePaymentMethod();
     }
 })();
 </script>
