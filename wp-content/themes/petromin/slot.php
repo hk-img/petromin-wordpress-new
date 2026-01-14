@@ -297,7 +297,7 @@ body.slot-page.validation-passed {
                                     <img src="<?php echo esc_url($img_url); ?>success-check-icon.svg" alt="success check" class="size-9" />
                                 </span>
                                 <div class="flex flex-col gap-1">
-                                    <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified Successfully</div>
+                                    <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified <span class="max-md:hidden">Successfully</span></div>
                                     <div id="verifiedPhoneNumberSlot" class="text-[#637083] font-normal text-xs">+91 -</div>
                                 </div>
                             </div>
@@ -538,7 +538,7 @@ body.slot-page.validation-passed {
                                 </label>
                             </div>
                         </div>
-                        <a href="" class="w-1/2 bg-[#6B6B6B] w-full rounded-lg h-[2.875rem] md:hidden flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Continue to Payment</a>
+                        <!-- <a href="" class="w-1/2 bg-[#6B6B6B] w-full rounded-lg h-[2.875rem] md:hidden flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Continue to Payment</a> -->
                     </div>
                 </div>
             </div>
@@ -618,7 +618,7 @@ body.slot-page.validation-passed {
             </div>
         </div>
     </label>
-    <a href="" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D]">Confirm Booking</a>
+    <button type="button" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed disabled" disabled="true">Confirm Booking</button>
 </div>
 
 <script>

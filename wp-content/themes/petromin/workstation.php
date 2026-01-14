@@ -261,7 +261,7 @@ body.workstation-page.validation-passed {
                                     <img src="<?php echo esc_url($img_url); ?>success-check-icon.svg" alt="success check" class="size-9" />
                                 </span>
                                 <div class="flex flex-col gap-1">
-                                    <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified Successfully</div>
+                                    <div class="text-base text-[#2F2F2F] font-semibold">Mobile Verified <span class="max-md:hidden">Successfully</span></div>
                                     <div id="verifiedPhoneNumber" class="text-[#637083] font-normal text-xs">+91 -</div>
                                 </div>
                             </div>
@@ -451,7 +451,7 @@ body.workstation-page.validation-passed {
     </div>
 </section>
 
-<div class="view h-[4.938rem] group/check  fixed bottom-0 inset-x-0  md:hidden flex justify-between items-center bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
+<div class="view h-[4.938rem] group/check fixed bottom-0 inset-x-0 md:hidden flex justify-between items-center bg-white border border-[#E5E5E5] shadow-[0_-0.25rem_1rem_0_#00000014]">
     <label for="price" class="cursor-pointer w-1/2 flex items-center font-bold text-base text-[#C8102E] gap-2">
         <input type="checkbox" name="priceCheck" id="price" class="hidden" />
         <span id="mobileTotalAmount">₹0</span>
