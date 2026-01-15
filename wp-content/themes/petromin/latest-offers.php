@@ -303,26 +303,38 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 
                 </div>
 
-                <form class="flex w-full max-w-md border border-[#B5B5B54A] mt-[2.375rem]  overflow-hidden">
+                <form id="appDownloadForm" class="flex w-full max-w-md border border-[#B5B5B54A] mt-[2.375rem] overflow-hidden rounded-lg">
+                    <!-- Success/Error Messages -->
+                    <div id="appFormMessage" class="hidden fixed top-20 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg text-sm font-medium max-w-md"></div>
+                    
+                    <div class="flex items-center gap-1 bg-[#F8F8F8] border-r border-[#E5E5E5] px-3 shrink-0">
+                        <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($images_url . '/indiaFlag.webp'); ?>" class="w-4 h-auto" alt="India Flag">
+                        <span class="text-sm font-medium text-[#2F2F2F]">+91</span>
+                    </div>
+                    
+                    <input type="tel" id="appPhoneInput" name="phone_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" 
+                        placeholder="<?php echo esc_attr($app_contact_placeholder); ?>"
+                        class="flex-1 py-2.5 pl-4 text-base font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3] border-0 focus:ring-0"
+                        required />
 
-                    <input type="text" placeholder="<?php echo esc_attr($app_contact_placeholder); ?>"
-                        class="flex-1 py-2.5 pl-4 text-base font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3]" />
-
-
-                    <button
-                        class="bg-[#FF8300] text-white text-base text-nowrap font-bold px-2 flex items-center gap-1 md:gap-2.5">
-                        <?php echo esc_html($app_button_text); ?>
-                        <span class="">
+                    <button type="submit" id="appSubmitBtn"
+                        class="bg-[#FF8300] text-white text-base text-nowrap font-bold px-2 flex items-center gap-1 md:gap-2.5 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                        <span id="appSubmitBtnText"><?php echo esc_html($app_button_text); ?></span>
+                        <span id="appSubmitBtnLoader" class="hidden flex items-center justify-center">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                        <span id="appSubmitBtnIcon" class="">
                             <svg class="shrink-0 size-4" width="11" height="16" viewBox="0 0 11 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"
                                     fill="white" />
                             </svg>
-
                         </span>
                     </button>
-
                 </form>
 
                 <div class="flex items-center gap-2 md:gap-4 mt-6 md:mt-7">
@@ -380,4 +392,171 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
             },
         });
     }); 
+</script>
+
+<script>
+// App Download Form - OTP Integration with Device Detection
+(function() {
+    'use strict';
+    
+    const appForm = document.getElementById('appDownloadForm');
+    const appPhoneInput = document.getElementById('appPhoneInput');
+    const appSubmitBtn = document.getElementById('appSubmitBtn');
+    const appSubmitBtnText = document.getElementById('appSubmitBtnText');
+    const appSubmitBtnLoader = document.getElementById('appSubmitBtnLoader');
+    const appSubmitBtnIcon = document.getElementById('appSubmitBtnIcon');
+    const appFormMessage = document.getElementById('appFormMessage');
+    
+    if (!appForm || !appPhoneInput || !appSubmitBtn) {
+        return; // Exit if elements not found
+    }
+    
+    // Get AJAX URL and nonce
+    const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
+    const appDownloadNonce = '<?php echo wp_create_nonce("app_download_nonce"); ?>';
+    
+    // Function to detect device type
+    function detectDeviceType() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        
+        // Check for iPhone
+        if (/iPhone|iPod|iPad/.test(userAgent) && !window.MSStream) {
+            return 'iphone';
+        }
+        
+        // Check for Android
+        if (/android/i.test(userAgent)) {
+            return 'android';
+        }
+        
+        // Default to desktop
+        return 'desktop';
+    }
+    
+    // Function to show message
+    function showMessage(message, isError = false) {
+        if (!appFormMessage) return;
+        
+        appFormMessage.textContent = message;
+        appFormMessage.className = isError 
+            ? 'fixed top-20 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg text-sm font-medium max-w-md bg-red-100 border border-red-400 text-red-700'
+            : 'fixed top-20 left-1/2 transform -translate-x-1/2 z-50 p-4 rounded-lg text-sm font-medium max-w-md bg-green-100 border border-green-400 text-green-700';
+        appFormMessage.classList.remove('hidden');
+        
+        // Auto hide after 5 seconds
+        setTimeout(function() {
+            appFormMessage.classList.add('hidden');
+        }, 5000);
+    }
+    
+    // Function to validate phone number
+    function validatePhoneNumber(phone) {
+        if (!phone || phone.length !== 10) {
+            return false;
+        }
+        return /^[6-9][0-9]{9}$/.test(phone);
+    }
+    
+    // Handle form submission
+    appForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phone = appPhoneInput.value.trim();
+        
+        // Validate phone number
+        if (!validatePhoneNumber(phone)) {
+            showMessage('Please enter a valid 10-digit mobile number starting with 6, 7, 8, or 9', true);
+            appPhoneInput.focus();
+            return;
+        }
+        
+        // Show loader and disable button
+        if (appSubmitBtnText) {
+            appSubmitBtnText.classList.add('hidden');
+        }
+        if (appSubmitBtnIcon) {
+            appSubmitBtnIcon.classList.add('hidden');
+        }
+        if (appSubmitBtnLoader) {
+            appSubmitBtnLoader.classList.remove('hidden');
+        }
+        appSubmitBtn.disabled = true;
+        appPhoneInput.disabled = true;
+        
+        // Detect device type
+        const deviceType = detectDeviceType();
+        
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('action', 'send_app_download_otp');
+        formData.append('nonce', appDownloadNonce);
+        formData.append('mobile', phone);
+        formData.append('device_type', deviceType);
+        
+        // Send AJAX request
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.success) {
+                const deviceType = data.data && data.data.device_type ? data.data.device_type : '';
+                let successMsg = 'App download link sent successfully! Please check your mobile number.';
+                
+                // Show device-specific message
+                if (deviceType === 'iphone') {
+                    successMsg = 'App Store link sent successfully! Please check your mobile number.';
+                } else if (deviceType === 'android') {
+                    successMsg = 'Play Store link sent successfully! Please check your mobile number.';
+                }
+                
+                showMessage(successMsg, false);
+                // Reset form
+                appPhoneInput.value = '';
+            } else {
+                const errorMsg = (data && data.data && data.data.message) 
+                    ? data.data.message 
+                    : 'Failed to send app link. Please try again.';
+                showMessage(errorMsg, true);
+            }
+        })
+        .catch(error => {
+            console.error('Error sending app link:', error);
+            showMessage('Failed to send app link. Please try again.', true);
+        })
+        .finally(() => {
+            // Hide loader and enable button
+            if (appSubmitBtnText) {
+                appSubmitBtnText.classList.remove('hidden');
+            }
+            if (appSubmitBtnIcon) {
+                appSubmitBtnIcon.classList.remove('hidden');
+            }
+            if (appSubmitBtnLoader) {
+                appSubmitBtnLoader.classList.add('hidden');
+            }
+            appSubmitBtn.disabled = false;
+            appPhoneInput.disabled = false;
+        });
+    });
+    
+    // Allow only numbers in phone input
+    appPhoneInput.addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    
+    // Prevent paste of non-numeric content
+    appPhoneInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const numbersOnly = paste.replace(/[^0-9]/g, '');
+        this.value = numbersOnly.substring(0, 10);
+    });
+})();
 </script>

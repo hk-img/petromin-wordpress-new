@@ -5297,6 +5297,8 @@ add_action('wp_ajax_save_booking_with_leadsquared', 'handle_save_booking_with_le
 add_action('wp_ajax_nopriv_save_booking_with_leadsquared', 'handle_save_booking_with_leadsquared');
 add_action('wp_ajax_confirm_booking_with_leadsquared', 'handle_confirm_booking_with_leadsquared');
 add_action('wp_ajax_nopriv_confirm_booking_with_leadsquared', 'handle_confirm_booking_with_leadsquared');
+add_action('wp_ajax_send_app_download_otp', 'handle_send_app_download_otp');
+add_action('wp_ajax_nopriv_send_app_download_otp', 'handle_send_app_download_otp');
 
 function handle_send_otp() {
     // Verify nonce - handle both POST and GET
@@ -5486,6 +5488,149 @@ function handle_verify_otp() {
         wp_die();
     } else {
         wp_send_json_error(array('message' => 'Invalid OTP. Please try again.'));
+        wp_die();
+    }
+}
+
+/**
+ * Handle App Download Link sending for Latest Offers page
+ * Detects device type and sends appropriate app store link via MSG91
+ */
+function handle_send_app_download_otp() {
+    // Verify nonce
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+    
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'app_download_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed. Please refresh the page and try again.'));
+        wp_die();
+    }
+    
+    $mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : '';
+    $device_type = isset($_POST['device_type']) ? sanitize_text_field($_POST['device_type']) : 'desktop';
+    
+    // Validate mobile number
+    if (empty($mobile) || !preg_match('/^[6-9][0-9]{9}$/', $mobile)) {
+        wp_send_json_error(array('message' => 'Please enter a valid 10-digit mobile number'));
+        wp_die();
+    }
+    
+    // Get app links from ACF fields
+    // Try to get from current page first, then from options
+    $page_id = get_the_ID();
+    $app_google_link = get_field('app_google_link', $page_id);
+    if (empty($app_google_link)) {
+        $app_google_link = get_field('app_google_link', 'option') ?: '';
+    }
+    
+    $app_apple_link = get_field('app_apple_link', $page_id);
+    if (empty($app_apple_link)) {
+        $app_apple_link = get_field('app_apple_link', 'option') ?: '';
+    }
+    
+    // Select app link and template ID based on device type
+    $app_link = '';
+    $template_id = ''; // Default template ID
+    
+    if ($device_type === 'iphone') {
+        // iPhone - send Apple App Store link
+        $app_link = !empty($app_apple_link) ? $app_apple_link : (!empty($app_google_link) ? $app_google_link : 'https://play.google.com/store/games?hl=en_IN');
+        // Use iPhone template ID if defined, otherwise default
+        $template_id = defined('MSG91_TEMPLATE_ID_IPHONE') ? MSG91_TEMPLATE_ID_IPHONE : '';
+    } elseif ($device_type === 'android') {
+        // Android - send Google Play Store link
+        $app_link = !empty($app_google_link) ? $app_google_link : (!empty($app_apple_link) ? $app_apple_link : 'https://www.apple.com/in/app-store/');
+        // Use Android template ID if defined, otherwise default
+        $template_id = defined('MSG91_TEMPLATE_ID_ANDROID') ? MSG91_TEMPLATE_ID_ANDROID : '';
+    } else {
+        // Desktop - send both links or default link
+        $app_link = !empty($app_google_link) ? $app_google_link : (!empty($app_apple_link) ? $app_apple_link : 'https://www.google.com/');
+        // Use Desktop template ID if defined, otherwise default
+        $template_id = defined('MSG91_TEMPLATE_ID_DESKTOP') ? MSG91_TEMPLATE_ID_DESKTOP : '';
+    }
+    
+    // If no app link found, return error
+    if (empty($app_link)) {
+        wp_send_json_error(array('message' => 'App download link not configured. Please contact support.'));
+        wp_die();
+    }
+    
+    // Prepare data for MSG91 Flow API
+    $mobile_with_code = '91' . $mobile;
+    
+    // MSG91 Flow API - Using POST method
+    $url = 'https://control.msg91.com/api/v5/flow';
+    
+    // Prepare JSON payload - var1 will contain the app download link
+    $payload = array(
+        'template_id' => $template_id,
+        'short_url' => '1',
+        'short_url_expiry' => '120',
+        'realTimeResponse' => '1',
+        'recipients' => array(
+            array(
+                'mobiles' => $mobile_with_code,
+                'var1' => $app_link // App download link instead of OTP
+            )
+        )
+    );
+    
+    $args = array(
+        'method' => 'POST',
+        'timeout' => 30,
+        'headers' => array(
+            'Content-Type' => 'application/json',
+            'authkey' => MSG91_AUTH_KEY
+        ),
+        'body' => json_encode($payload)
+    );
+    
+    $response = wp_remote_post($url, $args);
+    
+    if (is_wp_error($response)) {
+        $error_message = $response->get_error_message();
+        error_log('App Download Link Service Error: ' . $error_message);
+        wp_send_json_error(array('message' => 'Failed to connect to SMS service. Please try again later.'));
+        wp_die();
+    }
+    
+    $response_code = wp_remote_retrieve_response_code($response);
+    $response_body = wp_remote_retrieve_body($response);
+    $response_data = json_decode($response_body, true);
+    
+    // Check if response is successful
+    if ($response_code === 200) {
+        // Check for success indicators in response
+        if (isset($response_data['type']) && $response_data['type'] === 'success') {
+            wp_send_json_success(array(
+                'message' => 'App download link sent successfully to your mobile number!',
+                'device_type' => $device_type,
+                'app_link' => $app_link
+            ));
+            wp_die();
+        } elseif (isset($response_data['message']) && stripos($response_data['message'], 'success') !== false) {
+            wp_send_json_success(array(
+                'message' => 'App download link sent successfully to your mobile number!',
+                'device_type' => $device_type,
+                'app_link' => $app_link
+            ));
+            wp_die();
+        } else {
+            $error_msg = isset($response_data['message']) ? $response_data['message'] : (isset($response_data['error']) ? $response_data['error'] : 'Failed to send app link. Please try again.');
+            error_log('App Download Link API Error: ' . $error_msg);
+            wp_send_json_error(array('message' => 'Failed to send app link. Please try again.'));
+            wp_die();
+        }
+    } else {
+        $error_msg = 'Failed to send app link';
+        if (isset($response_data['message'])) {
+            $error_msg = $response_data['message'];
+        } elseif (isset($response_data['error'])) {
+            $error_msg = $response_data['error'];
+        } elseif (!empty($response_body)) {
+            $error_msg = 'Server error: ' . $response_body;
+        }
+        error_log('App Download Link API Error (HTTP ' . $response_code . '): ' . $error_msg);
+        wp_send_json_error(array('message' => 'Failed to send app link. Please try again.'));
         wp_die();
     }
 }

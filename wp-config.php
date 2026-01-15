@@ -126,6 +126,11 @@ if ( ! defined( 'LEADSQUARED_SECRET_KEY' ) ) {
 	define( 'LEADSQUARED_SECRET_KEY', '9d4ba5b88cb6f3ab35dd03290f691fb391de9ac7' );
 }
 
+// MSG91 Template IDs
+define('MSG91_TEMPLATE_ID_IPHONE', '693ab28155f110055e100886');
+define('MSG91_TEMPLATE_ID_ANDROID', '693ab28155f110055e100886');
+define('MSG91_TEMPLATE_ID_DESKTOP', '693ab28155f110055e100886');
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
