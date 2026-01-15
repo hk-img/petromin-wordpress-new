@@ -585,7 +585,7 @@ if (!empty($cost_estimator_pages)) {
                     <input type="text" placeholder="City" id="cityInput" readonly
                         class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black placeholder:text-base xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
 
-                    <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
 
@@ -698,7 +698,7 @@ if (!empty($cost_estimator_pages)) {
                 <div class="relative">
                     <input type="text" placeholder="Car Brand" id="brandInput" readonly=""
                         class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300">
-                    <span id="brandIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span id="brandIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
 
@@ -759,7 +759,7 @@ if (!empty($cost_estimator_pages)) {
                 <div class="relative">
                     <input type="text" placeholder="Car Model (Select Car Brand first)" id="modelInput" readonly=""
                         class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
-                    <span id="modelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span id="modelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
 
@@ -793,7 +793,7 @@ if (!empty($cost_estimator_pages)) {
                 <div class="relative">
                     <input type="text" placeholder="Fuel Type (Select Car Model first)" id="fuelInput" readonly=""
                         class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
-                    <span id="fuelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span id="fuelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
 
@@ -1431,11 +1431,11 @@ if (!empty($cost_estimator_pages)) {
                 if ($icon.length) {
                     if (!isOpen) {
                         $icon.html(`
-          <div class="relative flex items-center gap-1 text-white text-sm bg-[#ff8300] py-3 px-3 -right-4">
+          <span class="relative flex items-center gap-1 text-white text-sm bg-[#ff8300] h-full px-3">
             <img src="` + themeImgUrl + `"
               alt="arrow-icon" class="rotate-180 lg:size-[21px] size-4 invert brightness-0">
             <span>Back</span>
-          </div>
+          </span>
         `);
                     } else {
                         $icon.html(`
