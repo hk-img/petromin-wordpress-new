@@ -52,7 +52,7 @@ if (empty($confirmation_image_url)) {
 <div class="bg-white w-full relative md:py-20 py-12">
     <div class="view">
         <div class="w-full relative flex flex-col items-center justify-center gap-y-6">
-            <div class="w-full flex justify-center items-center overflow-hidden">
+            <div class="w-full flex justify-center items-center overflow-hidden -mt-10">
                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($confirmation_image_url); ?>" class="object-contain w-auto h-52 scale-150" alt="<?php echo esc_attr($confirmation_title); ?>" title="<?php echo esc_attr($confirmation_title); ?>">
             </div>
             <div class="text-[#000000A3] font-semibold text-lg uppercase -mt-10 z-10 relative">

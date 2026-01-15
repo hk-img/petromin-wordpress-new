@@ -330,7 +330,7 @@ body.payment-page.validation-passed {
 </div>
 
 
-<section class="bg-white md:py-20 py-6 pb-20">
+<section class="bg-white md:py-14 pt-6 pb-24">
     <div class="view w-full md:pt-12">
         <div class="flex md:flex-row flex-col gap-6 relative">
             <div class="md:w-[70%] w-full">
