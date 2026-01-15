@@ -303,7 +303,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 
                 </div>
 
-                <div class="flex w-full max-w-md border border-[#B5B5B54A] mt-[2.375rem]  overflow-hidden">
+                <form class="flex w-full max-w-md border border-[#B5B5B54A] mt-[2.375rem]  overflow-hidden">
 
                     <input type="text" placeholder="<?php echo esc_attr($app_contact_placeholder); ?>"
                         class="flex-1 py-2.5 pl-4 text-base font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3]" />
@@ -323,7 +323,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                         </span>
                     </button>
 
-                </div>
+                </form>
 
                 <div class="flex items-center gap-2 md:gap-4 mt-6 md:mt-7">
                     <?php if (!empty($app_google_link)): ?>
