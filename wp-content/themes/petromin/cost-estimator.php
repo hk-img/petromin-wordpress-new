@@ -116,7 +116,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
 
 ?>
 
-<section class="bg-white md:py-20 py-16 max-md:overflow-hidden">
+<section class="bg-white md:py-14 py-5 max-md:overflow-hidden">
     <div class="w-full flex flex-col gap-y-6">
         <div class="w-full group/services">
             <div class="md:border-b md:border-[#E5E7EB] max-md:shadow-[0px_2px_4px_-2px_#0000001A,0px_4px_6px_-1px_#0000001A]">
