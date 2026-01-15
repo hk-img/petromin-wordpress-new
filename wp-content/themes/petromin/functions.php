@@ -5928,46 +5928,46 @@ function render_confirmed_booking_details_meta_box($post) {
     );
     
     ?>
-    <div class="booking-details-container" style="padding: 15px;">
+    <div class="booking-details-container" style="padding: 0.9375rem;">
         <style>
             .booking-details-container table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 20px;
+                margin-bottom: 1.25rem;
             }
             .booking-details-container table th {
                 background: #f5f5f5;
-                padding: 12px;
+                padding: 0.75rem;
                 text-align: left;
-                border: 1px solid #ddd;
+                border: 0.0625rem solid #ddd;
                 font-weight: 600;
-                width: 200px;
+                width: 12.5rem;
             }
             .booking-details-container table td {
-                padding: 12px;
-                border: 1px solid #ddd;
+                padding: 0.75rem;
+                border: 0.0625rem solid #ddd;
                 vertical-align: top;
             }
             .booking-details-container .section-title {
-                font-size: 18px;
+                font-size: 1.125rem;
                 font-weight: bold;
-                margin: 20px 0 10px 0;
-                padding-bottom: 5px;
-                border-bottom: 2px solid #0073aa;
+                margin: 1.25rem 0 0.625rem 0;
+                padding-bottom: 0.3125rem;
+                border-bottom: 0.125rem solid #0073aa;
             }
             .booking-details-container .service-item {
                 background: #f9f9f9;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-left: 3px solid #0073aa;
+                padding: 0.625rem;
+                margin-bottom: 0.625rem;
+                border-left: 0.1875rem solid #0073aa;
             }
             .booking-details-container .service-item h4 {
-                margin: 0 0 8px 0;
+                margin: 0 0 0.5rem 0;
                 color: #0073aa;
             }
             .booking-details-container .service-detail {
-                margin: 5px 0;
-                font-size: 13px;
+                margin: 0.3125rem 0;
+                font-size: 0.8125rem;
             }
             .booking-details-container .service-detail strong {
                 color: #555;
@@ -5976,20 +5976,20 @@ function render_confirmed_booking_details_meta_box($post) {
                 display: inline-block;
                 background: #46b450;
                 color: white;
-                padding: 3px 8px;
-                border-radius: 3px;
-                font-size: 11px;
+                padding: 0.1875rem 0.5rem;
+                border-radius: 0.1875rem;
+                font-size: 0.6875rem;
                 font-weight: bold;
-                margin-left: 5px;
+                margin-left: 0.3125rem;
             }
             .booking-details-container .json-view {
                 background: #f5f5f5;
-                padding: 15px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
+                padding: 0.9375rem;
+                border: 0.0625rem solid #ddd;
+                border-radius: 0.25rem;
                 font-family: monospace;
-                font-size: 12px;
-                max-height: 400px;
+                font-size: 0.75rem;
+                max-height: 25rem;
                 overflow-y: auto;
                 white-space: pre-wrap;
                 word-wrap: break-word;
@@ -6255,7 +6255,7 @@ function make_booking_title_readonly() {
             
             /* Style for read-only notice */
             .booking-readonly-notice {
-                margin: 15px 0;
+                margin: 0.9375rem 0;
             }
         </style>
         <?php
@@ -7503,46 +7503,46 @@ function render_booking_details_meta_box($post) {
     }
     
     ?>
-    <div class="booking-details-container" style="padding: 15px;">
+    <div class="booking-details-container" style="padding: 0.9375rem;">
         <style>
             .booking-details-container table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 20px;
+                margin-bottom: 1.25rem;
             }
             .booking-details-container table th {
                 background: #f5f5f5;
-                padding: 12px;
+                padding: 0.75rem;
                 text-align: left;
-                border: 1px solid #ddd;
+                border: 0.0625rem solid #ddd;
                 font-weight: 600;
-                width: 200px;
+                width: 12.5rem;
             }
             .booking-details-container table td {
-                padding: 12px;
-                border: 1px solid #ddd;
+                padding: 0.75rem;
+                border: 0.0625rem solid #ddd;
                 vertical-align: top;
             }
             .booking-details-container .section-title {
-                font-size: 18px;
+                font-size: 1.125rem;
                 font-weight: bold;
-                margin: 20px 0 10px 0;
-                padding-bottom: 5px;
-                border-bottom: 2px solid #0073aa;
+                margin: 1.25rem 0 0.625rem 0;
+                padding-bottom: 0.3125rem;
+                border-bottom: 0.125rem solid #0073aa;
             }
             .booking-details-container .service-item {
                 background: #f9f9f9;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-left: 3px solid #0073aa;
+                padding: 0.625rem;
+                margin-bottom: 0.625rem;
+                border-left: 0.1875rem solid #0073aa;
             }
             .booking-details-container .service-item h4 {
-                margin: 0 0 8px 0;
+                margin: 0 0 0.5rem 0;
                 color: #0073aa;
             }
             .booking-details-container .service-detail {
-                margin: 5px 0;
-                font-size: 13px;
+                margin: 0.3125rem 0;
+                font-size: 0.8125rem;
             }
             .booking-details-container .service-detail strong {
                 color: #555;
@@ -7551,20 +7551,20 @@ function render_booking_details_meta_box($post) {
                 display: inline-block;
                 background: #46b450;
                 color: white;
-                padding: 3px 8px;
-                border-radius: 3px;
-                font-size: 11px;
+                padding: 0.1875rem 0.5rem;
+                border-radius: 0.1875rem;
+                font-size: 0.6875rem;
                 font-weight: bold;
-                margin-left: 5px;
+                margin-left: 0.3125rem;
             }
             .booking-details-container .json-view {
                 background: #f5f5f5;
-                padding: 15px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
+                padding: 0.9375rem;
+                border: 0.0625rem solid #ddd;
+                border-radius: 0.25rem;
                 font-family: monospace;
-                font-size: 12px;
-                max-height: 400px;
+                font-size: 0.75rem;
+                max-height: 25rem;
                 overflow-y: auto;
                 white-space: pre-wrap;
                 word-wrap: break-word;
@@ -7614,7 +7614,7 @@ function render_booking_details_meta_box($post) {
             <tr>
                 <th>Total Amount</th>
                 <td>
-                    <strong style="font-size: 16px; color: #d63638;">
+                    <strong style="font-size: 1rem; color: #d63638;">
                         <?php 
                         $currency_symbol = ($currency === 'INR') ? '₹' : $currency;
                         echo esc_html($currency_symbol . ' ' . number_format((float)$total_amount, 2));

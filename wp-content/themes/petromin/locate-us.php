@@ -587,7 +587,7 @@ if (empty($processed_faq_categories)) {
                 <h3 class="lg:text-4xl md:text-3xl text-2xl text-black font-bold">
                     <?php echo esc_html($registered_office_title); ?></h3>
                 <div
-                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
+                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
                 </div>
                 <p class="text-black text-balance font-medium text-base">
                     <?php echo esc_html($registered_office_address); ?>
@@ -597,7 +597,7 @@ if (empty($processed_faq_categories)) {
                 <h3 class="lg:text-4xl md:text-3xl text-2xl text-black font-bold">
                     <?php echo esc_html($head_office_title); ?></h3>
                 <div
-                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
+                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
                 </div>
                 <p class="text-black text-balance font-medium text-base">
                     <?php echo esc_html($head_office_address); ?>
@@ -607,7 +607,7 @@ if (empty($processed_faq_categories)) {
                 <h3 class="lg:text-4xl md:text-3xl text-2xl text-black font-bold">
                     <?php echo esc_html($station_hours_title); ?></h3>
                 <div
-                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
+                    class="relative pb-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
                 </div>
 
                 <div class="">
@@ -674,13 +674,13 @@ if (empty($processed_faq_categories)) {
             <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl text-black font-bold">
                 <?php echo esc_html($service_centers_heading); ?></h2>
             <div
-                class="relative pt-[0.563rem] md:pt-[1.25rem] after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
+                class="relative pt-[0.563rem] md:pt-[1.25rem] after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
             </div>
         </div>
         <div class="flex flex-col md:flex-row gap-8 relative items-start">
             <div class="md:w-1/3 w-full relative flex flex-col gap-y-3 bg-white">
                 <div
-                    class="md:sticky md:top-20 mb:border-none md:border-0 border-b border-[#E0E5EB] flex flex-col gap-3 z-20 bg-white pb-5 md:pb-2 px-0 after:md:top-0 after:md:-translate-y-full after:md:absolute after:md:w-full after:md:h-[18px] after:md:bg-[#ffffff]">
+                    class="md:sticky md:top-20 mb:border-none md:border-0 border-b border-[#E0E5EB] flex flex-col gap-3 z-20 bg-white pb-5 md:pb-2 px-0 after:md:top-0 after:md:-translate-y-full after:md:absolute after:md:w-full after:md:h-[1.125rem] after:md:bg-[#ffffff]">
                     <?php if (!empty($city_options) || !empty($state_options)) : ?>
                     <div class="flex flex-col gap-2">
                         <div class="relative">
@@ -1205,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
                 <?php echo esc_html($faq_heading); ?></h2>
             <div
-                class="relative pt-1.5 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[10px] after:-skew-x-[18deg] after:left-0">
+                class="relative pt-1.5 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
             </div>
         </div>
 

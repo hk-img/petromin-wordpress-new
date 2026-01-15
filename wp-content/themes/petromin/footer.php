@@ -555,7 +555,7 @@ if (!empty($cost_estimator_pages)) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
 </button>
-<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-50 w-full mx-auto max-h-[calc(100dvh-70px)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-50 w-full mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
     <input type="checkbox" id="toggle" class="hidden peer">
     <div class=" transition-all duration-500 ease-in-out w-full">
         <!-- Header -->
@@ -1054,7 +1054,7 @@ if (!empty($cost_estimator_pages)) {
                     if (dropdown.$icon && dropdown.$icon.length) {
                         dropdown.$icon.html(`
           <img src="` + themeImgUrl + `"
-            alt="arrow-icon" class="lg:size-[21px] size-4">
+            alt="arrow-icon" class="lg:size-[1.3125rem] size-4">
         `);
                     }
                 }
@@ -1443,7 +1443,7 @@ if (!empty($cost_estimator_pages)) {
                     } else {
                         $icon.html(`
           <img src="` + themeImgUrl + `"
-            alt="arrow-icon" class="lg:size-[21px] size-4">
+            alt="arrow-icon" class="lg:size-[1.3125rem] size-4">
         `);
                     }
                 }
@@ -1483,7 +1483,7 @@ if (!empty($cost_estimator_pages)) {
                 if ($icon.length) {
                     $icon.html(`
         <img src="` + themeImgUrl + `"
-          alt="arrow-icon" class="lg:size-[21px] size-4">
+          alt="arrow-icon" class="lg:size-[1.3125rem] size-4">
       `);
                 }
                 

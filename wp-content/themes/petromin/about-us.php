@@ -943,7 +943,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         <!-- Orange Arrow -->
                         <!-- <div id="arrow"
                             class="pointer-events-none absolute w-0 h-0 border-l-[1rem] sm:border-l-[1.2rem] md:border-l-[1.5rem] border-r-[1rem] sm:border-r-[1.2rem] md:border-r-[1.5rem] border-b-[1.2rem] sm:border-b-[1.5rem] md:border-b-[1.8rem] border-l-transparent border-r-transparent border-b-[#f57c00] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out -z-10"
-                            style="transform-origin: 50% 50%; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+                            style="transform-origin: 50% 50%; filter: drop-shadow(0 0.125rem 0.25rem rgba(0,0,0,0.2));">
                         </div> -->
 
                         <!-- Labels -->

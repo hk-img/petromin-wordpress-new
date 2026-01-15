@@ -212,7 +212,7 @@ body.verify-page.validation-passed {
 <div class="view border-y z-30 border-[#E5E5E5] py-6 md:hidden block md:relative sticky top-0 inset-x-0 bg-white">
     <a href="javascript:void(0);" id="backButton" class="flex items-center gap-4 uppercase text-[#121212] text-lg font-medium">
         <span>
-            <img src="<?php echo $img_url; ?>back-arrow.svg" alt="back arrow" class="w-[9px] h-[15px]" />
+            <img src="<?php echo $img_url; ?>back-arrow.svg" alt="back arrow" class="w-[0.5625rem] h-[0.9375rem]" />
         </span>
         CHECKOUT
     </a>
@@ -331,7 +331,7 @@ body.verify-page.validation-passed {
         <span class="group-has-[:checked]/check:rotate-180 duration-500">
             <img src="<?php echo $img_url; ?>dropdown-arrow.svg" alt="dropdown arrow" class="size-[0.688rem]" />
         </span>
-        <div class="view bg-white w-full duartion-300 group-has-[#price:checked]/check:flex hidden py-6 flex-col gap-y-4 absolute bottom-full inset-x-0 shadow-[0_-0.25rem_1rem_0_#00000014] border-t border-[#E5E5E5] max-h-[calc(100dvh-154px)] overflow-y-auto">
+        <div class="view bg-white w-full duartion-300 group-has-[#price:checked]/check:flex hidden py-6 flex-col gap-y-4 absolute bottom-full inset-x-0 shadow-[0_-0.25rem_1rem_0_#00000014] border-t border-[#E5E5E5] max-h-[calc(100dvh-9.625rem)] overflow-y-auto">
             <div class="flex flex-col gap-2">
                 <div class="text-[#AFAFAF] text-xs font-bold uppercase">Vehicle</div>
                 <div id="mobileVehicleName" class="text-[#2F2F2F] font-bold text-sm uppercase empty:hidden"></div>

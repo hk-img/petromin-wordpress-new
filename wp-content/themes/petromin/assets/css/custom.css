@@ -108,9 +108,9 @@ body {
 .logo-box::before {
   content: "";
   position: absolute;
-  top: 0px;
+  top: 0;
   right: -18%;
-  width: 90px;
+  width: 5.625rem;
   height: 100%;
   background-color: #ffffff;
   clip-path: polygon(37% 0, 61% 0, 51% 100%, 51% 100%);
@@ -128,9 +128,9 @@ body {
 .rect-box::before {
   content: "";
   position: absolute;
-  top: 0px;
+  top: 0;
   left: -17%;
-  width: 90px;
+  width: 5.625rem;
   height: 100%;
   background-image: linear-gradient(to top right, #670916, #650916, #650916);
   clip-path: polygon(50% 0%, 39% 100%, 56% 100%);
@@ -148,9 +148,9 @@ body {
 .feature-box::after {
   content: "";
   position: absolute;
-  top: 0px;
+  top: 0;
   right: -6%;
-  width: 66px;
+  width: 4.125rem;
   height: 100%;
   background-image: linear-gradient(to top right, #cb122d, #cb122d);
   clip-path: polygon(31% 0, 53% 0, 42% 100%, 25% 100%);
@@ -169,9 +169,9 @@ body {
   .tabs-sec::after {
     content: "";
     position: absolute;
-    top: 0px;
+    top: 0;
     right: -6%;
-    width: 78px;
+    width: 4.875rem;
     height: 100%;
     background: #000000;
     clip-path: polygon(-1% 0, 84% 0, 40% 100%, 1% 100%);
@@ -229,7 +229,7 @@ body {
 @keyframes popupSlide {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
   }
   to {
     opacity: 1;
@@ -253,9 +253,9 @@ input.open::placeholder {
   display: none !important;
 }
 ::-webkit-scrollbar {
-  width: 1px;
-  height:1px;
-  padding-top:6px;               
+  width: 0.0625rem;
+  height: 0.0625rem;
+  padding-top: 0.375rem;               
 }
 
 ::-webkit-scrollbar-track {
@@ -264,7 +264,7 @@ input.open::placeholder {
 
 ::-webkit-scrollbar-thumb {
   background: #cccccc;      
-  border-radius: 40px;      
+  border-radius: 2.5rem;      
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -273,8 +273,8 @@ input.open::placeholder {
 
 .number-outline {
     color: transparent;
-    -webkit-text-stroke: 3px #ffdde2;
-    text-stroke: 3px #ffdde2;
+    -webkit-text-stroke: 0.1875rem #ffdde2;
+    text-stroke: 0.1875rem #ffdde2;
     filter: drop-shadow(0 0 0px #ffdde2);
 }
 
