@@ -220,7 +220,12 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 $service_id = isset($service['id']) ? $service['id'] : md5($service_name . $price . $category_name);
                                                 
                                                 // Prepare complete service data for sessionStorage
-                                                $service_data_json = json_encode($service);
+                                                // Ensure service_category is included in service data
+                                                $service_with_category = $service;
+                                                if (!isset($service_with_category['service_category']) || empty($service_with_category['service_category'])) {
+                                                    $service_with_category['service_category'] = $category_name;
+                                                }
+                                                $service_data_json = json_encode($service_with_category);
                                                 
                                                 // Get vendor service data for warranty, recommended_timeline, is_offer, and estimated_completion_time
                                                 $vendor_service_data = isset($vendor_services_lookup[$service_name]) ? $vendor_services_lookup[$service_name] : null;
@@ -1729,6 +1734,41 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.removeItem(CART_STORAGE_KEY);
     }
     
+    // Function to get all unique service categories from cart items
+    function getAllServiceCategories() {
+        const cart = getCart();
+        const categories = [];
+        
+        if (cart && cart.items && Array.isArray(cart.items)) {
+            cart.items.forEach(function(item) {
+                if (item.service_category && item.service_category.trim() !== '') {
+                    const category = item.service_category.trim();
+                    if (categories.indexOf(category) === -1) {
+                        categories.push(category);
+                    }
+                }
+            });
+        }
+        
+        return categories;
+    }
+    
+    // Update service_category in cart dynamically from items
+    function updateServiceCategoryFromItems() {
+        const cart = getCart();
+        const categories = getAllServiceCategories();
+        
+        if (categories.length > 0) {
+            // Save as semicolon-separated string (like services)
+            cart.service_category = categories.join(';');
+            saveCart(cart);
+        } else {
+            // Remove service_category if no items
+            delete cart.service_category;
+            saveCart(cart);
+        }
+    }
+    
     // Function to add service to cart
     function addToCart(serviceId, serviceData) {
         const cart = getCart();
@@ -1753,6 +1793,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 ...serviceObj // Spread all service properties
             });
             saveCart(cart);
+            // Update service categories from items
+            updateServiceCategoryFromItems();
             renderCart();
             updateButtonStates();
         }
@@ -1763,6 +1805,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const cart = getCart();
         cart.items = cart.items.filter(item => item.id !== serviceId);
         saveCart(cart);
+        // Update service categories from items
+        updateServiceCategoryFromItems();
         renderCart();
         updateButtonStates();
     }
@@ -2809,39 +2853,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Save service category to sessionStorage when category tab is selected
-    const serviceCategoryRadios = document.querySelectorAll('input[name="services"][type="radio"]');
-    serviceCategoryRadios.forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                // Get category name from the label text
-                const label = this.closest('label');
-                if (label) {
-                    const categoryName = label.textContent.trim();
-                    if (categoryName) {
-                        // Save to cart
-                        const cart = getCart();
-                        cart.service_category = categoryName;
-                        saveCart(cart);
-                    }
-                }
-            }
-        });
-    });
-    
-    // Save initial selected category on page load
-    const initialSelectedCategory = document.querySelector('input[name="services"][type="radio"]:checked');
-    if (initialSelectedCategory) {
-        const label = initialSelectedCategory.closest('label');
-        if (label) {
-            const categoryName = label.textContent.trim();
-            if (categoryName) {
-                const cart = getCart();
-                cart.service_category = categoryName;
-                saveCart(cart);
-            }
-        }
-    }
+    // Update service categories on initial page load if cart has items
+    updateServiceCategoryFromItems();
     
     // Initial cart render and button states update
     renderCart();

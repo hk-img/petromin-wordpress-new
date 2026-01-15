@@ -6768,16 +6768,29 @@ function handle_save_booking_with_leadsquared() {
     // Format service names as semicolon-separated string
     $service_names_string = !empty($service_names) ? implode(';', $service_names) : '';
     
-    // Get service category from booking data (saved in sessionStorage)
-    $service_category = isset($booking_data['service_category']) ? $booking_data['service_category'] : '';
-    if (empty($service_category) && isset($booking_data['items']) && is_array($booking_data['items']) && !empty($booking_data['items'])) {
-        // Try to get service category from first item
-        $service_category = isset($booking_data['items'][0]['service_category']) ? $booking_data['items'][0]['service_category'] : '';
+    // Collect all unique service categories from cart items (multiple categories support)
+    $service_categories = array();
+    if (isset($booking_data['items']) && is_array($booking_data['items']) && !empty($booking_data['items'])) {
+        foreach ($booking_data['items'] as $item) {
+            $item_category = isset($item['service_category']) ? trim($item['service_category']) : '';
+            if (!empty($item_category) && !in_array($item_category, $service_categories)) {
+                $service_categories[] = $item_category;
+            }
+        }
     }
-    // Fallback if still empty
-    if (empty($service_category)) {
-        $service_category = 'Service Type - text';
+    // Fallback: try to get from booking_data['service_category'] if no categories found in items
+    if (empty($service_categories)) {
+        $single_category = isset($booking_data['service_category']) ? trim($booking_data['service_category']) : '';
+        if (!empty($single_category)) {
+            $service_categories[] = $single_category;
+        }
     }
+    // Final fallback if still empty
+    if (empty($service_categories)) {
+        $service_categories[] = 'Service Type - text';
+    }
+    // Format as semicolon-separated string (like services)
+    $service_category = implode(';', $service_categories);
     
     // Always generate LEAD- ID first (will be used for all bookings regardless of API success)
     $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
@@ -6981,6 +6994,11 @@ function handle_save_booking_with_leadsquared() {
         update_post_meta($post_id, '_booking_items_count', count($booking_data['items']));
     }
     
+    // Save service categories (semicolon-separated string of multiple categories)
+    if (!empty($service_category)) {
+        update_post_meta($post_id, '_service_categories', sanitize_text_field($service_category));
+    }
+    
     // Save verified phone number
     if (isset($booking_data['verified_phone'])) {
         update_post_meta($post_id, '_verified_phone', sanitize_text_field($booking_data['verified_phone']));
@@ -7134,16 +7152,29 @@ function handle_confirm_booking_with_leadsquared() {
     // Format service names as semicolon-separated string
     $service_names_string = !empty($service_names) ? implode(';', $service_names) : '';
     
-    // Get service category from booking data
-    $service_category = isset($booking_data['service_category']) ? $booking_data['service_category'] : '';
-    if (empty($service_category) && isset($booking_data['items']) && is_array($booking_data['items']) && !empty($booking_data['items'])) {
-        // Try to get service category from first item
-        $service_category = isset($booking_data['items'][0]['service_category']) ? $booking_data['items'][0]['service_category'] : '';
+    // Collect all unique service categories from cart items (multiple categories support)
+    $service_categories = array();
+    if (isset($booking_data['items']) && is_array($booking_data['items']) && !empty($booking_data['items'])) {
+        foreach ($booking_data['items'] as $item) {
+            $item_category = isset($item['service_category']) ? trim($item['service_category']) : '';
+            if (!empty($item_category) && !in_array($item_category, $service_categories)) {
+                $service_categories[] = $item_category;
+            }
+        }
     }
-    // Fallback if still empty
-    if (empty($service_category)) {
-        $service_category = 'Service Type - text';
+    // Fallback: try to get from booking_data['service_category'] if no categories found in items
+    if (empty($service_categories)) {
+        $single_category = isset($booking_data['service_category']) ? trim($booking_data['service_category']) : '';
+        if (!empty($single_category)) {
+            $service_categories[] = $single_category;
+        }
     }
+    // Final fallback if still empty
+    if (empty($service_categories)) {
+        $service_categories[] = 'Service Type - text';
+    }
+    // Format as semicolon-separated string (like services)
+    $service_category = implode(';', $service_categories);
     
     // Build LeadSquared API request body
     $leadsquared_payload = array(
@@ -7358,6 +7389,11 @@ function handle_confirm_booking_with_leadsquared() {
         update_post_meta($post_id, '_booking_items', $booking_data['items']);
         update_post_meta($post_id, '_booking_total_amount', $total_amount);
         update_post_meta($post_id, '_booking_items_count', count($booking_data['items']));
+    }
+    
+    // Save service categories (semicolon-separated string of multiple categories)
+    if (!empty($service_category)) {
+        update_post_meta($post_id, '_service_categories', sanitize_text_field($service_category));
     }
     
     if (isset($booking_data['verified_phone'])) {
