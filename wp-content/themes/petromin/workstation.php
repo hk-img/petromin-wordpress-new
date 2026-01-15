@@ -915,11 +915,13 @@ body.workstation-page.validation-passed {
     }
 })();
 
-// Dynamic Distance Calculation using Geolocation and Google Maps Distance Matrix API
+// Dynamic Distance Calculation using Geolocation and Google Maps Distance Matrix API (Server-side)
 (function() {
     'use strict';
     
-    const GOOGLE_MAPS_API_KEY = '<?php echo esc_js(apply_filters("acf/fields/google_map/api", [])["key"] ?? "AIzaSyDC3RCcvMaCHd7VOf7hRhgceXDQ5cSFyGU"); ?>';
+    // AJAX URL and nonce for server-side API calls
+    const ajaxUrl = '<?php echo esc_js(admin_url('admin-ajax.php')); ?>';
+    const distanceNonce = '<?php echo esc_js(wp_create_nonce('google_maps_distance_nonce')); ?>';
     
     // Function to calculate straight-line distance using Haversine formula (fallback)
     function calculateStraightLineDistance(lat1, lon1, lat2, lon2) {
@@ -947,18 +949,21 @@ body.workstation-page.validation-passed {
         }
     }
     
-    // Function to get road distance using Google Maps Distance Matrix API
+    // Function to get road distance using server-side Google Maps Distance Matrix API
     function getRoadDistance(userLat, userLng, centerLat, centerLng, callback) {
-        const origin = userLat + ',' + userLng;
-        const destination = centerLat + ',' + centerLng;
-        const url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + 
-                    encodeURIComponent(origin) + 
-                    '&destinations=' + 
-                    encodeURIComponent(destination) + 
-                    '&mode=driving&units=metric&key=' + 
-                    GOOGLE_MAPS_API_KEY;
+        // Make server-side AJAX call to WordPress endpoint
+        const formData = new FormData();
+        formData.append('action', 'get_google_maps_distance');
+        formData.append('nonce', distanceNonce);
+        formData.append('user_lat', userLat);
+        formData.append('user_lng', userLng);
+        formData.append('center_lat', centerLat);
+        formData.append('center_lng', centerLng);
         
-        fetch(url)
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: formData
+        })
             .then(function(response) {
                 if (!response.ok) {
                     throw new Error('HTTP error! status: ' + response.status);
@@ -966,34 +971,13 @@ body.workstation-page.validation-passed {
                 return response.json();
             })
             .then(function(data) {
-                // Check API response status
-                if (data.status !== 'OK') {
-                    callback(new Error('API Error: ' + (data.error_message || data.status)), null);
-                    return;
-                }
-                
-                // Check if we have rows and elements
-                if (!data.rows || !data.rows[0] || !data.rows[0].elements || !data.rows[0].elements[0]) {
-                    callback(new Error('Invalid API response structure'), null);
-                    return;
-                }
-                
-                const element = data.rows[0].elements[0];
-                
-                // Check element status
-                if (element.status === 'OK') {
-                    if (element.distance && element.distance.value) {
-                        const distanceInMeters = element.distance.value;
-                        callback(null, distanceInMeters);
-                    } else {
-                        callback(new Error('Distance value not found in response'), null);
-                    }
-                } else if (element.status === 'ZERO_RESULTS') {
-                    callback(new Error('No route found between locations'), null);
-                } else if (element.status === 'NOT_FOUND') {
-                    callback(new Error('Origin or destination not found'), null);
+                // Check if server-side call was successful
+                if (data.success && data.data && data.data.distance !== undefined) {
+                    const distanceInMeters = data.data.distance;
+                    callback(null, distanceInMeters);
                 } else {
-                    callback(new Error('Distance calculation failed: ' + element.status), null);
+                    const errorMsg = data.data && data.data.message ? data.data.message : 'Failed to calculate distance';
+                    callback(new Error(errorMsg), null);
                 }
             })
             .catch(function(error) {
@@ -1038,7 +1022,6 @@ body.workstation-page.validation-passed {
         
         function processNextCenter() {
             if (currentIndex >= validCenters.length) {
-                console.log('Updated distances for all service centers');
                 return;
             }
             
@@ -1299,7 +1282,6 @@ body.workstation-page.validation-passed {
                 const userLat = position.coords.latitude;
                 const userLng = position.coords.longitude;
                 
-                console.log('User location:', userLat, userLng);
                 
                 // Hide any visible "Get Distance" buttons
                 hideGetDistanceButtons();
@@ -1417,7 +1399,6 @@ body.workstation-page.validation-passed {
                 const userLat = position.coords.latitude;
                 const userLng = position.coords.longitude;
                 
-                console.log('User location:', userLat, userLng);
                 
                 // Hide any visible "Get Distance" buttons
                 hideGetDistanceButtons();

@@ -653,7 +653,7 @@ body.slot-page.validation-passed {
                 return JSON.parse(cartData);
             }
         } catch (e) {
-            console.error('Error loading cart:', e);
+            // Error loading cart
         }
         return null;
     }
@@ -905,7 +905,7 @@ body.slot-page.validation-passed {
                 return JSON.parse(cartData);
             }
         } catch (e) {
-            console.error('Error loading cart:', e);
+            // Error loading cart
         }
         return null;
     }
@@ -950,7 +950,7 @@ body.slot-page.validation-passed {
                 return JSON.parse(cartData);
             }
         } catch (e) {
-            console.error('Error loading cart:', e);
+            // Error loading cart
         }
         return null;
     }
@@ -959,7 +959,7 @@ body.slot-page.validation-passed {
         try {
             sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         } catch (e) {
-            console.error('Error saving cart:', e);
+            // Error saving cart
         }
     }
     
@@ -981,8 +981,6 @@ body.slot-page.validation-passed {
                 // Redirect to workstation page using replace to prevent back navigation
                 if (workstationPageUrl && workstationPageUrl !== '') {
                     window.location.replace(workstationPageUrl);
-                } else {
-                    console.error('Workstation page URL not found');
                 }
             });
         }
@@ -1010,7 +1008,7 @@ body.slot-page.validation-passed {
                 return JSON.parse(cartData);
             }
         } catch (e) {
-            console.error('Error loading cart:', e);
+            // Error loading cart
         }
         return null;
     }
@@ -1019,7 +1017,7 @@ body.slot-page.validation-passed {
         try {
             sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         } catch (e) {
-            console.error('Error saving cart:', e);
+            // Error saving cart
         }
     }
     
@@ -1042,8 +1040,6 @@ body.slot-page.validation-passed {
                 // Redirect to verify page using replace to prevent back navigation
                 if (verifyPageUrl && verifyPageUrl !== '') {
                     window.location.replace(verifyPageUrl);
-                } else {
-                    console.error('Verify page URL not found');
                 }
             });
         }
@@ -1105,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return JSON.parse(cartData);
                 }
             } catch (e) {
-                console.error('Error loading cart:', e);
+                // Error loading cart
             }
             return { vehicle: {}, items: [] };
         }
@@ -1114,7 +1110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
             } catch (e) {
-                console.error('Error saving cart:', e);
+                // Error saving cart
             }
         }
 
@@ -1326,10 +1322,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         cart.selected_date = dateStr; // Format: d-m-Y
                         cart.selected_time_slot = slotLabel;
                         saveCart(cart);
-                        console.log('Date and time slot saved to sessionStorage:', { 
-                            date: dateStr, 
-                            timeSlot: slotLabel
-                        });
                         
                         // If both date and time slot are selected, disable date picker, show loader, and redirect
                         disableDatePicker();
@@ -1339,14 +1331,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         const paymentPageUrl = '<?php echo esc_js($payment_page_url); ?>';
                         if (paymentPageUrl && paymentPageUrl !== '') {
                             window.location.href = paymentPageUrl;
-                        } else {
-                            console.error('Payment page URL not found');
                         }
-                    } else {
-                        console.warn('Cannot save time slot: No date selected. Please select a date first.');
                     }
                 } catch (e) {
-                    console.error('Error saving time slot to sessionStorage:', e);
+                    // Error saving time slot
                 }
             }
 
@@ -1365,9 +1353,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     const cart = getCart();
                     delete cart.selected_time_slot;
                     saveCart(cart);
-                } catch (e) {
-                    console.error('Error resetting time slot:', e);
-                }
+                    } catch (e) {
+                        // Error resetting time slot
+                    }
             }
 
             // Add event listeners to all time slot radio buttons
@@ -1375,21 +1363,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const input = document.getElementById(slot.id);
                 if (input) {
                     input.addEventListener('change', function() {
-                        console.log('Time slot changed:', slot.id, 'Checked:', this.checked);
                         if (this.checked) {
                             // Get time slot text from the div inside the label
                             const label = this.closest('label');
                             const timeTextDiv = label ? label.querySelector('div.text-sm') : null;
                             const timeSlotText = timeTextDiv ? timeTextDiv.textContent.trim() : slot.label;
                             
-                            console.log('Saving time slot:', { slotId: slot.id, timeSlotText: timeSlotText });
-                            
                             // Save both date and time slot
                             saveSelectedTimeSlot(slot.id, timeSlotText);
                         }
                     });
-                } else {
-                    console.warn('Time slot input not found:', slot.id);
                 }
             });
 
@@ -1435,9 +1418,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             const cart = getCart();
                             cart.selected_date = dateStr; // Format: d-m-Y
                             saveCart(cart);
-                        } catch (e) {
-                            console.error('Error saving date to sessionStorage:', e);
-                        }
+                            } catch (e) {
+                                // Error saving date
+                            }
                     }
                 },
                 onOpen: function(selectedDates, dateStr, instance) {
@@ -1492,9 +1475,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         }
                     }
-                } catch (e) {
-                    console.error('Error restoring date and time slot from sessionStorage:', e);
-                }
+                    } catch (e) {
+                        // Error restoring date and time slot
+                    }
             }
 
             // Restore date and time slot after flatpickr is initialized

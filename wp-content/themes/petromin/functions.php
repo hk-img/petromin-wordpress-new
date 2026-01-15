@@ -166,7 +166,8 @@ if (!function_exists('petromin_get_social_icon_svg')) {
 
 
 function my_acf_google_map_api( $api ){
-    $api['key'] = 'AIzaSyDC3RCcvMaCHd7VOf7hRhgceXDQ5cSFyGU';
+    // Get Google Maps API key from wp-config.php constant
+    $api['key'] = defined('GOOGLE_MAPS_API_KEY') ? GOOGLE_MAPS_API_KEY : '';
     return $api;
 }
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
@@ -4293,6 +4294,14 @@ function get_car_models() {
         return;
     }
     
+    // Get Supabase API key from wp-config.php constant
+    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    
+    if (empty($supabase_api_key)) {
+        wp_send_json_error(array('message' => 'Supabase API key not configured'));
+        return;
+    }
+    
     // Build API URL
     $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_car_models?car_make=eq.' . urlencode($car_make);
     
@@ -4302,7 +4311,7 @@ function get_car_models() {
         'headers' => array(
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+            'apikey' => $supabase_api_key
         )
     ));
     
@@ -4339,6 +4348,14 @@ function get_fuel_types() {
         return;
     }
     
+    // Get Supabase API key from wp-config.php constant
+    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    
+    if (empty($supabase_api_key)) {
+        wp_send_json_error(array('message' => 'Supabase API key not configured'));
+        return;
+    }
+    
     // Build API URL
     $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_fuel_types?car_make=eq.' . urlencode($car_make) . '&car_model=eq.' . urlencode($car_model) . '&select=fuel_type';
     
@@ -4348,7 +4365,7 @@ function get_fuel_types() {
         'headers' => array(
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+            'apikey' => $supabase_api_key
         )
     ));
     
@@ -4374,6 +4391,90 @@ function get_fuel_types() {
 }
 add_action('wp_ajax_get_fuel_types', 'get_fuel_types');
 add_action('wp_ajax_nopriv_get_fuel_types', 'get_fuel_types');
+
+// AJAX handler for Google Maps Distance Matrix API (server-side)
+function get_google_maps_distance() {
+    // Verify nonce for security
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'google_maps_distance_nonce')) {
+        wp_send_json_error(array('message' => 'Security check failed'));
+        return;
+    }
+    
+    $user_lat = isset($_POST['user_lat']) ? floatval($_POST['user_lat']) : 0;
+    $user_lng = isset($_POST['user_lng']) ? floatval($_POST['user_lng']) : 0;
+    $center_lat = isset($_POST['center_lat']) ? floatval($_POST['center_lat']) : 0;
+    $center_lng = isset($_POST['center_lng']) ? floatval($_POST['center_lng']) : 0;
+    
+    if (empty($user_lat) || empty($user_lng) || empty($center_lat) || empty($center_lng)) {
+        wp_send_json_error(array('message' => 'Invalid coordinates'));
+        return;
+    }
+    
+    // Get API key from wp-config.php constant
+    $api_key = defined('GOOGLE_MAPS_API_KEY') ? GOOGLE_MAPS_API_KEY : '';
+    
+    if (empty($api_key)) {
+        wp_send_json_error(array('message' => 'Google Maps API key not configured'));
+        return;
+    }
+    
+    // Build Google Maps Distance Matrix API URL
+    $origin = $user_lat . ',' . $user_lng;
+    $destination = $center_lat . ',' . $center_lng;
+    $api_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?' . 
+               'origins=' . urlencode($origin) . 
+               '&destinations=' . urlencode($destination) . 
+               '&mode=driving&units=metric&key=' . urlencode($api_key);
+    
+    // Make API request (server-side)
+    $response = wp_remote_get($api_url, array(
+        'timeout' => 15,
+        'headers' => array(
+            'Accept' => 'application/json'
+        )
+    ));
+    
+    if (is_wp_error($response)) {
+        wp_send_json_error(array('message' => 'Failed to fetch distance'));
+        return;
+    }
+    
+    $response_code = wp_remote_retrieve_response_code($response);
+    if ($response_code !== 200) {
+        wp_send_json_error(array('message' => 'API request failed'));
+        return;
+    }
+    
+    $body = wp_remote_retrieve_body($response);
+    $data = json_decode($body, true);
+    
+    // Check API response status
+    if (!isset($data['status']) || $data['status'] !== 'OK') {
+        $error_msg = isset($data['error_message']) ? $data['error_message'] : (isset($data['status']) ? $data['status'] : 'Unknown error');
+        wp_send_json_error(array('message' => 'API Error: ' . $error_msg));
+        return;
+    }
+    
+    // Check if we have rows and elements
+    if (!isset($data['rows'][0]['elements'][0])) {
+        wp_send_json_error(array('message' => 'Invalid API response structure'));
+        return;
+    }
+    
+    $element = $data['rows'][0]['elements'][0];
+    
+    // Check element status
+    if ($element['status'] === 'OK' && isset($element['distance']['value'])) {
+        $distance_in_meters = intval($element['distance']['value']);
+        wp_send_json_success(array('distance' => $distance_in_meters));
+    } else {
+        $status = isset($element['status']) ? $element['status'] : 'Unknown status';
+        wp_send_json_error(array('message' => 'Distance calculation failed: ' . $status));
+    }
+}
+add_action('wp_ajax_get_google_maps_distance', 'get_google_maps_distance');
+add_action('wp_ajax_nopriv_get_google_maps_distance', 'get_google_maps_distance');
 
 /**
  * Ensure the permalink structure uses /blog/%postname%/ so single posts live under the Blog path.
@@ -5182,15 +5283,8 @@ function flush_rewrite_rules_for_offers() {
 add_action('init', 'flush_rewrite_rules_for_offers', 1);
 
 // MSG91 OTP Configuration and AJAX Handlers
-if (!defined('MSG91_AUTH_KEY')) {
-    define('MSG91_AUTH_KEY', '481217AuDxkyUp693ab3c1P1');
-}
-if (!defined('MSG91_TEMPLATE_ID')) {
-    define('MSG91_TEMPLATE_ID', '693ab28155f110055e100886');
-}
-if (!defined('MSG91_SENDER_ID')) {
-    define('MSG91_SENDER_ID', 'ATOMCS');
-}
+// MSG91 credentials are now defined in wp-config.php for security
+// Using constants: MSG91_AUTH_KEY, MSG91_TEMPLATE_ID, MSG91_SENDER_ID
 
 // Handle AJAX requests for OTP
 add_action('wp_ajax_send_otp', 'handle_send_otp');
@@ -6102,35 +6196,48 @@ function handle_save_booking_with_leadsquared() {
         )
     );
     
-    // LeadSquared API URL
-    $leadsquared_url = 'https://api-in21.leadsquared.com/v2/OpportunityManagement.svc/Capture?accessKey=u%24r0413f07ac8b67751e2a996372c279214&secretKey=9d4ba5b88cb6f3ab35dd03290f691fb391de9ac7';
-    
-    // Make API call to LeadSquared
-    $api_response = wp_remote_post($leadsquared_url, array(
-        'method' => 'POST',
-        'headers' => array(
-            'Content-Type' => 'application/json',
-        ),
-        'body' => json_encode($leadsquared_payload),
-        'timeout' => 30,
-    ));
+    // Get LeadSquared credentials from wp-config.php constants
+    $leadsquared_access_key = defined('LEADSQUARED_ACCESS_KEY') ? LEADSQUARED_ACCESS_KEY : '';
+    $leadsquared_secret_key = defined('LEADSQUARED_SECRET_KEY') ? LEADSQUARED_SECRET_KEY : '';
     
     $related_prospect_id = null;
     $api_success = false;
     $api_response_data = null;
     
-    // Check if API call was successful
-    if (!is_wp_error($api_response)) {
-        $response_code = wp_remote_retrieve_response_code($api_response);
-        $response_body = wp_remote_retrieve_body($api_response);
-        $api_response_data = json_decode($response_body, true);
+    if (empty($leadsquared_access_key) || empty($leadsquared_secret_key)) {
+        // Log error but don't block booking creation
+        error_log('LeadSquared API credentials not configured in wp-config.php');
+        $api_response_data = array('error' => 'API credentials not configured');
+    } else {
+        // LeadSquared API URL (credentials in URL as per their API documentation)
+        $leadsquared_url = 'https://api-in21.leadsquared.com/v2/OpportunityManagement.svc/Capture?accessKey=' . urlencode($leadsquared_access_key) . '&secretKey=' . urlencode($leadsquared_secret_key);
         
-        if ($response_code === 200 && $api_response_data) {
-            // Check if RelatedProspectId exists in response
-            if (isset($api_response_data['RelatedProspectId']) && !empty($api_response_data['RelatedProspectId'])) {
-                $related_prospect_id = $api_response_data['RelatedProspectId'];
-                $api_success = true;
+        // Make API call to LeadSquared
+        $api_response = wp_remote_post($leadsquared_url, array(
+            'method' => 'POST',
+            'headers' => array(
+                'Content-Type' => 'application/json',
+            ),
+            'body' => json_encode($leadsquared_payload),
+            'timeout' => 30,
+        ));
+        
+        // Check if API call was successful
+        if (!is_wp_error($api_response)) {
+            $response_code = wp_remote_retrieve_response_code($api_response);
+            $response_body = wp_remote_retrieve_body($api_response);
+            $api_response_data = json_decode($response_body, true);
+            
+            if ($response_code === 200 && $api_response_data) {
+                // Check if RelatedProspectId exists in response
+                if (isset($api_response_data['RelatedProspectId']) && !empty($api_response_data['RelatedProspectId'])) {
+                    $related_prospect_id = $api_response_data['RelatedProspectId'];
+                    $api_success = true;
+                }
             }
+        } else {
+            // Log API error
+            error_log('LeadSquared API Error: ' . $api_response->get_error_message());
         }
     }
     

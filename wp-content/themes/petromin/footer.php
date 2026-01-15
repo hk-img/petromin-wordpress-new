@@ -675,6 +675,9 @@ if (!empty($cost_estimator_pages)) {
 
                 <!-- Car Brand Dropdown -->
                 <?php
+                // Get Supabase API key from wp-config.php constant
+                $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+                
                 // Fetch car makes from API (server-side)
                 $car_makes_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_car_makes';
                 $car_makes_response = wp_remote_get($car_makes_api_url, array(
@@ -682,7 +685,7 @@ if (!empty($cost_estimator_pages)) {
                     'headers' => array(
                         'Content-Type' => 'application/json',
                         'Accept' => 'application/json',
-                        'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+                        'apikey' => $supabase_api_key
                     )
                 ));
                 

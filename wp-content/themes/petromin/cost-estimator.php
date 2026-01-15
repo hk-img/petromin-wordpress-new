@@ -37,6 +37,9 @@ function get_verify_page_url() {
 }
 $verify_page_url = get_verify_page_url();
 
+// Get Supabase API key from wp-config.php constant
+$supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+
 // Fetch service categories from API
 $categories_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_service_category';
 $categories_response = wp_remote_get($categories_api_url, array(
@@ -44,7 +47,7 @@ $categories_response = wp_remote_get($categories_api_url, array(
     'headers' => array(
         'Content-Type' => 'application/json',
         'Accept' => 'application/json',
-        'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+        'apikey' => $supabase_api_key
     )
 ));
 
@@ -59,6 +62,9 @@ if (!is_wp_error($categories_response) && wp_remote_retrieve_response_code($cate
 
 // Function to fetch services for a category with filters
 function get_services_by_category($category, $car_make = '', $car_model = '', $fuel_type = '') {
+    // Get Supabase API key from wp-config.php constant
+    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    
     $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_services_by_category?service_category=eq.' . urlencode($category);
     
     // Add filters to API URL if parameters are provided
@@ -77,7 +83,7 @@ function get_services_by_category($category, $car_make = '', $car_model = '', $f
         'headers' => array(
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+            'apikey' => $supabase_api_key
         )
     ));
     
@@ -101,7 +107,7 @@ $car_makes_response = wp_remote_get($car_makes_api_url, array(
     'headers' => array(
         'Content-Type' => 'application/json',
         'Accept' => 'application/json',
-        'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+        'apikey' => $supabase_api_key
     )
 ));
 
@@ -168,7 +174,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                     'headers' => array(
                                         'Content-Type' => 'application/json',
                                         'Accept' => 'application/json',
-                                        'apikey' => 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp'
+                                        'apikey' => $supabase_api_key
                                     )
                                 ));
                                 $vendor_services_lookup = array();
@@ -1042,6 +1048,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Define CART_STORAGE_KEY constant at the top of the script
+    const CART_STORAGE_KEY = 'cost_estimator_cart';
     // Helper functions
     function $(selector) {
         return document.querySelector(selector);
@@ -1671,7 +1679,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Cart functionality with sessionStorage
-    const CART_STORAGE_KEY = 'cost_estimator_cart';
+    // CART_STORAGE_KEY is already defined at the top of DOMContentLoaded
     const imgUrl = '<?php echo esc_js($img_url); ?>';
     
     // Get current vehicle info for cart validation

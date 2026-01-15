@@ -389,7 +389,7 @@ body.payment-page.validation-passed {
                             <a href="" id="changeDateAndTimeBtn" class="text-[#6B6B6B] font-medium text-sm duration-300 hover:underline">Change</a>
                         </div>
                     </div>
-                    <div class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
+                    <div id="choosePaymentMethodSection" class="w-full md:p-8 p-4 md:rounded-none rounded-xl flex flex-col gap-y-6 bg-white border border-[#E5E5E5] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]">
                         <div class="flex flex-col gap-y-2">
                             <h2 class="text-[#2F2F2F] font-semibold lg:text-xl text-lg">Choose Payment Method</h2>
                             <p class="text-[#6B6B6B] text-sm font-medium">Select how you'd like to pay for your service</p>
@@ -538,8 +538,9 @@ body.payment-page.validation-passed {
                         </div>
                         
                         <div class="border-t border-[#EFEFEF] pt-6">
-                            <button type="button" id="confirmBookingBtnDesktop" class="w-full flex justify-center items-center gap-2 bg-[#AFAFAF] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#CB122D] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled="true">Confirm Booking
-                                <span>
+                            <button type="button" id="confirmBookingBtnDesktop" class="w-full flex justify-center items-center gap-2 bg-[#AFAFAF] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#CB122D] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative" disabled="true">
+                                <span id="confirmBookingBtnDesktopText" class="flex items-center gap-2">
+                                    Confirm Booking
                                     <svg class="size-[1.125rem]" width="18" height="18" viewBox="0 0 18 18"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3.75 9H14.25" stroke="white" stroke-width="1.5"
@@ -547,6 +548,10 @@ body.payment-page.validation-passed {
                                         <path d="M9 3.75L14.25 9L9 14.25" stroke="white" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
+                                </span>
+                                <span id="confirmBookingBtnDesktopLoader" class="hidden absolute inset-0 flex items-center justify-center gap-2">
+                                    <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                    <span>Processing...</span>
                                 </span>
                             </button>
                         </div>
@@ -603,7 +608,13 @@ body.payment-page.validation-passed {
             </div>
         </div>
     </label>
-    <button type="button" id="confirmBookingBtnMobile" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed" disabled="true">Confirm Booking</button>
+    <button type="button" id="confirmBookingBtnMobile" class="w-1/2 bg-[#AFAFAF] w-full rounded-lg h-[2.875rem] flex justify-center items-center text-sm font-bold text-white duration-500 hover:bg-[#CB122D] disabled:bg-gray-400 disabled:cursor-not-allowed relative" disabled="true">
+        <span id="confirmBookingBtnMobileText">Confirm Booking</span>
+        <span id="confirmBookingBtnMobileLoader" class="hidden absolute inset-0 flex items-center justify-center gap-2">
+            <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+            <span class="text-xs">Processing...</span>
+        </span>
+    </button>
 </div>
 
 <script>
@@ -1369,8 +1380,51 @@ body.payment-page.validation-passed {
     function handleConfirmBooking() {
         const desktopBtn = document.getElementById('confirmBookingBtnDesktop');
         const mobileBtn = document.getElementById('confirmBookingBtnMobile');
+        const desktopBtnText = document.getElementById('confirmBookingBtnDesktopText');
+        const mobileBtnText = document.getElementById('confirmBookingBtnMobileText');
+        const desktopBtnLoader = document.getElementById('confirmBookingBtnDesktopLoader');
+        const mobileBtnLoader = document.getElementById('confirmBookingBtnMobileLoader');
+        
+        function showLoader() {
+            // Show loader and hide text for desktop button
+            if (desktopBtnText) desktopBtnText.classList.add('hidden');
+            if (desktopBtnLoader) desktopBtnLoader.classList.remove('hidden');
+            if (desktopBtn) {
+                desktopBtn.disabled = true;
+                desktopBtn.style.pointerEvents = 'none';
+            }
+            
+            // Show loader and hide text for mobile button
+            if (mobileBtnText) mobileBtnText.classList.add('hidden');
+            if (mobileBtnLoader) mobileBtnLoader.classList.remove('hidden');
+            if (mobileBtn) {
+                mobileBtn.disabled = true;
+                mobileBtn.style.pointerEvents = 'none';
+            }
+        }
+        
+        function hideLoader() {
+            // Hide loader and show text for desktop button
+            if (desktopBtnText) desktopBtnText.classList.remove('hidden');
+            if (desktopBtnLoader) desktopBtnLoader.classList.add('hidden');
+            if (desktopBtn) {
+                desktopBtn.disabled = false;
+                desktopBtn.style.pointerEvents = '';
+            }
+            
+            // Hide loader and show text for mobile button
+            if (mobileBtnText) mobileBtnText.classList.remove('hidden');
+            if (mobileBtnLoader) mobileBtnLoader.classList.add('hidden');
+            if (mobileBtn) {
+                mobileBtn.disabled = false;
+                mobileBtn.style.pointerEvents = '';
+            }
+        }
         
         function redirectToBookingConfirmed() {
+            // Show loader
+            showLoader();
+            
             // Get booking confirmed page URL
             const bookingConfirmedUrl = '<?php echo esc_url(home_url('/booking-confirmed')); ?>';
             
@@ -1379,14 +1433,15 @@ body.payment-page.validation-passed {
                 sessionStorage.removeItem(CART_STORAGE_KEY);
                 sessionStorage.removeItem('cost_estimator_previous_url');
             } catch (e) {
-                console.error('Error clearing sessionStorage:', e);
+                // Error clearing sessionStorage
             }
             
             // Redirect to booking confirmed page
             if (bookingConfirmedUrl) {
                 window.location.href = bookingConfirmedUrl;
             } else {
-                console.error('Booking confirmed page URL not found');
+                // Hide loader if redirect fails
+                hideLoader();
             }
         }
         
@@ -1437,6 +1492,39 @@ body.payment-page.validation-passed {
         handlePaymentMethodSelection();
         handleConfirmBooking();
         restorePaymentMethod();
+    }
+})();
+</script>
+
+<script>
+// Smooth scroll to Choose Payment Method section after page load
+(function() {
+    'use strict';
+    
+    function scrollToPaymentMethodSection() {
+        const paymentMethodSection = document.getElementById('choosePaymentMethodSection');
+        if (paymentMethodSection) {
+            // Calculate offset to account for fixed header
+            const headerOffset = 100; // Adjust this value based on your header height
+            const elementPosition = paymentMethodSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            // Smooth scroll
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    // Wait for page to fully load and then scroll
+    // Small delay to ensure all content is rendered
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(scrollToPaymentMethodSection, 500);
+        });
+    } else {
+        setTimeout(scrollToPaymentMethodSection, 500);
     }
 })();
 </script>

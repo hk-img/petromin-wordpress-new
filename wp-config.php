@@ -90,7 +90,41 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+/**
+ * Third-party API Keys and Credentials
+ * 
+ * IMPORTANT: Never expose these keys in client-side code (JavaScript).
+ * All API calls should be made server-side through WordPress AJAX endpoints.
+ */
 
+// Supabase API Key
+if ( ! defined( 'SUPABASE_API_KEY' ) ) {
+	define( 'SUPABASE_API_KEY', 'sb_publishable_YqO5Tv3YM4BquKiCgHqs3w_8Wd7-trp' );
+}
+
+// Google Maps API Key
+if ( ! defined( 'GOOGLE_MAPS_API_KEY' ) ) {
+	define( 'GOOGLE_MAPS_API_KEY', 'AIzaSyDC3RCcvMaCHd7VOf7hRhgceXDQ5cSFyGU' );
+}
+
+// MSG91 API Credentials
+if ( ! defined( 'MSG91_AUTH_KEY' ) ) {
+	define( 'MSG91_AUTH_KEY', '481217AuDxkyUp693ab3c1P1' );
+}
+if ( ! defined( 'MSG91_TEMPLATE_ID' ) ) {
+	define( 'MSG91_TEMPLATE_ID', '693ab28155f110055e100886' );
+}
+if ( ! defined( 'MSG91_SENDER_ID' ) ) {
+	define( 'MSG91_SENDER_ID', 'ATOMCS' );
+}
+
+// LeadSquared API Credentials
+if ( ! defined( 'LEADSQUARED_ACCESS_KEY' ) ) {
+	define( 'LEADSQUARED_ACCESS_KEY', 'u$r0413f07ac8b67751e2a996372c279214' );
+}
+if ( ! defined( 'LEADSQUARED_SECRET_KEY' ) ) {
+	define( 'LEADSQUARED_SECRET_KEY', '9d4ba5b88cb6f3ab35dd03290f691fb391de9ac7' );
+}
 
 /* That's all, stop editing! Happy publishing. */
 
