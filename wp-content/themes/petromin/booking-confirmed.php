@@ -81,12 +81,11 @@ if (empty($confirmation_image_url)) {
 </div>
 
 <script>
-// Display booking ID from sessionStorage if available (before it was cleared)
+// Display Booking ID from URL parameter
 (function() {
     'use strict';
     
-    // Try to get booking ID from URL parameter or other source
-    // Since sessionStorage is cleared, we can check URL params or use a fallback
+    // Get Booking ID from URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const bookingId = urlParams.get('booking_id');
     
@@ -95,7 +94,7 @@ if (empty($confirmation_image_url)) {
         if (bookingId) {
             bookingIdDisplay.textContent = 'Your Booking ID #' + bookingId;
         }
-        // If no booking ID in URL, keep the default text
+        // If no Booking ID in URL, keep the default text
     }
 })();
 </script>

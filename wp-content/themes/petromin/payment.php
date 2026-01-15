@@ -1421,10 +1421,7 @@ body.payment-page.validation-passed {
             }
         }
         
-        function redirectToBookingConfirmed() {
-            // Show loader
-            showLoader();
-            
+        function redirectToBookingConfirmed(bookingId) {
             // Get booking confirmed page URL
             const bookingConfirmedUrl = '<?php echo esc_url(home_url('/booking-confirmed')); ?>';
             
@@ -1436,20 +1433,84 @@ body.payment-page.validation-passed {
                 // Error clearing sessionStorage
             }
             
-            // Redirect to booking confirmed page
+            // Redirect to booking confirmed page with Booking ID as URL parameter
             if (bookingConfirmedUrl) {
-                window.location.href = bookingConfirmedUrl;
+                const url = new URL(bookingConfirmedUrl);
+                if (bookingId) {
+                    url.searchParams.set('booking_id', bookingId);
+                }
+                window.location.href = url.toString();
             } else {
                 // Hide loader if redirect fails
                 hideLoader();
             }
         }
         
+        function confirmBooking() {
+            // Show loader
+            showLoader();
+            
+            // Get cart data
+            const cart = getCart();
+            if (!cart) {
+                hideLoader();
+                alert('Booking data not found. Please try again.');
+                return;
+            }
+            
+            // Get nonce and ajax URL
+            const otpNonce = '<?php echo wp_create_nonce("otp_nonce"); ?>';
+            const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
+            
+            // Prepare booking data
+            const bookingData = {
+                vehicle: cart.vehicle || {},
+                items: cart.items || [],
+                verified_phone: cart.verified_phone || '',
+                phone_verified: cart.phone_verified || false,
+                service_center: cart.service_center || {},
+                selected_date: cart.selected_date || '',
+                selected_time_slot: cart.selected_time_slot || '',
+                payment_method: cart.payment_method || 'Pay at Service Center',
+                service_category: cart.service_category || ''
+            };
+            
+            // Call LeadSquared API
+            const formData = new FormData();
+            formData.append('action', 'confirm_booking_with_leadsquared');
+            formData.append('nonce', otpNonce);
+            formData.append('booking_data', JSON.stringify(bookingData));
+            
+            fetch(ajaxUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.success) {
+                    const bookingId = data.data && data.data.booking_id ? data.data.booking_id : null;
+                    // Redirect to booking confirmed page with Booking ID
+                    redirectToBookingConfirmed(bookingId);
+                } else {
+                    // Hide loader on error
+                    hideLoader();
+                    const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Failed to confirm booking. Please try again.';
+                    alert(errorMsg);
+                }
+            })
+            .catch(error => {
+                // Hide loader on error
+                hideLoader();
+                console.error('Error confirming booking:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+        
         if (desktopBtn) {
             desktopBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (!this.disabled) {
-                    redirectToBookingConfirmed();
+                    confirmBooking();
                 }
             });
         }
@@ -1458,7 +1519,7 @@ body.payment-page.validation-passed {
             mobileBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (!this.disabled) {
-                    redirectToBookingConfirmed();
+                    confirmBooking();
                 }
             });
         }

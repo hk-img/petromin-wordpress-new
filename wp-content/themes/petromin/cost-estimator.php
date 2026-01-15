@@ -2809,6 +2809,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Save service category to sessionStorage when category tab is selected
+    const serviceCategoryRadios = document.querySelectorAll('input[name="services"][type="radio"]');
+    serviceCategoryRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                // Get category name from the label text
+                const label = this.closest('label');
+                if (label) {
+                    const categoryName = label.textContent.trim();
+                    if (categoryName) {
+                        // Save to cart
+                        const cart = getCart();
+                        cart.service_category = categoryName;
+                        saveCart(cart);
+                    }
+                }
+            }
+        });
+    });
+    
+    // Save initial selected category on page load
+    const initialSelectedCategory = document.querySelector('input[name="services"][type="radio"]:checked');
+    if (initialSelectedCategory) {
+        const label = initialSelectedCategory.closest('label');
+        if (label) {
+            const categoryName = label.textContent.trim();
+            if (categoryName) {
+                const cart = getCart();
+                cart.service_category = categoryName;
+                saveCart(cart);
+            }
+        }
+    }
+    
     // Initial cart render and button states update
     renderCart();
     updateButtonStates();
