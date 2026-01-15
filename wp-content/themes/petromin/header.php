@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> class="md:text-[1vw]">
 
+<?php
+    // Check if this is verify page template - don't render header UI
+    $is_verify_page = is_page_template('verify.php');
+    $is_workstation_page = is_page_template('workstation.php');
+    $is_slot_page = is_page_template('slot.php');
+    $is_payment_page = is_page_template('payment.php');
+    $is_booking_confirmed_page = is_page_template('booking-confirmed.php');
+    $is_cost_estimator_page = is_page_template('cost-estimator.php');
+?>
+
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -35,8 +45,10 @@
 
     <!-- WordPress head -->
     <?php wp_head(); ?>
-    <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
-    <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script>
+    <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page && !$is_cost_estimator_page) : ?>
+        <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
+        <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script>
+    <?php endif; ?>
 </head>
 
 <body <?php body_class('!font-inter'); ?>>
@@ -87,12 +99,6 @@ $default_mobile_items = [
 $nav_items = !empty($navigation_menu) ? $navigation_menu : $default_nav_items;
 $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
 
-// Check if this is verify page template - don't render header UI
-$is_verify_page = is_page_template('verify.php');
-$is_workstation_page = is_page_template('workstation.php');
-$is_slot_page = is_page_template('slot.php');
-$is_payment_page = is_page_template('payment.php');
-$is_booking_confirmed_page = is_page_template('booking-confirmed.php');
 ?>
 
 <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page) : ?>

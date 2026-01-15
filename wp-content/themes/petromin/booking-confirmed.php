@@ -2,6 +2,15 @@
 /* Template Name: booking confirmed page */
 get_header();
 
+// Check if booking_id is present in URL parameter
+$booking_id = isset($_GET['booking_id']) ? sanitize_text_field($_GET['booking_id']) : '';
+
+// If booking_id is not present, redirect to homepage
+if (empty($booking_id)) {
+    wp_safe_redirect(home_url('/'));
+    exit;
+}
+
 // Get theme assets directory URL for images
 $img_url = get_template_directory_uri() . '/assets/img/';
 
