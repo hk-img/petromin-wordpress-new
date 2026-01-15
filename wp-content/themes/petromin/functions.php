@@ -6121,6 +6121,19 @@ function handle_save_booking_with_leadsquared() {
     // Get created date (current date time in format: YYYY-MM-DD HH:MM:SS)
     $created_date = current_time('Y-m-d H:i:s');
     
+    // Collect all service names from booking items for multiselect field
+    $service_names = array();
+    if (isset($booking_data['items']) && is_array($booking_data['items'])) {
+        foreach ($booking_data['items'] as $item) {
+            $service_name = isset($item['service_name']) ? $item['service_name'] : (isset($item['name']) ? $item['name'] : '');
+            if (!empty($service_name)) {
+                $service_names[] = $service_name;
+            }
+        }
+    }
+    // Format service names as semicolon-separated string
+    $service_names_string = !empty($service_names) ? implode(';', $service_names) : '';
+    
     // Always generate LEAD- ID first (will be used for all bookings regardless of API success)
     $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
     
@@ -6171,11 +6184,10 @@ function handle_save_booking_with_leadsquared() {
                     'SchemaName' => 'mx_Custom_15',
                     'Value' => $vehicle_city ? $vehicle_city : 'Bangalore'
                 ),
-                // mx_Custom_18 commented out as per client request - will implement when client provides
-                // array(
-                //     'SchemaName' => 'mx_Custom_18',
-                //     'Value' => 'Express Car Service @ ₹999'
-                // ),
+                array(
+                    'SchemaName' => 'mx_Multiselect_test_field',
+                    'Value' => $service_names_string
+                ),
                 array(
                     'SchemaName' => 'mx_Custom_27',
                     'Value' => $created_date
