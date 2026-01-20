@@ -3366,6 +3366,28 @@ add_action('acf/init', function () {
                     'width' => '50%',
                 ]
             ),
+
+            // "More Services" CTA (single service hero)
+            array(
+                'key' => 'field_more_services_button_text',
+                'label' => 'More Services Button Text',
+                'name' => 'more_services_button_text',
+                'type' => 'text',
+                'default_value' => 'More Services',
+                'wrapper' => [
+                    'width' => '50%',
+                ],
+            ),
+            array(
+                'key' => 'field_more_services_button_link',
+                'label' => 'More Services Button Link',
+                'name' => 'more_services_button_link',
+                'type' => 'page_link',
+                'instructions' => 'Select the page to link to (fallback: Services archive)',
+                'wrapper' => [
+                    'width' => '50%',
+                ],
+            ),
             
             // Problems Section
             array(

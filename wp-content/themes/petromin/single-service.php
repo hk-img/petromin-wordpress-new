@@ -9,20 +9,24 @@ $images_url = $assets_url . '/img';
 
 // Get ACF fields
 $hero_description = get_field('hero_description') ?: 'Your car runs better when the service is predictable, not the problems. We focus on preventive care that protects performance, avoids surprises, and keeps your vehicle reliable between every start and stop.';
-$button_text = get_field('button_text') ?: 'Add to list';
-$button_link = get_field('button_link') ?: '#';
 $problems_title = get_field('problems_title') ?: 'Tired of these?';
 $problems = get_field('problems') ?: array();
 $services_title = get_field('services_title') ?: "Here's what your car gets";
 $services_included = get_field('services_included') ?: array();
 $services_overview_note = get_field('services_overview_note') ?: "For a complete overview of what's covered, get in touch.";
 $more_services_title = get_field('more_services_title') ?: 'More Services';
+$more_services_button_text = get_field('more_services_button_text') ?: 'More Services';
+$more_services_button_link = get_field('more_services_button_link') ?: '';
 $savings_title = get_field('savings_title') ?: 'Your car gets the service. You get the savings.';
 $savings_description = get_field('savings_description') ?: 'Check for perks before you book a visit.';
 $savings_button_text = get_field('savings_button_text') ?: 'Know More';
 $savings_button_link = get_field('savings_button_link') ?: '#';
 $savings_image = get_field('savings_image');
 $faq_title = get_field('faq_title') ?: 'It\'s best you know these.';
+
+// Static CTA: Check Price (not managed via CMS)
+$check_price_page = get_page_by_path('cost-estimator');
+$check_price_link = $check_price_page ? get_permalink($check_price_page) : '#';
 
 // Backend-only service images (for reuse on other pages). These are uploaded in the Service editor
 // and intentionally NOT output on the single service front-end. Stored as ACF image fields (return ID).
@@ -134,12 +138,25 @@ function get_service_icon($icon_input) {
                     class="md:text-lg text-base text-[#FFFFFF] text-balance md:font-semibold font-normal drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]">
                     <?php echo esc_html($hero_description); ?>
                 </div>
-                <div class="flex w-full mt-1">
-                    <a href="<?php echo esc_url($button_link); ?>"
-                        class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
+                <div class="flex gap-4 w-full mt-1">
+                    <a href="#carPopup"
+                        class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12 js-open-car-popup">
                         <span
                             class="flex items-center gap-1 md:text-lg text-base md:font-bold font-semibold text-white">
-                            <?php echo esc_html($button_text); ?>
+                            Check Price
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
+                                fill="none">
+                                <path
+                                    d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
+                                    fill="white" />
+                            </svg>
+                        </span>
+                    </a>
+                    <a href="<?php echo esc_url(!empty($more_services_button_link) ? $more_services_button_link : '#more-services'); ?>"
+                        class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12 <?php echo empty($more_services_button_link) ? 'js-scroll-to-more-services' : ''; ?>">
+                        <span
+                            class="flex items-center gap-1 md:text-lg text-base md:font-bold font-semibold text-white">
+                            <?php echo esc_html($more_services_button_text); ?>
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
                                 fill="none">
                                 <path
@@ -221,7 +238,7 @@ function get_service_icon($icon_input) {
 
 
 
-<section class="w-full relative moreServices md:pb-[6.25rem] pb-[4rem] overflow-hidden">
+<section id="more-services" class="w-full relative moreServices md:pb-[6.25rem] pb-[4rem] overflow-hidden">
     <div class="view md:pr-0">
         <div class="flex items-center justify-between md:pb-12 pb-6">
             <div class="w-full flex flex-col gap-1 md:gap-1">
@@ -511,6 +528,16 @@ document.addEventListener("DOMContentLoaded", function() {
                         spaceBetween: 24
                     },
                 },
+            });
+
+            // If "More Services" CTA link is not set from CMS, scroll to this section
+            document.querySelectorAll('.js-scroll-to-more-services').forEach(function (el) {
+                el.addEventListener('click', function (e) {
+                    var target = document.getElementById('more-services');
+                    if (!target) return;
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
             });
         });
     </script>

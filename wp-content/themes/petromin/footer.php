@@ -1004,6 +1004,12 @@ if (!empty($cost_estimator_pages)) {
                     $popup.hasClass("hidden") ? show() : hide();
                 };
 
+            // Expose popup controls for triggers elsewhere (e.g., service detail page CTA)
+            window.PetrominCarPopup = window.PetrominCarPopup || {};
+            window.PetrominCarPopup.show = show;
+            window.PetrominCarPopup.hide = hide;
+            window.PetrominCarPopup.toggle = toggle;
+
             $mobile.add($desk).on("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1031,6 +1037,18 @@ if (!empty($cost_estimator_pages)) {
             <?php else : ?>
             hide();
             <?php endif; ?>
+
+            // Generic trigger (used by "Check Price" CTA on single service template)
+            $(document).on('click', '.js-open-car-popup', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (window.PetrominCarPopup && typeof window.PetrominCarPopup.show === 'function') {
+                    window.PetrominCarPopup.show();
+                } else {
+                    // Fallback: trigger existing toggles if available
+                    $('#desktopToggle, #mobileToggle').first().trigger('click');
+                }
+            });
         });
     </script>
     
