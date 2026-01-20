@@ -1885,7 +1885,7 @@ if (!empty($home_offers)):
         <!-- Mobile Slider -->
         <?php if (!empty($mobile_brands)): ?>
         <div class="swiper brandsSectionSwiperMobile relative z-0 lg:hidden block">
-            <div class="w-full swiper-wrapper !ease-linear flex !ease-linear">
+            <div class="w-full swiper-wrapper !ease-linear flex">
                 <?php foreach ($mobile_brands as $brand): ?>
                 <div class="swiper-slide">
                     <img loading="eager" fetchpriority="high" decoding="async"
@@ -1904,7 +1904,7 @@ if (!empty($home_offers)):
     class="w-full relative overflow-hidden z-30 font-inter md:mt-[6.5rem] md:pt-0 pt-[2.5rem] mt-[3rem] md:pb-20 pb-10">
     <div class="view">
         <div class="relative flex items-center justify-between md:flex-row flex-wrap flex-col gap-y-6 h-full">
-            <div class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-30">
+            <div class="md:w-5/12 w-full flex items-center relative z-30">
                 <div class="flex flex-col gap-y-7 relative z-30">
                     <h2
                         class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-bold whitespace-nowrap text-black">
@@ -1953,9 +1953,9 @@ if (!empty($home_offers)):
 
             <!-- Right Column -->
             <div
-                class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center justify-center relative z-10 bg-transparent  text-white">
+                class="md:w-7/12 w-full flex items-center justify-center relative z-10 bg-transparent text-white md:pt-10">
                 <?php if ($video_url !== ''): ?>
-                <video width="100%" height="100%" class="md:h-[35rem]" controls autoplay muted loop playsinline>
+                <video width="100%" height="100%" class="w-full h-auto aspect-[16/9]" controls autoplay muted loop playsinline>
                     <source src=" <?php echo esc_url($video_url); ?>" type="<?php echo esc_attr($video_type); ?>">
                     Your browser does not support the video tag.
                 </video>

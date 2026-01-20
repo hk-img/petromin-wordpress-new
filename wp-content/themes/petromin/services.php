@@ -230,7 +230,7 @@ $faq_data = [
 </div>
 
 <!-- New Our Services Section -->
-<div class="w-full relative bg-white pt-[4.25rem]  md:pb-[3.25rem] pb-[2rem]">
+<div class="w-full relative bg-white md:py-[4.25rem] py-[2rem]">
     <div class="view">
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2

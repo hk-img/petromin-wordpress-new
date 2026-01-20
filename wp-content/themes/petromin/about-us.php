@@ -485,7 +485,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </h2>
                         <?php endif; ?>
                         <div
-                            class="flex items-center justify-start  origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
+                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                             <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
@@ -835,10 +835,10 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                         title="<?php echo esc_attr($background['alt']); ?>"
                                         class="size-full object-cover aspect-[203/278]">
                                     <div
-                                        class="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-[#CB122D] to-[#CB122D00]">
+                                        class="absolute bottom-0 left-0 w-full h-4/12 bg-gradient-to-t from-[#CB122D] to-[#CB122D00]">
                                     </div>
 
-                                    <div class="absolute left-0 bottom-10 pr-3 duration-300 group-hover:lg:bottom-12">
+                                    <div class="absolute left-0 bottom-12 pr-3 duration-300 group-hover:lg:bottom-14">
                                         <h4
                                             class="text-white lg:text-sm md:text-sm text-xs font-bold px-5 h-10 md:w-[13.800rem] w-[10.063rem] flex justify-start items-center bg-gradient-to-l from-[#CB122D] to-[#650916] group-hover:lg:from-[#000] group-hover:lg:to-[#000] duration-300 origin-top -skew-x-[16deg] ">
                                             <div class="skew-x-[16deg] flex items-center gap-1">
@@ -846,7 +846,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                                 <span>
                                                     <img src="<?php echo esc_url($icon['url']); ?>"
                                                         alt="<?php echo esc_attr($icon['alt'] ?: $title); ?>"
-                                                        class="h-4 w-4 object-contain">
+                                                        class="size-6 object-contain">
                                                 </span>
                                                 <?php endif; ?>
                                                 <?php echo esc_html($title); ?>
@@ -889,7 +889,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                     <div
                                         class="w-max pr-3 duration-500 lg:translate-y-12 group-hover:lg:-translate-y-2">
                                         <h4
-                                            class="text-white lg:text-xl md:text-lg text-base font-bold md:px-5 px-6 pr-2 h-12 md:w-[19.188rem] w-[14.438rem] flex justify-start items-center lg:bg-gradient-to-l lg:from-[#CB122D] lg:to-[#650916] group-hover:lg:from-[#000] group-hover:lg:to-[#000] bg-[#000000] duration-300 origin-top -skew-x-[16deg] ">
+                                            class="text-white lg:text-xl md:text-lg text-base font-bold md:px-5 px-6 pr-2 min-h-14 md:w-[19.188rem] w-[14.438rem] flex justify-start items-center lg:bg-gradient-to-l lg:from-[#CB122D] lg:to-[#650916] group-hover:lg:from-[#000] group-hover:lg:to-[#000] bg-[#000000] duration-300 origin-top -skew-x-[16deg] ">
                                             <div class="skew-x-[16deg] ">
                                                 <?php echo esc_html($card['title']); ?>
                                             </div>
