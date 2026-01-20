@@ -515,7 +515,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                         <div class="relative mt-2">
                                             <input type="text" placeholder="Car Brand" id="vehicleBrandInput" readonly=""
                                                 value="<?php echo esc_attr($brand); ?>"
-                                                class="w-full px-4 py-3 text-black bg-white border border-[#E3E3E3] placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg">
+                                                class="w-full px-4 py-3 text-black bg-white border border-[#E3E3E3] placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg">
                                             <span id="vehicleBrandIcon"
                                                 class="absolute right-3 top-1/2 transform -translate-y-1/2">
                                                 <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -581,7 +581,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                             <input type="text" placeholder="Car Model (Select Car Brand first)"
                                                 id="vehicleModelInput" readonly=""
                                                 value="<?php echo esc_attr($model); ?>"
-                                                class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                                                class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
                                             <span id="vehicleModelIcon"
                                                 class="absolute right-3 top-1/2 transform -translate-y-1/2">
                                                 <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -626,7 +626,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                         <div class="relative mt-2">
                                             <input type="text" placeholder="Fuel Type" id="vehicleFuelInput" readonly=""
                                                 value="<?php echo esc_attr($fuel); ?>"
-                                                class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                                                class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
                                             <span id="vehicleFuelIcon"
                                                 class="absolute right-3 top-1/2 transform -translate-y-1/2">
                                                 <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -895,7 +895,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     <div class="relative mt-2">
                         <input type="text" placeholder="Car Brand" id="mobileVehicleBrandInput" readonly=""
                             value="<?php echo esc_attr($brand); ?>"
-                            class="w-full px-4 py-3 text-black bg-white border border-[#E3E3E3] placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg">
+                            class="w-full px-4 py-3 text-black bg-white border border-[#E3E3E3] placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg">
                         <span id="mobileVehicleBrandIcon"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                             <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -961,7 +961,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         <input type="text" placeholder="Car Model (Select Car Brand first)"
                             id="mobileVehicleModelInput" readonly=""
                             value="<?php echo esc_attr($model); ?>"
-                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
                         <span id="mobileVehicleModelIcon"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                             <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -1006,7 +1006,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     <div class="relative mt-2">
                         <input type="text" placeholder="Fuel Type" id="mobileVehicleFuelInput" readonly=""
                             value="<?php echo esc_attr($fuel); ?>"
-                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
+                            class="w-full px-4 py-3 text-gray-800 bg-white border border-[#E3E3E3] placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer md:rounded-none rounded-lg" disabled>
                         <span id="mobileVehicleFuelIcon"
                             class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                             <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16"
