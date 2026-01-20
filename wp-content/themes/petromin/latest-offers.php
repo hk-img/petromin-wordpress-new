@@ -174,7 +174,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                         if (!empty($offers)):
                             foreach ($offers as $offer):
                         ?>
-                        <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30 max-w-[33vw]">
+                        <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30 md:max-w-[33vw]">
                             <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
                                 <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
                                     <img fetchpriority="low" loading="lazy" 
@@ -183,13 +183,13 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                                         alt="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>" 
                                         title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
                                         class="w-full h-full object-cover aspect-square" />
-                                    <div class="w-full flex md:flex-row flex-col md:justify-between justify-center items-center gap-2 py-4">
-                                        <p class="text-white md:font-bold md:text-base text-sm max-sm:text-center line-clamp-2">
+                                    <div class="w-full flex flex-row justify-between items-center gap-2 py-4">
+                                        <p class="text-white md:font-bold md:text-base text-[0.6rem] line-clamp-2">
                                             <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
                                         </p>
                                         <div class="shrink-0">
-                                            <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
-                                                <span class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">
+                                            <button class="md:px-5 px-2 flex space-x-3 items-center bg-[#FF8300] md:h-12 h-7">
+                                                <span class="flex items-center gap-1 md:text-base text-[0.6rem] md:font-bold font-semibold text-white">
                                                     <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20" fill="none">
                                                         <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
@@ -309,19 +309,19 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     
                     <div class="flex items-center gap-1 bg-[#F8F8F8] border-r border-[#E5E5E5] px-3 shrink-0">
                         <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($images_url . '/indiaFlag.webp'); ?>" class="w-4 h-auto" alt="India Flag">
-                        <span class="text-sm font-medium text-[#2F2F2F]">+91</span>
+                        <span class="md:text-sm text-xs font-medium text-[#2F2F2F]">+91</span>
                     </div>
                     
                     <input type="tel" id="appPhoneInput" name="phone_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" 
                         placeholder="<?php echo esc_attr($app_contact_placeholder); ?>"
-                        class="flex-1 py-2.5 pl-4 text-base font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3] border-0 focus:ring-0"
+                        class="flex-1 py-2.5 pl-4 md:text-base text-xs font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3] border-0 focus:ring-0 min-w-0"
                         required />
 
                     <button type="submit" id="appSubmitBtn"
-                        class="bg-[#FF8300] text-white text-base text-nowrap font-bold px-2 flex items-center gap-1 md:gap-2.5 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
+                        class="bg-[#FF8300] text-white md:text-base text-xs text-nowrap font-bold px-2 flex items-center gap-1 md:gap-2.5 disabled:bg-gray-400 disabled:cursor-not-allowed relative">
                         <span id="appSubmitBtnText"><?php echo esc_html($app_button_text); ?></span>
                         <span id="appSubmitBtnLoader" class="hidden flex items-center justify-center">
-                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <svg class="animate-spin md:size-5 size-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
