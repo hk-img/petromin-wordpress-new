@@ -90,6 +90,20 @@ define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+// Increase WordPress Memory Limit to prevent plugin deactivation
+define('WP_MEMORY_LIMIT', '256M');
+define('WP_MAX_MEMORY_LIMIT', '512M');
+
+// Disable automatic plugin deactivation on updates
+define('AUTOMATIC_UPDATER_DISABLED', false);
+define('WP_AUTO_UPDATE_CORE', true);
+
+// Enable proper cron job execution
+define('DISABLE_WP_CRON', false);
+
+// Enable error logging for debugging
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', false);
 /**
  * Third-party API Keys and Credentials
  * 
