@@ -45,121 +45,121 @@ $faqs = get_field('offer_faqs', $offer_id);
                     <h2 class="text-white md:text-lg text-md font-semibold italic">Get this offer today</h2>
                 </div>
                 <div class="py-8 px-6">
-                        <form action="" class="flex flex-col gap-y-8">
-                            <div class="w-full relative">
-                                <label class="block mb-2 text-base font-medium">City</label>
-                                <div class="relative w-full">
-                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
-                                        px-4 pr-10
-                                        text-[#99A1AF]
-                                        appearance-none
-                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
+                    <form action="" class="flex flex-col gap-y-8">
+                        <div class="w-full relative">
+                            <label class="block mb-2 text-base font-medium">City</label>
+                            <div class="relative w-full">
+                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                    px-4 pr-10
+                                    text-[#99A1AF]
+                                    appearance-none
+                                    focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
 
-                                        <option value="" disabled selected class="text-[#99A1AF]">Select City</option>
-                                        <option value="1" class="text-black">Mumbai</option>
-                                        <option value="2" class="text-black">Delhi</option>
-                                        <option value="3" class="text-black">Jaipur</option>
-                                    </select>
-                                    <span class="absolute right-4 top-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
-                                            fill="none">
-                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
-                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="w-full relative">
-                                <label class="block mb-2 text-base font-medium">Car Brand</label>
-                                <div class="relative w-full">
-                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
-                                        px-4 pr-10
-                                        text-[#99A1AF]
-                                        appearance-none
-                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-
-                                        <option value="" disabled selected class="text-[#99A1AF]">Select Brand</option>
-                                        <option value="1" class="text-black">Mumbai</option>
-                                        <option value="2" class="text-black">Delhi</option>
-                                        <option value="3" class="text-black">Jaipur</option>
-                                    </select>
-                                    <span class="absolute right-4 top-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
-                                            fill="none">
-                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
-                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="w-full relative">
-                                <label class="block mb-2 text-base font-medium">Car Model</label>
-                                <div class="relative w-full">
-                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
-                                        px-4 pr-10
-                                        text-[#99A1AF]
-                                        appearance-none
-                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-
-                                        <option value="" disabled selected class="text-[#99A1AF]">Select Model</option>
-                                        <option value="1" class="text-black">Mumbai</option>
-                                        <option value="2" class="text-black">Delhi</option>
-                                        <option value="3" class="text-black">Jaipur</option>
-                                    </select>
-                                    <span class="absolute right-4 top-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
-                                            fill="none">
-                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
-                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="w-full relative">
-                                <label class="block mb-2 text-base font-medium">Fuel Type</label>
-                                <div class="relative w-full">
-                                    <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
-                                        px-4 pr-10
-                                        text-[#99A1AF]
-                                        appearance-none
-                                        focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
-
-                                        <option value="" disabled selected class="text-[#99A1AF]">Select Fuel Type
-                                        </option>
-                                        <option value="1" class="text-black">Mumbai</option>
-                                        <option value="2" class="text-black">Delhi</option>
-                                        <option value="3" class="text-black">Jaipur</option>
-                                    </select>
-                                    <span class="absolute right-4 top-5">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
-                                            fill="none">
-                                            <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
-                                                stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="w-full relative">
-                                <div class="text-[#6A7282] text-base font-normal">
-                                    Starting from <span class="text-[#CB122D] text-lg font-semibold"> ₹1,399*</span>
-                                </div>
-                            </div>
-
-                            <button type="button"
-                                class="w-full bg-[#FF8300] font-bold text-base text-white h-11 flex justify-center items-center gap-3 hover:bg-[#CB122D] duration-300">
-                                Book Now
-                                <span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 11 16"
+                                    <option value="" disabled selected class="text-[#99A1AF]">Select City</option>
+                                    <option value="1" class="text-black">Mumbai</option>
+                                    <option value="2" class="text-black">Delhi</option>
+                                    <option value="3" class="text-black">Jaipur</option>
+                                </select>
+                                <span class="absolute right-4 top-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
                                         fill="none">
-                                        <path
-                                            d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"
-                                            fill="white" />
-                                    </svg></span>
-                            </button>
-                        </form>
+                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                            stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w-full relative">
+                            <label class="block mb-2 text-base font-medium">Car Brand</label>
+                            <div class="relative w-full">
+                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                    px-4 pr-10
+                                    text-[#99A1AF]
+                                    appearance-none
+                                    focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
+
+                                    <option value="" disabled selected class="text-[#99A1AF]">Select Brand</option>
+                                    <option value="1" class="text-black">Mumbai</option>
+                                    <option value="2" class="text-black">Delhi</option>
+                                    <option value="3" class="text-black">Jaipur</option>
+                                </select>
+                                <span class="absolute right-4 top-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                        fill="none">
+                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                            stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w-full relative">
+                            <label class="block mb-2 text-base font-medium">Car Model</label>
+                            <div class="relative w-full">
+                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                    px-4 pr-10
+                                    text-[#99A1AF]
+                                    appearance-none
+                                    focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
+
+                                    <option value="" disabled selected class="text-[#99A1AF]">Select Model</option>
+                                    <option value="1" class="text-black">Mumbai</option>
+                                    <option value="2" class="text-black">Delhi</option>
+                                    <option value="3" class="text-black">Jaipur</option>
+                                </select>
+                                <span class="absolute right-4 top-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                        fill="none">
+                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                            stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w-full relative">
+                            <label class="block mb-2 text-base font-medium">Fuel Type</label>
+                            <div class="relative w-full">
+                                <select class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full
+                                    px-4 pr-10
+                                    text-[#99A1AF]
+                                    appearance-none
+                                    focus:outline-none focus:ring-0 focus:border-[#E5E7EB]">
+
+                                    <option value="" disabled selected class="text-[#99A1AF]">Select Fuel Type
+                                    </option>
+                                    <option value="1" class="text-black">Mumbai</option>
+                                    <option value="2" class="text-black">Delhi</option>
+                                    <option value="3" class="text-black">Jaipur</option>
+                                </select>
+                                <span class="absolute right-4 top-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"
+                                        fill="none">
+                                        <path d="M0.833008 0.833008L5.83101 5.83101L10.829 0.833008"
+                                            stroke="#99A1AF" stroke-width="1.666" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w-full relative">
+                            <div class="text-[#6A7282] text-base font-normal">
+                                Starting from <span class="text-[#CB122D] text-lg font-semibold"> ₹1,399*</span>
+                            </div>
+                        </div>
+
+                        <button type="button"
+                            class="w-full bg-[#FF8300] font-bold text-base text-white h-11 flex justify-center items-center gap-3 hover:bg-[#CB122D] duration-300">
+                            Book Now
+                            <span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 11 16"
+                                    fill="none">
+                                    <path
+                                        d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"
+                                        fill="white" />
+                                </svg></span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
