@@ -1279,11 +1279,11 @@ if (!empty($home_offers)):
     <div class="view md:pr-0">
         <div class="flex items-center justify-between md:pb-16 pb-12">
             <h2
-                class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2">
+                class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2 relative z-30 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
                 Latest Offers
             </h2>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -1330,7 +1330,7 @@ if (!empty($home_offers)):
                                     <button class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12">
                                         <span class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">
                                             <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20" fill="none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 20" fill="none">
                                                 <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
                                             </svg>
                                         </span>
@@ -1636,7 +1636,7 @@ if (!empty($home_offers)):
             <?php endif; ?>
             <?php if (!empty($timeline_nav_icon_data['url'])): ?>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
@@ -1788,7 +1788,7 @@ if (!empty($home_offers)):
                             </svg>
                         </a>
                         <span
-                            class="2xl:text-3xl lg:text-2xl text-lg font-bold italic"><?php echo esc_html($digital_checkup_original_price); ?></span>
+                            class="2xl:text-2xl lg:text-xl text-lg font-bold italic"><?php echo esc_html($digital_checkup_original_price); ?></span>
                     </div>
                 </div>
             </div>
@@ -1836,7 +1836,7 @@ if (!empty($home_offers)):
     <div class="view max-sm:mb-8">
         <div class="flex items-center justify-between">
             <h2
-                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 z-30 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] lg:after:top-16 after:top-24 after:left-0">
+                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 z-30 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
                 <?php echo esc_html($brands_heading); ?>
             </h2>
         </div>
@@ -2013,7 +2013,7 @@ if (!empty($home_offers)):
             </h2>
             <?php if ($nav_icon_data && !empty($nav_icon_data['url'])): ?>
             <div
-                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out">
+                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
@@ -2088,7 +2088,7 @@ if (!empty($home_offers)):
     <div class="view" id="faqAccordion">
         <div class="flex items-center justify-between md:pb-6 pb-4">
             <h2
-                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] lg:after:top-16 after:top-16 after:left-0">
+                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
                 <?php echo esc_html($faq_heading_text); ?>
             </h2>
         </div>
