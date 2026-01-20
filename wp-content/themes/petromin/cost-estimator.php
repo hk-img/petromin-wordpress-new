@@ -424,7 +424,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                             <div class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">
                                                 <?php
                                                     $vehicle_title = trim($brand . ' ' . $model);
-                                                    echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Vehicle not selected');
+                                                    echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Select vehicle');
                                                 ?>
                                             </div>
                                             <div class="text-[#6F6F6F] text-sm font-nromal">
@@ -491,7 +491,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">
                                                 <?php
                                                     $vehicle_title = trim($brand . ' ' . $model);
-                                                    echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Vehicle not selected');
+                                                    echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Select vehicle');
                                                 ?></div>
                                             <div class="text-[#6F6F6F] text-sm font-nromal">
                                                 <?php
@@ -812,7 +812,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         <div id="mobileCartVehicleName" class="text-[#1A1A1A] lg:text-lg md:text-md text-base font-semibold">
                             <?php
                                 $vehicle_title = trim($brand . ' ' . $model);
-                                echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Vehicle not selected');
+                                echo esc_html($vehicle_title !== '' ? $vehicle_title : 'Select vehicle');
                             ?>
                         </div>
                         <div id="mobileCartVehicleFuel" class="text-[#6F6F6F] text-sm font-nromal">
@@ -2019,7 +2019,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update vehicle info
         if (mobileCartVehicleName) {
             const vehicleTitle = (cart.vehicle.brand || '') + ' ' + (cart.vehicle.model || '');
-            mobileCartVehicleName.textContent = vehicleTitle.trim() || 'Vehicle not selected';
+            mobileCartVehicleName.textContent = vehicleTitle.trim() || 'Select vehicle';
         }
         if (mobileCartVehicleFuel) {
             mobileCartVehicleFuel.textContent = cart.vehicle.fuel || 'Fuel not selected';
