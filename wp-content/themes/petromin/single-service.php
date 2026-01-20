@@ -173,7 +173,7 @@ function get_service_icon($icon_input) {
 
 <div class="w-full relative bg-white md:pt-[5.25rem] pt-[3rem] pb-[3.25rem]">
     <div class="view">
-        <div class="w-full flex flex-col gap-1 md:gap-1">
+        <div class="w-full flex flex-col gap-1 md:gap-4">
             <h2
                 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($problems_title); ?>
@@ -198,7 +198,7 @@ function get_service_icon($icon_input) {
 
 <div class="w-full relative bg-white md:pb-[6.25rem] pb-[2rem]">
     <div class="view">
-        <div class="w-full flex flex-col gap-1 md:gap-1">
+        <div class="w-full flex flex-col gap-1 md:gap-4">
             <h2
                 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center  lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($services_title); ?>
@@ -241,7 +241,7 @@ function get_service_icon($icon_input) {
 <section id="more-services" class="w-full relative moreServices md:pb-[6.25rem] pb-[4rem] overflow-hidden">
     <div class="view md:pr-0">
         <div class="flex items-center justify-between md:pb-12 pb-6">
-            <div class="w-full flex flex-col gap-1 md:gap-1">
+            <div class="w-full flex flex-col gap-1 md:gap-4">
                 <h2
                     class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center font-bold text-[#000000] ">
                     <?php echo esc_html($more_services_title); ?>
@@ -250,7 +250,7 @@ function get_service_icon($icon_input) {
                 </div>
             </div>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
+                class=" md:flex items-center justify-start md:gap-2 hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -388,7 +388,7 @@ function get_service_icon($icon_input) {
 
 <div class="w-full relative bg-white overflow-hidden pt-[5.25rem] md:pb-[5.25rem]">
     <div class="view md:!pr-0">
-        <div class="w-full flex flex-col gap-1 md:gap-1">
+        <div class="w-full flex flex-col gap-1 md:gap-4">
             <h2
                 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($faq_title); ?>

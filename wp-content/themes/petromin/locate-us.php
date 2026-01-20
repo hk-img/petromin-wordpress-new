@@ -571,7 +571,7 @@ if (empty($processed_faq_categories)) {
         <?php endif; ?>
 
         <div
-            class="lg:w-[38.829rem] md:w-[36.829rem] w-[21.563rem] absolute lg:bottom-32 md:bottom-24 bottom-20 left-0 flex lg:py-8 py-5  px-8  bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)]  origin-top -skew-x-[18deg]">
+            class="lg:w-[38.829rem] md:w-[36.829rem] w-[21.563rem] absolute lg:bottom-32 md:bottom-24 bottom-20 left-0 flex lg:py-12 py-5  px-8  bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)]  origin-top -skew-x-[18deg]">
             <div class="view flex items-center justify-center skew-x-[18deg] pr-0">
                 <h1 class="xl:text-6xl md:text-5xl text-[2rem] text-balance text-white font-bold">
                     <?php echo esc_html($hero_title); ?></h1>
@@ -1205,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
                 <?php echo esc_html($faq_heading); ?></h2>
             <div
-                class="relative pt-1.5 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
+                class="relative pt-1.5 md:pt-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
             </div>
         </div>
 

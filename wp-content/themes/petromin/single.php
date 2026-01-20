@@ -12,7 +12,7 @@ $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $images_url = $assets_url . '/img';
 ?>
 
-<section class="pb-8 pt-16 mt-16">
+<section class="pb-8 md:pt-16 pt-20 md:mt-16">
     <div class="view flex md:flex-row flex-col gap-[2.688rem] md:gap-24">
         <div class="flex md:w-2/3 flex-col md:gap-y-8 gap-y-[1.438rem]">
             <div class="flex flex-col gap-[1.438rem] md:pb-0">
@@ -120,7 +120,7 @@ $images_url = $assets_url . '/img';
 
         <!-- Sidebar -->
         <div class="md:w-1/3 w-full">
-            <div class="flex flex-col gap-y-8 sticky top-8">
+            <div class="flex flex-col gap-y-8 sticky top-24">
                 <div class="w-full flex flex-col gap-y-4">
                     <div class="w-full relative">
                         <h2 class="md:text-3xl md:block hidden text-[1.75rem] text-black font-semibold">

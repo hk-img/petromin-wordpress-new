@@ -101,14 +101,14 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 
 ?>
 
-    <div class="hero_section w-full relative z-0 md:h-[26.125rem] h-[13.188rem]">
+    <div class="hero_section w-full relative z-0 md:h-[30rem] h-[16rem]">
         <div class="relative w-full h-full overflow-hidden">
             <img fetchpriority="high" decoding="async" loading="eager" src="<?php echo esc_url($hero_bg['url']); ?>"
                 class="size-full object-cover aspect-[1279/334]" width="1279" height="334"
                 alt="<?php echo esc_attr($hero_bg['alt']); ?>" title="<?php echo esc_attr($hero_bg['alt']); ?>">
 
             <div
-                class="lg:w-[40.625rem] md:w-[32rem] w-[19.563rem] absolute lg:bottom-32 md:bottom-24 bottom-20 left-0 flex lg:py-8 py-3.5 lg:px-8 md:px-4 px-4 bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)]  origin-top -skew-x-[18deg]">
+                class="lg:w-[40.625rem] md:w-[32rem] w-[19.563rem] absolute md:bottom-24 bottom-20 left-0 flex lg:py-8 py-3.5 lg:px-8 md:px-4 px-4 bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)]  origin-top -skew-x-[18deg]">
                 <div class="  flex items-center justify-center skew-x-[18deg] md:pl-20 pl-4">
                     <h1
                         class="xl:text-6xl lg:text-5xl md:text-4xl sm:text-3xl text-3xl text-white font-bold text-balance lg:!leading-[4.5rem]">
@@ -145,7 +145,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     </p>
                 </div>
                 <div
-                    class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden">
+                    class=" md:flex items-center justify-start md:gap-2 hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
                     <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"

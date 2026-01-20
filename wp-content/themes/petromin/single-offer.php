@@ -22,13 +22,13 @@ $faqs_title = get_field('offer_faqs_title', $offer_id) ?: 'Commonly Asked Questi
 $faqs = get_field('offer_faqs', $offer_id);
 ?>
 
-<section class="body_paint_sec md:pt-[4rem] pt-[3rem]  md:pb-[6.25rem] pb-[4rem]">
+<section class="body_paint_sec md:pt-32 pt-20 md:pb-[6.25rem] pb-[4rem]">
     <div class="view w-full relative">
-        <div class="w-full flex flex-col gap-1 md:gap-1 mb-8">
+        <div class="w-full flex flex-col gap-1 md:gap-4 mb-8">
             <h1 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-4xl lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($offer_title); ?>
             </h1>
-            <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
+            <div class="bg-gradient-to-l from-[#CB122D] to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]"></div>
         </div>
         <div class="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-6 items-stretch">
             <div class="w-full relative flex flex-col gap-y-8">
@@ -169,11 +169,11 @@ $faqs = get_field('offer_faqs', $offer_id);
 <?php if (!empty($suitable_for)): ?>
 <section class="w-full relative bg-white  md:pb-[5.25rem] pb-[2rem]">
     <div class="view">
-        <div class="w-full flex flex-col gap-1 md:gap-1">
+        <div class="w-full flex flex-col gap-1 md:gap-4">
             <h2 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($suitable_for_title); ?>
             </h2>
-            <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
+            <div class="bg-gradient-to-l from-[#CB122D] to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]"></div>
         </div>
         <div class="w-full relative md:pt-12 ">
             <div class="grid lg:grid-cols-4 md:grid-cols-4 grid-cols-1 md:gap-12 gap-8">
@@ -221,7 +221,7 @@ $faqs = get_field('offer_faqs', $offer_id);
                 <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
                     <?php echo esc_html($faqs_title); ?>
                 </h2>
-                <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]"></div>
+                <div class="bg-gradient-to-l from-[#CB122D] to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]"></div>
             </div>
             <div class="w-full relative flex flex-col md:gap-y-16 gap-y-12 pt-10">
                 <div class="flex flex-col gap-6 md:gap-y-5 w-full">
