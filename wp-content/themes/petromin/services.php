@@ -273,7 +273,7 @@ $faq_data = [
                             <button
                                 class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
                                 <span
-                                    class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Check
+                                    class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Check
                                     Price
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         viewBox="0 0 14 20" fill="none">
@@ -286,7 +286,7 @@ $faq_data = [
                             <a href="<?php echo esc_url($slide['service_link']); ?>"
                                 class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
                                 <span
-                                    class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Know
+                                    class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Know
                                     More
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                         viewBox="0 0 14 20" fill="none">

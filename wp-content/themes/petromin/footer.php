@@ -532,7 +532,7 @@ if (!empty($cost_estimator_pages)) {
 </footer>
 <?php if (!$is_cost_estimator_page && !is_singular('offer')) : ?>
 <!-- mobile button -->
-<div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-30 lg:hidden">
+<div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] lg:hidden">
     <button type="button"
         class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center"
         style="writing-mode: vertical-rl; text-orientation: mixed;">
@@ -546,7 +546,7 @@ if (!empty($cost_estimator_pages)) {
 </div>
 <!-- Desktop Button -->
 <button id="desktopToggle"
-    class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-40 <?php echo (is_page_template('cost-estimator.php') || is_singular('offer')) ? '!hidden' : ''; ?>">
+    class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-[100] <?php echo (is_page_template('cost-estimator.php') || is_singular('offer')) ? '!hidden' : ''; ?>">
     <span class="text-base font-bold italic text-white uppercase">
         GET INSTANT CAR SERVICE QUOTE
     </span>
@@ -555,7 +555,7 @@ if (!empty($cost_estimator_pages)) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
 </button>
-<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-50 mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || is_singular('offer') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || is_singular('offer') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
     <input type="checkbox" id="toggle" class="hidden peer">
     <div class=" transition-all duration-500 ease-in-out w-full">
         <!-- Header -->

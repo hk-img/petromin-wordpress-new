@@ -142,7 +142,7 @@ function get_service_icon($icon_input) {
                     <a href="#carPopup"
                         class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12 js-open-car-popup">
                         <span
-                            class="flex items-center gap-1 md:text-lg text-base md:font-bold font-semibold text-white">
+                            class="flex items-center gap-1 lg:text-lg md:text-base text-sm md:font-bold font-semibold text-white">
                             Check Price
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
                                 fill="none">
@@ -155,7 +155,7 @@ function get_service_icon($icon_input) {
                     <a href="<?php echo esc_url(!empty($more_services_button_link) ? $more_services_button_link : '#more-services'); ?>"
                         class="px-5 flex space-x-3 items-center bg-[#FF8300] h-12 <?php echo empty($more_services_button_link) ? 'js-scroll-to-more-services' : ''; ?>">
                         <span
-                            class="flex items-center gap-1 md:text-lg text-base md:font-bold font-semibold text-white">
+                            class="flex items-center gap-1 lg:text-lg md:text-base text-sm md:font-bold font-semibold text-white">
                             <?php echo esc_html($more_services_button_text); ?>
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
                                 fill="none">

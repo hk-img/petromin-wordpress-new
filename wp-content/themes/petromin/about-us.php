@@ -391,14 +391,14 @@ $wheel_desktop_positions = [
 ];
 
 $wheel_mobile_positions = [
-    ['class' => 'label sm:!hidden block absolute top-[-18%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 1, 'angle' => 10],
-    ['class' => 'label sm:!hidden block absolute top-[-3%] right-[9%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 3, 'angle' => 35],
-    ['class' => 'label sm:!hidden block absolute top-[19%] right-[-10%] -translate-y-1/2 text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 5, 'angle' => 55],
-    ['class' => 'label sm:!hidden block absolute top-[32%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 7, 'angle' => 78],
-    ['class' => 'label sm:!hidden block absolute top-[53%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 8, 'angle' => 100],
-    ['class' => 'label sm:!hidden block absolute top-[74%] right-[-10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 9, 'angle' => 120],
-    ['class' => 'label sm:!hidden block absolute bottom-[-5%] right-[10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 10, 'angle' => 145],
-    ['class' => 'label sm:!hidden block absolute bottom-[-20%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 12, 'angle' => 170],
+    ['class' => 'label sm:!hidden block absolute top-[-18%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 1, 'angle' => 10],
+    ['class' => 'label sm:!hidden block absolute top-[-3%] right-[9%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 3, 'angle' => 35],
+    ['class' => 'label sm:!hidden block absolute top-[19%] right-[-10%] -translate-y-1/2 text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 5, 'angle' => 55],
+    ['class' => 'label sm:!hidden block absolute top-[32%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 7, 'angle' => 78],
+    ['class' => 'label sm:!hidden block absolute top-[53%] right-[-18%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 8, 'angle' => 100],
+    ['class' => 'label sm:!hidden block absolute top-[74%] right-[-10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 9, 'angle' => 120],
+    ['class' => 'label sm:!hidden block absolute bottom-[-5%] right-[10%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 10, 'angle' => 145],
+    ['class' => 'label sm:!hidden block absolute bottom-[-20%] left-[35%] text-start font-bold text-[#000000] transition-all duration-300 ease-in-out text-sm md:text-base lg:text-lg xl:text-xl w-[9rem] leading-snug', 'index' => 12, 'angle' => 170],
 ];
 
 $left_arrow_icon = $images_url . '/left_chev.svg';
@@ -960,7 +960,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.5rem] md:text-[0.875rem] md:leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>
@@ -979,7 +979,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.5rem] md:text-[0.875rem] md:leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>

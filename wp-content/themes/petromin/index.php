@@ -1811,7 +1811,7 @@ if (!empty($home_offers)):
                 <?php if ($icon_data && !empty($icon_data['url'])): ?>
                 <img loading="eager" fetchpriority="high" decoding="async"
                     src="<?php echo esc_url($icon_data['url']); ?>" alt="<?php echo esc_attr($icon_data['alt']); ?>"
-                    width="108" height="108" class="w-auto object-cover lg:h-[10rem] h-[5rem] aspect-square" />
+                    width="108" height="108" class="w-auto object-cover h-[10rem] shrink-0 aspect-square" />
                 <?php endif; ?>
 
                 <ul class="flex flex-col gap-y-[0.375rem]">
