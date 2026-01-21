@@ -14,7 +14,7 @@ get_header();
             <!-- 404 Illustration -->
             <div class="mb-8 md:mb-12">
                 <div class="relative h-32 md:h-48 mx-auto">
-                    <div class="text-9xl md:text-[180px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 opacity-20 leading-none">
+                    <div class="text-9xl md:text-[11.25rem] font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 opacity-20 leading-none">
                         404
                     </div>
                 </div>

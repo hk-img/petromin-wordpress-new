@@ -118,9 +118,9 @@ body {
 .logo-box::after {
   content: "";
   position: absolute;
-  top: 0px;
+  top: 0;
   right: -24%;
-  width: 75px;
+  width: 4.6875rem;
   height: 100%;
   background-color: #ffffff;
   clip-path: polygon(55% 0, 59% 0, 63% 100%, 44% 100%);
@@ -138,9 +138,9 @@ body {
 .rect-box::after {
   content: "";
   position: absolute;
-  top: 0px;
+  top: 0;
   right: -17%;
-  width: 66px;
+  width: 4.125rem;
   height: 100%;
   background-image: linear-gradient(to top right, #cb122d, #cb122d);
   clip-path: polygon(31% 0, 53% 0, 42% 100%, 25% 100%);
@@ -158,9 +158,9 @@ body {
 .feature-box1::after {
     content: "";
     position: absolute;
-    top: 0px;
+    top: 0;
     right: -3.4rem;
-    width: 59px;
+    width: 3.6875rem;
     height: 100%;
     background-image: linear-gradient(to top right, #cb122d, #cb122d);
     clip-path: polygon(2% 0, 79% 0, 9% 100%, 8% 100%);
@@ -308,7 +308,7 @@ input.open::placeholder {
 .wp-block-post-content ul {list-style-type: disc;}.entry-content ol,
 .wp-block-post-content ol {list-style-type: decimal;}/* Blockquotes */.entry-content blockquote,
 .wp-block-post-content blockquote,
-.wp-block-quote {border-left: 4px solid;padding-left: 1.5em;margin: 2em 0;font-style: italic;}.wp-block-quote cite {display: block;margin-top: 1em;font-style: normal;opacity: 0.7;}/* Code */.entry-content code,
+.wp-block-quote {border-left: 0.25rem solid;padding-left: 1.5em;margin: 2em 0;font-style: italic;}.wp-block-quote cite {display: block;margin-top: 1em;font-style: normal;opacity: 0.7;}/* Code */.entry-content code,
 .wp-block-post-content code,
 .wp-block-code code {background: #f3f4f6;padding: 0.125rem 0.25rem;border-radius: 0.25rem;font-size: 0.875em;}.wp-block-code {background: #f3f4f6;padding: 1.5em;border-radius: 0.375rem;margin: 1.5em 0;}.wp-block-code code {background: none;padding: 0;}/* Tables */.entry-content table,
 .wp-block-post-content table,

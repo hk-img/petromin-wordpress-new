@@ -122,7 +122,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                         <img src="<?php echo esc_url($mobile_logo_data['url']); ?>" 
                              alt="<?php echo esc_attr($mobile_logo_data['alt']); ?>" 
                              title="<?php echo esc_attr($mobile_logo_data['alt']); ?>" 
-                             width="w-146px" height="200" class="w-[9.125rem]" loading="lazy" fetchpriority="low">
+                             height="200" class="w-[9.125rem]" loading="lazy" fetchpriority="low">
                     <?php endif; ?>
                 </a>
             </div>

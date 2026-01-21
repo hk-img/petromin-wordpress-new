@@ -1453,7 +1453,7 @@ if (!empty($cost_estimator_pages)) {
                         $icon.html(`
           <span class="relative flex items-center gap-1 text-white text-sm bg-[#ff8300] h-full px-3">
             <img src="` + themeImgUrl + `"
-              alt="arrow-icon" class="rotate-180 lg:size-[21px] size-4 invert brightness-0">
+              alt="arrow-icon" class="rotate-180 lg:size-[1.313rem] size-4 invert brightness-0">
             <span>Back</span>
           </span>
         `);
