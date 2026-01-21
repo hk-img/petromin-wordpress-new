@@ -215,7 +215,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
     </label>
 
     <div
-        class="fixed flex flex-col h-full inset-y-0 right-0 z-[1011] w-full overflow-y-auto bg-[#051320] select-none text-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-theme1/10 peer-checked/sideToggle:translate-x-0 peer-checked/sideToggle:opacity-100 translate-x-full opacity-0 duration-300">
+        class="fixed flex flex-col h-full inset-y-0 right-0 z-[1011] w-full overflow-y-auto bg-white select-none text-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-theme1/10 peer-checked/sideToggle:translate-x-0 peer-checked/sideToggle:opacity-100 translate-x-full opacity-0 duration-300">
         <div class="flex items-center justify-between">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="-ml-1.5 cursor-pointer">
                 <span class="sr-only"></span>
@@ -226,16 +226,16 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                          width="174" height="48" class="h-12 w-auto" loading="lazy" fetchpriority="low">
                 <?php endif; ?>
             </a>
-            <label for="sideToggle" type="button" class="-m-2.5 rounded-md p-2.5 *:text-white">
+            <label for="sideToggle" type="button" class="-m-2.5 rounded-md p-2.5 *:text-black">
                 <span class="sr-only">Close menu</span>
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#CB122D"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </label>
         </div>
         <div class="mt-6 flow-root flex-fill -mr-4 pr-4">
-            <div class="-my-6 divide-y divide-white">
+            <div class="-my-6 divide-y divide-black">
                 <div class="space-y-2 py-6">
                     <div class="flex flex-col gap-5 items-center">
                         <div class="flex flex-col w-full gap-y-5">
@@ -247,7 +247,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                                 <div class="relative flex flex-col gap-y-3">
                                     <input class="peer/mm hidden" type="checkbox" name="mmMenu" id="<?php echo esc_attr($menu_id); ?>">
                                     <label for="<?php echo esc_attr($menu_id); ?>"
-                                        class="text-white text-sm font-medium lg:py-4 py-2 px-1 uppercase tracking-[0.063rem] cursor-pointer hover:text-[#CB122D] transition-colors">
+                                        class="text-black text-sm font-medium lg:py-4 py-2 px-1 uppercase tracking-[0.063rem] cursor-pointer hover:text-[#CB122D] transition-colors">
                                         <a href="<?php echo esc_url($mobile_link); ?>"><?php echo esc_html($mobile_text); ?></a>
                                     </label>
                                 </div>
