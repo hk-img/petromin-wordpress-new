@@ -588,7 +588,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- City Dropdown -->
                 <div class="relative flex items-center">
                     <input type="text" placeholder="City" id="cityInput" readonly
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black placeholder:text-base xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black placeholder:text-base xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
 
                     <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
@@ -705,7 +705,7 @@ if (!empty($cost_estimator_pages)) {
                 ?>
                 <div class="relative">
                     <input type="text" placeholder="Car Brand" id="brandInput" readonly=""
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300">
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300">
                     <span id="brandIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -766,7 +766,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Car Model Dropdown -->
                 <div class="relative">
                     <input type="text" placeholder="Car Model (Select Car Brand first)" id="modelInput" readonly=""
-                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
+                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="modelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -800,7 +800,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Fuel Type Dropdown -->
                 <div class="relative">
                     <input type="text" placeholder="Fuel Type (Select Car Model first)" id="fuelInput" readonly=""
-                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
+                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="fuelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -928,7 +928,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Contact -->
                 <!-- <div class="relative">
                     <input type="tel" placeholder="Contact Number"
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base xl:placeholder:text-sm focus:outline-none">
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none">
                 </div> -->
             </div>
             <!-- Button -->
