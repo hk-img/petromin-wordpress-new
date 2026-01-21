@@ -102,7 +102,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
 ?>
 
 <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page) : ?>
-    <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-40 xl:h-20 max-md:border-b max-md:border-[#E5E5E5]">
+    <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-[100] xl:h-20 max-md:border-b max-md:border-[#E5E5E5]">
         <div class="w-full relative flex justify-between items-center lg:px-0 px-4">
             <div
                 class="xl:w-1/6 lg:w-1/5 md: h-[4.125rem] relative lg:flex lg:flex-col items-center py-5 bg-white hidden -skew-x-[18deg] origin-top shadow-[0_0_1.25rem_0_#0000004D]">
@@ -116,7 +116,29 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                 </a>
             </div>
 
-            <div class="flex lg:hidden bg-white">
+            <div class="flex lg:hidden gap-1 bg-white">
+                <label for="sideToggle"
+                            class="inline-flex items-center justify-center rounded-md p-2.5 text-black group-[]/nav:text-white -mb-2">
+                            <span class="sr-only">Open menu</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-9">
+                                <g clip-path="url(#clip0_3127_7349)">
+                                    <path
+                                    d="M22.4932 3.99878H1.49954C0.671369 3.99878 0 4.67015 0 5.49832C0 6.3265 0.671369 6.99787 1.49954 6.99787H22.4932C23.3213 6.99787 23.9927 6.3265 23.9927 5.49832C23.9927 4.67015 23.3213 3.99878 22.4932 3.99878Z"
+                                    fill="#CB122D" />
+                                    <path
+                                    d="M22.4932 10.4968H1.49954C0.671369 10.4968 0 11.1682 0 11.9963C0 12.8245 0.671369 13.4959 1.49954 13.4959H22.4932C23.3213 13.4959 23.9927 12.8245 23.9927 11.9963C23.9927 11.1682 23.3213 10.4968 22.4932 10.4968Z"
+                                    fill="#FF8300" />
+                                    <path
+                                    d="M22.4932 16.9948H1.49954C0.671369 16.9948 0 17.6662 0 18.4944C0 19.3226 0.671369 19.9939 1.49954 19.9939H22.4932C23.3213 19.9939 23.9927 19.3226 23.9927 18.4944C23.9927 17.6662 23.3213 16.9948 22.4932 16.9948Z"
+                                    fill="#CB122D" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_3127_7349">
+                                    <rect width="23.9927" height="23.9927" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </label>
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="lg:w-auto w-auto flex items-center py-2">
                     <?php if (!empty($mobile_logo_data)) : ?>
                         <img src="<?php echo esc_url($mobile_logo_data['url']); ?>" 
@@ -194,17 +216,6 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                             </li>
                         </ul>
                     </div>
-                    <label for="sideToggle"
-                        class="inline-flex items-center justify-center rounded-md p-2.5 text-black group-[]/nav:text-white">
-                        <span class="sr-only">Open menu</span>
-                        <svg class="size-8" stroke="currentColor" fill="currentColor" stroke-width="0"
-                            viewBox="0 0 20 20" aria-hidden="true" height="200px" width="200px"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75Zm0 10.5a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75ZM2 10a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 2 10Z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </label>
                 </div>
             </div>
         </div>
