@@ -617,7 +617,7 @@ if (empty($processed_faq_categories)) {
                     </p>
                     <?php endforeach; ?>
                     <div class="flex items-center pt-3 md:pt-0 pb-1 gap-2">
-                        <svg class="" width="16" height="17" viewBox="0 0 16 17" fill="none"
+                        <svg class="w-4 h-[1.063rem]" viewBox="0 0 16 17" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M6.1055 4.36968L5.83707 3.76569C5.66155 3.37078 5.57379 3.17331 5.44254 3.0222C5.27805 2.83282 5.06364 2.69348 4.82378 2.62009C4.63239 2.56152 4.4163 2.56152 3.98414 2.56152C3.35194 2.56152 3.03584 2.56152 2.77048 2.68305C2.45791 2.8262 2.17562 3.13704 2.06315 3.46192C1.96767 3.73772 1.99502 4.02114 2.04972 4.58799C2.63194 10.6216 5.93988 13.9296 11.9735 14.5118C12.5404 14.5665 12.8238 14.5938 13.0996 14.4984C13.4245 14.3859 13.7353 14.1036 13.8785 13.791C14 13.5257 14 13.2096 14 12.5774C14 12.1452 14 11.9292 13.9414 11.7378C13.868 11.4979 13.7287 11.2835 13.5393 11.119C13.3882 10.9878 13.1908 10.9 12.7958 10.7244L12.1918 10.456C11.7642 10.266 11.5503 10.1709 11.333 10.1502C11.125 10.1304 10.9154 10.1596 10.7207 10.2354C10.5173 10.3146 10.3376 10.4644 9.97797 10.7641C9.6201 11.0623 9.44117 11.2114 9.2225 11.2913C9.02864 11.3622 8.77237 11.3884 8.56824 11.3583C8.3379 11.3244 8.16157 11.2301 7.80884 11.0416C6.7115 10.4552 6.10635 9.85003 5.51991 8.7527C5.33143 8.39996 5.23718 8.22363 5.20324 7.9933C5.17316 7.78916 5.19938 7.5329 5.2702 7.33903C5.35008 7.12038 5.49921 6.94143 5.79746 6.58352C6.09708 6.22398 6.24689 6.0442 6.3261 5.8408C6.4019 5.64615 6.43108 5.43646 6.4113 5.22851C6.39063 5.0112 6.29558 4.79736 6.1055 4.36968Z"
@@ -626,7 +626,7 @@ if (empty($processed_faq_categories)) {
                         <span class="text-black font-medium text-base"><?php echo esc_html($contact_phone); ?></span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-4 h-[1.063rem]" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_2808_1945)">
                                 <path d="M14 4.06152L8 9.56152L2 4.06152" stroke="#CB122D" stroke-width="1.2"
                                     stroke-linecap="round" stroke-linejoin="round" />
@@ -686,7 +686,7 @@ if (empty($processed_faq_categories)) {
                         <div class="relative">
                             <div
                                 class="flex pl-4 pr-12 h-[3.313rem] space-x-3 border-[#DCDFE6] items-center border">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                <svg class="size-5" viewBox="0 0 20 20" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.4957 17.4957L13.8799 13.8799" stroke="#637083" stroke-width="1.66627"
                                         stroke-linecap="round" stroke-linejoin="round" />
@@ -774,7 +774,7 @@ if (empty($processed_faq_categories)) {
                                 <?php echo esc_html($center['name']); ?></h3>
                             <div class="flex flex-col space-y-[0.688rem]">
                                 <div class="flex items-start gap-2">
-                                    <svg class="size-4 shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    <svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M13.3346 6.66634C13.3346 9.99501 9.64197 13.4617 8.40197 14.5323C8.28645 14.6192 8.14583 14.6662 8.0013 14.6662C7.85677 14.6662 7.71615 14.6192 7.60064 14.5323C6.36064 13.4617 2.66797 9.99501 2.66797 6.66634C2.66797 5.25185 3.22987 3.8953 4.23007 2.89511C5.23026 1.89491 6.58681 1.33301 8.0013 1.33301C9.41579 1.33301 10.7723 1.89491 11.7725 2.89511C12.7727 3.8953 13.3346 5.25185 13.3346 6.66634Z"
@@ -794,7 +794,7 @@ if (empty($processed_faq_categories)) {
                             class="px-3 cursor-pointer  flex h-10 md:h-[1.563rem] w-[7.5rem] justify-center space-x-3 items-center bg-[#CB122D] md:bg-gradient-to-r md:from-[#CB122D] md:via-[#980D22] md:to-[#CB122D] md:-skew-x-[18deg]">
                             <span
                                 class="flex items-center gap-2 text-base font-semibold md:skew-x-[18deg] text-white">Locate
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="13" viewBox="0 0 8 13"
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-2 h-[0.813rem]" viewBox="0 0 8 13"
                                     fill="none">
                                     <path
                                         d="M7.91132 6.24682L3.44235 12.4887H0L1.28861 10.5558L4.18797 6.24682L1.28861 1.85772L0 0L3.44235 0L7.91132 6.24682Z"

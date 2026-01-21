@@ -99,15 +99,15 @@ function get_service_icon($icon_input) {
     // Otherwise, use legacy icon type selection
     switch($icon_input) {
         case 'oil':
-            return '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Oil Icon SVG --></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Oil Icon SVG --></svg>';
         case 'warning':
-            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><!-- Warning Icon SVG --></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" viewBox="0 0 24 24" fill="currentColor"><!-- Warning Icon SVG --></svg>';
         case 'vibration':
-            return '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Vibration Icon SVG --></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Vibration Icon SVG --></svg>';
         case 'mileage':
-            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><!-- Mileage Icon SVG --></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" viewBox="0 0 24 24" fill="currentColor"><!-- Mileage Icon SVG --></svg>';
         case 'comfort':
-            return '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Comfort Icon SVG --></svg>';
+            return '<svg xmlns="http://www.w3.org/2000/svg" class="size-6 text-[#CB122D]" viewBox="0 0 23 24" fill="none"><!-- Comfort Icon SVG --></svg>';
         default: // engine
             return '<img fetchpriority="low" loading="lazy" src="' . esc_url($images_url . '/car_service_icon.webp') . '" alt="engine" class="size-full object-contain">';
     }
@@ -144,7 +144,7 @@ function get_service_icon($icon_input) {
                         <span
                             class="flex items-center gap-1 lg:text-lg md:text-base text-sm md:font-bold font-semibold text-white">
                             Check Price
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]" viewBox="0 0 14 20"
                                 fill="none">
                                 <path
                                     d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
@@ -157,7 +157,7 @@ function get_service_icon($icon_input) {
                         <span
                             class="flex items-center gap-1 lg:text-lg md:text-base text-sm md:font-bold font-semibold text-white">
                             <?php echo esc_html($more_services_button_text); ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]" viewBox="0 0 14 20"
                                 fill="none">
                                 <path
                                     d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
@@ -309,7 +309,7 @@ function get_service_icon($icon_input) {
                                         <span
                                             class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Check
                                             Price
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]"
                                                 viewBox="0 0 14 20" fill="none">
                                                 <path
                                                     d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
@@ -321,7 +321,7 @@ function get_service_icon($icon_input) {
                                         <span
                                             class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Know
                                             More
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]"
                                                 viewBox="0 0 14 20" fill="none">
                                                 <path
                                                     d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z"
@@ -359,7 +359,7 @@ function get_service_icon($icon_input) {
                         class="px-3 flex space-x-3 items-center bg-[#FF8300] h-10">
                         <span class="flex items-center gap-1 text-base font-semibold text-white">
                             <?php echo esc_html($savings_button_text); ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 15"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.625rem] h-[0.625rem]" viewBox="0 0 10 15"
                                 fill="none">
                                 <path
                                     d="M1.62207 0.353577L8.53223 7.26373L8.70898 7.44147L1.62207 14.5284L0.353516 13.2598L6.17188 7.44147L0.530273 1.79889L0.353516 1.62213L1.62207 0.353577Z"
@@ -428,7 +428,7 @@ function get_service_icon($icon_input) {
                                     class="text-[#CB122D] font-bold lg:text-xl md:text-lg text-base flex items-center gap-2">
                                     Know More
                                     <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.6875rem]"
                                             viewBox="0 0 14 14" fill="none">
                                             <path
                                                 d="M0.833984 6.66683H12.5007M12.5007 6.66683L6.66732 0.833496M12.5007 6.66683L6.66732 12.5002"

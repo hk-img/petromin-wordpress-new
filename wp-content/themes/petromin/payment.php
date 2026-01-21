@@ -398,7 +398,7 @@ body.payment-page.validation-passed {
                             <label for="paymentMethod1" class="w-full border border-[#E5E5E5] cursor-pointer hover:md:border-[#6B6B6B] has-[:checked]:!border-[#CB122D] has-[:checked]:!border-2 has-[:checked]:bg-[#FFF0F0]/10 p-6 flex flex-col gap-y-4 md:rounded-none rounded-lg">
                                 <input type="radio" name="paymentMethod" id="paymentMethod1" class="hidden" value="Pay at Service Center" />
                                 <div>
-                                    <svg class="size-7" width="28" height="28" viewBox="0 0 27 28" fill="none"
+                                    <svg class="size-7" viewBox="0 0 27 28" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M21.0261 8.16459V4.66541C21.0261 4.35607 20.9095 4.05939 20.702 3.84065C20.4945 3.62191 20.213 3.49902 19.9196 3.49902H5.53439C4.94744 3.49902 4.38453 3.7448 3.96949 4.18228C3.55445 4.61976 3.32129 5.21311 3.32129 5.8318C3.32129 6.4505 3.55445 7.04385 3.96949 7.48133C4.38453 7.91881 4.94744 8.16459 5.53439 8.16459H22.1327C22.4261 8.16459 22.7076 8.28747 22.9151 8.50621C23.1226 8.72495 23.2392 9.02163 23.2392 9.33098V13.9965M23.2392 13.9965H19.9196C19.3326 13.9965 18.7697 14.2423 18.3547 14.6798C17.9396 15.1173 17.7064 15.7106 17.7064 16.3293C17.7064 16.948 17.9396 17.5414 18.3547 17.9788C18.7697 18.4163 19.3326 18.6621 19.9196 18.6621H23.2392C23.5327 18.6621 23.8141 18.5392 24.0217 18.3205C24.2292 18.1017 24.3458 17.8051 24.3458 17.4957V15.1629C24.3458 14.8536 24.2292 14.5569 24.0217 14.3382C23.8141 14.1194 23.5327 13.9965 23.2392 13.9965Z"
@@ -416,7 +416,7 @@ body.payment-page.validation-passed {
                                 <div class="w-full relative flex items-center gap-3 border-t border-[#F0F0F0] pt-3">
                                     <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
                                         <span>
-                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                            <svg class="size-4" viewBox="0 0 16 16"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_4118_5478)">
                                                     <path
@@ -438,7 +438,7 @@ body.payment-page.validation-passed {
                                     </div>
                                     <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
                                         <span>
-                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                            <svg class="size-4" viewBox="0 0 16 16"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <g clip-path="url(#clip0_4118_5478)">
                                                     <path
@@ -460,7 +460,7 @@ body.payment-page.validation-passed {
                                     </div>
                                     <div class="flex items-center gap-1 text-[#999999] font-medium text-sm">
                                         <span>
-                                            <svg class="size-4" width="16" height="16" viewBox="0 0 16 16"
+                                            <svg class="size-4" viewBox="0 0 16 16"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M12.6626 4.66467V2.66543C12.6626 2.48869 12.5924 2.31919 12.4674 2.19421C12.3424 2.06923 12.1729 1.99902 11.9962 1.99902H3.33282C2.97933 1.99902 2.64033 2.13945 2.39037 2.3894C2.14042 2.63935 2 2.97836 2 3.33184C2 3.68533 2.14042 4.02434 2.39037 4.27429C2.64033 4.52424 2.97933 4.66467 3.33282 4.66467H13.329C13.5057 4.66467 13.6752 4.73488 13.8002 4.85985C13.9252 4.98483 13.9954 5.15433 13.9954 5.33108V7.99672M13.9954 7.99672H11.9962C11.6427 7.99672 11.3037 8.13714 11.0537 8.38709C10.8038 8.63705 10.6633 8.97605 10.6633 9.32954C10.6633 9.68303 10.8038 10.022 11.0537 10.272C11.3037 10.5219 11.6427 10.6624 11.9962 10.6624H13.9954C14.1721 10.6624 14.3416 10.5921 14.4666 10.4672C14.5916 10.3422 14.6618 10.1727 14.6618 9.99595V8.66313C14.6618 8.48639 14.5916 8.31688 14.4666 8.19191C14.3416 8.06693 14.1721 7.99672 13.9954 7.99672Z"
@@ -541,7 +541,7 @@ body.payment-page.validation-passed {
                             <button type="button" id="confirmBookingBtnDesktop" class="w-full flex justify-center items-center gap-2 bg-[#AFAFAF] h-[2.875rem] text-white font-semibold md:rounded-none rounded-lg text-base hover:bg-[#CB122D] duration-500 disabled:bg-gray-400 disabled:cursor-not-allowed relative" disabled="true">
                                 <span id="confirmBookingBtnDesktopText" class="flex items-center gap-2">
                                     Confirm Booking
-                                    <svg class="size-[1.125rem]" width="18" height="18" viewBox="0 0 18 18"
+                                    <svg class="size-[1.125rem]" viewBox="0 0 18 18"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3.75 9H14.25" stroke="white" stroke-width="1.5"
                                             stroke-linecap="round" stroke-linejoin="round" />

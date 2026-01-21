@@ -343,7 +343,7 @@ body.slot-page.validation-passed {
                             />
                             <!-- Calendar Icon, visually similar to your screenshot -->
                             <span class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="size-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_4810_1110)">
                                         <path d="M6.66504 0.713623V4.0461" stroke="#AFAFAF" stroke-width="1.66624"
                                         stroke-linecap="round" stroke-linejoin="round" />
@@ -367,7 +367,7 @@ body.slot-page.validation-passed {
                         <div class="w-full flex flex-col gap-3">
                             <label for="" class="flex items-center gap-2 text-sm font-bold text-[#2F2F2F] ">
                                 <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 16 16" fill="none">
                                         <g clip-path="url(#clip0_4118_5225)">
                                             <path d="M8 1.33301V6.66584" stroke="#FF8300" stroke-width="1.33321"
                                                 stroke-linecap="round" stroke-linejoin="round" />
@@ -425,7 +425,7 @@ body.slot-page.validation-passed {
                         <div class="w-full flex flex-col gap-3">
                             <label for="" class="flex items-center gap-2 text-sm font-bold text-[#2F2F2F]">
                                 <span>
-                                    <svg class="size-4" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    <svg class="size-4" viewBox="0 0 16 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_4118_5247)">
                                             <path
@@ -486,7 +486,7 @@ body.slot-page.validation-passed {
                         <div class="w-full flex flex-col gap-3">
                             <label for="" class="flex items-center gap-2 text-sm font-bold text-[#2F2F2F]">
                                 <span>
-                                    <svg class="size-4" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                    <svg class="size-4" viewBox="0 0 16 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_4118_5270)">
                                             <path d="M8 6.66584V1.33301" stroke="#FF8300" stroke-width="1.33321"

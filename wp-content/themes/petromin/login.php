@@ -91,7 +91,7 @@ if ($_POST['login_submit'] ?? false) {
                         class="flex md:text-lg text-base font-bold items-center gap-2 bg-[#FF8300] text-white h-11 justify-center w-full">
                         <?php echo esc_html($form_button_text); ?> 
                         <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-[1.125rem]" viewBox="0 0 12 18" fill="none">
                                 <path
                                     d="M11.8388 8.61351L6.0619 17.2202H0L1.92977 14.3513L5.77692 8.61351L1.92977 2.87912L0 7.24792e-05H6.0619L11.8388 8.61351Z"
                                     fill="white" />

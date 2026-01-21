@@ -242,7 +242,7 @@ foreach ($press_releases_items as $item) {
                 <div class="swiper-prev cursor-pointer transition-opacity duration-300 !opacity-100 !pointer-events-auto">
                     <span
                         class="border border-[#E0E5EB] bg-white shadow-[0_0_7px_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
-                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" width="1rem"
+                        <svg class="w-4" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                             height="1rem" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M15.28 5.22a.75.75 0 0 1 0 1.06L9.56 12l5.72 5.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-6.25-6.25a.75.75 0 0 1 0-1.06l6.25-6.25a.75.75 0 0 1 1.06 0Z">
@@ -353,7 +353,7 @@ foreach ($press_releases_items as $item) {
                                             aria-label="Read more about <?php echo esc_attr($item['title']); ?>">
                                             Read More
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.875rem] h-[0.875rem]"
                                                     viewBox="0 0 14 14" fill="none">
                                                     <path d="M3.5 11.0834L9.91667 7.00008L3.5 2.91675" stroke="#D4111E"
                                                         stroke-width="1.16667" stroke-linecap="round"
@@ -450,7 +450,7 @@ foreach ($press_releases_items as $item) {
                                 class="flex justify-between items-center gap-2 w-full border-b-2 border-[#E0E5EB] group-hover:lg:border-[#D4111E] duration-300 pb-3">
                                 <div class="text-[#637083] text-sm font-medium flex items-center gap-1">
                                     <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="md:size-4"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="md:size-4"
                                             viewBox="0 0 16 16" fill="none">
                                             <path
                                                 d="M13.3327 6.66683C13.3327 9.9955 9.64002 13.4622 8.40002 14.5328C8.2845 14.6197 8.14388 14.6667 7.99935 14.6667C7.85482 14.6667 7.7142 14.6197 7.59868 14.5328C6.35868 13.4622 2.66602 9.9955 2.66602 6.66683C2.66602 5.25234 3.22792 3.89579 4.22811 2.89559C5.22831 1.8954 6.58486 1.3335 7.99935 1.3335C9.41384 1.3335 10.7704 1.8954 11.7706 2.89559C12.7708 3.89579 13.3327 5.25234 13.3327 6.66683Z"
@@ -497,7 +497,7 @@ foreach ($press_releases_items as $item) {
                                 <!-- Custom Play Button Overlay -->
                                 <div
                                     class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 cursor-pointer transition-opacity hover:bg-opacity-50">
-                                    <svg width="80" height="70" viewBox="0 0 120 80" fill="none"
+                                    <svg class="w-20 h-[4.375rem]" viewBox="0 0 120 80" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <!-- Rounded Rectangle -->
                                         <rect x="2" y="2" width="116" height="76" rx="12" fill="#FF0000"

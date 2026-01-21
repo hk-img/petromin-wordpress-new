@@ -176,7 +176,7 @@ $images_url = $assets_url . '/img';
                                     class="flex flex-row items-center gap-1.5 text-[#637083] text-xs md:text-sm font-normal mt-2">
                                     <?php echo esc_html(get_the_date('F j, Y')) . ' . ' . calculate_reading_time(get_the_content()) . ' Min Read'; ?>
                                     <span>
-                                        <svg width="16" height="16" class="size-4 shrink-0" viewBox="0 0 16 16"
+                                        <svg class="size-4 shrink-0" viewBox="0 0 16 16"
                                             fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4.66406 4.66479H11.3281V11.3288" stroke="#CB122D"
                                                 stroke-width="1.33281" stroke-linecap="round" stroke-linejoin="round" />
@@ -235,7 +235,7 @@ $images_url = $assets_url . '/img';
                                         <div class="flex flex-row items-center gap-1.5 text-[#637083] text-xs md:text-sm font-normal mt-2">
                                             <?php echo esc_html($post['date']) . ' . ' . esc_html($post['time']) . ' Min Read'; ?>
                                             <span>
-                                                <svg width="16" height="16" class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg class="size-4 shrink-0" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M4.66406 4.66479H11.3281V11.3288" stroke="#CB122D" stroke-width="1.33281" stroke-linecap="round" stroke-linejoin="round" />
                                                     <path d="M4.66406 11.3288L11.3281 4.66479" stroke="#CB122D" stroke-width="1.33281" stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>

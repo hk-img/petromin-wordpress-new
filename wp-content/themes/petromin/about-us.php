@@ -555,7 +555,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         <div class="lg:w-1/3 md:w-1/2 w-full">
                             <div class="w-full relative flex flex-col gap-y-4 md:gap-y-8 md:p-5">
                                 <div class="pt-2.5 md:pb-0 pb-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72"
+                                    <svg xmlns="http://www.w3.org/2000/svg"
                                         class="lg:size-[4.5rem] md:size-[4.2rem] size-[3.75rem]" viewBox="0 0 72 72"
                                         fill="none">
                                         <g clip-path="url(#clip0_vision)">
@@ -658,7 +658,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         <div class="lg:w-1/3 md:w-1/2 w-full flex md:justify-end">
                             <div class="w-full relative flex flex-col gap-y-8 md:p-5">
                                 <div class="pt-2.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72"
+                                    <svg xmlns="http://www.w3.org/2000/svg"
                                         class="lg:size-[4.5rem] md:size-[4.2rem] size-[3.75rem]" viewBox="0 0 72 72"
                                         fill="none">
                                         <path
@@ -720,7 +720,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </div>
                         <div class="w-full relative flex flex-col  gap-y-4 md:gap-y-8 md:p-5">
                             <div class="pt-2.5 md:pb-0 pb-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72"
+                                <svg xmlns="http://www.w3.org/2000/svg"
                                     class="lg:size-[4.5rem] md:size-[4.2rem] size-[3.75rem]" viewBox="0 0 72 72"
                                     fill="none">
                                     <g clip-path="url(#clip0_values)">

@@ -122,7 +122,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 <input type="text" placeholder="Select City" id="offerCityInput" readonly
                                     class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300" />
                                 <span id="offerCityIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
@@ -163,7 +163,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 <input type="text" placeholder="Select Brand" id="offerBrandInput" readonly
                                     class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300" />
                                 <span id="offerBrandIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
@@ -219,7 +219,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 <input type="text" placeholder="Select Model (Select Car Brand first)" id="offerModelInput" readonly
                                     class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300" disabled />
                                 <span id="offerModelIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
@@ -252,7 +252,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 <input type="text" placeholder="Select Fuel Type (Select Car Model first)" id="offerFuelInput" readonly
                                     class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300" disabled />
                                 <span id="offerFuelIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </span>
@@ -283,7 +283,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         <button type="button" id="offerBookNowBtn"
                             class="w-full bg-[#FF8300] font-bold text-base text-white h-11 flex justify-center items-center gap-3 hover:bg-[#CB122D] duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             Book Now
-                            <span><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 11 16"
+                            <span><svg xmlns="http://www.w3.org/2000/svg" class="w-[0.563rem] h-[0.875rem]" viewBox="0 0 11 16"
                                     fill="none">
                                     <path
                                         d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"
@@ -388,10 +388,10 @@ jQuery(function ($) {
     var assetsImgUrl = '<?php echo esc_js($assets_img_url); ?>';
     
     // SVG arrow icon (default state)
-    var defaultArrowSvg = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+    var defaultArrowSvg = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" /></svg>';
     
     // SVG arrow icon (disabled state)
-    var disabledArrowSvg = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#999999" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" /></svg>';
+    var disabledArrowSvg = '<svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#999999" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" /></svg>';
     
     // Store all dropdown instances for offer form
     var offerAllDropdowns = [];
@@ -559,7 +559,7 @@ jQuery(function ($) {
                     let html = '';
                     
                     if (fuelTypes.length > 0) {
-                        const defaultSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" class="md:size-12 size-8 text-[#CB122D]" viewBox="0 0 23 24" fill="none">
+                        const defaultSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="md:size-12 size-8 text-[#CB122D]" viewBox="0 0 23 24" fill="none">
                             <g clip-path="url(#clip0_2808_4102)">
                                 <path d="M22.3773 20.1645C22.671 19.1058 23.4307 15.9298 23.3604 14.7287C23.2136 12.438 20.3409 6.96505 20.2323 6.75456C19.9068 6.01162 18.9939 5.69588 18.2661 6.04877C17.6086 6.36452 17.3213 7.1446 17.6086 7.81324L19.2428 11.4846H19.1343C18.2278 11.4846 17.5 12.1903 17.5 13.0695V15.1125C16.4786 15.9236 15.8657 17.1556 15.8657 18.431V20.1583C15.6104 20.3007 15.4316 20.5483 15.4316 20.8641V22.8019C15.4316 23.26 15.7955 23.6129 16.2679 23.6129H22.2305C22.7029 23.6129 23.0668 23.26 23.0668 22.8019V20.8641C23.0285 20.5483 22.7412 20.2264 22.3773 20.1583V20.1645ZM16.5935 18.5053C16.5935 17.3785 17.1361 16.3198 18.0873 15.645C18.1959 15.5769 18.2342 15.4716 18.2342 15.3602V13.1376C18.2342 12.6423 18.6683 12.2584 19.1407 12.2584C19.7216 12.2584 19.977 12.6113 20.0472 13.1376C20.0855 13.3852 20.0472 13.28 20.0472 16.1712C20.0472 16.3446 20.194 16.5241 20.4111 16.5241C20.6281 16.5241 20.775 16.3508 20.775 16.1712V13.1376C20.775 12.6794 20.5579 12.2213 20.1557 11.9056L18.2661 7.56559C18.1193 7.24985 18.2661 6.85981 18.5917 6.68646C18.9556 6.5131 19.3577 6.64931 19.5365 7.03935C19.5748 7.07649 22.4475 12.6113 22.5944 14.7658C22.6646 15.8617 21.8666 19.1058 21.6113 20.0592H16.5552V18.5053H16.5935ZM21.2155 22.3128C20.8899 22.3128 20.5962 22.028 20.5962 21.7123C20.5962 21.3965 20.8899 21.1117 21.2155 21.1117C21.541 21.1117 21.8347 21.3965 21.8347 21.7123C21.8347 22.028 21.5793 22.3128 21.2155 22.3128Z" fill="currentColor"></path>
                                 <path d="M7.50174 20.0895V18.3621C7.50174 17.093 6.8825 15.8548 5.86746 15.0437V13.0007C5.86746 12.0101 4.92264 11.3043 4.11827 11.4157L5.72063 7.71346C6.01429 7.04482 5.72063 6.26474 5.06309 5.94899C4.33532 5.5961 3.42881 5.91185 3.13515 6.61763C3.02662 6.85908 0.153867 12.332 0.000653554 14.5856C-0.0695694 15.7867 0.690115 18.9627 0.983774 20.0214C0.581589 20.0895 0.294313 20.4114 0.294313 20.7953V22.7331C0.294313 23.1912 0.658195 23.5441 1.1306 23.5441H7.09317C7.56558 23.5441 7.92946 23.1912 7.92946 22.7331V20.7953C7.92946 20.4795 7.75071 20.1947 7.49535 20.0895H7.50174ZM0.734802 14.6227C0.881632 12.5054 3.75439 6.97052 3.79269 6.89623C3.93952 6.54334 4.37363 6.36999 4.73751 6.58049C5.06309 6.72288 5.20992 7.10673 5.06309 7.42867L3.17345 11.7686C2.80957 12.0534 2.55421 12.5116 2.55421 13.0007V16.0343C2.55421 16.2076 2.70104 16.3872 2.9181 16.3872C3.13515 16.3872 3.28198 16.2138 3.28198 16.0343V13.0688C3.3522 12.4001 3.75439 12.1525 4.18849 12.1525C4.6992 12.1525 5.09501 12.5425 5.09501 13.0316V15.2542C5.09501 15.3595 5.13331 15.4647 5.24184 15.539C6.18665 16.2076 6.73567 17.2663 6.73567 18.3993V19.9533H1.67962C1.46257 18.9627 0.658195 15.7185 0.734802 14.6289V14.6227ZM2.15203 22.1697C1.82645 22.1697 1.53279 21.8849 1.53279 21.5691C1.53279 21.2534 1.82645 20.9686 2.15203 20.9686C2.47761 20.9686 2.77127 21.2534 2.77127 21.5691C2.73296 21.8849 2.47761 22.1697 2.15203 22.1697Z" fill="currentColor"></path>

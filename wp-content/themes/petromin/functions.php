@@ -4243,7 +4243,7 @@ function load_more_blog_posts() {
                         <?php echo esc_html(get_the_title()); ?>
                     </h2>
                     <span>
-                        <svg class="size-5 group-hover:lg:text-[#CB122D] duration-300" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 13 20" fill="none">
+                        <svg class="size-5 group-hover:lg:text-[#CB122D] duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 20" fill="none">
                             <path d="M12.2789 9.69546L5.34274 19.3833H0L2 16.3833L6.5 9.69546L2 2.8833L0 0L5.34274 0L12.2789 9.69546Z" fill="currentColor" />
                         </svg>
                     </span>

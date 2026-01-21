@@ -191,7 +191,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                                             <button class="md:px-5 px-2 flex space-x-3 items-center bg-[#FF8300] md:h-12 h-7">
                                                 <span class="flex items-center gap-1 md:text-base text-[0.6rem] md:font-bold font-semibold text-white">
                                                     <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 20" fill="none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]" viewBox="0 0 14 20" fill="none">
                                                         <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
                                                     </svg>
                                                 </span>
@@ -327,7 +327,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                             </svg>
                         </span>
                         <span id="appSubmitBtnIcon" class="">
-                            <svg class="shrink-0 size-4" width="11" height="16" viewBox="0 0 11 16" fill="none"
+                            <svg class="shrink-0 size-4" viewBox="0 0 11 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M11 8.00315L5.63239 16H0L1.79304 13.3344L5.36761 8.00315L1.79304 2.67506L0 0H5.63239L11 8.00315Z"

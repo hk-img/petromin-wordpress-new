@@ -112,7 +112,7 @@ $blog_query = new WP_Query($blog_args);
                                     class="px-3 flex space-x-3 items-center bg-[#CB122D] h-10">
                                     <span class="flex items-center gap-1 text-base font-semibold text-white">
                                         Read More
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.625rem] h-[0.625rem]"
                                             viewBox="0 0 10 15" fill="none">
                                             <path
                                                 d="M1.62207 0.353577L8.53223 7.26373L8.70898 7.44147L1.62207 14.5284L0.353516 13.2598L6.17188 7.44147L0.530273 1.79889L0.353516 1.62213L1.62207 0.353577Z"
@@ -158,7 +158,7 @@ $blog_query = new WP_Query($blog_args);
             <div class="flex w-full items-center justify-between duration-150 ease-in-out">
                 <div class="swiper-prev !cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
-                        <svg class="md:size-10 size-6" xmlns="http://www.w3.org/2000/svg" width="27" height="41"
+                        <svg class="md:size-10 size-6" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 27 41" fill="none">
                             <path
                                 d="M-0.000417709 20.0601L13.12 40.1044H26.8877L22.5048 33.423L13.7673 20.0601L22.5048 6.7051L26.8877 0H13.12L-0.000417709 20.0601Z"
@@ -168,7 +168,7 @@ $blog_query = new WP_Query($blog_args);
                 </div>
                 <div class="swiper-next !cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
-                        <svg class="md:size-10 size-6" xmlns="http://www.w3.org/2000/svg" width="26" height="41"
+                        <svg class="md:size-10 size-6" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 26 41" fill="none">
                             <path
                                 d="M25.7191 20.0601L13.1691 40.1044H0L4.1923 33.423L12.55 20.0601L4.1923 6.7051L0 0H13.1691L25.7191 20.0601Z"
