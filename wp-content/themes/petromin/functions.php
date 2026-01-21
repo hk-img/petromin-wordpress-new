@@ -366,6 +366,13 @@ add_action('acf/init', function () {
         'title' => 'Footer Settings',
         'fields' => [
             [
+                'key' => 'field_footer_whatsapp_number',
+                'label' => 'WhatsApp Number',
+                'name' => 'whatsapp_number',
+                'type' => 'text',
+                'instructions' => 'Enter WhatsApp number with country code. Spaces, +, -, () are allowed (they will be sanitized for the link). Example: +91 98765 43210',
+            ],
+            [
                 'key' => 'field_footer_brand',
                 'label' => 'Brand Section',
                 'name' => 'footer_brand',

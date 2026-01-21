@@ -2145,7 +2145,20 @@ if (!empty($home_offers)):
 
 <div
     class="whatsapp-icon flex items-center text-white bg-[#29A71A] rounded-full w-fit p-2 fixed bottom-10 right-4 z-40">
-    <a href="#" class="">
+    <?php
+        // WhatsApp number from CMS (ACF Options: Footer Settings)
+        $whatsapp_raw = function_exists('get_field') ? (string) get_field('whatsapp_number', 'option') : '';
+        $whatsapp_raw = trim($whatsapp_raw);
+        // Sanitize: keep digits only for wa.me
+        $whatsapp_digits = preg_replace('/\D+/', '', $whatsapp_raw);
+        // Convert leading 00... to international format digits (wa.me expects countrycode+number, no +)
+        if (strpos($whatsapp_digits, '00') === 0) {
+            $whatsapp_digits = ltrim(substr($whatsapp_digits, 2), '0');
+        }
+        $whatsapp_link = ($whatsapp_digits !== '') ? ('https://wa.me/' . $whatsapp_digits) : '';
+    ?>
+    <?php if ($whatsapp_link) : ?>
+    <a href="<?php echo esc_url($whatsapp_link); ?>" class="" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
         <svg class="size-10" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512"
             height="200px" width="200px" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -2153,6 +2166,7 @@ if (!empty($home_offers)):
             </path>
         </svg>
     </a>
+    <?php endif; ?>
 </div>
 
 
