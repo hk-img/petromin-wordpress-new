@@ -7044,6 +7044,8 @@ function handle_save_booking_with_leadsquared() {
     $related_prospect_id = null;
     $api_success = false;
     $api_response_data = null;
+    $response_code = null;
+    $response_body = null;
     
     if (empty($leadsquared_access_key) || empty($leadsquared_secret_key)) {
         // Log error but don't block booking creation
@@ -7081,6 +7083,18 @@ function handle_save_booking_with_leadsquared() {
             error_log('LeadSquared API Error: ' . $api_response->get_error_message());
         }
     }
+    
+    // Save API payload and full response details for debugging (similar to confirmed booking)
+    $api_log_data = array(
+        'timestamp' => current_time('mysql'),
+        'api_url' => isset($leadsquared_url) ? $leadsquared_url : '',
+        'payload' => $leadsquared_payload,
+        'response_code' => isset($response_code) ? $response_code : null,
+        'response_body' => isset($response_body) ? $response_body : null,
+        'response_data' => $api_response_data,
+        'api_success' => $api_success,
+        'prospect_id' => $related_prospect_id
+    );
     
     // Prepare title for the booking post (always use LEAD- ID)
     $vehicle_name = '';
@@ -7127,6 +7141,9 @@ function handle_save_booking_with_leadsquared() {
     if ($api_response_data) {
         update_post_meta($post_id, '_leadsquared_api_response', $api_response_data);
     }
+    
+    // Save API log for detailed debugging (similar to confirmed booking)
+    update_post_meta($post_id, '_leadsquared_api_log', $api_log_data);
     
     // Save vehicle information
     if (isset($booking_data['vehicle'])) {
@@ -7633,6 +7650,7 @@ function render_booking_details_meta_box($post) {
     $currency = get_post_meta($post->ID, '_booking_currency', true);
     $leadsquared_prospect_id = get_post_meta($post->ID, '_leadsquared_prospect_id', true);
     $leadsquared_api_success = get_post_meta($post->ID, '_leadsquared_api_success', true);
+    $api_log = get_post_meta($post->ID, '_leadsquared_api_log', true);
     
     // Parse raw data if available (for complete data display)
     $raw_data_parsed = null;
@@ -7847,6 +7865,67 @@ function render_booking_details_meta_box($post) {
             </div>
         </div>
         <?php endforeach; ?>
+        <?php endif; ?>
+        
+        <!-- API Log Section -->
+        <?php if ($api_log && is_array($api_log)): ?>
+        <div class="section-title">LeadSquared API Log</div>
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <td><?php echo esc_html($api_log['timestamp'] ?? 'N/A'); ?></td>
+            </tr>
+            <tr>
+                <th>API URL</th>
+                <td>
+                    <a href="<?php echo esc_url($api_log['api_url'] ?? ''); ?>" target="_blank" style="color: #0073aa; text-decoration: underline;">
+                        <?php echo esc_html($api_log['api_url'] ?? 'N/A'); ?>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>Response Code</th>
+                <td>
+                    <strong style="color: <?php echo ($api_log['response_code'] ?? 0) === 200 ? '#46b450' : '#d63638'; ?>;">
+                        <?php echo esc_html($api_log['response_code'] ?? 'N/A'); ?>
+                    </strong>
+                </td>
+            </tr>
+            <tr>
+                <th>API Success</th>
+                <td>
+                    <?php if ($api_log['api_success'] ?? false): ?>
+                        <span class="verified-badge">✓ Success</span>
+                    <?php else: ?>
+                        <span style="color: #d63638; font-weight: bold;">✗ Failed</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            <?php if (!empty($api_log['prospect_id'])): ?>
+            <tr>
+                <th>Prospect ID</th>
+                <td><strong style="color: #46b450;"><?php echo esc_html($api_log['prospect_id']); ?></strong></td>
+            </tr>
+            <?php endif; ?>
+            <tr>
+                <th>Request Payload</th>
+                <td>
+                    <div class="json-view"><?php echo esc_html(json_encode($api_log['payload'] ?? array(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)); ?></div>
+                </td>
+            </tr>
+            <tr>
+                <th>Response Body (Raw)</th>
+                <td>
+                    <div class="json-view"><?php echo esc_html($api_log['response_body'] ?? 'N/A'); ?></div>
+                </td>
+            </tr>
+            <tr>
+                <th>Response Data (Decoded)</th>
+                <td>
+                    <div class="json-view"><?php echo esc_html(json_encode($api_log['response_data'] ?? array(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)); ?></div>
+                </td>
+            </tr>
+        </table>
         <?php endif; ?>
     </div>
     <?php
