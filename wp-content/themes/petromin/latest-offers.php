@@ -176,7 +176,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                         ?>
                         <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30 md:max-w-[33vw]">
                             <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
-                                <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden h-full group duration-500">
+                                <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden group duration-500">
                                     <img fetchpriority="low" loading="lazy" 
                                         src="<?php echo esc_url($offer['image']['url']); ?>" 
                                         width="334" height="334" 

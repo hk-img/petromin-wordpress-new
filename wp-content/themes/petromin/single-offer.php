@@ -93,7 +93,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
 
 <section class="body_paint_sec md:pt-32 pt-20 md:pb-[6.25rem] pb-[4rem]">
     <div class="view w-full relative">
-        <div class="w-full flex flex-col gap-1 md:gap-4 mb-8">
+        <div class="w-full flex flex-col gap-3 md:gap-4 mb-8">
             <h1 class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-4xl lg:leading-[3.75rem] font-bold text-[#000000]">
                 <?php echo esc_html($offer_title); ?>
             </h1>

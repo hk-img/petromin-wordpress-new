@@ -12,14 +12,14 @@ $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $images_url = $assets_url . '/img';
 ?>
 
-<section class="pb-8 md:pt-16 pt-20 md:mt-16">
+<section class="pb-8 pt-16 md:mt-16 mt-3">
     <div class="view flex md:flex-row flex-col gap-[2.688rem] md:gap-24">
         <div class="flex md:w-2/3 flex-col md:gap-y-8 gap-y-[1.438rem]">
-            <div class="flex flex-col gap-[1.438rem] md:pb-0">
+            <div class="flex flex-col gap-5 md:pb-0">
                 <!-- Back to Blogs Link -->
                 <a href="<?php echo esc_url(get_permalink(get_option('page_for_posts'))); ?>"
-                    class="flex gap-1.5 md:hidden block text-sm font-medium item-center">
-                    <div class="w-5 h-4">
+                    class="flex gap-1.5 md:hidden text-sm font-medium item-center">
+                    <div class="size-5">
                         <img src="<?php echo esc_url($images_url . '/blog_arrow.webp'); ?>" alt="arrow"
                             class="w-full object-cover h-full">
                     </div>
