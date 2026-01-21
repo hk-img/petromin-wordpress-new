@@ -337,6 +337,11 @@ $is_slot_page = is_page_template('slot.php');
 $is_cost_estimator_page = is_page_template('cost-estimator.php');
 $is_payment_page = is_page_template('payment.php');
 $is_booking_confirmed_page = is_page_template('booking-confirmed.php');
+$is_newsroom_page = is_page_template('news-room.php');
+$is_blog_page = is_page_template('blog.php') || is_page_template('template-blog.php');
+$is_single_blog_post = is_singular('post');
+$is_blog_archive = (is_home() && !is_front_page()) || is_category() || is_tag() || is_author() || is_date();
+$is_locate_us_page = is_page_template('locate-us.php');
 
 // Get theme assets directory URL - needed for JavaScript even on verify page
 $assets_img_url = get_template_directory_uri() . '/assets/img/';
@@ -530,7 +535,7 @@ if (!empty($cost_estimator_pages)) {
 
     </div>
 </footer>
-<?php if (!$is_cost_estimator_page && !is_singular('offer')) : ?>
+<?php if (!$is_cost_estimator_page && !is_singular('offer') && !$is_newsroom_page && !$is_blog_page && !$is_single_blog_post && !$is_blog_archive && !$is_locate_us_page) : ?>
 <!-- mobile button -->
 <div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] lg:hidden">
     <button type="button"
@@ -555,7 +560,7 @@ if (!empty($cost_estimator_pages)) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
 </button>
-<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo (is_page_template('cost-estimator.php') || is_singular('offer') || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo ($is_cost_estimator_page || is_singular('offer') || $is_newsroom_page || $is_blog_page || $is_single_blog_post || $is_blog_archive || $is_locate_us_page || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
     <input type="checkbox" id="toggle" class="hidden peer">
     <div class=" transition-all duration-500 ease-in-out w-full">
         <!-- Header -->

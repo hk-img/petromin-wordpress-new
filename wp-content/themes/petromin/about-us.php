@@ -373,9 +373,12 @@ for ($i = 0; $i < $wheel_count; $i++) {
     $title = trim($row['service_title'] ?? '') ?: ($fallback['service_title'] ?? '');
     $description = trim($row['service_description'] ?? '') ?: ($fallback['service_description'] ?? '');
 
+    $link = petromin_normalize_link($row['service_link'] ?? '', '#');
+
     $wheel_services[] = [
         'title' => $title,
         'description' => $description,
+        'link' => $link,
     ];
 }
 
@@ -954,17 +957,18 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                         continue;
                                     }
                                     ?>
-                            <button data-index="<?php echo esc_attr($position['index']); ?>"
+                            <a href="<?php echo esc_url($service['link'] ?? '#'); ?>" 
+                                data-index="<?php echo esc_attr($position['index']); ?>"
                                 data-angle="<?php echo esc_attr($position['angle']); ?>"
                                 class="<?php echo esc_attr($position['class']); ?>">
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:!line-clamp-3 !line-clamp-2 md:leading-[1.2rem] mt-1 opacity-0 translate-y-3 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>
-                            </button>
+                            </a>
                             <?php endforeach; ?>
 
                             <?php foreach ($wheel_mobile_positions as $index => $position) :
@@ -973,17 +977,18 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                         continue;
                                     }
                                     ?>
-                            <button data-index="<?php echo esc_attr($position['index']); ?>"
+                            <a href="<?php echo esc_url($service['link'] ?? '#'); ?>" 
+                                data-index="<?php echo esc_attr($position['index']); ?>"
                                 data-angle="<?php echo esc_attr($position['angle']); ?>"
                                 class="<?php echo esc_attr($position['class']); ?>">
                                 <?php echo esc_html($service['title']); ?>
                                 <?php if (!empty($service['description'])) : ?>
                                 <span
-                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
+                                    class="subtext block text-[#5F5F5F] font-normal text-[0.625rem] md:text-sm md:!line-clamp-3 !line-clamp-2 md:leading-[1.2rem] mt-1 !opacity-100 !translate-y-0 transition-all duration-300 ease-in-out">
                                     <?php echo esc_html($service['description']); ?>
                                 </span>
                                 <?php endif; ?>
-                            </button>
+                            </a>
                             <?php endforeach; ?>
                         </div>
                     </div>
