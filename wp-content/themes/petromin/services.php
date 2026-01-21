@@ -197,6 +197,30 @@ $faq_data = [
     'section_heading' => $faq_field['section_heading'] ?? $defaults['faq']['section_heading'],
     'faq_items' => !empty($faq_field['faq_items']) ? $faq_field['faq_items'] : $defaults['faq']['faq_items'],
 ];
+
+// Process FAQ items similar to home page
+$faq_processed_items = [];
+if (!empty($faq_data['faq_items']) && is_array($faq_data['faq_items'])) {
+    foreach ($faq_data['faq_items'] as $faq_item) {
+        $faq_question = trim($faq_item['question'] ?? '');
+        $faq_answer = trim($faq_item['answer'] ?? '');
+        $faq_active = (bool) ($faq_item['is_active'] ?? false);
+        
+        if ($faq_question !== '' && $faq_answer !== '') {
+            $faq_processed_items[] = [
+                'question' => $faq_question,
+                'answer' => $faq_answer,
+                'is_active' => $faq_active,
+            ];
+        }
+    }
+}
+
+// Split FAQ items into two columns (like home page)
+$faq_total_items = count($faq_processed_items);
+$faq_first_column_count = ceil($faq_total_items / 2);
+$faq_first_column_items = array_slice($faq_processed_items, 0, $faq_first_column_count);
+$faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_count);
 ?>
 
 <!-- Hero Section -->
@@ -421,42 +445,94 @@ $faq_data = [
 </section>
 
 <!-- FAQ Section -->
-<section class="commonly bg-white relative w-full pt-[5.813rem] pb-20">
-    <div class="view flex flex-col md:gap-y-12 gap-y-8" id="commonlyAccordion">
-        <div class="w-full relative">
-            <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
+<section class="w-full relative md:pt-[4rem] pt-[3rem] md:pb-[6rem] pb-[2.625rem] font-inter">
+    <div class="view" id="faqAccordion">
+        <div class="flex items-center justify-between md:pb-6 pb-4">
+            <h2
+                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
                 <?php echo esc_html($faq_data['section_heading']); ?>
             </h2>
-            <div
-                class="relative pt-3 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] md:after:h-3 after:h-[0.688rem] after:-skew-x-[18deg] after:left-0">
-            </div>
         </div>
 
-        <div class="w-full relative flex flex-col md:gap-y-16 gap-y-12">
-            <div class="flex flex-col gap-6 md:gap-y-5 w-full">
-                <div class="grid md:grid-cols-2 gap-4 md:gap-5">
-                    <?php foreach ($faq_data['faq_items'] as $index => $faq) : ?>
-                    <div class="accordion-item border border-black">
-                        <button
-                            class="commonly-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold <?php echo $faq['is_active'] ? 'text-[#CB122D]' : 'text-gray-800'; ?>">
-                            <span
-                                class="md:text-xl text-base font-semibold"><?php echo esc_html($faq['question']); ?></span>
-                            <span
-                                class="shirnk-0 commonly-icon text-white bg-[#CB122D] size-6 flex items-center justify-center">
-                                <?php echo $faq['is_active'] ? '−' : '+'; ?>
-                            </span>
-                        </button>
-                        <div
-                            class="commonly-body px-6 pb-4 pt-2 text-base md:text-sm text-[#010101] font-normal <?php echo $faq['is_active'] ? '' : 'hidden'; ?>">
-                            <?php echo wp_kses_post(nl2br($faq['answer'])); ?>
-                        </div>
+        <div class="grid md:grid-cols-2 gap-6 pt-16">
+            <!-- First Column -->
+            <div class="space-y-5">
+                <?php foreach ($faq_first_column_items as $index => $faq_item): ?>
+                <?php
+                    $faq_is_active = $faq_item['is_active'];
+                    $faq_item_classes = 'accordion-item border border-black';
+                    $faq_header_classes = 'accordion-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold ' . ($faq_is_active ? 'text-[#CB122D]' : 'text-gray-800');
+                    $faq_icon_text = $faq_is_active ? '−' : '+';
+                    $faq_body_classes = 'accordion-body px-6 pb-4 pt-2 text-sm text-[#010101] font-normal' . ($faq_is_active ? '' : ' hidden');
+                    ?>
+                <div class="<?php echo esc_attr($faq_item_classes); ?>">
+                    <button class="<?php echo esc_attr($faq_header_classes); ?>">
+                        <span><?php echo esc_html($faq_item['question']); ?></span>
+                        <span
+                            class="accordion-icon text-white bg-[#CB122D] size-6 flex items-center justify-center"><?php echo esc_html($faq_icon_text); ?></span>
+                    </button>
+                    <div class="<?php echo esc_attr($faq_body_classes); ?>">
+                        <?php echo nl2br(esc_html($faq_item['answer'])); ?>
                     </div>
-                    <?php endforeach; ?>
                 </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Second Column -->
+            <div class="space-y-5">
+                <?php foreach ($faq_second_column_items as $index => $faq_item): ?>
+                <?php
+                    $faq_is_active = $faq_item['is_active'];
+                    $faq_item_classes = 'accordion-item border border-black';
+                    $faq_header_classes = 'accordion-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold ' . ($faq_is_active ? 'text-[#CB122D]' : 'text-gray-800');
+                    $faq_icon_text = $faq_is_active ? '−' : '+';
+                    $faq_body_classes = 'accordion-body px-6 pb-4 pt-2 text-sm text-[#010101] font-normal' . ($faq_is_active ? '' : ' hidden');
+                    ?>
+                <div class="<?php echo esc_attr($faq_item_classes); ?>">
+                    <button class="<?php echo esc_attr($faq_header_classes); ?>">
+                        <span><?php echo esc_html($faq_item['question']); ?></span>
+                        <span
+                            class="accordion-icon text-white bg-[#CB122D] size-6 flex items-center justify-center"><?php echo esc_html($faq_icon_text); ?></span>
+                    </button>
+                    <div class="<?php echo esc_attr($faq_body_classes); ?>">
+                        <?php echo nl2br(esc_html($faq_item['answer'])); ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+const headers = document.querySelectorAll('#faqAccordion .accordion-header');
+
+headers.forEach(header => {
+    header.addEventListener('click', () => {
+        const item = header.parentElement;
+        const body = item.querySelector('.accordion-body');
+        const icon = header.querySelector('.accordion-icon');
+
+        const isActive = !body.classList.contains('hidden');
+
+        // Close all
+        document.querySelectorAll('#faqAccordion .accordion-body').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('#faqAccordion .accordion-icon').forEach(el => el.textContent = '+');
+        document.querySelectorAll('#faqAccordion .accordion-header').forEach(el => {
+            el.classList.remove('text-[#CB122D]');
+            el.classList.add('text-gray-800');
+        });
+
+        // Reopen only if it was not active
+        if (!isActive) {
+            body.classList.remove('hidden');
+            icon.textContent = '−';
+            header.classList.remove('text-gray-800');
+            header.classList.add('text-[#CB122D]');
+        }
+    });
+});
+</script>
 
 <?php get_footer(); ?>
 
@@ -502,38 +578,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 slidesPerView: 3.9,
             },
         },
-    });
-});
-</script>
-
-<script>
-const headers = document.querySelectorAll('#commonlyAccordion .commonly-header');
-
-headers.forEach(header => {
-    header.addEventListener('click', () => {
-        const item = header.parentElement;
-        const body = item.querySelector('.commonly-body');
-        const icon = header.querySelector('.commonly-icon');
-
-        const isActive = !body.classList.contains('hidden');
-
-        // Close all
-        document.querySelectorAll('#commonlyAccordion .commonly-body').forEach(el => el.classList.add(
-            'hidden'));
-        document.querySelectorAll('#commonlyAccordion .commonly-icon').forEach(el => el.textContent =
-            '+');
-        document.querySelectorAll('#commonlyAccordion .commonly-header').forEach(el => {
-            el.classList.remove('text-[#CB122D]');
-            el.classList.add('text-gray-800');
-        });
-
-        // Reopen only if it was not active
-        if (!isActive) {
-            body.classList.remove('hidden');
-            icon.textContent = '−';
-            header.classList.add('text-[#CB122D]');
-            header.classList.remove('text-gray-800');
-        }
     });
 });
 </script>

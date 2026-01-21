@@ -560,6 +560,32 @@ if ($default_map_src === '') {
 if (empty($processed_faq_categories)) {
     $processed_faq_categories = $faq_defaults['categories'];
 }
+
+// Flatten all FAQ items from categories into a single array (like home page)
+$faq_all_items = [];
+foreach ($processed_faq_categories as $category) {
+    if (!empty($category['items']) && is_array($category['items'])) {
+        foreach ($category['items'] as $item) {
+            $faq_question = trim($item['question'] ?? '');
+            $faq_answer = trim($item['answer'] ?? '');
+            $faq_active = (bool) ($item['active'] ?? false);
+            
+            if ($faq_question !== '' && $faq_answer !== '') {
+                $faq_all_items[] = [
+                    'question' => $faq_question,
+                    'answer' => $faq_answer,
+                    'is_active' => $faq_active,
+                ];
+            }
+        }
+    }
+}
+
+// Split FAQ items into two columns (like home page)
+$faq_total_items = count($faq_all_items);
+$faq_first_column_count = ceil($faq_total_items / 2);
+$faq_first_column_items = array_slice($faq_all_items, 0, $faq_first_column_count);
+$faq_second_column_items = array_slice($faq_all_items, $faq_first_column_count);
 ?>
 
 <div class="hero_section w-full relative z-0 md:h-dvh max-sm:h-dvh">
@@ -1199,45 +1225,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<section class="faq bg-white relative w-full pb-20">
-    <div class="view flex flex-col md:gap-y-12 gap-y-8" id="faqAccordion">
-        <div class="w-full relative">
-            <h2 class="xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] text-black font-bold">
-                <?php echo esc_html($faq_heading); ?></h2>
-            <div
-                class="relative pt-1.5 md:pt-4 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] after:w-[6.75rem] lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:left-0">
-            </div>
+<?php if (!empty($faq_all_items)): ?>
+<section class="w-full relative md:pt-[4rem] pt-[3rem] md:pb-[6rem] pb-[2.625rem] font-inter">
+    <div class="view" id="faqAccordion">
+        <div class="flex items-center justify-between md:pb-6 pb-4">
+            <h2
+                class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
+                <?php echo esc_html($faq_heading); ?>
+            </h2>
         </div>
 
-        <div class="w-full relative flex flex-col md:gap-y-16 gap-y-12 mt-6">
-            <?php foreach ($processed_faq_categories as $category) : ?>
-            <div class="flex flex-col gap-6 md:gap-y-5 w-full">
-                <h3 class="lg:text-4xl md:text-3xl text-2xl text-[#000000] font-bold">
-                    <?php echo esc_html($category['title']); ?></h3>
-                <div class="grid md:grid-cols-2 gap-4 md:gap-5">
-                    <?php foreach ($category['items'] as $item) : 
-                            $is_active = $item['active'] ?? false;
-                            $active_class = $is_active ? 'text-[#CB122D]' : 'text-gray-800';
-                            $body_class = $is_active ? '' : 'hidden';
-                            $icon_text = $is_active ? '−' : '+';
-                        ?>
-                    <div class="accordion-item border border-black">
-                        <button
-                            class="accordion-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold <?php echo $active_class; ?>">
-                            <span
-                                class="md:text-xl text-base font-semibold "><?php echo esc_html($item['question']); ?></span>
-                            <span
-                                class="shirnk-0 accordion-icon text-white bg-[#CB122D] size-6 flex items-center justify-center"><?php echo $icon_text; ?></span>
-                        </button>
-                        <div
-                            class="accordion-body px-6 pb-4 pt-2 text-base md:text-sm text-[#010101] font-normal <?php echo $body_class; ?>">
-                            <?php echo wp_kses_post(nl2br($item['answer'])); ?>
-                        </div>
+        <div class="grid md:grid-cols-2 gap-6 pt-16">
+            <!-- First Column -->
+            <div class="space-y-5">
+                <?php foreach ($faq_first_column_items as $index => $faq_item): ?>
+                <?php
+                    $faq_is_active = $faq_item['is_active'];
+                    $faq_item_classes = 'accordion-item border border-black';
+                    $faq_header_classes = 'accordion-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold ' . ($faq_is_active ? 'text-[#CB122D]' : 'text-gray-800');
+                    $faq_icon_text = $faq_is_active ? '−' : '+';
+                    $faq_body_classes = 'accordion-body px-6 pb-4 pt-2 text-sm text-[#010101] font-normal' . ($faq_is_active ? '' : ' hidden');
+                    ?>
+                <div class="<?php echo esc_attr($faq_item_classes); ?>">
+                    <button class="<?php echo esc_attr($faq_header_classes); ?>">
+                        <span><?php echo esc_html($faq_item['question']); ?></span>
+                        <span
+                            class="accordion-icon text-white bg-[#CB122D] size-6 flex items-center justify-center"><?php echo esc_html($faq_icon_text); ?></span>
+                    </button>
+                    <div class="<?php echo esc_attr($faq_body_classes); ?>">
+                        <?php echo nl2br(esc_html($faq_item['answer'])); ?>
                     </div>
-                    <?php endforeach; ?>
                 </div>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
+
+            <!-- Second Column -->
+            <div class="space-y-5">
+                <?php foreach ($faq_second_column_items as $index => $faq_item): ?>
+                <?php
+                    $faq_is_active = $faq_item['is_active'];
+                    $faq_item_classes = 'accordion-item border border-black';
+                    $faq_header_classes = 'accordion-header w-full px-6 py-4 flex justify-between items-center text-left font-semibold ' . ($faq_is_active ? 'text-[#CB122D]' : 'text-gray-800');
+                    $faq_icon_text = $faq_is_active ? '−' : '+';
+                    $faq_body_classes = 'accordion-body px-6 pb-4 pt-2 text-sm text-[#010101] font-normal' . ($faq_is_active ? '' : ' hidden');
+                    ?>
+                <div class="<?php echo esc_attr($faq_item_classes); ?>">
+                    <button class="<?php echo esc_attr($faq_header_classes); ?>">
+                        <span><?php echo esc_html($faq_item['question']); ?></span>
+                        <span
+                            class="accordion-icon text-white bg-[#CB122D] size-6 flex items-center justify-center"><?php echo esc_html($faq_icon_text); ?></span>
+                    </button>
+                    <div class="<?php echo esc_attr($faq_body_classes); ?>">
+                        <?php echo nl2br(esc_html($faq_item['answer'])); ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </section>
@@ -1254,8 +1297,7 @@ headers.forEach(header => {
         const isActive = !body.classList.contains('hidden');
 
         // Close all
-        document.querySelectorAll('#faqAccordion .accordion-body').forEach(el => el.classList.add(
-            'hidden'));
+        document.querySelectorAll('#faqAccordion .accordion-body').forEach(el => el.classList.add('hidden'));
         document.querySelectorAll('#faqAccordion .accordion-icon').forEach(el => el.textContent = '+');
         document.querySelectorAll('#faqAccordion .accordion-header').forEach(el => {
             el.classList.remove('text-[#CB122D]');
@@ -1266,11 +1308,12 @@ headers.forEach(header => {
         if (!isActive) {
             body.classList.remove('hidden');
             icon.textContent = '−';
-            header.classList.add('text-[#CB122D]');
             header.classList.remove('text-gray-800');
+            header.classList.add('text-[#CB122D]');
         }
     });
 });
 </script>
+<?php endif; ?>
 
 <?php get_footer(); ?>

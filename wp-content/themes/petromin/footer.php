@@ -588,7 +588,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- City Dropdown -->
                 <div class="relative flex items-center">
                     <input type="text" placeholder="City" id="cityInput" readonly
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black placeholder:text-base xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
 
                     <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
