@@ -248,7 +248,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                         $is_last = ($index === $journey_count);
                         $additional_class = ($is_odd && $is_last) ? ' md:col-span-2' : '';
                     ?>
-                    <div class="w-full relative overflow-hidden group duration-500 md:h-[26.063rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2<?php echo esc_attr($additional_class); ?>">
+                    <div class="w-full relative overflow-hidden group duration-500 md:h-[26.063rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2<?php echo esc_attr($additional_class); ?> after:absolute after:inset-0 after:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] after:z-0 *:z-10">
                         <?php if (!empty($journey['image']['url'])): ?>
                         <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($journey['image']['url']); ?>" width="304" height="334"
                             alt="<?php echo esc_attr($journey['image']['alt'] ?: $journey['title']); ?>" title="<?php echo esc_attr($journey['image']['alt'] ?: $journey['title']); ?>"

@@ -3064,31 +3064,6 @@ add_action('acf/init', function () {
                         'type' => 'text',
                         'default_value' => 'Our Services'
                     ],
-                    [
-                        'key' => 'field_services_navigation_icons',
-                        'label' => 'Navigation Icons',
-                        'name' => 'navigation_icons',
-                        'type' => 'group',
-                        'layout' => 'block',
-                        'sub_fields' => [
-                            [
-                                'key' => 'field_services_left_arrow_icon',
-                                'label' => 'Left Arrow Icon',
-                                'name' => 'left_arrow_icon',
-                                'type' => 'image',
-                                'return_format' => 'id',
-                                'preview_size' => 'medium',
-                            ],
-                            [
-                                'key' => 'field_services_right_arrow_icon',
-                                'label' => 'Right Arrow Icon',
-                                'name' => 'right_arrow_icon',
-                                'type' => 'image',
-                                'return_format' => 'id',
-                                'preview_size' => 'medium',
-                            ]
-                        ]
-                    ],
                 ],
             ],
             [

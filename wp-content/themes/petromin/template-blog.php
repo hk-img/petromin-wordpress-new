@@ -76,7 +76,7 @@ $blog_query = new WP_Query($blog_args);
                     $fallback_image = $images_url . '/blog_hero_img.webp';
                     $categories = get_the_category($post->ID);
                     ?>
-                <div class="swiper-slide h-dvh">
+                <div class="swiper-slide h-dvh relative before:absolute before:inset-0 before:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] before:z-0 *:z-10">
                     <img fetchpriority="high" decoding="async" loading="eager"
                         src="<?php echo esc_url($featured_image ?: $fallback_image); ?>"
                         class="size-full object-cover aspect-[1297/551]" alt="<?php echo esc_attr(get_the_title()); ?>"

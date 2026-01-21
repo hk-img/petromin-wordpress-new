@@ -237,7 +237,7 @@ $faq_data = [
                 class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] font-bold text-[#000000] ">
                 <?php echo esc_html($our_services_data['section_heading']); ?>
             </h2>
-            <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]">
+            <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]">
             </div>
         </div>
         <div class="w-full relative pt-12">
@@ -245,7 +245,7 @@ $faq_data = [
                 <?php foreach ($our_services_data['slides'] as $slide) : ?>
                 
                 <div
-                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2 after:absolute after:inset-0 after:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] after:z-0 *:z-10">
                     <?php if (!empty($slide['slide_image']['url'])) : ?>
                     <img fetchpriority="low" loading="lazy"
                         src="<?php echo esc_url($slide['slide_image']['url']); ?>"

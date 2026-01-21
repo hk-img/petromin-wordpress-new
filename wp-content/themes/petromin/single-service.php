@@ -115,7 +115,7 @@ function get_service_icon($icon_input) {
 ?>
 
 <div class="heroSection w-full relative z-0 h-dvh">
-    <div class="relative w-full h-full overflow-hidden">
+    <div class="relative w-full h-full overflow-hidden before:absolute before:inset-0 before:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)]">
         <?php if (has_post_thumbnail()) : ?>
         <img fetchpriority="high" loading="eager" decoding="async"
             src="<?php echo esc_url(get_the_post_thumbnail_url(null, 'full')); ?>"
@@ -246,7 +246,7 @@ function get_service_icon($icon_input) {
                     class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] flex items-center font-bold text-[#000000] ">
                     <?php echo esc_html($more_services_title); ?>
                 </h2>
-                <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[22deg]">
+                <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]">
                 </div>
             </div>
             <div
@@ -278,9 +278,9 @@ function get_service_icon($icon_input) {
                         $icon_img = petromin_get_acf_image_data(get_field('service_icon', $sid), 'thumbnail', '', get_the_title($sid));
                         $service_description = get_field('hero_description', $sid) ?: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
                     ?>
-                    <div class="swiper-slide max-w-[33vw]">
+                    <div class="swiper-slide md:max-w-[35vw]">
                         <div
-                            class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                            class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2 after:absolute after:inset-0 after:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] after:z-0 *:z-10">
                             <?php if (!empty($slide_img['url'])) : ?>
                             <img fetchpriority="low" loading="lazy"
                                 src="<?php echo esc_url($slide_img['url']); ?>"

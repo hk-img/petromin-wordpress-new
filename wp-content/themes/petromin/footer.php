@@ -371,7 +371,7 @@ if (!empty($cost_estimator_pages)) {
                             loading="lazy" fetchpriority="low">
                         <?php endif; ?>
                     </a>
-                    <p class="text-base text-white font-normal leading-relaxed max-w-md">
+                    <p class="text-base text-white font-normal leading-relaxed max-w-xl">
                         <?php echo nl2br(esc_html($footer_description)); ?>
                     </p>
                 </div>
@@ -502,7 +502,7 @@ if (!empty($cost_estimator_pages)) {
                             <img src="<?php echo esc_url($badge['image']['url']); ?>"
                                 alt="<?php echo esc_attr($badge['image']['alt']); ?>"
                                 title="<?php echo esc_attr($badge['image']['alt']); ?>"
-                                class="w-auto h-10 object-contain" loading="lazy" fetchpriority="low">
+                                class="w-auto h-12 object-contain" loading="lazy" fetchpriority="low">
                         </a>
                         <?php endforeach; ?>
                     </div>
@@ -956,8 +956,7 @@ if (!empty($cost_estimator_pages)) {
                     <div class="text-[0.75rem] font-bold opacity-90">Checkpoints</div>
                 </div>
             </div>
-            <p class="text-[#FFFFFF] font-normal text-xs">Terms & Conditions : Lorem ipsum dolor sit amet
-                consectetur adipiscing elit.</p>
+            <p class="text-[#FFFFFF] font-normal text-xs">Terms and Conditions: Prices may vary based on vehicle make and model, and include service charges only. Cost of parts is additional.</p>
         </div>
     </div>
 </div>
