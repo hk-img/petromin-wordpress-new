@@ -102,7 +102,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 ?>
 
     <div class="hero_section w-full relative z-0 md:h-[30rem] h-[16rem]">
-        <div class="relative w-full h-full overflow-hidden">
+        <div class="relative w-full h-full overflow-hidden after:absolute after:inset-0 after:bg-[linear-gradient(180deg,_#00000000_0%,_#000000d6_100%)] after:z-0 *:z-10">
             <img fetchpriority="high" decoding="async" loading="eager" src="<?php echo esc_url($hero_bg['url']); ?>"
                 class="size-full object-cover aspect-[1279/334]" width="1279" height="334"
                 alt="<?php echo esc_attr($hero_bg['alt']); ?>" title="<?php echo esc_attr($hero_bg['alt']); ?>">

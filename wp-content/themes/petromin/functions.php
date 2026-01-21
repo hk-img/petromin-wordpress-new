@@ -373,6 +373,15 @@ add_action('acf/init', function () {
                 'instructions' => 'Enter WhatsApp number with country code. Spaces, +, -, () are allowed (they will be sanitized for the link). Example: +91 98765 43210',
             ],
             [
+                'key' => 'field_footer_whatsapp_default_message',
+                'label' => 'WhatsApp Default Message',
+                'name' => 'whatsapp_default_message',
+                'type' => 'textarea',
+                'instructions' => 'Optional. This message will be prefilled when the WhatsApp icon is clicked. Example: Hi, I want to know more about your services.',
+                'rows' => 3,
+                'new_lines' => '',
+            ],
+            [
                 'key' => 'field_footer_brand',
                 'label' => 'Brand Section',
                 'name' => 'footer_brand',
@@ -561,7 +570,7 @@ add_action('acf/init', function () {
                         'key' => 'field_footer_store_badge_link',
                         'label' => 'Badge Link',
                         'name' => 'badge_link',
-                        'type' => 'page_link',
+                        'type' => 'url',
                     ],
                 ],
             ],
@@ -593,7 +602,7 @@ add_action('acf/init', function () {
                         'key' => 'field_footer_social_url',
                         'label' => 'Profile URL',
                         'name' => 'url',
-                        'type' => 'page_link',
+                        'type' => 'url',
                     ],
                     [
                         'key' => 'field_footer_social_new_tab',
@@ -2323,7 +2332,7 @@ add_action('acf/init', function () {
             ],
             [
                 'key' => 'field_locate_map_section',
-                'label' => 'Map Section',
+                'label' => 'Addresses Right Image Section',
                 'name' => 'map_section',
                 'type' => 'group',
                 'layout' => 'block',
@@ -2335,6 +2344,7 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
+                        'instructions' => 'Recommended dimensions: 846x669px. Allowed file type: .webp',
                     ],
                     [
                         'key' => 'field_locate_map_mobile_image',
@@ -2343,6 +2353,7 @@ add_action('acf/init', function () {
                         'type' => 'image',
                         'return_format' => 'id',
                         'preview_size' => 'medium',
+                        'instructions' => 'Recommended dimensions: 395x517px. Allowed file type: .webp',
                     ],
                 ],
             ],

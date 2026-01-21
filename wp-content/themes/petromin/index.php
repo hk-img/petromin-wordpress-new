@@ -2155,7 +2155,13 @@ if (!empty($home_offers)):
         if (strpos($whatsapp_digits, '00') === 0) {
             $whatsapp_digits = ltrim(substr($whatsapp_digits, 2), '0');
         }
+        $whatsapp_message_raw = function_exists('get_field') ? (string) get_field('whatsapp_default_message', 'option') : '';
+        $whatsapp_message_raw = trim(wp_strip_all_tags($whatsapp_message_raw));
+
         $whatsapp_link = ($whatsapp_digits !== '') ? ('https://wa.me/' . $whatsapp_digits) : '';
+        if ($whatsapp_link && $whatsapp_message_raw !== '') {
+            $whatsapp_link .= '?text=' . rawurlencode($whatsapp_message_raw);
+        }
     ?>
     <?php if ($whatsapp_link) : ?>
     <a href="<?php echo esc_url($whatsapp_link); ?>" class="" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
