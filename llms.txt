@@ -6,10 +6,10 @@ The XML sitemap of this website can by found by following [this link](http://loc
 
 ## Pages
 - [Locate Us]()
+- [News Room]()
+- [Services]()
+- [About Us]()
 - [Booking Confirmed]()
-- [Payment]()
-- [Workstation]()
-- [Slot]()
 
 ## Posts
 - [New Blog](): The app offers unique set of features to manage your clinic seamlessly\. From telemedicine to patient management system to online prescription, our app has

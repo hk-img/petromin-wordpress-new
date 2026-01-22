@@ -351,7 +351,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                             <?php if (!empty($slide['service_icon']['url'])) : ?>
                             <img src="<?php echo esc_url($slide['service_icon']['url']); ?>"
                                 alt="<?php echo esc_attr($slide['service_icon']['alt']); ?>"
-                                class="w-8 h-8">
+                                class="md:size-10 size-9">
                             <?php endif; ?>
                         </div>
                         <h3
