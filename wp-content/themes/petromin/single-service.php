@@ -213,7 +213,7 @@ function get_service_icon($icon_input) {
                     $service_image = !empty($service['image']) ? wp_get_attachment_url($service['image']) : $images_url . '/car_get.webp';
                 ?>
                 <div
-                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2">
+                    class="w-full relative overflow-hidden group duration-500 md:h-[32.813rem] h-full before:absolute before:inset-0 before:bg-[#0000004a] before:w-full before:size-full before:lg:opacity-0 before:duration-500 hover:lg:before:opacity-100 hover:lg:-translate-y-2 after:absolute after:inset-0 after:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] after:z-0 *:z-10">
                     <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($service_image); ?>"
                         alt="<?php echo esc_attr($service['title']); ?>"
                         title="<?php echo esc_attr($service['title']); ?>"
