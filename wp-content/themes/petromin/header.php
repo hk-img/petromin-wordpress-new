@@ -205,7 +205,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                             </svg>
                         </a>
                         <ul
-                            class="bg-[#cb122d] w-40 absolute top-[2.2rem] -left-20 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/dd:visible group-hover/dd:opacity-100">
+                            class="bg-[#cb122d] w-40 absolute top-[2.2rem] md:-left-20 max-md:right-0 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/dd:visible group-hover/dd:opacity-100">
                             <li
                                 class="relative bg-white py-2 px-4 text-black text-sm font-normal flex items-center justify-center mb-3 hover:bg-gray-100 transition-colors">
                                 <a href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>

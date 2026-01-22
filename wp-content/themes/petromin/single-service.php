@@ -131,7 +131,7 @@ function get_service_icon($icon_input) {
         <div class="view md:w-2/3 w-full absolute md:bottom-20 bottom-12 left-0 z-30">
             <div class="flex flex-col md:gap-y-10 gap-y-4">
                 <h1
-                    class="block xl:text-[6.813rem] lg:text-[6rem] md:text-[5.5rem] text-4xl text-balance text-[#FFFFFF] font-bold md:drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]">
+                    class="block xl:text-[6.813rem] lg:text-[6rem] md:text-[5.5rem] text-4xl text-balance text-[#FFFFFF] font-bold md:drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] !leading-[normal]">
                     <?php the_title(); ?>
                 </h1>
                 <div
