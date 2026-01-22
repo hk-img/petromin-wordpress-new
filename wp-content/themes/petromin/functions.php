@@ -12,6 +12,22 @@ if (!function_exists('petromin_theme_setup')) {
 }
 add_action('after_setup_theme', 'petromin_theme_setup');
 
+/**
+ * Check if fallback data is enabled
+ * Set to false to disable all fallback data throughout the theme
+ * Can be overridden via wp-config.php constant: define('PETROMIN_ENABLE_FALLBACKS', true);
+ */
+if (!function_exists('petromin_fallbacks_enabled')) {
+    function petromin_fallbacks_enabled() {
+        // Check if constant is defined in wp-config.php
+        if (defined('PETROMIN_ENABLE_FALLBACKS')) {
+            return (bool) PETROMIN_ENABLE_FALLBACKS;
+        }
+        // Default: fallbacks disabled
+        return false;
+    }
+}
+
 if (!function_exists('petromin_get_acf_image_data')) {
     function petromin_get_acf_image_data($image_field, $size = 'full', $fallback_url = '', $fallback_alt = '')
     {
@@ -51,11 +67,14 @@ if (!function_exists('petromin_get_acf_image_data')) {
             }
         }
 
-        if (!$url && $fallback_url) {
+        // Only use fallback if enabled
+        $use_fallback = petromin_fallbacks_enabled();
+        
+        if (!$url && $fallback_url && $use_fallback) {
             $url = $fallback_url;
         }
 
-        if (!$alt && $fallback_alt) {
+        if (!$alt && $fallback_alt && $use_fallback) {
             $alt = $fallback_alt;
         }
 
@@ -94,7 +113,8 @@ if (!function_exists('petromin_normalize_link')) {
         $link = trim($link);
 
         if ($link === '') {
-            return $fallback;
+            // Only return fallback if enabled, otherwise return empty string
+            return petromin_fallbacks_enabled() ? $fallback : '';
         }
 
         $special_protocols = ['mailto:', 'tel:', 'javascript:'];
@@ -107,7 +127,7 @@ if (!function_exists('petromin_normalize_link')) {
         $parsed_link = wp_parse_url($link);
 
         if ($parsed_link === false) {
-            return $fallback;
+            return petromin_fallbacks_enabled() ? $fallback : '';
         }
 
         // Already relative URLs should be returned as-is.
@@ -139,7 +159,7 @@ if (!function_exists('petromin_normalize_link')) {
 
         $normalized = $relative_path . $query . $fragment;
 
-        return $normalized !== '' ? $normalized : $fallback;
+        return $normalized !== '' ? $normalized : (petromin_fallbacks_enabled() ? $fallback : '');
     }
 }
 
@@ -164,6 +184,61 @@ if (!function_exists('petromin_get_social_icon_svg')) {
     }
 }
 
+/**
+ * Get value with optional fallback (respects fallback setting)
+ */
+if (!function_exists('petromin_get_value')) {
+    function petromin_get_value($value, $fallback = '') {
+        $trimmed = is_string($value) ? trim($value) : $value;
+        
+        // If value exists and is not empty, return it
+        if (!empty($trimmed) || (is_numeric($trimmed) && $trimmed == 0)) {
+            return $trimmed;
+        }
+        
+        // Only use fallback if enabled
+        if (petromin_fallbacks_enabled()) {
+            return $fallback;
+        }
+        
+        // Return empty value based on type
+        if (is_array($value)) {
+            return [];
+        }
+        if (is_numeric($value)) {
+            return 0;
+        }
+        return '';
+    }
+}
+
+/**
+ * Check if section should be displayed
+ */
+if (!function_exists('petromin_has_section_data')) {
+    function petromin_has_section_data($data) {
+        if (empty($data)) {
+            return false;
+        }
+        
+        // If it's an array, check if it has meaningful content
+        if (is_array($data)) {
+            // Check for nested arrays/objects
+            foreach ($data as $key => $value) {
+                if (is_array($value) || is_object($value)) {
+                    if (petromin_has_section_data($value)) {
+                        return true;
+                    }
+                } elseif (!empty($value) || (is_numeric($value) && $value == 0)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        return !empty($data);
+    }
+}
 
 function my_acf_google_map_api( $api ){
     // Get Google Maps API key from wp-config.php constant

@@ -409,10 +409,15 @@ foreach ($source_features as $index => $feature_field) {
 
     $icon_field = $feature_field['feature_icon'] ?? ($feature_field['icon'] ?? null);
     $icon_default = $default_feature['icon'] ?? ['url' => '', 'alt' => ''];
-    $icon_alt_fallback = $icon_default['alt'] ?? ($title !== '' ? $title : $hero_headline_prefix);
-    $icon_data = petromin_get_acf_image_data($icon_field, 'full', $icon_default['url'] ?? '', $icon_alt_fallback);
+    $icon_alt_fallback = petromin_fallbacks_enabled() ? ($icon_default['alt'] ?? ($title !== '' ? $title : $hero_headline_prefix)) : ($title !== '' ? $title : $hero_headline_prefix);
+    $icon_data = petromin_get_acf_image_data(
+        $icon_field, 
+        'full', 
+        petromin_fallbacks_enabled() ? ($icon_default['url'] ?? '') : '', 
+        $icon_alt_fallback
+    );
 
-    if (!$icon_data && !empty($icon_default['url'])) {
+    if (!$icon_data && !empty($icon_default['url']) && petromin_fallbacks_enabled()) {
         $icon_data = $icon_default;
     }
 
@@ -524,19 +529,24 @@ if (!$timeline_nav_icon_data) {
 
 $timeline_slides = function_exists('petromin_get_milestones') ? petromin_get_milestones() : [];
 
-// Fallback: if no milestone CPT entries exist, keep existing ACF-based defaults (if present).
+// Fallback: if no milestone CPT entries exist, keep existing ACF-based defaults (only if fallbacks enabled).
 if (empty($timeline_slides)) {
     $timeline_slides_input = is_array($timeline_field['slides'] ?? null) ? $timeline_field['slides'] : [];
-    // Reuse the old builder logic locally as a small fallback (keeps UI unchanged).
+    // Reuse the old builder logic locally as a small fallback (only if fallbacks enabled).
     $build_timeline_slides = static function (array $source, array $default_slides) use ($timeline_defaults, $timeline_heading) {
         $slides = [];
         foreach ($source as $index => $slide_field) {
-            $default_slide = $default_slides[$index] ?? ($timeline_defaults['slides'][$index] ?? ['year' => '', 'image' => ['url' => '', 'alt' => ''], 'description' => '']);
-            $year = trim($slide_field['year'] ?? ($slide_field['timeline_year'] ?? '')) ?: ($default_slide['year'] ?? '');
-            $description = trim($slide_field['description'] ?? ($slide_field['slide_description'] ?? '')) ?: ($default_slide['description'] ?? '');
-            $image_default = $default_slide['image'] ?? ['url' => '', 'alt' => $description ?: $year];
+            $default_slide = petromin_fallbacks_enabled() ? ($default_slides[$index] ?? ($timeline_defaults['slides'][$index] ?? ['year' => '', 'image' => ['url' => '', 'alt' => ''], 'description' => ''])) : ['year' => '', 'image' => ['url' => '', 'alt' => ''], 'description' => ''];
+            $year = petromin_get_value(trim($slide_field['year'] ?? ($slide_field['timeline_year'] ?? '')), $default_slide['year'] ?? '');
+            $description = petromin_get_value(trim($slide_field['description'] ?? ($slide_field['slide_description'] ?? '')), $default_slide['description'] ?? '');
+            $image_default = petromin_fallbacks_enabled() ? ($default_slide['image'] ?? ['url' => '', 'alt' => $description ?: $year]) : ['url' => '', 'alt' => $description ?: $year];
             $image_alt_fallback = $image_default['alt'] ?? ($description ?: $year ?: $timeline_heading);
-            $image_data = petromin_get_acf_image_data($slide_field['image'] ?? null, 'full', $image_default['url'], $image_alt_fallback);
+            $image_data = petromin_get_acf_image_data(
+                $slide_field['image'] ?? null, 
+                'full', 
+                $image_default['url'], 
+                $image_alt_fallback
+            );
             if (!$image_data && !empty($image_default['url'])) {
                 $image_data = $image_default;
             }
@@ -1149,7 +1159,7 @@ if (!empty($faq_items_input)) {
     }
 }
 
-if (empty($faq_processed_items)) {
+if (empty($faq_processed_items) && petromin_fallbacks_enabled()) {
     $faq_processed_items = $faq_default_values['faq_items'];
 }
 

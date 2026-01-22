@@ -65,8 +65,18 @@ $site_name = trim(get_bloginfo('name'));
 $logo_alt_fallback = $site_name ? sprintf('%s Logo', $site_name) : 'Petromin Logo';
 
 // Logo Data
-$desktop_logo_data = petromin_get_acf_image_data($header_logo_field['desktop_logo'] ?? null, 'full', get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp', $logo_alt_fallback);
-$mobile_logo_data = petromin_get_acf_image_data($header_logo_field['mobile_logo'] ?? null, 'full', get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp', $logo_alt_fallback);
+$desktop_logo_data = petromin_get_acf_image_data(
+    $header_logo_field['desktop_logo'] ?? null, 
+    'full', 
+    petromin_fallbacks_enabled() ? get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp' : '', 
+    $logo_alt_fallback
+);
+$mobile_logo_data = petromin_get_acf_image_data(
+    $header_logo_field['mobile_logo'] ?? null, 
+    'full', 
+    petromin_fallbacks_enabled() ? get_template_directory_uri() . '/assets/img/petromin-logo-300x75-1.webp' : '', 
+    $logo_alt_fallback
+);
 
 // User Menu Links
 $login_link = petromin_normalize_link($user_menu['login_link'] ?? '', '#');

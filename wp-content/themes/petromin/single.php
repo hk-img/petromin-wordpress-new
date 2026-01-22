@@ -151,21 +151,23 @@ $images_url = $assets_url . '/img';
                                 $related_posts->the_post();
                                 
                                 $post_image = get_the_post_thumbnail_url(get_the_ID(), 'thumbnail');
-                                $fallback_images = [
+                                $fallback_images = petromin_fallbacks_enabled() ? [
                                     $images_url . '/checkThis1.webp',
                                     $images_url . '/checkThis2.webp',
                                     $images_url . '/checkThis3.webp',
                                     $images_url . '/checkThis4.webp'
-                                ];
-                                $random_fallback = $fallback_images[array_rand($fallback_images)];
+                                ] : [];
+                                $random_fallback = !empty($fallback_images) ? $fallback_images[array_rand($fallback_images)] : '';
                                 ?>
 
                         <div class="flex gap-4 group cursor-pointer"
                             onclick="window.location.href='<?php the_permalink(); ?>'">
                             <div class="w-[6.188rem] shrink-0 h-[6.188rem] rounded-lg overflow-hidden">
+                                <?php if ($post_image || $random_fallback): ?>
                                 <img src="<?php echo esc_url($post_image ?: $random_fallback); ?>"
                                     alt="<?php echo esc_attr(get_the_title()); ?>"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                <?php endif; ?>
                             </div>
                             <div class="flex flex-col justify-between flex-1">
                                 <span

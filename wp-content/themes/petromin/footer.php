@@ -240,7 +240,7 @@ foreach ($store_badges_source as $badge) {
     $fallback_url = '';
     $fallback_alt = '';
 
-    if (is_array($badge_image_field) && isset($badge_image_field['url'])) {
+    if (petromin_fallbacks_enabled() && is_array($badge_image_field) && isset($badge_image_field['url'])) {
         $fallback_url = $badge_image_field['url'];
         $fallback_alt = $badge_image_field['alt'] ?? '';
     }

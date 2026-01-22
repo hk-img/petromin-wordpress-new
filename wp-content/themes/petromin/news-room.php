@@ -124,36 +124,44 @@ if (!$show_podcasts_section) {
     }));
 }
 
-// Process items with fallbacks
+// Process items WITHOUT fallbacks (only use if enabled)
 function process_news_items($items, $defaults) {
     $processed = [];
     foreach ($items as $item) {
-        $fallback = is_array($defaults) ? $defaults[0] : $defaults;
+        $fallback = petromin_fallbacks_enabled() ? (is_array($defaults) ? $defaults[0] : $defaults) : null;
         
-        $title = trim($item['title'] ?? '') ?: ($fallback['title'] ?? '');
-        $description = trim($item['description'] ?? '') ?: ($fallback['description'] ?? '');
-        $source = trim($item['source'] ?? '') ?: ($fallback['source'] ?? '');
-        $date = trim($item['date'] ?? '') ?: ($fallback['date'] ?? '');
-        $location = trim($item['location'] ?? '') ?: ($fallback['location'] ?? '');
-        $link = trim($item['link'] ?? '') ?: ($fallback['link'] ?? '');
-        $pdf_link = trim($item['pdf_link'] ?? '') ?: ($fallback['pdf_link'] ?? '');
-        $video_url = trim($item['video_url'] ?? '') ?: ($fallback['video_url'] ?? '');
+        $title = petromin_get_value(trim($item['title'] ?? ''), $fallback['title'] ?? '');
+        $description = petromin_get_value(trim($item['description'] ?? ''), $fallback['description'] ?? '');
+        $source = petromin_get_value(trim($item['source'] ?? ''), $fallback['source'] ?? '');
+        $date = petromin_get_value(trim($item['date'] ?? ''), $fallback['date'] ?? '');
+        $location = petromin_get_value(trim($item['location'] ?? ''), $fallback['location'] ?? '');
+        $link = petromin_get_value(trim($item['link'] ?? ''), $fallback['link'] ?? '');
+        $pdf_link = petromin_get_value(trim($item['pdf_link'] ?? ''), $fallback['pdf_link'] ?? '');
+        $video_url = petromin_get_value(trim($item['video_url'] ?? ''), $fallback['video_url'] ?? '');
         
         // Handle image
-        $image_default = $fallback['image'] ?? [];
-        $image = petromin_get_acf_image_data($item['image'] ?? null, 'full', $image_default['url'] ?? '', $image_default['alt'] ?? $title);
+        $image_default = petromin_fallbacks_enabled() ? ($fallback['image'] ?? []) : [];
+        $image = petromin_get_acf_image_data(
+            $item['image'] ?? null, 
+            'full', 
+            $image_default['url'] ?? '', 
+            $image_default['alt'] ?? $title
+        );
         
-        $processed[] = [
-            'title' => $title,
-            'description' => $description,
-            'source' => $source,
-            'date' => $date,
-            'location' => $location,
-            'link' => $link,
-            'pdf_link' => $pdf_link,
-            'video_url' => $video_url,
-            'image' => $image,
-        ];
+        // Only add item if it has at least a title
+        if (!empty($title)) {
+            $processed[] = [
+                'title' => $title,
+                'description' => $description,
+                'source' => $source,
+                'date' => $date,
+                'location' => $location,
+                'link' => $link,
+                'pdf_link' => $pdf_link,
+                'video_url' => $video_url,
+                'image' => $image,
+            ];
+        }
     }
     return $processed;
 }
@@ -166,22 +174,25 @@ $podcasts_processed = process_news_items($podcasts_items, $podcasts_defaults);
 // For press releases (different structure)
 $press_releases_processed = [];
 foreach ($press_releases_items as $item) {
-    $fallback = $press_releases_defaults[0];
+    $fallback = petromin_fallbacks_enabled() ? $press_releases_defaults[0] : null;
 
-    $title = trim($item['title'] ?? '') ?: $fallback['title'];
-    $description = trim($item['description'] ?? '') ?: $fallback['description'];
-    $date = trim($item['date'] ?? '') ?: $fallback['date'];
-    $read_more_link = trim($item['pdf_link'] ?? '') ?: $fallback['pdf_link'];
+    $title = petromin_get_value(trim($item['title'] ?? ''), $fallback['title'] ?? '');
+    $description = petromin_get_value(trim($item['description'] ?? ''), $fallback['description'] ?? '');
+    $date = petromin_get_value(trim($item['date'] ?? ''), $fallback['date'] ?? '');
+    $read_more_link = petromin_get_value(trim($item['pdf_link'] ?? ''), $fallback['pdf_link'] ?? '');
     if ($read_more_link === '#') {
         $read_more_link = '';
     }
 
-    $press_releases_processed[] = [
-        'title' => $title,
-        'description' => $description,
-        'date' => $date,
-        'read_more_link' => $read_more_link,
-    ];
+    // Only add item if it has at least a title
+    if (!empty($title)) {
+        $press_releases_processed[] = [
+            'title' => $title,
+            'description' => $description,
+            'date' => $date,
+            'read_more_link' => $read_more_link,
+        ];
+    }
 }
 ?>
 

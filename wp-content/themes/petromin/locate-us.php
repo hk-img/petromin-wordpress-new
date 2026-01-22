@@ -331,13 +331,13 @@ if (!empty($faq_field['categories']) && is_array($faq_field['categories'])) {
     $faq_categories = $faq_defaults['categories'];
 }
 
-// Process service centres with fallbacks
+// Process service centres WITHOUT fallbacks (only use if enabled)
 
 $processed_centers = [];
 foreach ($service_centers_items as $index => $center) {
-    $fallback = $service_centers_defaults['centers'][$index] ?? $service_centers_defaults['centers'][0] ?? [];
+    $fallback = petromin_fallbacks_enabled() ? ($service_centers_defaults['centers'][$index] ?? $service_centers_defaults['centers'][0] ?? []) : [];
     
-    $name = trim($center['name'] ?? '') ?: ($fallback['name'] ?? 'Service Centre');
+    $name = petromin_get_value(trim($center['name'] ?? ''), $fallback['name'] ?? '');
     $map_location = $center['map_location'] ?? null;
     
     // Use Google Map address if available, otherwise fallback
@@ -345,7 +345,7 @@ foreach ($service_centers_items as $index => $center) {
     if (!empty($map_location['address'])) {
         $address = trim($map_location['address']);
     } else {
-        $address = trim($center['address'] ?? '') ?: ($fallback['address'] ?? '');
+        $address = petromin_get_value(trim($center['address'] ?? ''), $fallback['address'] ?? '');
     }
     
     // Priority 1: Use saved ACF fields (country, state, city) from Geocoding API
@@ -360,8 +360,8 @@ foreach ($service_centers_items as $index => $center) {
         if (empty($city) && !empty($address)) {
             $city = petromin_locate_extract_city($address);
         }
-        // Fallback to center's city field if available
-        if (empty($city)) {
+        // Fallback to center's city field if available and fallbacks enabled
+        if (empty($city) && petromin_fallbacks_enabled()) {
             $city = trim($fallback['city'] ?? '');
         }
     }
@@ -384,36 +384,44 @@ foreach ($service_centers_items as $index => $center) {
     }
     
     // Handle image
-    $image_default = $fallback['image'] ?? [];
-    $image = petromin_get_acf_image_data($center['image'] ?? null, 'full', $image_default['url'] ?? '', $image_default['alt'] ?? $name);
+    $image_default = petromin_fallbacks_enabled() ? ($fallback['image'] ?? []) : [];
+    $image = petromin_get_acf_image_data(
+        $center['image'] ?? null, 
+        'full', 
+        $image_default['url'] ?? '', 
+        $image_default['alt'] ?? $name
+    );
     
-    $processed_centers[] = [
-        'name' => $name,
-        'address' => $address,
-        'map_src' => $map_src,
-        'city' => $city,
-        'state' => $state,
-        'country' => $country,
-        'image' => $image,
-        'map_location' => $map_location,
-    ];
+    // Only add center if it has at least a name
+    if (!empty($name)) {
+        $processed_centers[] = [
+            'name' => $name,
+            'address' => $address,
+            'map_src' => $map_src,
+            'city' => $city,
+            'state' => $state,
+            'country' => $country,
+            'image' => $image,
+            'map_location' => $map_location,
+        ];
+    }
 }
 
-// Process FAQ categories
+// Process FAQ categories WITHOUT fallbacks (only use if enabled)
 $processed_faq_categories = [];
 foreach ($faq_categories as $category_index => $category) {
-    $fallback_category = $faq_defaults['categories'][$category_index] ?? $faq_defaults['categories'][0] ?? [];
+    $fallback_category = petromin_fallbacks_enabled() ? ($faq_defaults['categories'][$category_index] ?? $faq_defaults['categories'][0] ?? []) : [];
     
-    $category_title = trim($category['title'] ?? '') ?: ($fallback_category['title'] ?? 'FAQ Category');
-    $category_items = !empty($category['items']) && is_array($category['items']) ? $category['items'] : ($fallback_category['items'] ?? []);
+    $category_title = petromin_get_value(trim($category['title'] ?? ''), $fallback_category['title'] ?? '');
+    $category_items = !empty($category['items']) && is_array($category['items']) ? $category['items'] : (petromin_fallbacks_enabled() ? ($fallback_category['items'] ?? []) : []);
     
     $processed_items = [];
     foreach ($category_items as $item_index => $item) {
-        $fallback_item = $fallback_category['items'][$item_index] ?? [];
+        $fallback_item = petromin_fallbacks_enabled() ? ($fallback_category['items'][$item_index] ?? []) : [];
         
-        $question = trim($item['question'] ?? '') ?: ($fallback_item['question'] ?? '');
-        $answer = trim($item['answer'] ?? '') ?: ($fallback_item['answer'] ?? '');
-        $active = isset($item['active']) ? (bool)$item['active'] : ($fallback_item['active'] ?? false);
+        $question = petromin_get_value(trim($item['question'] ?? ''), $fallback_item['question'] ?? '');
+        $answer = petromin_get_value(trim($item['answer'] ?? ''), $fallback_item['answer'] ?? '');
+        $active = isset($item['active']) ? (bool)$item['active'] : (petromin_fallbacks_enabled() ? ($fallback_item['active'] ?? false) : false);
         
         if ($question && $answer) {
             $processed_items[] = [

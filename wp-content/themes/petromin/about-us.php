@@ -257,24 +257,29 @@ $intro_description_html = wp_kses_post(nl2br(esc_html($intro_description_text)))
 $intro_image = petromin_get_acf_image_data($intro_field['intro_image'] ?? null, 'full', $intro_defaults['image']['url'], $intro_defaults['image']['alt']);
 
 $journey_field = function_exists('get_field') ? (get_field('journey_section') ?: []) : [];
-$journey_heading = trim($journey_field['journey_heading'] ?? '') ?: 'A standard of quality throughout history.';
+$journey_heading = petromin_get_value(trim($journey_field['journey_heading'] ?? ''), petromin_fallbacks_enabled() ? 'A standard of quality throughout history.' : '');
 $journey_slides = function_exists('petromin_get_milestones') ? petromin_get_milestones() : [];
 
-// Fallback to ACF-based page content if no milestone CPT entries exist (keeps UI unchanged).
+// Fallback to ACF-based page content if no milestone CPT entries exist (only if fallbacks enabled)
 if (empty($journey_slides)) {
     $journey_rows = !empty($journey_field['slides']) && is_array($journey_field['slides']) ? $journey_field['slides'] : [];
-    $journey_count = max(count($journey_rows), count($journey_defaults));
-    if ($journey_count === 0) {
+    $journey_count = count($journey_rows);
+    if ($journey_count === 0 && petromin_fallbacks_enabled()) {
         $journey_count = count($journey_defaults);
     }
     $journey_slides = [];
     for ($i = 0; $i < $journey_count; $i++) {
-        $fallback = $journey_defaults[$i] ?? [];
+        $fallback = petromin_fallbacks_enabled() ? ($journey_defaults[$i] ?? []) : [];
         $row = $journey_rows[$i] ?? [];
-        $year = trim($row['slide_year_label'] ?? '') ?: ($fallback['slide_year_label'] ?? '');
-        $description = trim($row['slide_description'] ?? '') ?: ($fallback['slide_description'] ?? '');
-        $image_default = $fallback['slide_image'] ?? [];
-        $image = petromin_get_acf_image_data($row['slide_image'] ?? null, 'full', $image_default['url'] ?? '', $image_default['alt'] ?? '');
+        $year = petromin_get_value(trim($row['slide_year_label'] ?? ''), $fallback['slide_year_label'] ?? '');
+        $description = petromin_get_value(trim($row['slide_description'] ?? ''), $fallback['slide_description'] ?? '');
+        $image_default = petromin_fallbacks_enabled() ? ($fallback['slide_image'] ?? []) : [];
+        $image = petromin_get_acf_image_data(
+            $row['slide_image'] ?? null, 
+            'full', 
+            $image_default['url'] ?? '', 
+            $image_default['alt'] ?? ''
+        );
 
         if (!$year && !$description && !$image) {
             continue;
@@ -287,7 +292,7 @@ if (empty($journey_slides)) {
         ];
     }
 
-    // Prefer CPT-based milestones if available. Keep ACF-built slides as fallback so UI doesn't break.
+    // Prefer CPT-based milestones if available
     $cpt_journey = function_exists('petromin_get_milestones') ? petromin_get_milestones() : [];
     if (!empty($cpt_journey)) {
         $journey_slides = $cpt_journey;
@@ -295,27 +300,37 @@ if (empty($journey_slides)) {
 }
 
 $mvv_field = function_exists('get_field') ? (get_field('mission_vision_values') ?: []) : [];
-$vision_title = trim($mvv_field['vision_title'] ?? '') ?: $mvv_defaults['vision_title'];
-$vision_description_text = trim($mvv_field['vision_description'] ?? '') ?: $mvv_defaults['vision_description'];
+$vision_title = petromin_get_value(trim($mvv_field['vision_title'] ?? ''), petromin_fallbacks_enabled() ? ($mvv_defaults['vision_title'] ?? '') : '');
+$vision_description_text = petromin_get_value(trim($mvv_field['vision_description'] ?? ''), petromin_fallbacks_enabled() ? ($mvv_defaults['vision_description'] ?? '') : '');
 $vision_description_html = wp_kses_post(nl2br(esc_html($vision_description_text)));
-$mission_title = trim($mvv_field['mission_title'] ?? '') ?: $mvv_defaults['mission_title'];
-$mission_description_text = trim($mvv_field['mission_description'] ?? '') ?: $mvv_defaults['mission_description'];
+$mission_title = petromin_get_value(trim($mvv_field['mission_title'] ?? ''), petromin_fallbacks_enabled() ? ($mvv_defaults['mission_title'] ?? '') : '');
+$mission_description_text = petromin_get_value(trim($mvv_field['mission_description'] ?? ''), petromin_fallbacks_enabled() ? ($mvv_defaults['mission_description'] ?? '') : '');
 $mission_description_html = wp_kses_post(nl2br(esc_html($mission_description_text)));
-$values_title = trim($mvv_field['values_title'] ?? '') ?: $mvv_defaults['values_title'];
+$values_title = petromin_get_value(trim($mvv_field['values_title'] ?? ''), petromin_fallbacks_enabled() ? ($mvv_defaults['values_title'] ?? '') : '');
 $values_rows = !empty($mvv_field['values_items']) && is_array($mvv_field['values_items']) ? $mvv_field['values_items'] : [];
-$values_count = max(count($values_rows), count($mvv_defaults['values_items']));
-if ($values_count === 0) {
+$values_count = count($values_rows);
+if ($values_count === 0 && petromin_fallbacks_enabled()) {
     $values_count = count($mvv_defaults['values_items']);
 }
 $values_items = [];
 for ($i = 0; $i < $values_count; $i++) {
-    $fallback = $mvv_defaults['values_items'][$i] ?? [];
+    $fallback = petromin_fallbacks_enabled() ? ($mvv_defaults['values_items'][$i] ?? []) : [];
     $row = $values_rows[$i] ?? [];
-    $title = trim($row['value_title'] ?? '') ?: ($fallback['value_title'] ?? '');
-    $bg_default = $fallback['value_image'] ?? [];
-    $icon_default = $fallback['value_icon'] ?? [];
-    $background = petromin_get_acf_image_data($row['value_image'] ?? null, 'full', $bg_default['url'] ?? '', $bg_default['alt'] ?? $title);
-    $icon = petromin_get_acf_image_data($row['value_icon'] ?? null, 'full', $icon_default['url'] ?? '', $icon_default['alt'] ?? $title);
+    $title = petromin_get_value(trim($row['value_title'] ?? ''), $fallback['value_title'] ?? '');
+    $bg_default = petromin_fallbacks_enabled() ? ($fallback['value_image'] ?? []) : [];
+    $icon_default = petromin_fallbacks_enabled() ? ($fallback['value_icon'] ?? []) : [];
+    $background = petromin_get_acf_image_data(
+        $row['value_image'] ?? null, 
+        'full', 
+        $bg_default['url'] ?? '', 
+        $bg_default['alt'] ?? $title
+    );
+    $icon = petromin_get_acf_image_data(
+        $row['value_icon'] ?? null, 
+        'full', 
+        $icon_default['url'] ?? '', 
+        $icon_default['alt'] ?? $title
+    );
 
     if (!$title && !$background) {
         continue;
@@ -329,20 +344,25 @@ for ($i = 0; $i < $values_count; $i++) {
 }
 
 $excellence_field = function_exists('get_field') ? (get_field('excellence_section') ?: []) : [];
-$excellence_heading = trim($excellence_field['excellence_heading'] ?? '') ?: 'Excellence in every mile.';
+$excellence_heading = petromin_get_value(trim($excellence_field['excellence_heading'] ?? ''), petromin_fallbacks_enabled() ? 'Excellence in every mile.' : '');
 $excellence_rows = !empty($excellence_field['cards']) && is_array($excellence_field['cards']) ? $excellence_field['cards'] : [];
-$excellence_count = max(count($excellence_rows), count($excellence_defaults));
-if ($excellence_count === 0) {
+$excellence_count = count($excellence_rows);
+if ($excellence_count === 0 && petromin_fallbacks_enabled()) {
     $excellence_count = count($excellence_defaults);
 }
 $excellence_cards = [];
 for ($i = 0; $i < $excellence_count; $i++) {
-    $fallback = $excellence_defaults[$i] ?? [];
+    $fallback = petromin_fallbacks_enabled() ? ($excellence_defaults[$i] ?? []) : [];
     $row = $excellence_rows[$i] ?? [];
-    $title = trim($row['card_title'] ?? '') ?: ($fallback['card_title'] ?? '');
-    $description = trim($row['card_description'] ?? '') ?: ($fallback['card_description'] ?? '');
-    $image_default = $fallback['card_image'] ?? [];
-    $image = petromin_get_acf_image_data($row['card_image'] ?? null, 'full', $image_default['url'] ?? '', $image_default['alt'] ?? $title);
+    $title = petromin_get_value(trim($row['card_title'] ?? ''), $fallback['card_title'] ?? '');
+    $description = petromin_get_value(trim($row['card_description'] ?? ''), $fallback['card_description'] ?? '');
+    $image_default = petromin_fallbacks_enabled() ? ($fallback['card_image'] ?? []) : [];
+    $image = petromin_get_acf_image_data(
+        $row['card_image'] ?? null, 
+        'full', 
+        $image_default['url'] ?? '', 
+        $image_default['alt'] ?? $title
+    );
 
     if (!$title && !$description && !$image) {
         continue;
@@ -356,24 +376,34 @@ for ($i = 0; $i < $excellence_count; $i++) {
 }
 
 $wheel_field = function_exists('get_field') ? (get_field('service_wheel') ?: []) : [];
-$wheel_heading_text = trim($wheel_field['wheel_heading'] ?? '') ?: $wheel_defaults['heading'];
+$wheel_heading_text = petromin_get_value(trim($wheel_field['wheel_heading'] ?? ''), petromin_fallbacks_enabled() ? ($wheel_defaults['heading'] ?? '') : '');
 $wheel_heading_html = wp_kses_post(nl2br(esc_html($wheel_heading_text)));
 $wheel_images_field = $wheel_field['wheel_images'] ?? [];
-$wheel_desktop_image = petromin_get_acf_image_data($wheel_images_field['desktop_image'] ?? null, 'full', $wheel_defaults['wheel_images']['desktop']['url'], $wheel_defaults['wheel_images']['desktop']['alt']);
-$wheel_mobile_image = petromin_get_acf_image_data($wheel_images_field['mobile_image'] ?? null, 'full', $wheel_defaults['wheel_images']['mobile']['url'], $wheel_defaults['wheel_images']['mobile']['alt']);
+$wheel_desktop_image = petromin_get_acf_image_data(
+    $wheel_images_field['desktop_image'] ?? null, 
+    'full', 
+    petromin_fallbacks_enabled() ? ($wheel_defaults['wheel_images']['desktop']['url'] ?? '') : '', 
+    petromin_fallbacks_enabled() ? ($wheel_defaults['wheel_images']['desktop']['alt'] ?? '') : ''
+);
+$wheel_mobile_image = petromin_get_acf_image_data(
+    $wheel_images_field['mobile_image'] ?? null, 
+    'full', 
+    petromin_fallbacks_enabled() ? ($wheel_defaults['wheel_images']['mobile']['url'] ?? '') : '', 
+    petromin_fallbacks_enabled() ? ($wheel_defaults['wheel_images']['mobile']['alt'] ?? '') : ''
+);
 $wheel_rows = !empty($wheel_field['services']) && is_array($wheel_field['services']) ? $wheel_field['services'] : [];
-$wheel_count = max(count($wheel_rows), count($wheel_defaults['services']));
-if ($wheel_count === 0) {
+$wheel_count = count($wheel_rows);
+if ($wheel_count === 0 && petromin_fallbacks_enabled()) {
     $wheel_count = count($wheel_defaults['services']);
 }
 $wheel_services = [];
 for ($i = 0; $i < $wheel_count; $i++) {
-    $fallback = $wheel_defaults['services'][$i] ?? [];
+    $fallback = petromin_fallbacks_enabled() ? ($wheel_defaults['services'][$i] ?? []) : [];
     $row = $wheel_rows[$i] ?? [];
-    $title = trim($row['service_title'] ?? '') ?: ($fallback['service_title'] ?? '');
-    $description = trim($row['service_description'] ?? '') ?: ($fallback['service_description'] ?? '');
+    $title = petromin_get_value(trim($row['service_title'] ?? ''), $fallback['service_title'] ?? '');
+    $description = petromin_get_value(trim($row['service_description'] ?? ''), $fallback['service_description'] ?? '');
 
-    $link = petromin_normalize_link($row['service_link'] ?? '', '#');
+    $link = petromin_normalize_link($row['service_link'] ?? '', petromin_fallbacks_enabled() ? '#' : '');
 
     $wheel_services[] = [
         'title' => $title,

@@ -99,29 +99,48 @@ $defaults = [
     ],
 ];
 
-// Get ACF data with fallbacks
+// Get ACF data WITHOUT fallbacks
 $hero_field = function_exists('get_field') ? (get_field('hero_section') ?: []) : [];
 $our_services_field = function_exists('get_field') ? (get_field('our_services_section') ?: []) : [];
 $features_field = function_exists('get_field') ? (get_field('features_section') ?: []) : [];
 $app_field = function_exists('get_field') ? (get_field('app_section') ?: []) : [];
 $faq_field = function_exists('get_field') ? (get_field('faq_section') ?: []) : [];
 
-// Process data with fallbacks
+// Process data WITHOUT fallbacks (only use if enabled)
 $hero_data = [
-    'background_image' => petromin_get_acf_image_data($hero_field['background_image'] ?? null, 'full', $defaults['hero']['background_image']['url'], $defaults['hero']['background_image']['alt']),
-    'heading_prefix' => $hero_field['heading_prefix'] ?? $defaults['hero']['heading_prefix'],
-    'heading_highlight' => $hero_field['heading_highlight'] ?? $defaults['hero']['heading_highlight'],
-    'heading_suffix' => $hero_field['heading_suffix'] ?? $defaults['hero']['heading_suffix'],
-    'description' => $hero_field['description'] ?? $defaults['hero']['description'],
+    'background_image' => petromin_get_acf_image_data(
+        $hero_field['background_image'] ?? null, 
+        'full', 
+        petromin_fallbacks_enabled() ? ($defaults['hero']['background_image']['url'] ?? '') : '', 
+        petromin_fallbacks_enabled() ? ($defaults['hero']['background_image']['alt'] ?? '') : ''
+    ),
+    'heading_prefix' => petromin_get_value($hero_field['heading_prefix'] ?? '', petromin_fallbacks_enabled() ? ($defaults['hero']['heading_prefix'] ?? '') : ''),
+    'heading_highlight' => petromin_get_value($hero_field['heading_highlight'] ?? '', petromin_fallbacks_enabled() ? ($defaults['hero']['heading_highlight'] ?? '') : ''),
+    'heading_suffix' => petromin_get_value($hero_field['heading_suffix'] ?? '', petromin_fallbacks_enabled() ? ($defaults['hero']['heading_suffix'] ?? '') : ''),
+    'description' => petromin_get_value($hero_field['description'] ?? '', petromin_fallbacks_enabled() ? ($defaults['hero']['description'] ?? '') : ''),
 ];
 
+// Check if hero section has data
+$hero_has_data = petromin_has_section_data($hero_data) && 
+                 (!empty($hero_data['heading_prefix']) || !empty($hero_data['heading_highlight']) || !empty($hero_data['heading_suffix']));
+
 $our_services_data = [
-    'section_heading' => $our_services_field['section_heading'] ?? $defaults['our_services']['section_heading'],
+    'section_heading' => petromin_get_value($our_services_field['section_heading'] ?? '', petromin_fallbacks_enabled() ? ($defaults['our_services']['section_heading'] ?? '') : ''),
     'navigation_icons' => [
-        'left_arrow_icon' => petromin_get_acf_image_data($our_services_field['navigation_icons']['left_arrow_icon'] ?? null, 'full', $defaults['our_services']['navigation_icons']['left_arrow_icon']['url'], $defaults['our_services']['navigation_icons']['left_arrow_icon']['alt']),
-        'right_arrow_icon' => petromin_get_acf_image_data($our_services_field['navigation_icons']['right_arrow_icon'] ?? null, 'full', $defaults['our_services']['navigation_icons']['right_arrow_icon']['url'], $defaults['our_services']['navigation_icons']['right_arrow_icon']['alt']),
+        'left_arrow_icon' => petromin_get_acf_image_data(
+            $our_services_field['navigation_icons']['left_arrow_icon'] ?? null, 
+            'full', 
+            petromin_fallbacks_enabled() ? ($defaults['our_services']['navigation_icons']['left_arrow_icon']['url'] ?? '') : '', 
+            petromin_fallbacks_enabled() ? ($defaults['our_services']['navigation_icons']['left_arrow_icon']['alt'] ?? '') : ''
+        ),
+        'right_arrow_icon' => petromin_get_acf_image_data(
+            $our_services_field['navigation_icons']['right_arrow_icon'] ?? null, 
+            'full', 
+            petromin_fallbacks_enabled() ? ($defaults['our_services']['navigation_icons']['right_arrow_icon']['url'] ?? '') : '', 
+            petromin_fallbacks_enabled() ? ($defaults['our_services']['navigation_icons']['right_arrow_icon']['alt'] ?? '') : ''
+        ),
     ],
-    'slides' => $defaults['our_services']['slides'],
+    'slides' => [],
 ];
 
 // Prefer sourcing slides from published 'service' posts so this section reflects Service posts
@@ -145,7 +164,7 @@ if (!empty($service_posts)) {
         // Use the ACF service icon
         $icon_img = petromin_get_acf_image_data(get_field('service_icon', $pid), 'thumbnail', '', get_the_title($pid));
         // Get the hero description from the service post
-        $service_description = get_field('hero_description', $pid) ?: 'Lorem ipsum dolor sit amet consectetur adipiscing elit.';
+        $service_description = petromin_get_value(get_field('hero_description', $pid), petromin_fallbacks_enabled() ? 'Lorem ipsum dolor sit amet consectetur adipiscing elit.' : '');
 
         $posts_slides[] = [
             'slide_image' => $slide_img ?: ['url' => '', 'alt' => get_the_title($pid)],
@@ -162,40 +181,76 @@ if (!empty($service_posts)) {
     }
 }
 
+// Check if our services section has data
+$our_services_has_data = !empty($our_services_data['slides']) && petromin_has_section_data($our_services_data['section_heading']);
+
 $features_data = [
-    'heading' => $features_field['heading'] ?? $defaults['features']['heading'],
-    'features_list' => !empty($features_field['features_list']) ? $features_field['features_list'] : $defaults['features']['features_list'],
-    'features_image' => petromin_get_acf_image_data($features_field['features_image'] ?? null, 'full', $defaults['features']['features_image']['url'], $defaults['features']['features_image']['alt']),
+    'heading' => petromin_get_value($features_field['heading'] ?? '', petromin_fallbacks_enabled() ? ($defaults['features']['heading'] ?? '') : ''),
+    'features_list' => !empty($features_field['features_list']) ? $features_field['features_list'] : (petromin_fallbacks_enabled() ? ($defaults['features']['features_list'] ?? []) : []),
+    'features_image' => petromin_get_acf_image_data(
+        $features_field['features_image'] ?? null, 
+        'full', 
+        petromin_fallbacks_enabled() ? ($defaults['features']['features_image']['url'] ?? '') : '', 
+        petromin_fallbacks_enabled() ? ($defaults['features']['features_image']['alt'] ?? '') : ''
+    ),
 ];
 
+// Check if features section has data
+$features_has_data = petromin_has_section_data($features_data) && 
+                    (!empty($features_data['heading']) || !empty($features_data['features_list']));
+
 $app_data = [
-    'trusted_text' => $app_field['trusted_text'] ?? $defaults['app']['trusted_text'],
+    'trusted_text' => petromin_get_value($app_field['trusted_text'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['trusted_text'] ?? '') : ''),
     'user_images' => [],
-    'heading_line1' => $app_field['heading_line1'] ?? $defaults['app']['heading_line1'],
-    'heading_line2' => $app_field['heading_line2'] ?? $defaults['app']['heading_line2'],
-    'heading_line3' => $app_field['heading_line3'] ?? $defaults['app']['heading_line3'],
-    'description' => $app_field['description'] ?? $defaults['app']['description'],
+    'heading_line1' => petromin_get_value($app_field['heading_line1'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['heading_line1'] ?? '') : ''),
+    'heading_line2' => petromin_get_value($app_field['heading_line2'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['heading_line2'] ?? '') : ''),
+    'heading_line3' => petromin_get_value($app_field['heading_line3'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['heading_line3'] ?? '') : ''),
+    'description' => petromin_get_value($app_field['description'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['description'] ?? '') : ''),
     'app_store_badges' => [
-        'play_store_image' => petromin_get_acf_image_data($app_field['app_store_badges']['play_store_image'] ?? null, 'full', $defaults['app']['app_store_badges']['play_store_image']['url'], $defaults['app']['app_store_badges']['play_store_image']['alt']),
-        'play_store_link' => $app_field['app_store_badges']['play_store_link'] ?? $defaults['app']['app_store_badges']['play_store_link'],
-        'app_store_image' => petromin_get_acf_image_data($app_field['app_store_badges']['app_store_image'] ?? null, 'full', $defaults['app']['app_store_badges']['app_store_image']['url'], $defaults['app']['app_store_badges']['app_store_image']['alt']),
-        'app_store_link' => $app_field['app_store_badges']['app_store_link'] ?? $defaults['app']['app_store_badges']['app_store_link'],
+        'play_store_image' => petromin_get_acf_image_data(
+            $app_field['app_store_badges']['play_store_image'] ?? null, 
+            'full', 
+            petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['play_store_image']['url'] ?? '') : '', 
+            petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['play_store_image']['alt'] ?? '') : ''
+        ),
+        'play_store_link' => petromin_get_value($app_field['app_store_badges']['play_store_link'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['play_store_link'] ?? '') : ''),
+        'app_store_image' => petromin_get_acf_image_data(
+            $app_field['app_store_badges']['app_store_image'] ?? null, 
+            'full', 
+            petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['app_store_image']['url'] ?? '') : '', 
+            petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['app_store_image']['alt'] ?? '') : ''
+        ),
+        'app_store_link' => petromin_get_value($app_field['app_store_badges']['app_store_link'] ?? '', petromin_fallbacks_enabled() ? ($defaults['app']['app_store_badges']['app_store_link'] ?? '') : ''),
     ],
-    'phone_image' => petromin_get_acf_image_data($app_field['phone_image'] ?? null, 'full', $defaults['app']['phone_image']['url'], $defaults['app']['phone_image']['alt']),
+    'phone_image' => petromin_get_acf_image_data(
+        $app_field['phone_image'] ?? null, 
+        'full', 
+        petromin_fallbacks_enabled() ? ($defaults['app']['phone_image']['url'] ?? '') : '', 
+        petromin_fallbacks_enabled() ? ($defaults['app']['phone_image']['alt'] ?? '') : ''
+    ),
 ];
 
 // Process user images
-$user_images = !empty($app_field['user_images']) ? $app_field['user_images'] : $defaults['app']['user_images'];
+$user_images = !empty($app_field['user_images']) ? $app_field['user_images'] : (petromin_fallbacks_enabled() ? ($defaults['app']['user_images'] ?? []) : []);
 foreach ($user_images as $index => $user_image) {
-    $default_user = $defaults['app']['user_images'][$index] ?? $defaults['app']['user_images'][0];
+    $default_user = petromin_fallbacks_enabled() ? ($defaults['app']['user_images'][$index] ?? $defaults['app']['user_images'][0] ?? []) : [];
     $app_data['user_images'][] = [
-        'user_image' => petromin_get_acf_image_data($user_image['user_image'] ?? null, 'full', $default_user['user_image']['url'], $default_user['user_image']['alt']),
+        'user_image' => petromin_get_acf_image_data(
+            $user_image['user_image'] ?? null, 
+            'full', 
+            petromin_fallbacks_enabled() ? ($default_user['user_image']['url'] ?? '') : '', 
+            petromin_fallbacks_enabled() ? ($default_user['user_image']['alt'] ?? '') : ''
+        ),
     ];
 }
 
+// Check if app section has data
+$app_has_data = petromin_has_section_data($app_data) && 
+                (!empty($app_data['heading_line1']) || !empty($app_data['heading_line2']) || !empty($app_data['heading_line3']));
+
 $faq_data = [
-    'section_heading' => $faq_field['section_heading'] ?? $defaults['faq']['section_heading'],
-    'faq_items' => !empty($faq_field['faq_items']) ? $faq_field['faq_items'] : $defaults['faq']['faq_items'],
+    'section_heading' => petromin_get_value($faq_field['section_heading'] ?? '', petromin_fallbacks_enabled() ? ($defaults['faq']['section_heading'] ?? '') : ''),
+    'faq_items' => !empty($faq_field['faq_items']) ? $faq_field['faq_items'] : (petromin_fallbacks_enabled() ? ($defaults['faq']['faq_items'] ?? []) : []),
 ];
 
 // Process FAQ items similar to home page
@@ -221,9 +276,13 @@ $faq_total_items = count($faq_processed_items);
 $faq_first_column_count = ceil($faq_total_items / 2);
 $faq_first_column_items = array_slice($faq_processed_items, 0, $faq_first_column_count);
 $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_count);
+
+// Check if FAQ section has data
+$faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_data['section_heading']);
 ?>
 
-<!-- Hero Section -->
+<!-- Hero Section - Only show if has data -->
+<?php if ($hero_has_data): ?>
 <div class="hero_section w-full relative z-0 md:min-h-dvh h-dvh md:!h-auto">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_data['background_image']['url'])) : ?>
@@ -238,24 +297,31 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
         <div class="absolute flex flex-col lg:bottom-32 md:bottom-24 bottom-20 left-0 view text-white">
             <h1
                 class="xl:text-6xl md:text-5xl text-[2.625rem] font-bold leading-tight flex md:w-[52rem] flex-wrap items-center gap-2">
-                <?php echo esc_html($hero_data['heading_prefix']); ?>
+                <?php echo esc_html($hero_data['heading_prefix'] ?? ''); ?>
+                <?php if (!empty($hero_data['heading_highlight'])): ?>
                 <span
                     class="bg-gradient-to-l from-[#CB122D] to-[#650916] md:ml-2 md:h-[4.688rem] md:w-[18.25rem] inline-block px-2 flex justify-center -skew-x-[18deg]">
                     <span class="skew-x-[18deg]"><?php echo esc_html($hero_data['heading_highlight']); ?></span>
                 </span>
-                <span class="md:block sm:inline-block"><?php echo esc_html($hero_data['heading_suffix']); ?></span>
+                <?php endif; ?>
+                <span class="md:block sm:inline-block"><?php echo esc_html($hero_data['heading_suffix'] ?? ''); ?></span>
             </h1>
 
+            <?php if (!empty($hero_data['description'])): ?>
             <p class="text-[#FFFFFF] mt-4 font-normal text-lg md:text-[1.375rem]">
                 <?php echo wp_kses_post($hero_data['description']); ?>
             </p>
+            <?php endif; ?>
         </div>
     </div>
 </div>
+<?php endif; ?>
 
-<!-- New Our Services Section -->
+<!-- New Our Services Section - Only show if has data -->
+<?php if ($our_services_has_data): ?>
 <div class="w-full relative bg-white md:py-[4.25rem] py-[2rem]">
     <div class="view">
+        <?php if (!empty($our_services_data['section_heading'])): ?>
         <div class="w-full flex flex-col gap-1 md:gap-1">
             <h2
                 class="relative  xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-[1.75rem] font-bold text-[#000000] ">
@@ -264,6 +330,9 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
             <div class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] h-3 -skew-x-[22deg]">
             </div>
         </div>
+        <?php endif; ?>
+        
+        <?php if (!empty($our_services_data['slides'])): ?>
         <div class="w-full relative pt-12">
             <div class="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-6">
                 <?php foreach ($our_services_data['slides'] as $slide) : ?>
@@ -327,13 +396,19 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                 
             </div>
         </div>
-
-
+        <?php else: ?>
+        <!-- Empty State -->
+        <div class="w-full py-16 text-center">
+            <p class="text-gray-500">No services available at the moment.</p>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 <!-- End New Our Services Section -->
+<?php endif; ?>
 
-<!-- Features Section -->
+<!-- Features Section - Only show if has data -->
+<?php if ($features_has_data): ?>
 <section
     class="w-full bg-white z-10 relative overflow-hidden py-12 bg-gradient-to-r h-full from-[#ffffff] to-[#e5e5e5]">
     <div class="view">
@@ -386,8 +461,10 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
         class="absolute right-0 md:top-0 md:bottom-auto top-auto bottom-0 md:w-[41.188rem] w-[8.5rem] -z-10 transform origin-bottom md:h-full h-[18rem] -skew-x-[12deg] bg-gradient-to-r from-[#8b0f15] to-[#CB122D]">
     </div>
 </section>
+<?php endif; ?>
 
-<!-- App Section -->
+<!-- App Section - Only show if has data -->
+<?php if ($app_has_data): ?>
 <section class="w-full taptrack bg-white pt-[6.313rem] md:pt-[3.938rem]">
     <div
         class="view relative before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:w-full before:h-28 before:bg-gradient-to-t before:from-[#FBFCFD] before:to-[#FBFCFD00]">
@@ -443,8 +520,10 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
         </div>
     </div>
 </section>
+<?php endif; ?>
 
-<!-- FAQ Section -->
+<!-- FAQ Section - Only show if has data -->
+<?php if ($faq_has_data): ?>
 <section class="w-full relative md:pt-[4rem] pt-[3rem] md:pb-[6rem] pb-[2.625rem] font-inter">
     <div class="view" id="faqAccordion">
         <div class="flex items-center justify-between md:pb-6 pb-4">
