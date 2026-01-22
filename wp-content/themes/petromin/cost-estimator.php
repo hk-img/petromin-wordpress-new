@@ -167,8 +167,8 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                 // Fetch services for this category with filters from URL params
                                 $services = get_services_by_category($category_name, $brand, $model, $fuel);
                                 
-                                // Fetch vendor distinct services data for warranty, recommended_timeline, is_offer, and estimated_completion_time
-                                $vendor_services_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/vendor_distinct_services?service_category=eq.' . urlencode($category_name) . '&select=service_name,warranty,recommended_timeline,is_active,is_offer,estimated_completion_time';
+                                // Fetch vendor distinct services data for warranty, recommended_timeline, is_offer, estimated_completion_time, and service_image_url
+                                $vendor_services_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/vendor_distinct_services?service_category=eq.' . urlencode($category_name) . '&select=service_name,warranty,recommended_timeline,is_active,is_offer,estimated_completion_time,service_image_url';
                                 $vendor_services_response = wp_remote_get($vendor_services_api_url, array(
                                     'timeout' => 15,
                                     'headers' => array(
@@ -219,16 +219,20 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 $disclaimer = isset($service['disclaimer']) ? $service['disclaimer'] : 'This is an estimated price, Final price may vary based on your car model and condition.';
                                                 $service_id = isset($service['id']) ? $service['id'] : md5($service_name . $price . $category_name);
                                                 
+                                                // Get vendor service data for warranty, recommended_timeline, is_offer, estimated_completion_time, and service_image_url
+                                                $vendor_service_data = isset($vendor_services_lookup[$service_name]) ? $vendor_services_lookup[$service_name] : null;
+                                                
                                                 // Prepare complete service data for sessionStorage
                                                 // Ensure service_category is included in service data
                                                 $service_with_category = $service;
                                                 if (!isset($service_with_category['service_category']) || empty($service_with_category['service_category'])) {
                                                     $service_with_category['service_category'] = $category_name;
                                                 }
+                                                // Add service_image_url from vendor data if available
+                                                if ($vendor_service_data && isset($vendor_service_data['service_image_url']) && !empty($vendor_service_data['service_image_url'])) {
+                                                    $service_with_category['service_image_url'] = $vendor_service_data['service_image_url'];
+                                                }
                                                 $service_data_json = json_encode($service_with_category);
-                                                
-                                                // Get vendor service data for warranty, recommended_timeline, is_offer, and estimated_completion_time
-                                                $vendor_service_data = isset($vendor_services_lookup[$service_name]) ? $vendor_services_lookup[$service_name] : null;
                                                 $service_warranty_raw = ($vendor_service_data && isset($vendor_service_data['warranty'])) ? $vendor_service_data['warranty'] : 'No Warranty';
                                                 
                                                 // Format warranty text - if it already contains "Warranty" or is "No Warranty", use as is, otherwise add "Warranty" suffix
@@ -241,6 +245,9 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 $service_estimated_time = ($vendor_service_data && isset($vendor_service_data['estimated_completion_time']) && !empty($vendor_service_data['estimated_completion_time'])) ? $vendor_service_data['estimated_completion_time'] : '4 Hours';
                                                 $service_is_offer = ($vendor_service_data && isset($vendor_service_data['is_offer'])) ? (bool)$vendor_service_data['is_offer'] : false;
                                                 $service_is_active = ($vendor_service_data && isset($vendor_service_data['is_active'])) ? (bool)$vendor_service_data['is_active'] : true;
+                                                
+                                                // Get service image URL from vendor data, fallback to static image
+                                                $service_image_url = ($vendor_service_data && isset($vendor_service_data['service_image_url']) && !empty($vendor_service_data['service_image_url'])) ? $vendor_service_data['service_image_url'] : $img_url . 'ImageWithFallback.webp';
                                                 $service_card_class = 'w-full flex flex-col md:rounded-none rounded-lg bg-white border border-[#E5E7EB] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A]';
                                                 if (!$service_is_active) {
                                                     $service_card_class .= ' grayscale opacity-50 pointer-events-none';
@@ -249,9 +256,10 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 <div class="<?php echo esc_attr($service_card_class); ?>" data-service-id="<?php echo esc_attr($service_id); ?>">
                                                     <div class="flex md:flex-row flex-col md:gap-3">
                                                         <div class="md:w-1/4 w-full relative">
-                                                            <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'ImageWithFallback.webp'); ?>"
-                                                                class="size-full md:rounded-none rounded-lg aspect-square"
-                                                                width="189" height="189" alt="" title="">
+                                                            <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($service_image_url); ?>"
+                                                                class="size-full md:rounded-none rounded-lg aspect-square object-cover"
+                                                                width="189" height="189" alt="<?php echo esc_attr($service_name); ?>" title="<?php echo esc_attr($service_name); ?>"
+                                                                onerror="this.src='<?php echo esc_url($img_url . 'ImageWithFallback.webp'); ?>';">
                                                             <?php if ($service_is_offer) : ?>
                                                             <div class="absolute md:-top-[3.2rem] -top-[1.188rem] md:-left-[3rem] -left-[1.25rem]">
                                                                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($img_url . 'limitedOffer.webp'); ?>"
