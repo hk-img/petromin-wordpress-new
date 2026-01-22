@@ -687,10 +687,12 @@ if (empty($digital_checkup_features)) {
     }
 }
 
-// Get the brands section data
+// Get the brands section data WITHOUT fallbacks
 $brands_field = function_exists('get_field') ? (get_field('brands_section') ?: []) : [];
 
-// Default values with all original brand images
+// Defaults arrays removed - fallbacks permanently disabled
+// If needed in future, uncomment and use with petromin_fallbacks_enabled() check
+/*
 $brands_defaults = [
     'heading' => 'Expert care for every make and model.',
     'left_slider' => [
@@ -734,14 +736,12 @@ $brands_defaults = [
         ['image' => ['url' => $images_url . 'image-27.webp', 'alt' => 'Brand'], 'name' => ''],
     ],
 ];
+*/
 
-// Process the data
+// Process the data WITHOUT fallbacks
 $brands_heading = trim($brands_field['heading'] ?? '');
-if ($brands_heading === '') {
-    $brands_heading = $brands_defaults['heading'];
-}
 
-// Process left slider brands
+// Process left slider brands WITHOUT fallbacks
 $left_brands_input = is_array($brands_field['left_slider'] ?? null) ? $brands_field['left_slider'] : [];
 $left_brands = [];
 
@@ -759,16 +759,7 @@ if (!empty($left_brands_input)) {
     }
 }
 
-if (empty($left_brands)) {
-    foreach ($brands_defaults['left_slider'] as $default_brand) {
-        $left_brands[] = [
-            'image' => $default_brand['image'],
-            'name' => $default_brand['name'],
-        ];
-    }
-}
-
-// Process right slider brands
+// Process right slider brands WITHOUT fallbacks
 $right_brands_input = is_array($brands_field['right_slider'] ?? null) ? $brands_field['right_slider'] : [];
 $right_brands = [];
 
@@ -786,16 +777,7 @@ if (!empty($right_brands_input)) {
     }
 }
 
-if (empty($right_brands)) {
-    foreach ($brands_defaults['right_slider'] as $default_brand) {
-        $right_brands[] = [
-            'image' => $default_brand['image'],
-            'name' => $default_brand['name'],
-        ];
-    }
-}
-
-// Process mobile slider brands
+// Process mobile slider brands WITHOUT fallbacks
 $mobile_brands_input = is_array($brands_field['mobile_slider'] ?? null) ? $brands_field['mobile_slider'] : [];
 $mobile_brands = [];
 
@@ -810,15 +792,6 @@ if (!empty($mobile_brands_input)) {
                 'name' => $name,
             ];
         }
-    }
-}
-
-if (empty($mobile_brands)) {
-    foreach ($brands_defaults['mobile_slider'] as $default_brand) {
-        $mobile_brands[] = [
-            'image' => $default_brand['image'],
-            'name' => $default_brand['name'],
-        ];
     }
 }
 // Get the app section data
@@ -1842,13 +1815,17 @@ if (!empty($home_offers)):
     </div>
 </section>
 
+<!-- Brands Section - Only show if has data -->
+<?php if (!empty($brands_heading) || !empty($left_brands) || !empty($right_brands) || !empty($mobile_brands)): ?>
 <section class="w-full relative overflow-hidden md:pt-[6.8rem] pt-[5rem]">
     <div class="view max-sm:mb-8">
         <div class="flex items-center justify-between">
+            <?php if (!empty($brands_heading)): ?>
             <h2
                 class="relative text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem] 2xl:!leading-[3.313rem] !leading-12 z-30 font-inter font-bold text-black pr-2 after:absolute after:bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] lg:after:w-[6.75rem] after:w-20 lg:after:h-3 after:h-[0.625rem] after:-skew-x-[18deg] after:-bottom-6 after:left-0">
                 <?php echo esc_html($brands_heading); ?>
             </h2>
+            <?php endif; ?>
         </div>
     </div>
     <div class="bg-gradient-to-l from-white to-[rgba(255,255,255,0)] 
@@ -1909,6 +1886,7 @@ if (!empty($home_offers)):
         <?php endif; ?>
     </div>
 </section>
+<?php endif; ?>
 
 <section
     class="w-full relative overflow-hidden z-30 font-inter md:mt-[6.5rem] md:pt-0 pt-[2.5rem] mt-[3rem] md:pb-20 pb-10">

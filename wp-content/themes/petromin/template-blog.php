@@ -64,23 +64,25 @@ if ($selected_category) {
 $blog_query = new WP_Query($blog_args);
 ?>
 
+<!-- Hero Section - Only show if has featured posts -->
+<?php if (!empty($featured_posts)): ?>
 <section class="hero_section w-full relative md:min-h-dvh h-dvh md:!h-auto z-10">
     <div class="relative w-full h-full overflow-hidden">
         <div class="swiper blogHeroSectionSwiper relative">
             <div class="swiper-wrapper">
-                <?php if ($featured_posts) : 
-                    foreach ($featured_posts as $post) : 
+                <?php foreach ($featured_posts as $post) : 
                     setup_postdata($post);
                     
                     $featured_image = get_the_post_thumbnail_url($post->ID, 'full');
-                    $fallback_image = $images_url . '/blog_hero_img.webp';
                     $categories = get_the_category($post->ID);
                     ?>
                 <div class="swiper-slide h-dvh relative before:absolute before:inset-0 before:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)] before:z-0 *:z-10">
+                    <?php if (!empty($featured_image)): ?>
                     <img fetchpriority="high" decoding="async" loading="eager"
-                        src="<?php echo esc_url($featured_image ?: $fallback_image); ?>"
+                        src="<?php echo esc_url($featured_image); ?>"
                         class="size-full object-cover aspect-[1297/551]" alt="<?php echo esc_attr(get_the_title()); ?>"
                         title="<?php echo esc_attr(get_the_title()); ?>">
+                    <?php endif; ?>
 
                     <div class="view w-full absolute  bottom-20 left-0 z-30">
                         <div class="flex flex-col md:gap-y-8 gap-y-6">
@@ -124,32 +126,9 @@ $blog_query = new WP_Query($blog_args);
                         </div>
                     </div>
                 </div>
-                <?php endforeach; 
+                <?php 
                     wp_reset_postdata();
-                else : ?>
-                <!-- Fallback slide if no posts -->
-                <div class="swiper-slide h-dvh">
-                    <img fetchpriority="high" decoding="async" loading="eager"
-                        src="<?php echo esc_url($images_url . '/blog_hero_img.webp'); ?>"
-                        class="size-full object-cover aspect-square" alt="Petromin Express Blog"
-                        title="Petromin Express Blog">
-                    <div class="view w-full absolute  bottom-20 left-0 z-30">
-                        <div class="flex flex-col md:gap-y-8 gap-y-6">
-                            <h1
-                                class="block xl:text-5xl lg:text-4xl text-3xl text-balance text-white font-semibold !leading-tight md:drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]">
-                                Welcome to Petromin Express Blog
-                            </h1>
-                            <div class="flex md:justify-end md:items-end w-full">
-                                <button class="px-3 flex space-x-3 items-center bg-[#CB122D] h-10">
-                                    <span class="flex items-center gap-1 text-base font-semibold text-white">
-                                        Explore Blogs
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php endif; ?>
+                endforeach; ?>
             </div>
         </div>
 
@@ -180,6 +159,7 @@ $blog_query = new WP_Query($blog_args);
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <section class="relative md:pt-28 pt-10 pb-10 md:pb-16">
     <div class="view flex flex-col gap-y-10">
@@ -193,15 +173,16 @@ $blog_query = new WP_Query($blog_args);
                     $post_categories = get_the_category();
                     $reading_time = calculate_reading_time(get_the_content());
                     $post_image = get_the_post_thumbnail_url(get_the_ID(), 'large');
-                    $fallback_image = $images_url . '/media_mention_img.webp';
                     ?>
 
             <div class="relative w-full flex flex-col md:gap-y-4 gap-y-3 group">
+                <?php if (!empty($post_image)): ?>
                 <a href="<?php the_permalink(); ?>" class="w-full relative overflow-hidden duration-300">
-                    <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($post_image ?: $fallback_image); ?>"
+                    <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($post_image); ?>"
                         class="size-full group-hover:lg:scale-125 duration-300 aspect-[371/232] object-cover"
                         alt="<?php echo esc_attr(get_the_title()); ?>" title="<?php echo esc_attr(get_the_title()); ?>">
                 </a>
+                <?php endif; ?>
 
                 <div class="text-[#637083] font-normal lg:text-base text-sm">
                     <?php 
