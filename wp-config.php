@@ -104,6 +104,8 @@ define('DISABLE_WP_CRON', false);
 // Enable error logging for debugging
 define('WP_DEBUG_LOG', true);
 define('WP_DEBUG_DISPLAY', false);
+
+define('PETROMIN_ENABLE_FALLBACKS', false);
 /**
  * Third-party API Keys and Credentials
  * 
