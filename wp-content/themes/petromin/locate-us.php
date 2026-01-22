@@ -440,8 +440,8 @@ foreach ($faq_categories as $category_index => $category) {
     }
 }
 
-// Agar koi processed data empty hai to default data use karo
-if (empty($processed_centers)) {
+// Agar koi processed data empty hai to default data use karo (only if fallbacks enabled)
+if (empty($processed_centers) && petromin_fallbacks_enabled()) {
     foreach ($service_centers_defaults['centers'] as $center) {
         $address = $center['address'] ?? '';
         $processed_centers[] = [
@@ -505,21 +505,29 @@ foreach ($processed_centers as $processed_center) {
         if ($state_name !== '' && !in_array($state_name, $country_names)) {
             $state_options[$state_name] = $state_name;
             
+            // Only add city to state mapping if BOTH state and city are present
+            // This ensures cities are only shown for their correct state
             if ($city_name !== '' && $city_name !== $state_name) {
                 // Only add city if it's different from state (prevent states in city dropdown)
                 if (!isset($state_city_mapping[$state_name])) {
                     $state_city_mapping[$state_name] = [];
                 }
-                $state_city_mapping[$state_name][$city_name] = $city_name;
+                // Use array key to prevent duplicates
+                if (!isset($state_city_mapping[$state_name][$city_name])) {
+                    $state_city_mapping[$state_name][$city_name] = $city_name;
+                }
             }
         }
     }
 
-    // Only add to city_options if it's not empty, not a state, and not a country
+    // Only add to city_options if it has a valid state AND it's not empty, not a state, and not a country
+    // This prevents cities without states from appearing in the dropdown
     if ($city_name !== '' && 
+        $state_name !== '' && // Only add if state is also present
         !isset($state_options[$city_name]) && 
         !in_array($city_name, $country_names)) {
-        $city_options[$city_name] = $city_name;
+        // Don't add to city_options here - cities should only come from state_city_mapping
+        // This ensures cities are properly filtered by state
     }
 }
 
@@ -530,17 +538,25 @@ $state_options = array_filter($state_options, function($state) use ($country_nam
 });
 sort($state_options); // Sort states alphabetically
 
-// Remove any cities that are actually states or countries
+// Remove any cities that are actually states or countries from city_options
+// Note: city_options is now mainly for fallback, actual cities come from state_city_mapping
 $city_options = array_filter($city_options, function($city) use ($state_options, $country_names) {
     return !in_array($city, $state_options) && !in_array($city, $country_names);
 });
 $city_options = array_unique(array_values($city_options));
 sort($city_options); // Sort cities alphabetically
 
-// Sort cities within each state
+// Sort cities within each state and ensure uniqueness
 foreach ($state_city_mapping as $state => $cities) {
-    $state_city_mapping[$state] = array_values($cities);
+    // Remove duplicates and sort
+    $state_city_mapping[$state] = array_values(array_unique($cities));
     sort($state_city_mapping[$state]);
+    
+    // Remove any cities that are actually states or countries
+    $state_city_mapping[$state] = array_filter($state_city_mapping[$state], function($city) use ($state_options, $country_names) {
+        return !in_array($city, $state_options) && !in_array($city, $country_names);
+    });
+    $state_city_mapping[$state] = array_values($state_city_mapping[$state]);
 }
 
 // Set default city to empty to show all centers
