@@ -6953,6 +6953,44 @@ function handle_save_booking_data() {
 }
 
 /**
+ * Map city name to API-compatible format
+ * Converts city names to match third-party API database format
+ * 
+ * @param string $city_name The city name to map
+ * @return string Mapped city name or original if no mapping found
+ */
+if (!function_exists('petromin_map_city_for_api')) {
+    function petromin_map_city_for_api($city_name) {
+        if (empty($city_name)) {
+            return $city_name;
+        }
+        
+        // Trim and normalize city name
+        $city_name = trim($city_name);
+        
+        // City name mapping: local name => API database name
+        $city_mapping = array(
+            'Bengaluru' => 'Bangalore',
+            'Bengalooru' => 'Bangalore',
+            'Bangaluru' => 'Bangalore',
+            // Add more mappings here if needed in future
+            // 'Mumbai' => 'Mumbai',
+            // 'Delhi' => 'Delhi',
+        );
+        
+        // Check if city name needs mapping (case-insensitive)
+        foreach ($city_mapping as $local_name => $api_name) {
+            if (strcasecmp($city_name, $local_name) === 0) {
+                return $api_name;
+            }
+        }
+        
+        // Return original city name if no mapping found
+        return $city_name;
+    }
+}
+
+/**
  * Handle booking save with LeadSquared API integration
  * Always generates LEAD- ID for all bookings
  * Calls LeadSquared API and saves RelatedProspectId separately if API succeeds
@@ -6996,7 +7034,9 @@ function handle_save_booking_with_leadsquared() {
     $vehicle_brand = isset($booking_data['vehicle']['brand']) ? $booking_data['vehicle']['brand'] : '';
     $vehicle_model = isset($booking_data['vehicle']['model']) ? $booking_data['vehicle']['model'] : '';
     $vehicle_fuel = isset($booking_data['vehicle']['fuel']) ? $booking_data['vehicle']['fuel'] : '';
-    $vehicle_city = isset($booking_data['vehicle']['city']) ? $booking_data['vehicle']['city'] : '';
+    $vehicle_city_raw = isset($booking_data['vehicle']['city']) ? $booking_data['vehicle']['city'] : '';
+    // Map city name to API-compatible format (e.g., Bengaluru -> Bangalore)
+    $vehicle_city = petromin_map_city_for_api($vehicle_city_raw);
     
     // Get created date (current date time in format: YYYY-MM-DD HH:MM:SS)
     $created_date = current_time('Y-m-d H:i:s');
@@ -7345,7 +7385,9 @@ function handle_confirm_booking_with_leadsquared() {
     $vehicle_brand = isset($booking_data['vehicle']['brand']) ? $booking_data['vehicle']['brand'] : '';
     $vehicle_model = isset($booking_data['vehicle']['model']) ? $booking_data['vehicle']['model'] : '';
     $vehicle_fuel = isset($booking_data['vehicle']['fuel']) ? $booking_data['vehicle']['fuel'] : '';
-    $vehicle_city = isset($booking_data['vehicle']['city']) ? $booking_data['vehicle']['city'] : '';
+    $vehicle_city_raw = isset($booking_data['vehicle']['city']) ? $booking_data['vehicle']['city'] : '';
+    // Map city name to API-compatible format (e.g., Bengaluru -> Bangalore)
+    $vehicle_city = petromin_map_city_for_api($vehicle_city_raw);
     
     // Get service center name
     $service_center_name = '';
