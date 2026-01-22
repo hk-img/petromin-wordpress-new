@@ -133,6 +133,7 @@ if (!function_exists('petromin_locate_extract_city')) {
     /**
      * Attempt to extract a city name from the provided address string.
      * City is typically the part before the state (which is usually the last part).
+     * Prioritizes major city names over localities/suburbs.
      */
     function petromin_locate_extract_city($address)
     {
@@ -147,7 +148,6 @@ if (!function_exists('petromin_locate_extract_city')) {
         $parts_count = count($parts);
 
         if ($parts_count >= 2) {
-            // City is typically the second-to-last part (before state)
             // The last part usually contains state (and possibly country and pin code)
             $last_part = $parts[$parts_count - 1];
             
@@ -162,8 +162,41 @@ if (!function_exists('petromin_locate_extract_city')) {
                 }
             }
             
-            // If last part has pin code or country, city is second-to-last
+            // List of major cities to prioritize (can be expanded)
+            $major_cities = [
+                'Mumbai', 'Delhi', 'Bangalore', 'Bengaluru', 'Hyderabad', 'Chennai', 
+                'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat', 'Lucknow', 
+                'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam',
+                'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik',
+                'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Amritsar'
+            ];
+            
+            // If last part has pin code or country, look for city before state
             if ($has_pin_code || $has_country || $parts_count >= 3) {
+                // First, try to find a major city in the address parts (from end to start, before state)
+                // Check parts from second-to-last going backwards
+                for ($i = $parts_count - 2; $i >= 0; $i--) {
+                    $candidate = trim($parts[$i]);
+                    
+                    // Skip if it's a pin code
+                    if (preg_match('/^\d{6}$/', $candidate)) {
+                        continue;
+                    }
+                    
+                    // Check if this candidate exactly matches or contains a major city
+                    foreach ($major_cities as $major_city) {
+                        // Exact match (case insensitive)
+                        if (strcasecmp($candidate, $major_city) === 0) {
+                            return $candidate;
+                        }
+                        // Candidate contains major city name (e.g., "Chennai" in "Chennai, Tamil Nadu")
+                        if (stripos($candidate, $major_city) !== false) {
+                            return $candidate;
+                        }
+                    }
+                }
+                
+                // If no major city found, use second-to-last part (before state)
                 $city_candidate = $parts[$parts_count - 2];
                 // Make sure it's not a pin code
                 if (!preg_match('/^\d{6}$/', $city_candidate)) {
@@ -353,7 +386,16 @@ foreach ($service_centers_items as $index => $center) {
     $state = trim($center['state'] ?? '');
     $city = trim($center['city'] ?? '');
     
-    // Priority 2: If ACF fields are empty, extract from address
+    // List of major cities to prioritize over localities
+    $major_cities = [
+        'Mumbai', 'Delhi', 'Bangalore', 'Bengaluru', 'Hyderabad', 'Chennai', 
+        'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat', 'Lucknow', 
+        'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam',
+        'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik',
+        'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Amritsar'
+    ];
+    
+    // Priority 2: If ACF city field is empty, extract from address
     if (empty($city)) {
         $city = petromin_extract_city_from_map($map_location);
         // If city not found from map_location, try extracting from address
@@ -363,6 +405,23 @@ foreach ($service_centers_items as $index => $center) {
         // Fallback to center's city field if available and fallbacks enabled
         if (empty($city) && petromin_fallbacks_enabled()) {
             $city = trim($fallback['city'] ?? '');
+        }
+    } else {
+        // If ACF city field exists, check if address contains a major city
+        // If address has a major city and ACF city is a locality, use major city instead
+        if (!empty($address)) {
+            $extracted_city = petromin_locate_extract_city($address);
+            if (!empty($extracted_city)) {
+                // Check if extracted city is a major city
+                foreach ($major_cities as $major_city) {
+                    if (strcasecmp($extracted_city, $major_city) === 0 || 
+                        stripos($extracted_city, $major_city) !== false) {
+                        // Use major city from address instead of locality from ACF
+                        $city = $extracted_city;
+                        break;
+                    }
+                }
+            }
         }
     }
     
