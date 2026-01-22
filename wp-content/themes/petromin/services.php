@@ -582,6 +582,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <script>
 const headers = document.querySelectorAll('#faqAccordion .accordion-header');
