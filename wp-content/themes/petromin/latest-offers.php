@@ -162,59 +162,59 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     </div>
                 </div>
             </div>
-            <div class="w-full relative py-10">
-                <div class="swiper latestOfferSwiper relative z-0 py-5 md:py-10 font-inter">
-                    <div class="swiper-wrapper  md:py-10">
-                        <?php
-                        $offers = petromin_get_offers([
-                            'posts_per_page' => 10,
-                            'order' => 'DESC'
-                        ]);
+        </div>
+        <div class="w-full relative py-10">
+            <div class="swiper latestOfferSwiper relative z-0 py-5 md:py-10 font-inter">
+                <div class="swiper-wrapper  md:py-10">
+                    <?php
+                    $offers = petromin_get_offers([
+                        'posts_per_page' => 10,
+                        'order' => 'DESC'
+                    ]);
 
-                        if (!empty($offers)):
-                            foreach ($offers as $offer):
-                        ?>
-                        <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30 md:max-w-[33vw]">
-                            <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
-                                <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden group duration-500">
-                                    <img fetchpriority="low" loading="lazy" 
-                                        src="<?php echo esc_url($offer['image']['url']); ?>" 
-                                        width="334" height="334" 
-                                        alt="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>" 
-                                        title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
-                                        class="w-full h-full object-cover aspect-square" />
-                                    <div class="w-full flex flex-row justify-between items-center gap-2 py-4">
-                                        <p class="text-white md:font-bold md:text-base text-[0.6rem] line-clamp-2">
-                                            <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
-                                        </p>
-                                        <div class="shrink-0">
-                                            <button class="md:px-5 px-2 flex space-x-3 items-center bg-[#FF8300] md:h-12 h-7">
-                                                <span class="flex items-center gap-1 md:text-base text-[0.6rem] md:font-bold font-semibold text-white">
-                                                    <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]" viewBox="0 0 14 20" fill="none">
-                                                        <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </div>
+                    if (!empty($offers)):
+                        foreach ($offers as $offer):
+                    ?>
+                    <div class="swiper-slide !h-auto transform transition-transform duration-500 ease-out will-change-transform scale-95 blur-[0.1rem] [&.swiper-slide-active]:scale-110 [&.swiper-slide-active]:blur-[0] [&.swiper-slide-active]:z-30 md:max-w-[33vw]">
+                        <a href="<?php echo esc_url($offer['url']); ?>" class="w-full block">
+                            <div class="w-full h-full bg-gradient-to-l from-[#CB122D] to-[#650916] p-2 relative overflow-hidden group duration-500">
+                                <img fetchpriority="low" loading="lazy" 
+                                    src="<?php echo esc_url($offer['image']['url']); ?>" 
+                                    width="334" height="334" 
+                                    alt="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>" 
+                                    title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
+                                    class="w-full h-full object-cover aspect-square" />
+                                <div class="w-full flex flex-row justify-between items-center gap-2 py-4">
+                                    <p class="text-white md:font-bold md:text-base text-[0.6rem] line-clamp-2">
+                                        <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
+                                    </p>
+                                    <div class="shrink-0">
+                                        <button class="md:px-5 px-2 flex space-x-3 items-center bg-[#FF8300] md:h-12 h-7">
+                                            <span class="flex items-center gap-1 md:text-base text-[0.6rem] md:font-bold font-semibold text-white">
+                                                <?php echo esc_html($offer['button_text'] ?: 'Learn more'); ?>
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-[0.75rem] h-[0.75rem]" viewBox="0 0 14 20" fill="none">
+                                                    <path d="M13.5294 9.84344L6.92754 19.6791H0L2.20534 16.4006L6.60187 9.84344L2.20534 3.29018L0 0H6.92754L13.5294 9.84344Z" fill="white"></path>
+                                                </svg>
+                                            </span>
+                                        </button>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                        <?php
-                            endforeach;
-                        else:
-                        ?>
-                        <div class="swiper-slide !h-auto">
-                            <div class="w-full h-full bg-gray-200 p-2 flex items-center justify-center">
-                                <p class="text-gray-600">No offers available at the moment</p>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                        </a>
                     </div>
+                    <?php
+                        endforeach;
+                    else:
+                    ?>
+                    <div class="swiper-slide !h-auto">
+                        <div class="w-full h-full bg-gray-200 p-2 flex items-center justify-center">
+                            <p class="text-gray-600">No offers available at the moment</p>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
-
+        </div>
     </section>
     <?php endif; ?>
 
