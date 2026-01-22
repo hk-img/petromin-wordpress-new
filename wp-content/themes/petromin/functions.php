@@ -1765,7 +1765,7 @@ add_action('acf/init', function () {
                         'key' => 'field_app_play_store_link',
                         'label' => 'Play Store Link',
                         'name' => 'play_store_link',
-                        'type' => 'page_link',
+                        'type' => 'url',
                         'default_value' => '#',
                         'wrapper' => [
                             'width' => '25%',
@@ -1786,7 +1786,7 @@ add_action('acf/init', function () {
                         'key' => 'field_app_app_store_link',
                         'label' => 'App Store Link',
                         'name' => 'app_store_link',
-                        'type' => 'page_link',
+                        'type' => 'url',
                         'default_value' => '#',
                         'wrapper' => [
                             'width' => '25%',
