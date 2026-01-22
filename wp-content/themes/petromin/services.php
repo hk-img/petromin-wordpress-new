@@ -364,7 +364,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                         </p>
                         <div class="flex justify-between items-center gap-2">
                             <button
-                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
                                 <span
                                     class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Check
                                     Price

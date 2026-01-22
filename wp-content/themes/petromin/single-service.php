@@ -305,7 +305,7 @@ function get_service_icon($icon_input) {
                                 </p>
                                 <div class="flex justify-between items-center gap-2">
                                     <button
-                                        class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 whitespace-nowrap items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                        class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 whitespace-nowrap items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
                                         <span
                                             class="flex items-center gap-1 text-base md:font-bold font-semibold text-white">Check
                                             Price
