@@ -5,6 +5,9 @@ get_header();
 $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $images_url = $assets_url . '/img';
 
+// Defaults arrays removed - fallbacks permanently disabled
+// If needed in future, uncomment and use with petromin_fallbacks_enabled() check
+/*
 $hero_defaults = [
     'title' => 'Petromin Express, on the go.',
     'image' => [
@@ -81,40 +84,41 @@ $podcasts_defaults = [
         'link' => '#'
     ]
 ];
+*/
 
-// Get ACF Fields
+// Get ACF Fields WITHOUT fallbacks
 $hero_field = function_exists('get_field') ? (get_field('hero_section') ?: []) : [];
-$hero_title = trim($hero_field['hero_title'] ?? '') ?: $hero_defaults['title'];
-$hero_image_data = petromin_get_acf_image_data($hero_field['hero_image'] ?? null, 'full', $hero_defaults['image']['url'], $hero_defaults['image']['alt']);
-$hero_image_alt = $hero_defaults['image']['alt'];
+$hero_title = trim($hero_field['hero_title'] ?? '');
+$hero_image_data = petromin_get_acf_image_data($hero_field['hero_image'] ?? null, 'full', '', '');
+$hero_image_alt = '';
 if (is_array($hero_image_data) && !empty($hero_image_data['alt'])) {
     $hero_image_alt = $hero_image_data['alt'];
 }
 
 $sidebar_field = function_exists('get_field') ? (get_field('sidebar_section') ?: []) : [];
-$sidebar_about_text = trim($sidebar_field['about_text'] ?? '') ?: $sidebar_defaults['about_text'];
-$sidebar_categories = !empty($sidebar_field['categories']) && is_array($sidebar_field['categories']) ? $sidebar_field['categories'] : $sidebar_defaults['categories'];
+$sidebar_about_text = trim($sidebar_field['about_text'] ?? '');
+$sidebar_categories = !empty($sidebar_field['categories']) && is_array($sidebar_field['categories']) ? $sidebar_field['categories'] : [];
 
 $media_mentions_field = function_exists('get_field') ? (get_field('media_mentions_section') ?: []) : [];
-$media_mentions_heading = trim($media_mentions_field['section_heading'] ?? '') ?: 'Media Mentions';
-$media_mentions_items = !empty($media_mentions_field['items']) && is_array($media_mentions_field['items']) ? $media_mentions_field['items'] : array_fill(0, 6, $media_mentions_defaults[0]);
+$media_mentions_heading = trim($media_mentions_field['section_heading'] ?? '');
+$media_mentions_items = !empty($media_mentions_field['items']) && is_array($media_mentions_field['items']) ? $media_mentions_field['items'] : [];
 
 $press_releases_field = function_exists('get_field') ? (get_field('press_releases_section') ?: []) : [];
-$press_releases_heading = trim($press_releases_field['section_heading'] ?? '') ?: 'Press Releases';
-$press_releases_items = !empty($press_releases_field['items']) && is_array($press_releases_field['items']) ? $press_releases_field['items'] : array_fill(0, 3, $press_releases_defaults[0]);
+$press_releases_heading = trim($press_releases_field['section_heading'] ?? '');
+$press_releases_items = !empty($press_releases_field['items']) && is_array($press_releases_field['items']) ? $press_releases_field['items'] : [];
 
 $featured_field = function_exists('get_field') ? (get_field('featured_section') ?: []) : [];
-$featured_heading = trim($featured_field['section_heading'] ?? '') ?: 'Featured';
-$featured_items = !empty($featured_field['items']) && is_array($featured_field['items']) ? $featured_field['items'] : array_fill(0, 6, $featured_defaults[0]);
+$featured_heading = trim($featured_field['section_heading'] ?? '');
+$featured_items = !empty($featured_field['items']) && is_array($featured_field['items']) ? $featured_field['items'] : [];
 
 $events_field = function_exists('get_field') ? (get_field('events_section') ?: []) : [];
-$events_heading = trim($events_field['section_heading'] ?? '') ?: 'Events';
-$events_items = !empty($events_field['items']) && is_array($events_field['items']) ? $events_field['items'] : array_fill(0, 3, $events_defaults[0]);
+$events_heading = trim($events_field['section_heading'] ?? '');
+$events_items = !empty($events_field['items']) && is_array($events_field['items']) ? $events_field['items'] : [];
 
 $podcasts_field = function_exists('get_field') ? (get_field('podcasts_section') ?: []) : [];
 $show_podcasts_section = !empty($podcasts_field['display_section']);
-$podcasts_heading = trim($podcasts_field['section_heading'] ?? '') ?: 'Podcasts';
-$podcasts_items = !empty($podcasts_field['items']) && is_array($podcasts_field['items']) ? $podcasts_field['items'] : array_fill(0, 2, $podcasts_defaults[0]);
+$podcasts_heading = trim($podcasts_field['section_heading'] ?? '');
+$podcasts_items = !empty($podcasts_field['items']) && is_array($podcasts_field['items']) ? $podcasts_field['items'] : [];
 
 if (!$show_podcasts_section) {
     $sidebar_categories = array_values(array_filter($sidebar_categories, function ($category) {
@@ -124,28 +128,25 @@ if (!$show_podcasts_section) {
     }));
 }
 
-// Process items WITHOUT fallbacks (only use if enabled)
-function process_news_items($items, $defaults) {
+// Process items WITHOUT fallbacks
+function process_news_items($items) {
     $processed = [];
     foreach ($items as $item) {
-        $fallback = petromin_fallbacks_enabled() ? (is_array($defaults) ? $defaults[0] : $defaults) : null;
+        $title = trim($item['title'] ?? '');
+        $description = trim($item['description'] ?? '');
+        $source = trim($item['source'] ?? '');
+        $date = trim($item['date'] ?? '');
+        $location = trim($item['location'] ?? '');
+        $link = trim($item['link'] ?? '');
+        $pdf_link = trim($item['pdf_link'] ?? '');
+        $video_url = trim($item['video_url'] ?? '');
         
-        $title = petromin_get_value(trim($item['title'] ?? ''), $fallback['title'] ?? '');
-        $description = petromin_get_value(trim($item['description'] ?? ''), $fallback['description'] ?? '');
-        $source = petromin_get_value(trim($item['source'] ?? ''), $fallback['source'] ?? '');
-        $date = petromin_get_value(trim($item['date'] ?? ''), $fallback['date'] ?? '');
-        $location = petromin_get_value(trim($item['location'] ?? ''), $fallback['location'] ?? '');
-        $link = petromin_get_value(trim($item['link'] ?? ''), $fallback['link'] ?? '');
-        $pdf_link = petromin_get_value(trim($item['pdf_link'] ?? ''), $fallback['pdf_link'] ?? '');
-        $video_url = petromin_get_value(trim($item['video_url'] ?? ''), $fallback['video_url'] ?? '');
-        
-        // Handle image
-        $image_default = petromin_fallbacks_enabled() ? ($fallback['image'] ?? []) : [];
+        // Handle image - no fallback
         $image = petromin_get_acf_image_data(
             $item['image'] ?? null, 
             'full', 
-            $image_default['url'] ?? '', 
-            $image_default['alt'] ?? $title
+            '', 
+            $title ?: ''
         );
         
         // Only add item if it has at least a title
@@ -166,20 +167,18 @@ function process_news_items($items, $defaults) {
     return $processed;
 }
 
-$media_mentions_processed = process_news_items($media_mentions_items, $media_mentions_defaults);
-$featured_processed = process_news_items($featured_items, $featured_defaults);
-$events_processed = process_news_items($events_items, $events_defaults);
-$podcasts_processed = process_news_items($podcasts_items, $podcasts_defaults);
+$media_mentions_processed = process_news_items($media_mentions_items);
+$featured_processed = process_news_items($featured_items);
+$events_processed = process_news_items($events_items);
+$podcasts_processed = process_news_items($podcasts_items);
 
-// For press releases (different structure)
+// For press releases (different structure) - WITHOUT fallbacks
 $press_releases_processed = [];
 foreach ($press_releases_items as $item) {
-    $fallback = petromin_fallbacks_enabled() ? $press_releases_defaults[0] : null;
-
-    $title = petromin_get_value(trim($item['title'] ?? ''), $fallback['title'] ?? '');
-    $description = petromin_get_value(trim($item['description'] ?? ''), $fallback['description'] ?? '');
-    $date = petromin_get_value(trim($item['date'] ?? ''), $fallback['date'] ?? '');
-    $read_more_link = petromin_get_value(trim($item['pdf_link'] ?? ''), $fallback['pdf_link'] ?? '');
+    $title = trim($item['title'] ?? '');
+    $description = trim($item['description'] ?? '');
+    $date = trim($item['date'] ?? '');
+    $read_more_link = trim($item['pdf_link'] ?? '');
     if ($read_more_link === '#') {
         $read_more_link = '';
     }
@@ -196,6 +195,8 @@ foreach ($press_releases_items as $item) {
 }
 ?>
 
+<!-- Hero Section - Only show if has data -->
+<?php if (!empty($hero_title) || !empty($hero_image_data)): ?>
 <div class="hero_section w-full relative z-0 md:h-dvh h-[23rem]">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
@@ -204,6 +205,7 @@ foreach ($press_releases_items as $item) {
             title="<?php echo esc_attr($hero_image_alt); ?>">
         <?php endif; ?>
 
+        <?php if (!empty($hero_title)): ?>
         <div
             class="lg:w-[46.438rem] md:w-[32rem] w-[24.125rem] absolute lg:bottom-32 md:bottom-24 bottom-8 left-0 flex lg:py-8 py-5 lg:px-8 md:px-4 px-4 bg-[linear-gradient(268.6deg,_#CB122D_0.16%,_#650916_100%)]  origin-top -skew-x-[18deg]">
             <div class="view flex items-center justify-center skew-x-[18deg] pr-0">
@@ -212,14 +214,19 @@ foreach ($press_releases_items as $item) {
                     <?php echo esc_html($hero_title); ?></h1>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </div>
+<?php endif; ?>
 
+<!-- Sidebar and Content Section - Only show if has data -->
+<?php if (!empty($sidebar_about_text) || !empty($sidebar_categories) || !empty($media_mentions_processed) || !empty($press_releases_processed) || !empty($featured_processed) || !empty($events_processed) || ($show_podcasts_section && !empty($podcasts_processed))): ?>
 <section class="bg-white h-full md:py-16 py-8">
     <div class="view w-full flex flex-wrap justify-between">
         <!-- Sidebar -->
         <div class="md:w-1/5 w-full">
             <div class="flex flex-col gap-y-8 sticky top-20">
+                <?php if (!empty($sidebar_about_text)): ?>
                 <div class="w-full flex flex-col gap-y-4">
                     <div
                         class="relative uppercase text-sm text-[#121212] font-bold border-b-2 border-[#E0E5EB] pb-2 md:pb-2.5">
@@ -227,6 +234,8 @@ foreach ($press_releases_items as $item) {
                     </div>
                     <p class="text-[#637083] text-sm  font-normal"><?php echo esc_html($sidebar_about_text); ?></p>
                 </div>
+                <?php endif; ?>
+                <?php if (!empty($sidebar_categories)): ?>
                 <div class="w-full md:flex flex-col gap-y-4  hidden">
                     <div
                         class="relative uppercase text-sm text-[#121212] font-bold border-b-2 border-[#E0E5EB] pb-2.5 ">
@@ -243,10 +252,12 @@ foreach ($press_releases_items as $item) {
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
 
-        <!-- Mobile Category Slider -->
+        <!-- Mobile Category Slider - Only show if has categories -->
+        <?php if (!empty($sidebar_categories)): ?>
         <div class="w-full relative mt-8 mb-8 pb-4 border-b border-[#E0E5EB] md:hidden block">
             <div class="flex items-center gap-3 group/cat">
                 <!-- Prev Button -->
@@ -293,17 +304,21 @@ foreach ($press_releases_items as $item) {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 
         <!-- Main Content -->
         <div class="md:w-4/5 w-full h-full md:pl-20">
             <div class="w-full flex flex-col md:gap-y-16 gap-y-12">
 
-                <!-- Media Mentions Section -->
+                <!-- Media Mentions Section - Only show if has data -->
+                <?php if (!empty($media_mentions_processed)): ?>
                 <section id="media-mentions" class="w-full relative flex flex-col gap-y-8 md:gap-y-6 news-section">
+                    <?php if (!empty($media_mentions_heading)): ?>
                     <h2
                         class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] group-hover:lg:text-[#D4111E] pb-4">
                         <?php echo esc_html($media_mentions_heading); ?>
                     </h2>
+                    <?php endif; ?>
 
                     <div class="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-x-[1.938rem] md:gap-y-[1.563rem]">
                         <?php foreach ($media_mentions_processed as $item) : ?>
@@ -339,13 +354,17 @@ foreach ($press_releases_items as $item) {
                         <?php endforeach; ?>
                     </div>
                 </section>
+                <?php endif; ?>
 
-                <!-- Press Releases Section -->
+                <!-- Press Releases Section - Only show if has data -->
+                <?php if (!empty($press_releases_processed)): ?>
                 <section id="press-releases" class="w-full relative flex flex-col gap-y-8 news-section">
+                    <?php if (!empty($press_releases_heading)): ?>
                     <h2
                         class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] pb-4">
                         <?php echo esc_html($press_releases_heading); ?>
                     </h2>
+                    <?php endif; ?>
 
                     <div class="w-full flex flex-col gap-y-8">
                         <?php foreach ($press_releases_processed as $item) : ?>
@@ -386,13 +405,17 @@ foreach ($press_releases_items as $item) {
                         <?php endforeach; ?>
                     </div>
                 </section>
+                <?php endif; ?>
 
-                <!-- Featured Section -->
+                <!-- Featured Section - Only show if has data -->
+                <?php if (!empty($featured_processed)): ?>
                 <section id="featured" class="w-full relative flex flex-col gap-y-8 md:gap-y-6 news-section">
+                    <?php if (!empty($featured_heading)): ?>
                     <h2
                         class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] pb-4">
                         <?php echo esc_html($featured_heading); ?>
                     </h2>
+                    <?php endif; ?>
 
                     <div class="grid md:grid-cols-3 grid-cols-1 md:gap-x-[1.938rem] gap-y-8 md:gap-y-[1.563rem]">
                         <?php foreach ($featured_processed as $item) : ?>
@@ -428,13 +451,17 @@ foreach ($press_releases_items as $item) {
                         <?php endforeach; ?>
                     </div>
                 </section>
+                <?php endif; ?>
 
-                <!-- Events Section -->
+                <!-- Events Section - Only show if has data -->
+                <?php if (!empty($events_processed)): ?>
                 <section id="events" class="w-full relative flex flex-col gap-y-8 md:gap-y-6 md:pt-0 pt-4 news-section">
+                    <?php if (!empty($events_heading)): ?>
                     <h2
                         class="lg:text-4xl md:text-3xl text-2xl font-bold text-[#121212] border-b-2 border-[#E0E5EB] pb-4">
                         <?php echo esc_html($events_heading); ?>
                     </h2>
+                    <?php endif; ?>
 
                     <div class="grid md:grid-cols-3 grid-cols-1 gap-y-8 md:gap-x-[1.938rem] md:gap-y-[1.563rem]">
                         <?php foreach ($events_processed as $item) : ?>
@@ -483,6 +510,7 @@ foreach ($press_releases_items as $item) {
                         <?php endforeach; ?>
                     </div>
                 </section>
+                <?php endif; ?>
 
                 <?php if ($show_podcasts_section && !empty($podcasts_processed)) : ?>
                 <!-- Podcasts Section -->
@@ -542,6 +570,7 @@ foreach ($press_releases_items as $item) {
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
