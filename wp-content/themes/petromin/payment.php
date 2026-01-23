@@ -1472,7 +1472,8 @@ body.payment-page.validation-passed {
                 selected_date: cart.selected_date || '',
                 selected_time_slot: cart.selected_time_slot || '',
                 payment_method: cart.payment_method || 'Pay at Service Center',
-                service_category: cart.service_category || ''
+                service_category: cart.service_category || '',
+                visitor_source: (typeof window.petrominGetVisitorSource === 'function') ? window.petrominGetVisitorSource() : 'Direct'
             };
             
             // Call LeadSquared API

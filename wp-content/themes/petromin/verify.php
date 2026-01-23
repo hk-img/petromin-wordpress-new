@@ -1070,6 +1070,13 @@ body.verify-page.validation-passed {
                     cart.verified_phone = mobile;
                     cart.phone_verified = true;
                     
+                    // Add visitor source tracking
+                    if (typeof window.petrominGetVisitorSource === 'function') {
+                        cart.visitor_source = window.petrominGetVisitorSource();
+                    } else {
+                        cart.visitor_source = 'Direct';
+                    }
+                    
                     sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
                     
                     // Call LeadSquared API and save booking data to WordPress database

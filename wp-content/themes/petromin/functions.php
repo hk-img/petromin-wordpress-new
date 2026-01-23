@@ -7078,6 +7078,9 @@ function handle_save_booking_with_leadsquared() {
     // Format as semicolon-separated string (like services)
     $service_category = implode(';', $service_categories);
     
+    // Get visitor source from booking data
+    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Direct';
+    
     // Always generate LEAD- ID first (will be used for all bookings regardless of API success)
     $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
     
@@ -7147,6 +7150,10 @@ function handle_save_booking_with_leadsquared() {
                 array(
                     'SchemaName' => 'mx_Custom_43',
                     'Value' => $service_category
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_11',
+                    'Value' => $visitor_source
                 )
             )
         )
@@ -7323,6 +7330,11 @@ function handle_save_booking_with_leadsquared() {
         }
     }
     
+    // Save visitor source
+    if (!empty($visitor_source)) {
+        update_post_meta($post_id, '_visitor_source', sanitize_text_field($visitor_source));
+    }
+    
     // Save booking date/time
     update_post_meta($post_id, '_booking_date', current_time('mysql'));
     update_post_meta($post_id, '_booking_timestamp', current_time('timestamp'));
@@ -7481,6 +7493,9 @@ function handle_confirm_booking_with_leadsquared() {
     // Format as semicolon-separated string (like services)
     $service_category = implode(';', $service_categories);
     
+    // Get visitor source from booking data
+    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Direct';
+    
     // Build LeadSquared API request body
     $leadsquared_payload = array(
         'LeadDetails' => array(
@@ -7555,6 +7570,10 @@ function handle_confirm_booking_with_leadsquared() {
                 array(
                     'SchemaName' => 'mx_Custom_35',
                     'Value' => (string)$total_amount
+                ),
+                array(
+                    'SchemaName' => 'mx_Custom_11',
+                    'Value' => $visitor_source
                 )
             )
         )
@@ -7719,6 +7738,11 @@ function handle_confirm_booking_with_leadsquared() {
     
     if (isset($booking_data['payment_method'])) {
         update_post_meta($post_id, '_payment_method', sanitize_text_field($booking_data['payment_method']));
+    }
+    
+    // Save visitor source
+    if (!empty($visitor_source)) {
+        update_post_meta($post_id, '_visitor_source', sanitize_text_field($visitor_source));
     }
     
     // Save complete raw data as JSON for reference
@@ -8047,3 +8071,191 @@ function render_booking_details_meta_box($post) {
     </div>
     <?php
 }
+
+/**
+ * Output visitor source tracking script in footer
+ * Captures UTM parameters and referrer to determine traffic source
+ */
+function petromin_visitor_source_tracking_script() {
+    ?>
+    <script>
+    (function() {
+        'use strict';
+        
+        const STORAGE_KEY = 'petromin_visitor_source';
+        const STORAGE_EXPIRY_KEY = 'petromin_visitor_source_expiry';
+        const EXPIRY_DAYS = 30;
+        
+        /**
+         * Get URL parameter value
+         */
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        /**
+         * Extract domain from URL
+         */
+        function extractDomain(url) {
+            try {
+                const urlObj = new URL(url);
+                return urlObj.hostname.replace('www.', '');
+            } catch (e) {
+                return '';
+            }
+        }
+        
+        /**
+         * Determine source from referrer
+         */
+        function getSourceFromReferrer(referrer) {
+            if (!referrer) {
+                return null;
+            }
+            
+            const domain = extractDomain(referrer);
+            
+            // Social media platforms
+            if (domain.includes('facebook.com') || domain.includes('fb.com')) {
+                return { source: 'Facebook', medium: 'Organic' };
+            }
+            if (domain.includes('instagram.com')) {
+                return { source: 'Instagram', medium: 'Organic' };
+            }
+            if (domain.includes('twitter.com') || domain.includes('t.co')) {
+                return { source: 'Twitter', medium: 'Organic' };
+            }
+            if (domain.includes('linkedin.com')) {
+                return { source: 'LinkedIn', medium: 'Organic' };
+            }
+            if (domain.includes('youtube.com')) {
+                return { source: 'YouTube', medium: 'Organic' };
+            }
+            if (domain.includes('pinterest.com')) {
+                return { source: 'Pinterest', medium: 'Organic' };
+            }
+            
+            // Search engines
+            if (domain.includes('google.com') || domain.includes('google.co.in')) {
+                return { source: 'Google', medium: 'Organic' };
+            }
+            if (domain.includes('bing.com')) {
+                return { source: 'Bing', medium: 'Organic' };
+            }
+            if (domain.includes('yahoo.com')) {
+                return { source: 'Yahoo', medium: 'Organic' };
+            }
+            
+            // Other referrers
+            return { source: domain, medium: 'Referral' };
+        }
+        
+        /**
+         * Determine visitor source
+         */
+        function determineVisitorSource() {
+            // Priority 1: UTM parameters
+            const utmSource = getUrlParameter('utm_source');
+            const utmMedium = getUrlParameter('utm_medium');
+            const utmCampaign = getUrlParameter('utm_campaign');
+            
+            if (utmSource) {
+                let source = utmSource.charAt(0).toUpperCase() + utmSource.slice(1);
+                let medium = utmMedium ? utmMedium.charAt(0).toUpperCase() + utmMedium.slice(1) : '';
+                
+                if (medium) {
+                    return source + ' - ' + medium;
+                }
+                return source;
+            }
+            
+            // Priority 2: Referrer
+            const referrer = document.referrer;
+            if (referrer) {
+                const currentDomain = window.location.hostname.replace('www.', '');
+                const referrerDomain = extractDomain(referrer);
+                
+                // Check if referrer is from same domain (internal navigation)
+                if (referrerDomain === currentDomain) {
+                    // Don't update source for internal navigation
+                    return null;
+                }
+                
+                const sourceData = getSourceFromReferrer(referrer);
+                if (sourceData) {
+                    if (sourceData.medium) {
+                        return sourceData.source + ' - ' + sourceData.medium;
+                    }
+                    return sourceData.source;
+                }
+            }
+            
+            // Priority 3: Direct traffic
+            return 'Direct';
+        }
+        
+        /**
+         * Check if stored source is expired
+         */
+        function isSourceExpired() {
+            const expiry = localStorage.getItem(STORAGE_EXPIRY_KEY);
+            if (!expiry) {
+                return true;
+            }
+            return Date.now() > parseInt(expiry, 10);
+        }
+        
+        /**
+         * Save visitor source to localStorage
+         */
+        function saveVisitorSource(source) {
+            if (!source) {
+                return;
+            }
+            
+            const expiryTime = Date.now() + (EXPIRY_DAYS * 24 * 60 * 60 * 1000);
+            localStorage.setItem(STORAGE_KEY, source);
+            localStorage.setItem(STORAGE_EXPIRY_KEY, expiryTime.toString());
+        }
+        
+        /**
+         * Get visitor source from localStorage
+         */
+        function getVisitorSource() {
+            if (isSourceExpired()) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(STORAGE_EXPIRY_KEY);
+                return null;
+            }
+            return localStorage.getItem(STORAGE_KEY);
+        }
+        
+        // Initialize: Determine and save source if not already stored or expired
+        let storedSource = getVisitorSource();
+        
+        if (!storedSource) {
+            const newSource = determineVisitorSource();
+            if (newSource) {
+                saveVisitorSource(newSource);
+            }
+        } else {
+            // Check if current visit has UTM parameters (should override stored source)
+            const utmSource = getUrlParameter('utm_source');
+            if (utmSource) {
+                const newSource = determineVisitorSource();
+                if (newSource) {
+                    saveVisitorSource(newSource);
+                }
+            }
+        }
+        
+        // Make function globally available for cart operations
+        window.petrominGetVisitorSource = function() {
+            return getVisitorSource() || 'Direct';
+        };
+    })();
+    </script>
+    <?php
+}
+add_action('wp_footer', 'petromin_visitor_source_tracking_script', 5);
