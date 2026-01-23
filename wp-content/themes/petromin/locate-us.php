@@ -835,11 +835,24 @@ if (empty($processed_faq_categories)) {
                     <?php foreach ($processed_centers as $center) :
                         $center_city = trim($center['city'] ?? '');
                         $center_map_src = petromin_locate_get_map_src($center['map_location'] ?? null);
+                        
+                        // Generate Google Maps URL for mobile redirect with directions from current location
+                        $google_maps_url = '';
+                        if (!empty($center['map_location']['lat']) && !empty($center['map_location']['lng'])) {
+                            $lat = (float) $center['map_location']['lat'];
+                            $lng = (float) $center['map_location']['lng'];
+                            // Use Google Maps Directions API with current location as origin
+                            $google_maps_url = sprintf('https://www.google.com/maps/dir/?api=1&destination=%s,%s&travelmode=driving', $lat, $lng);
+                        } elseif (!empty($center['address'])) {
+                            // Fallback: use address in directions query
+                            $google_maps_url = 'https://www.google.com/maps/dir/?api=1&destination=' . urlencode($center['address']) . '&travelmode=driving';
+                        }
                         ?>
                     <div class="group bg-white border border-[#DCDFE6] hover:border-[#CB122D] pt-4 px-5 pb-8 md:p-4 overflow-hidden h-full duration-300"
                         data-service-center data-city="<?php echo esc_attr($center_city); ?>"
                         data-state="<?php echo esc_attr($center['state'] ?? ''); ?>"
                         data-map-src="<?php echo esc_url($center_map_src); ?>"
+                        data-google-maps-url="<?php echo esc_url($google_maps_url); ?>"
                         data-center-name="<?php echo esc_attr($center['name']); ?>"
                         data-center-address="<?php echo esc_attr($center['address']); ?>"
                         data-center-address="<?php echo esc_attr($center['address']); ?>">
@@ -889,7 +902,7 @@ if (empty($processed_faq_categories)) {
                 </div>
             </div>
 
-            <div class="md:w-2/3 w-full md:h-[calc(100vh-7rem)] md:sticky md:top-20">
+            <div class="md:w-2/3 w-full md:h-[calc(100vh-7rem)] md:sticky md:top-20 md:block hidden">
                 <div class="h-[20rem] md:h-full w-full">
                     <iframe data-map-frame title="Service center location map"
                         src="<?php echo esc_url($default_map_src ?: 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5122760.8817607!2d10.454119350000001!3d51.17580699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sde!4v1760714693105!5m2!1sen!2sde'); ?>"
@@ -1150,7 +1163,28 @@ document.addEventListener('DOMContentLoaded', function() {
                             (location ? '<div class="text-sm text-[#637083] mt-1">' + location + '</div>' : '');
             
             item.addEventListener('click', function() {
-                // Auto-select state and city
+                // On mobile, redirect to Google Maps directly with directions
+                if (isMobileDevice()) {
+                    const googleMapsUrl = card.dataset.googleMapsUrl || '';
+                    if (googleMapsUrl) {
+                        window.open(googleMapsUrl, '_blank');
+                    } else {
+                        // Fallback: use address for directions
+                        const address = card.dataset.centerAddress || '';
+                        if (address) {
+                            const fallbackUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving';
+                            window.open(fallbackUrl, '_blank');
+                        }
+                    }
+                    // Clear search
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                    searchDropdown.classList.add('hidden');
+                    return;
+                }
+                
+                // On desktop, auto-select state and city
                 if (state && stateSelect) {
                     stateSelect.value = state;
                     updateCityOptions(state);
@@ -1249,6 +1283,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to detect if device is mobile
+    function isMobileDevice() {
+        return window.innerWidth < 768; // md breakpoint in Tailwind
+    }
+
+    // Function to detect if device is mobile (for locate button handler)
+    function isMobileDevice() {
+        return window.innerWidth < 768; // md breakpoint in Tailwind
+    }
+
     // Add click event listeners to all locate buttons
     centerCards.forEach(function(card) {
         const locateButton = card.querySelector('[data-locate-btn]');
@@ -1259,6 +1303,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
+                // On mobile, redirect to Google Maps with directions
+                if (isMobileDevice()) {
+                    const googleMapsUrl = card.dataset.googleMapsUrl || '';
+                    if (googleMapsUrl) {
+                        window.open(googleMapsUrl, '_blank');
+                        return;
+                    }
+                    // Fallback: try to construct directions URL from address
+                    const address = card.dataset.centerAddress || '';
+                    if (address) {
+                        const fallbackUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(address) + '&travelmode=driving';
+                        window.open(fallbackUrl, '_blank');
+                        return;
+                    }
+                }
+
+                // On desktop, update map iframe
                 setActiveCard(card);
 
                 const mapSrc = card.dataset.mapSrc || '';

@@ -1846,7 +1846,7 @@ if (!empty($home_offers)):
                     <img loading="eager" fetchpriority="high" decoding="async"
                         src="<?php echo esc_url($brand['image']['url']); ?>"
                         alt="<?php echo esc_attr($brand['image']['alt']); ?>" width="108" height="108"
-                        class="w-32 aspect-[8/9]" />
+                        class="w-full h-32 object-contain aspect-[8/9] p-4" />
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -1862,7 +1862,7 @@ if (!empty($home_offers)):
                     <img loading="eager" fetchpriority="high" decoding="async"
                         src="<?php echo esc_url($brand['image']['url']); ?>"
                         alt="<?php echo esc_attr($brand['image']['alt']); ?>" width="108" height="108"
-                        class="w-32 aspect-[8/9]" />
+                        class="w-full h-32 object-contain aspect-[8/9] p-4" />
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -1878,7 +1878,7 @@ if (!empty($home_offers)):
                     <img loading="eager" fetchpriority="high" decoding="async"
                         src="<?php echo esc_url($brand['image']['url']); ?>"
                         alt="<?php echo esc_attr($brand['image']['alt']); ?>" width="108" height="108"
-                        class="w-32 aspect-[8/9]" />
+                        class="w-full h-32 object-contain aspect-[8/9] p-4" />
                 </div>
                 <?php endforeach; ?>
             </div>
