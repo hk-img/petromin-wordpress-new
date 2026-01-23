@@ -169,11 +169,11 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                                     class="bg-[#cb122d] w-40 absolute top-[3.2rem] -left-28 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/cs:visible group-hover/cs:opacity-100">
                                     <li
                                         class="relative bg-white py-2 px-6 text-black text-sm font-normal flex items-center justify-center mb-3 hover:bg-gray-100 transition-colors">
-                                        <a href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>
+                                        <a target="_blank" href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>
                                     </li>
                                     <li
                                         class="relative bg-white py-2 px-6 text-black text-sm font-normal flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                        <a href="<?php echo esc_url($signup_link); ?>" class="uppercase">Sign Up</a>
+                                        <a target="_blank" href="<?php echo esc_url($signup_link); ?>" class="uppercase">Sign Up</a>
                                     </li>
                                 </ul>
                             </div>
@@ -196,11 +196,11 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                             class="bg-[#cb122d] w-40 absolute top-[2.2rem] md:-left-20 max-md:right-0 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/dd:visible group-hover/dd:opacity-100">
                             <li
                                 class="relative bg-white py-2 px-4 text-black text-sm font-normal flex items-center justify-center mb-3 hover:bg-gray-100 transition-colors">
-                                <a href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>
+                                <a target="_blank" href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>
                             </li>
                             <li
                                 class="relative bg-white py-2 px-4 text-black text-sm font-normal flex items-center justify-center hover:bg-gray-100 transition-colors">
-                                <a href="<?php echo esc_url($signup_link); ?>" class="uppercase">Sign Up</a>
+                                <a target="_blank" href="<?php echo esc_url($signup_link); ?>" class="uppercase">Sign Up</a>
                             </li>
                         </ul>
                     </div>
