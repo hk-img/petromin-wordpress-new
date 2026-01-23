@@ -293,7 +293,7 @@ function get_service_icon($icon_input) {
                                     <?php if (!empty($icon_img['url'])) : ?>
                                     <img src="<?php echo esc_url($icon_img['url']); ?>"
                                         alt="<?php echo esc_attr(get_the_title($sid)); ?>"
-                                        class="w-8 h-8">
+                                        class="md:size-10 size-9">
                                     <?php endif; ?>
                                 </div>
                                 <h3
