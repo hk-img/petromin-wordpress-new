@@ -1074,7 +1074,7 @@ body.verify-page.validation-passed {
                     if (typeof window.petrominGetVisitorSource === 'function') {
                         cart.visitor_source = window.petrominGetVisitorSource();
                     } else {
-                        cart.visitor_source = 'Direct';
+                        cart.visitor_source = 'Website';
                     }
                     
                     sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));

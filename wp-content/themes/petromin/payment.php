@@ -1473,7 +1473,7 @@ body.payment-page.validation-passed {
                 selected_time_slot: cart.selected_time_slot || '',
                 payment_method: cart.payment_method || 'Pay at Service Center',
                 service_category: cart.service_category || '',
-                visitor_source: (typeof window.petrominGetVisitorSource === 'function') ? window.petrominGetVisitorSource() : 'Direct'
+                visitor_source: (typeof window.petrominGetVisitorSource === 'function') ? window.petrominGetVisitorSource() : 'Website'
             };
             
             // Call LeadSquared API

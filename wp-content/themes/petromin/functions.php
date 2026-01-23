@@ -7079,7 +7079,7 @@ function handle_save_booking_with_leadsquared() {
     $service_category = implode(';', $service_categories);
     
     // Get visitor source from booking data
-    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Direct';
+    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Website';
     
     // Always generate LEAD- ID first (will be used for all bookings regardless of API success)
     $booking_id = 'LEAD-' . date('Ymd') . '-' . strtoupper(wp_generate_password(6, false));
@@ -7494,7 +7494,7 @@ function handle_confirm_booking_with_leadsquared() {
     $service_category = implode(';', $service_categories);
     
     // Get visitor source from booking data
-    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Direct';
+    $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Website';
     
     // Build LeadSquared API request body
     $leadsquared_payload = array(
@@ -8074,7 +8074,8 @@ function render_booking_details_meta_box($post) {
 
 /**
  * Output visitor source tracking script in footer
- * Captures UTM parameters and referrer to determine traffic source
+ * Captures utm_source parameter to determine traffic source
+ * Defaults to 'Website' if no utm_source is present
  */
 function petromin_visitor_source_tracking_script() {
     ?>
@@ -8095,104 +8096,42 @@ function petromin_visitor_source_tracking_script() {
         }
         
         /**
-         * Extract domain from URL
-         */
-        function extractDomain(url) {
-            try {
-                const urlObj = new URL(url);
-                return urlObj.hostname.replace('www.', '');
-            } catch (e) {
-                return '';
-            }
-        }
-        
-        /**
-         * Determine source from referrer
-         */
-        function getSourceFromReferrer(referrer) {
-            if (!referrer) {
-                return null;
-            }
-            
-            const domain = extractDomain(referrer);
-            
-            // Social media platforms
-            if (domain.includes('facebook.com') || domain.includes('fb.com')) {
-                return { source: 'Facebook', medium: 'Organic' };
-            }
-            if (domain.includes('instagram.com')) {
-                return { source: 'Instagram', medium: 'Organic' };
-            }
-            if (domain.includes('twitter.com') || domain.includes('t.co')) {
-                return { source: 'Twitter', medium: 'Organic' };
-            }
-            if (domain.includes('linkedin.com')) {
-                return { source: 'LinkedIn', medium: 'Organic' };
-            }
-            if (domain.includes('youtube.com')) {
-                return { source: 'YouTube', medium: 'Organic' };
-            }
-            if (domain.includes('pinterest.com')) {
-                return { source: 'Pinterest', medium: 'Organic' };
-            }
-            
-            // Search engines
-            if (domain.includes('google.com') || domain.includes('google.co.in')) {
-                return { source: 'Google', medium: 'Organic' };
-            }
-            if (domain.includes('bing.com')) {
-                return { source: 'Bing', medium: 'Organic' };
-            }
-            if (domain.includes('yahoo.com')) {
-                return { source: 'Yahoo', medium: 'Organic' };
-            }
-            
-            // Other referrers
-            return { source: domain, medium: 'Referral' };
-        }
-        
-        /**
-         * Determine visitor source
+         * Determine visitor source from utm_source parameter
+         * Valid values: Google Search, Facebook, Instagram, SMS, WhatsApp, PETROMINit App
+         * Default: Website
          */
         function determineVisitorSource() {
-            // Priority 1: UTM parameters
+            // Get utm_source parameter
             const utmSource = getUrlParameter('utm_source');
-            const utmMedium = getUrlParameter('utm_medium');
-            const utmCampaign = getUrlParameter('utm_campaign');
             
             if (utmSource) {
-                let source = utmSource.charAt(0).toUpperCase() + utmSource.slice(1);
-                let medium = utmMedium ? utmMedium.charAt(0).toUpperCase() + utmMedium.slice(1) : '';
+                // Valid source values (case-insensitive matching)
+                const validSources = {
+                    'google search': 'Google Search',
+                    'googlesearch': 'Google Search',
+                    'google': 'Google Search',
+                    'facebook': 'Facebook',
+                    'instagram': 'Instagram',
+                    'sms': 'SMS',
+                    'whatsapp': 'WhatsApp',
+                    'petrominit app': 'PETROMINit App',
+                    'petrominitapp': 'PETROMINit App',
+                    'app': 'PETROMINit App'
+                };
                 
-                if (medium) {
-                    return source + ' - ' + medium;
+                const normalizedSource = utmSource.toLowerCase().trim();
+                
+                // Return matched source or the original value if it's one of the valid ones
+                if (validSources[normalizedSource]) {
+                    return validSources[normalizedSource];
                 }
-                return source;
+                
+                // If utm_source exists but doesn't match, return it as-is (capitalized)
+                return utmSource.charAt(0).toUpperCase() + utmSource.slice(1);
             }
             
-            // Priority 2: Referrer
-            const referrer = document.referrer;
-            if (referrer) {
-                const currentDomain = window.location.hostname.replace('www.', '');
-                const referrerDomain = extractDomain(referrer);
-                
-                // Check if referrer is from same domain (internal navigation)
-                if (referrerDomain === currentDomain) {
-                    // Don't update source for internal navigation
-                    return null;
-                }
-                
-                const sourceData = getSourceFromReferrer(referrer);
-                if (sourceData) {
-                    if (sourceData.medium) {
-                        return sourceData.source + ' - ' + sourceData.medium;
-                    }
-                    return sourceData.source;
-                }
-            }
-            
-            // Priority 3: Direct traffic
-            return 'Direct';
+            // Default to 'Website' if no utm_source parameter
+            return 'Website';
         }
         
         /**
@@ -8240,7 +8179,7 @@ function petromin_visitor_source_tracking_script() {
                 saveVisitorSource(newSource);
             }
         } else {
-            // Check if current visit has UTM parameters (should override stored source)
+            // Check if current visit has utm_source parameter (should override stored source)
             const utmSource = getUrlParameter('utm_source');
             if (utmSource) {
                 const newSource = determineVisitorSource();
@@ -8252,7 +8191,7 @@ function petromin_visitor_source_tracking_script() {
         
         // Make function globally available for cart operations
         window.petrominGetVisitorSource = function() {
-            return getVisitorSource() || 'Direct';
+            return getVisitorSource() || 'Website';
         };
     })();
     </script>
