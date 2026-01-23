@@ -127,28 +127,6 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
             </div>
 
             <div class="flex lg:hidden gap-1 bg-white">
-                <label for="sideToggle"
-                            class="inline-flex items-center justify-center rounded-md p-2.5 text-black group-[]/nav:text-white -mb-2">
-                            <span class="sr-only">Open menu</span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-6">
-                                <g clip-path="url(#clip0_3127_7349)">
-                                    <path
-                                    d="M22.4932 3.99878H1.49954C0.671369 3.99878 0 4.67015 0 5.49832C0 6.3265 0.671369 6.99787 1.49954 6.99787H22.4932C23.3213 6.99787 23.9927 6.3265 23.9927 5.49832C23.9927 4.67015 23.3213 3.99878 22.4932 3.99878Z"
-                                    fill="#CB122D" />
-                                    <path
-                                    d="M22.4932 10.4968H1.49954C0.671369 10.4968 0 11.1682 0 11.9963C0 12.8245 0.671369 13.4959 1.49954 13.4959H22.4932C23.3213 13.4959 23.9927 12.8245 23.9927 11.9963C23.9927 11.1682 23.3213 10.4968 22.4932 10.4968Z"
-                                    fill="#FF8300" />
-                                    <path
-                                    d="M22.4932 16.9948H1.49954C0.671369 16.9948 0 17.6662 0 18.4944C0 19.3226 0.671369 19.9939 1.49954 19.9939H22.4932C23.3213 19.9939 23.9927 19.3226 23.9927 18.4944C23.9927 17.6662 23.3213 16.9948 22.4932 16.9948Z"
-                                    fill="#CB122D" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_3127_7349">
-                                    <rect width="23.9927" height="23.9927" fill="white" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </label>
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="lg:w-auto w-auto flex items-center py-2">
                     <?php if (!empty($mobile_logo_data)) : ?>
                         <img src="<?php echo esc_url($mobile_logo_data['url']); ?>" 
@@ -227,6 +205,28 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                         </ul>
                     </div>
                 </div>
+                <label for="sideToggle"
+                            class="inline-flex items-center justify-center rounded-md p-2.5 text-black group-[]/nav:text-white">
+                            <span class="sr-only">Open menu</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-6">
+                                <g clip-path="url(#clip0_3127_7349)">
+                                    <path
+                                    d="M22.4932 3.99878H1.49954C0.671369 3.99878 0 4.67015 0 5.49832C0 6.3265 0.671369 6.99787 1.49954 6.99787H22.4932C23.3213 6.99787 23.9927 6.3265 23.9927 5.49832C23.9927 4.67015 23.3213 3.99878 22.4932 3.99878Z"
+                                    fill="#CB122D" />
+                                    <path
+                                    d="M22.4932 10.4968H1.49954C0.671369 10.4968 0 11.1682 0 11.9963C0 12.8245 0.671369 13.4959 1.49954 13.4959H22.4932C23.3213 13.4959 23.9927 12.8245 23.9927 11.9963C23.9927 11.1682 23.3213 10.4968 22.4932 10.4968Z"
+                                    fill="#FF8300" />
+                                    <path
+                                    d="M22.4932 16.9948H1.49954C0.671369 16.9948 0 17.6662 0 18.4944C0 19.3226 0.671369 19.9939 1.49954 19.9939H22.4932C23.3213 19.9939 23.9927 19.3226 23.9927 18.4944C23.9927 17.6662 23.3213 16.9948 22.4932 16.9948Z"
+                                    fill="#CB122D" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_3127_7349">
+                                    <rect width="23.9927" height="23.9927" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </label>
             </div>
         </div>
     </header>
