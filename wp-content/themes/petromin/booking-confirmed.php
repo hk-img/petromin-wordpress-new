@@ -67,7 +67,7 @@ if (empty($confirmation_image_url)) {
             <div class="text-[#000000A3] font-semibold text-lg uppercase -mt-10 z-10 relative">
                 <?php echo esc_html($confirmation_title); ?>
             </div>
-            <h1 id="bookingIdDisplay" class="text-[#CB122D] font-semibold text-2xl">Your Booking ID #PET-47291</h1>
+            <h1 id="bookingIdDisplay" class="text-[#CB122D] font-semibold text-2xl text-center">Your Booking ID #PET-47291</h1>
             <p class="md:w-8/12 mx-auto text-center text-[#000000A3] md:text-lg text-base font-semibold capitalize">
                 <?php echo esc_html($confirmation_description); ?>
             </p>
