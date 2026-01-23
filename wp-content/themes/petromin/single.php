@@ -102,20 +102,6 @@ $images_url = $assets_url . '/img';
                 <?php the_content(); ?>
             </div>
 
-            <!-- Advertisement - Mobile -->
-            <div
-                class="bg-[#E8E8EA] md:hidden block w-full md:w-4/5 h-[7.5rem] flex flex-col mx-auto items-center gap-1 text-center justify-center rounded-lg">
-                <p class="text-[#696A75] text-sm font-normal">Advertisement</p>
-                <p class="text-[#696A75] md:text-xl text-lg font-semibold">You can place ads</p>
-                <p class="text-[#696A75] md:text-lg text-sm font-normal">980x120</p>
-            </div>
-
-            <!-- Advertisement - Large Banner Mobile -->
-            <div
-                class="bg-[#E8E8EA] md:hidden block h-[7.5rem] flex flex-col mx-auto items-center gap-1 text-center justify-center rounded-lg w-full">
-                <p class="text-[#696A75] md:text-xl text-lg font-semibold">You can place Banners</p>
-                <p class="text-[#696A75] md:text-lg text-base font-normal">1512x120</p>
-            </div>
         </div>
 
         <!-- Sidebar -->
