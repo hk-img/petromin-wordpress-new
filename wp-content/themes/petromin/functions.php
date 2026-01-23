@@ -8096,12 +8096,65 @@ function petromin_visitor_source_tracking_script() {
         }
         
         /**
+         * Extract domain from referrer URL
+         */
+        function extractDomain(url) {
+            try {
+                const urlObj = new URL(url);
+                return urlObj.hostname.replace('www.', '').toLowerCase();
+            } catch (e) {
+                return '';
+            }
+        }
+        
+        /**
+         * Detect source from referrer (fallback when no utm_source)
+         */
+        function detectSourceFromReferrer() {
+            const referrer = document.referrer;
+            if (!referrer) {
+                return null;
+            }
+            
+            const domain = extractDomain(referrer);
+            
+            // Check if referrer is from same domain (internal navigation)
+            const currentDomain = window.location.hostname.replace('www.', '').toLowerCase();
+            if (domain === currentDomain) {
+                return null; // Don't update for internal navigation
+            }
+            
+            // WhatsApp detection
+            if (domain.includes('whatsapp.com') || domain.includes('wa.me')) {
+                return 'WhatsApp';
+            }
+            
+            // Facebook detection
+            if (domain.includes('facebook.com') || domain.includes('fb.com') || domain.includes('fb.me')) {
+                return 'Facebook';
+            }
+            
+            // Instagram detection
+            if (domain.includes('instagram.com')) {
+                return 'Instagram';
+            }
+            
+            // Google Search detection
+            if (domain.includes('google.com') || domain.includes('google.co.in')) {
+                return 'Google Search';
+            }
+            
+            return null; // Unknown referrer, will default to 'Website'
+        }
+        
+        /**
          * Determine visitor source from utm_source parameter
          * Valid values: Google Search, Facebook, Instagram, SMS, WhatsApp, PETROMINit App
+         * Fallback: Check referrer
          * Default: Website
          */
         function determineVisitorSource() {
-            // Get utm_source parameter
+            // Priority 1: Check utm_source parameter
             const utmSource = getUrlParameter('utm_source');
             
             if (utmSource) {
@@ -8130,7 +8183,13 @@ function petromin_visitor_source_tracking_script() {
                 return utmSource.charAt(0).toUpperCase() + utmSource.slice(1);
             }
             
-            // Default to 'Website' if no utm_source parameter
+            // Priority 2: Check referrer (automatic detection)
+            const referrerSource = detectSourceFromReferrer();
+            if (referrerSource) {
+                return referrerSource;
+            }
+            
+            // Default to 'Website' if no utm_source and no recognized referrer
             return 'Website';
         }
         
