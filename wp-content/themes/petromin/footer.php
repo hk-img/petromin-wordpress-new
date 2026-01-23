@@ -377,7 +377,7 @@ if (!empty($cost_estimator_pages)) {
                         <?php endif; ?>
                     </a>
                     <p class="text-base text-white font-normal leading-relaxed max-w-xl">
-                        <?php echo nl2br(esc_html($footer_description)); ?>
+                        <?php echo wp_kses_post(nl2br($footer_description)); ?>
                     </p>
                 </div>
 
@@ -435,7 +435,7 @@ if (!empty($cost_estimator_pages)) {
                         <?php echo esc_html($head_office_title); ?>
                     </h3>
                     <p class="text-sm">
-                        <?php echo nl2br(esc_html($head_office_address)); ?>
+                        <?php echo wp_kses_post(nl2br($head_office_address)); ?>
                     </p>
                 </div>
                 <?php endif; ?>
@@ -494,7 +494,7 @@ if (!empty($cost_estimator_pages)) {
                         <?php echo esc_html($head_office_title); ?>
                     </h3>
                     <p class="text-sm">
-                        <?php echo nl2br(esc_html($head_office_address)); ?>
+                        <?php echo wp_kses_post(nl2br($head_office_address)); ?>
                     </p>
                 </div>
                 <?php endif; ?>

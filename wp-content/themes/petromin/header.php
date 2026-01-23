@@ -112,10 +112,10 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
 ?>
 
 <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page) : ?>
-    <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-[100] xl:h-20 max-md:border-b max-md:border-[#E5E5E5]">
-        <div class="w-full relative flex justify-between items-center lg:px-0 px-4">
+    <header class="w-full top-0 right-0 lg:bg-transparent bg-white font-poppins fixed z-[100] lg:h-20 h-16 max-md:border-b max-md:border-[#E5E5E5]">
+        <div class="w-full relative flex justify-between items-center lg:px-0 px-4 h-full">
             <div
-                class="xl:w-1/6 lg:w-1/5 md: h-[4.125rem] relative lg:flex lg:flex-col items-center py-5 bg-white hidden -skew-x-[18deg] origin-top shadow-[0_0_1.25rem_0_#0000004D]">
+                class="xl:w-1/6 lg:w-1/5 relative lg:flex lg:flex-col items-center py-5 bg-white hidden -skew-x-[18deg] origin-top shadow-[0_0_1.25rem_0_#0000004D] h-full">
                 <a href="<?php echo esc_url(home_url('/')); ?>" class="lg:w-auto pl-3 w-auto flex items-center skew-x-[18deg] h-full">
                     <?php if (!empty($desktop_logo_data)) : ?>
                         <img src="<?php echo esc_url($desktop_logo_data['url']); ?>" 
@@ -130,7 +130,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                 <label for="sideToggle"
                             class="inline-flex items-center justify-center rounded-md p-2.5 text-black group-[]/nav:text-white -mb-2">
                             <span class="sr-only">Open menu</span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-9">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="size-6">
                                 <g clip-path="url(#clip0_3127_7349)">
                                     <path
                                     d="M22.4932 3.99878H1.49954C0.671369 3.99878 0 4.67015 0 5.49832C0 6.3265 0.671369 6.99787 1.49954 6.99787H22.4932C23.3213 6.99787 23.9927 6.3265 23.9927 5.49832C23.9927 4.67015 23.3213 3.99878 22.4932 3.99878Z"
@@ -154,13 +154,13 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                         <img src="<?php echo esc_url($mobile_logo_data['url']); ?>" 
                              alt="<?php echo esc_attr($mobile_logo_data['alt']); ?>" 
                              title="<?php echo esc_attr($mobile_logo_data['alt']); ?>" 
-                             height="200" class="w-[9.125rem]" loading="lazy" fetchpriority="low">
+                             height="200" class="w-auto h-8" loading="lazy" fetchpriority="low">
                     <?php endif; ?>
                 </a>
             </div>
 
             <div
-                class="xl:w-10/12 lg:w-4/5 h-[4.125rem] bg-white relative lg:flex lg:flex-row flex-col  items-center justify-start hidden -skew-x-[18deg] lg:px-[1.875rem] origin-bottom shadow-[0_0_1.25rem_0_#0000004D]">
+                class="xl:w-10/12 lg:w-4/5 h-full bg-white relative lg:flex lg:flex-row flex-col  items-center justify-start hidden -skew-x-[18deg] lg:px-[1.875rem] origin-bottom shadow-[0_0_1.25rem_0_#0000004D]">
                 <div class="w-full flex justify-between items-center skew-x-[18deg]">
                     <ul class="nav-menu flex items-center 2xl:gap-14 xl:gap-8 gap-x-6 justify-between w-full">
                         <?php foreach ($nav_items as $nav_item) :
