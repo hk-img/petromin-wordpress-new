@@ -615,10 +615,60 @@ if (!empty($cost_estimator_pages)) {
                             }
                             
                             // Extract unique cities from service centres with their images
+                            // Only include cities that have images uploaded in CMS
+                            // Use ACF city field directly (not extracted from address)
                             $cities_data = array();
+                            
+                            // List of major cities to prioritize
+                            $major_cities = [
+                                'Mumbai', 'Delhi', 'Bangalore', 'Bengaluru', 'Hyderabad', 'Chennai',
+                                'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat', 'Lucknow',
+                                'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam',
+                                'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik',
+                                'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Amritsar'
+                            ];
+                            
                             if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
                                 foreach ($service_centers_field['centers'] as $center) {
+                                    // Priority: Use ACF city field directly (saved separately in CMS)
                                     $city = trim($center['city'] ?? '');
+                                    $state = trim($center['state'] ?? '');
+                                    $address = '';
+                                    
+                                    // Get address from map location if available
+                                    $map_location = $center['map_location'] ?? null;
+                                    if (!empty($map_location['address'])) {
+                                        $address = trim($map_location['address']);
+                                    }
+                                    
+                                    // If city field has a locality (like "Tambaram Sanatorium"), 
+                                    // check if address contains a major city name
+                                    if (!empty($city) && !empty($address)) {
+                                        // Check if current city is a major city
+                                        $is_major_city = false;
+                                        foreach ($major_cities as $major_city) {
+                                            if (strcasecmp($city, $major_city) === 0) {
+                                                $is_major_city = true;
+                                                break;
+                                            }
+                                        }
+                                        
+                                        // If current city is not a major city, try to find major city in address
+                                        if (!$is_major_city) {
+                                            foreach ($major_cities as $major_city) {
+                                                // Check if address contains the major city name
+                                                if (stripos($address, $major_city) !== false) {
+                                                    // Verify it's in the same state (if state is available)
+                                                    if (empty($state) || stripos($address, $state) !== false) {
+                                                        $city = $major_city; // Use major city instead of locality
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Only process if city is not empty and not already added
                                     if (!empty($city) && !isset($cities_data[$city])) {
                                         // Get city image from ACF field
                                         $city_image_id = $center['city_image'] ?? null;
@@ -628,10 +678,13 @@ if (!empty($cost_estimator_pages)) {
                                             $city_image_url = $city_image_data['url'] ?? '';
                                         }
                                         
-                                        $cities_data[$city] = array(
-                                            'name' => $city,
-                                            'image' => $city_image_url
-                                        );
+                                        // Only add city if it has a valid image URL
+                                        if (!empty($city_image_url)) {
+                                            $cities_data[$city] = array(
+                                                'name' => $city,
+                                                'image' => $city_image_url
+                                            );
+                                        }
                                     }
                                 }
                             }
@@ -639,39 +692,28 @@ if (!empty($cost_estimator_pages)) {
                             // Sort cities alphabetically
                             uksort($cities_data, 'strcasecmp');
                             
-                            // If no cities found, use default cities
-                            if (empty($cities_data)) {
-                                $cities_data = array(
-                                    'Chennai' => array('name' => 'Chennai', 'image' => ''),
-                                    'Bengaluru' => array('name' => 'Bengaluru', 'image' => '')
-                                );
-                            }
+                            // Note: Only cities with images are shown
+                            // If no cities with images found, $cities_data will be empty and no cities will be displayed
                             
                             // Render cities dynamically
-                            $city_img_index = 0;
+                            // Only render cities that have images (already filtered above)
                             foreach ($cities_data as $city_data) {
                                 $city = $city_data['name'];
                                 $city_image_url = $city_data['image'];
                                 
-                                // Use city image from ACF if available, otherwise fallback to default pattern
+                                // All cities in $cities_data already have valid images
                                 if (!empty($city_image_url)) {
-                                    $city_img = $city_image_url;
-                                } else {
-                                    // Fallback: Use city-img1.png, city-img2.png pattern
-                                    $img_number = ($city_img_index % 2) + 1;
-                                    $city_img = $assets_img_url . 'city-img' . $img_number . '.png';
-                                }
-                                $city_img_index++;
                             ?>
                             <div class="cursor-pointer group" data-value="<?php echo esc_attr($city); ?>">
                                 <div class="relative rounded overflow-hidden">
-                                    <img src="<?php echo esc_url($city_img); ?>" alt="<?php echo esc_attr($city); ?>"
+                                    <img src="<?php echo esc_url($city_image_url); ?>" alt="<?php echo esc_attr($city); ?>"
                                         class="w-full h-48 xl:h-52 object-cover"
                                         onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
                                     <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
                                 </div>
                             </div>
                             <?php
+                                }
                             }
                             ?>
                         </div>

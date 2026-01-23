@@ -232,11 +232,11 @@ foreach ($press_releases_items as $item) {
                         class="relative uppercase text-sm text-[#121212] font-bold border-b-2 border-[#E0E5EB] pb-2 md:pb-2.5">
                         About
                     </div>
-                    <p class="text-[#637083] text-sm  font-normal"><?php echo esc_html($sidebar_about_text); ?></p>
+                    <p class="text-[#637083] text-sm font-normal"><?php echo esc_html($sidebar_about_text); ?></p>
                 </div>
                 <?php endif; ?>
                 <?php if (!empty($sidebar_categories)): ?>
-                <div class="w-full md:flex flex-col gap-y-4  hidden">
+                <div class="w-full md:flex flex-col gap-y-4 hidden">
                     <div
                         class="relative uppercase text-sm text-[#121212] font-bold border-b-2 border-[#E0E5EB] pb-2.5 ">
                         Categories
@@ -246,7 +246,7 @@ foreach ($press_releases_items as $item) {
                             $name = $category['name'] ?? '';
                             $slug = $category['slug'] ?? sanitize_title($name);
                         ?>
-                        <li class="text-[#637083] category-nav-item" data-target="<?php echo esc_attr($slug); ?>">
+                        <li class="text-[#637083] category-nav-item cursor-pointer" data-target="<?php echo esc_attr($slug); ?>">
                             <?php echo esc_html($name); ?>
                         </li>
                         <?php endforeach; ?>
