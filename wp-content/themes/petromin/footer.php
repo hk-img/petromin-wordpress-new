@@ -539,8 +539,7 @@ if (!empty($cost_estimator_pages)) {
 <!-- mobile button -->
 <div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] lg:hidden">
     <button type="button"
-        class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center"
-        style="writing-mode: vertical-rl; text-orientation: mixed;">
+        class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap rotate-0 supports-[writing-mode:sideways-lr]:rotate-0">
         GET INSTANT CAR SERVICE QUOTE
         <svg class="size-4 ms-2 rotate-90" stroke="currentColor" fill="currentColor" viewBox="0 0 24 24">
             <path
