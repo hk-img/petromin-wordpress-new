@@ -66,6 +66,25 @@ body {
   }
 }
 
+/* iPad / tablet range: readable base so content doesn’t look like shrunk desktop */
+@media (min-width: 768px) and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+  body {
+    font-size: 1rem;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  /* Home page: keep sections comfortably visible on iPad */
+  body.home .view {
+    max-width: 100%;
+  }
+  body.home section {
+    min-height: 0;
+  }
+}
+
 /* @media (min-width: 640px) {
   .container {
     max-width: 640px;
