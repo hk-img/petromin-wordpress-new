@@ -463,7 +463,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
         <div class="md:w-1/5 w-full md:block hidden relative bg-cover bg-center py-28"
             <?php if (!empty($sidebar_background['url'])) : ?>style="background-image:url('<?php echo esc_url($sidebar_background['url']); ?>');"
             <?php endif; ?>>
-            <span class="sticky top-32 ">
+            <span class="sticky top-32 block">
                 <?php if (!empty($sidebar_car['url'])) : ?>
                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($sidebar_car['url']); ?>"
                     class="w-full object-contain aspect-[256/381]" alt="<?php echo esc_attr($sidebar_car['alt']); ?>">
