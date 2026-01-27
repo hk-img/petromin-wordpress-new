@@ -1430,9 +1430,8 @@ if (!empty($home_offers)):
                 <?php if ($has_primary || $has_secondary): ?>
                 <div class="flex items-center lg:pb-10 space-x-4 -ms-3">
                     <?php if ($has_primary): ?>
-                    <a href="<?php echo esc_url($primary_button['url'] ?? '#'); ?>"
-                        target="<?php echo esc_attr($primary_button['target'] ?? '_self'); ?>"
-                        class="bg-[#CB122D] flex items-center text-base hover:bg-red-800 text-white font-semibold py-[0.625rem] px-[0.625rem] transition duration-200">
+                    <a href="#carPopup"
+                        class="bg-[#CB122D] flex items-center text-base hover:bg-red-800 text-white font-semibold py-[0.625rem] px-[0.625rem] transition duration-200 js-open-car-popup">
                         <?php echo esc_html($primary_button['label']); ?>
                         <svg class="size-4 text-white ms-2" stroke="currentColor" fill="none" stroke-width="0"
                             viewBox="0 0 24 24" height="200" width="200" xmlns="http://www.w3.org/2000/svg">
