@@ -2063,12 +2063,9 @@ document.addEventListener("DOMContentLoaded", function() {
     $partnerSettings = petromin_get_swiper_settings('partnersSectionSwiper');
     ?>
     const partnerSwiper = new Swiper(".partnersSectionSwiper", {
-        loop: true,
-        autoSlide: true,
         spaceBetween: 24,
-        freeMode: true,
-        freeModeMomentum: false,
         speed: <?php echo esc_js($partnerSettings['speed']); ?>,
+        loop: true,
         autoplay: <?php echo $partnerSettings['autoplay'] ? '{
             delay: ' . esc_js($partnerSettings['delay']) . ',
             disableOnInteraction: false,
