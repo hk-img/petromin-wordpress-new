@@ -39,7 +39,7 @@ $images_url = $assets_url . '/img';
                     </p>
                     <?php else : ?>
                     <p class="text-[#3B3C4A] font-normal leading-6 md:leading-8 lg:text-xl md:text-lg text-base">
-                        <?php echo esc_html(wp_trim_words(get_the_content(), 30)); ?>
+                        <?php echo esc_html(wp_trim_words(get_the_content())); ?>
                     </p>
                     <?php endif; ?>
 

@@ -225,7 +225,7 @@ foreach ($press_releases_items as $item) {
     <div class="view w-full flex flex-wrap justify-between">
         <!-- Sidebar -->
         <div class="md:w-1/5 w-full">
-            <div class="flex flex-col gap-y-8 sticky top-20">
+            <div class="flex flex-col gap-y-8 sticky top-28">
                 <?php if (!empty($sidebar_about_text)): ?>
                 <div class="w-full flex flex-col gap-y-4">
                     <div
