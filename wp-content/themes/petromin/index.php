@@ -1697,7 +1697,7 @@ if (!empty($home_offers)):
         <div class="swiper partnersSectionSwiper relative">
             <div class="w-full swiper-wrapper flex !ease-linear">
                 <?php foreach ($partner_highlights_items as $item_text): ?>
-                <div class="swiper-slide inline-flex items-center gap-4 justify-between min-w-max">
+                <div class="swiper-slide">
                     <div class="text-lg font-bold text-black font-inter whitespace-nowrap">
                         <?php echo esc_html($item_text); ?>
                     </div>
