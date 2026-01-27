@@ -1708,6 +1708,17 @@ if (!empty($home_offers)):
                         title="<?php echo esc_attr($partner_highlights_icon['alt']); ?>">
                     <?php endif; ?>
                 </div>
+                <div class="swiper-slide inline-flex items-center gap-4 justify-between min-w-max">
+                    <div class="text-lg font-bold text-black font-inter whitespace-nowrap">
+                        <?php echo esc_html($item_text); ?>
+                    </div>
+                    <?php if (!empty($partner_highlights_icon['url'])): ?>
+                    <img src="<?php echo esc_url($partner_highlights_icon['url']); ?>"
+                        class="w-[1.438rem] h-[1.063rem] flex-shrink-0"
+                        alt="<?php echo esc_attr($partner_highlights_icon['alt']); ?>"
+                        title="<?php echo esc_attr($partner_highlights_icon['alt']); ?>">
+                    <?php endif; ?>
+                </div>
                 <?php endforeach; ?>
             </div>
         </div>
