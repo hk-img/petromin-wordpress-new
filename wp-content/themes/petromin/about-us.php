@@ -470,7 +470,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                 <?php endif; ?>
             </span>
         </div>
-        <div class="md:w-4/5 w-full h-full pt-28">
+        <div class="md:w-4/5 w-full h-full md:pt-28 pt-10">
             <!-- about sec 1 start -->
             <div class="w-full about_us relative pb-[4.438rem] md:pb-[8.25rem]">
                 <div class="view w-full pr-0">
@@ -508,7 +508,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             <!-- about sec 1 end -->
             <!-- Journey  sec 2 start -->
             <?php if (!empty($journey_slides)): ?>
-            <div class="w-full relative journey overflow-hidden pb-[7.25rem] md:pb-[11.438rem]">
+            <div class="w-full relative journey overflow-hidden pb-7 sm:pb-[7.25rem] md:pb-[11.438rem]">
                 <div class="view pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
                         <?php if ($journey_heading) : ?>
