@@ -2239,9 +2239,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Apply active styles to clicked
         clicked.className =
-            "tab-btn active relative z-10 px-4 py-5 h-16 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]";
+            "tab-btn active relative z-10 px-4 py-5 h-16 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg] whitespace-nowrap";
         clicked.innerHTML =
-            `<span class="skew-x-[18deg] block ">${clicked.innerText}</span>`;
+            `<span class="skew-x-[18deg] block whitespace-nowrap">${clicked.innerText}</span>`;
 
         // Show correct content
         document.querySelector(`.content-item[data-content="${target}"]`).classList.remove(
