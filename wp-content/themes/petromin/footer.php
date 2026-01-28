@@ -537,7 +537,7 @@ if (!empty($cost_estimator_pages)) {
 </footer>
 <?php if (!$is_cost_estimator_page && !is_singular('offer') && !$is_newsroom_page && !$is_blog_page && !$is_single_blog_post && !$is_blog_archive && !$is_locate_us_page) : ?>
 <!-- mobile button -->
-<div id="mobileToggle" class="fixed right-0 inset-y-0 flex items-center justify-center z-[100] lg:hidden [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap">
+<div id="mobileToggle" class="fixed right-0 inset-y-10 flex items-center justify-center z-[100] lg:hidden [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap">
     <button type="button"
         class="bg-[#650916] text-white text-xs md:text-sm uppercase italic font-medium font-inter px-2 py-3 tracking-wide  transition-all duration-300 inline-flex items-center justify-center">
         GET INSTANT CAR SERVICE QUOTE
