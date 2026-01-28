@@ -319,7 +319,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 
 <!-- New Our Services Section - Only show if has data -->
 <?php if ($our_services_has_data): ?>
-<div class="w-full relative bg-white md:py-[4.25rem] py-[2rem] max-lg:md:[zoom:0.9]">
+<div class="w-full relative bg-white md:py-[4.25rem] py-[2rem]">
     <div class="view">
         <?php if (!empty($our_services_data['section_heading'])): ?>
         <div class="w-full flex flex-col gap-1 md:gap-1">
@@ -364,7 +364,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                         </p>
                         <div class="flex justify-between items-center gap-2">
                             <button
-                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
+                                class="hover:lg:bg-[#CB122D] w-full lg:px-5 px-3 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
                                 <span
                                     class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Check
                                     Price
@@ -377,7 +377,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                                 </span>
                             </button>
                             <a href="<?php echo esc_url($slide['service_link']); ?>"
-                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                class="hover:lg:bg-[#CB122D] w-full lg:px-5 px-3 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
                                 <span
                                     class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Know
                                     More
