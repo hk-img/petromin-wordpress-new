@@ -314,7 +314,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     
                     <input type="tel" id="appPhoneInput" name="phone_number" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" 
                         placeholder="<?php echo esc_attr($app_contact_placeholder); ?>"
-                        class="flex-1 py-2.5 pl-4 md:text-base text-xs font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3] border-0 focus:ring-0 min-w-0 [@supports(-webkit-touch-callout:none)]:!bg-white"
+                        class="flex-1 py-2.5 pl-4 md:text-base text-xs font-normal bg-white placeholder:text-[#000000A3] bg-transparent outline-none text-[#000000A3] border-0 focus:ring-0 min-w-0"
                         required />
 
                     <button type="submit" id="appSubmitBtn"

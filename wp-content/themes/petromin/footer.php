@@ -587,7 +587,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- City Dropdown -->
                 <div class="relative flex items-center">
                     <input type="text" placeholder="City" id="cityInput" readonly
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white" />
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
 
                     <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
@@ -746,7 +746,7 @@ if (!empty($cost_estimator_pages)) {
                 ?>
                 <div class="relative">
                     <input type="text" placeholder="Car Brand" id="brandInput" readonly=""
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white">
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300">
                     <span id="brandIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -761,7 +761,7 @@ if (!empty($cost_estimator_pages)) {
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                                 <input type="text" id="brandSearch" placeholder="Search Car Brand"
-                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700 [@supports(-webkit-touch-callout:none)]:!bg-white" />
+                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
                             </div>
 
                             <div class="max-h-56 overflow-y-auto" id="brandList">
@@ -807,7 +807,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Car Model Dropdown -->
                 <div class="relative">
                     <input type="text" placeholder="Car Model (Select Car Brand first)" id="modelInput" readonly=""
-                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed [@supports(-webkit-touch-callout:none)]:!bg-white" disabled>
+                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="modelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -822,7 +822,7 @@ if (!empty($cost_estimator_pages)) {
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                                 <input type="text" id="modelSearch" placeholder="Search Car Model"
-                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700 [@supports(-webkit-touch-callout:none)]:!bg-white" />
+                                    class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
                             </div>
 
                             <div class="max-h-56 overflow-y-auto" id="modelList">
@@ -841,7 +841,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Fuel Type Dropdown -->
                 <div class="relative">
                     <input type="text" placeholder="Fuel Type (Select Car Model first)" id="fuelInput" readonly=""
-                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed [@supports(-webkit-touch-callout:none)]:!bg-white" disabled>
+                        class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="fuelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
                     </span>
@@ -969,7 +969,7 @@ if (!empty($cost_estimator_pages)) {
                 <!-- Contact -->
                 <!-- <div class="relative">
                     <input type="tel" placeholder="Contact Number"
-                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none [@supports(-webkit-touch-callout:none)]:!bg-white">
+                        class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none">
                 </div> -->
             </div>
             <!-- Button -->

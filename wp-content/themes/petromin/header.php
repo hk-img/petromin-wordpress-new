@@ -46,8 +46,8 @@
     <!-- WordPress head -->
     <?php wp_head(); ?>
     <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page && !$is_cost_estimator_page) : ?>
-        <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
-        <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script>
+        <!-- <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
+        <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script> -->
     <?php endif; ?>
 </head>
 
