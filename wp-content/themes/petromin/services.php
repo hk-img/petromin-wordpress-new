@@ -319,7 +319,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 
 <!-- New Our Services Section - Only show if has data -->
 <?php if ($our_services_has_data): ?>
-<div class="w-full relative bg-white md:py-[4.25rem] py-[2rem]">
+<div class="w-full relative bg-white md:py-[4.25rem] py-[2rem] max-lg:md:[zoom:0.9]">
     <div class="view">
         <?php if (!empty($our_services_data['section_heading'])): ?>
         <div class="w-full flex flex-col gap-1 md:gap-1">
