@@ -49,7 +49,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $assets_img_url = $assets_url . '/img/';
 
-// Get cities data (same as footer.php)
+// Get cities data (same logic as footer.php – only cities with images from CMS, normalized via major_cities)
 $locate_us_page = get_pages(array(
     'meta_key' => '_wp_page_template',
     'meta_value' => 'locate-us.php',
@@ -65,9 +65,42 @@ if ($locate_us_page_id && function_exists('get_field')) {
 }
 
 $cities_data = array();
+$major_cities = [
+    'Mumbai', 'Delhi', 'Bangalore', 'Bengaluru', 'Hyderabad', 'Chennai',
+    'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat', 'Lucknow',
+    'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam',
+    'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik',
+    'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Amritsar'
+];
+
 if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
     foreach ($service_centers_field['centers'] as $center) {
         $city = trim($center['city'] ?? '');
+        $state = trim($center['state'] ?? '');
+        $address = '';
+        $map_location = $center['map_location'] ?? null;
+        if (!empty($map_location['address'])) {
+            $address = trim($map_location['address']);
+        }
+        if (!empty($city) && !empty($address)) {
+            $is_major_city = false;
+            foreach ($major_cities as $major_city) {
+                if (strcasecmp($city, $major_city) === 0) {
+                    $is_major_city = true;
+                    break;
+                }
+            }
+            if (!$is_major_city) {
+                foreach ($major_cities as $major_city) {
+                    if (stripos($address, $major_city) !== false) {
+                        if (empty($state) || stripos($address, $state) !== false) {
+                            $city = $major_city;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         if (!empty($city) && !isset($cities_data[$city])) {
             $city_image_id = $center['city_image'] ?? null;
             $city_image_url = '';
@@ -75,23 +108,17 @@ if (!empty($service_centers_field['centers']) && is_array($service_centers_field
                 $city_image_data = petromin_get_acf_image_data($city_image_id, 'full', '', $city);
                 $city_image_url = $city_image_data['url'] ?? '';
             }
-            
-            $cities_data[$city] = array(
-                'name' => $city,
-                'image' => $city_image_url
-            );
+            if (!empty($city_image_url)) {
+                $cities_data[$city] = array(
+                    'name' => $city,
+                    'image' => $city_image_url
+                );
+            }
         }
     }
 }
 
 uksort($cities_data, 'strcasecmp');
-
-if (empty($cities_data)) {
-    $cities_data = array(
-        'Chennai' => array('name' => 'Chennai', 'image' => ''),
-        'Bengaluru' => array('name' => 'Bengaluru', 'image' => '')
-    );
-}
 
 // Get car makes from API (same as footer.php)
 $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
