@@ -1496,7 +1496,7 @@ if (!empty($home_offers)):
 
     <div class="relative py-8 font-inter overflow-x-auto">
         <nav id="mobile-tab"
-            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 ps-6 h-[2.938rem]">
+            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 lg:px-[5rem] md:px-[4rem] sm:px-[3rem] px-[1rem] h-[2.938rem]">
             <?php foreach ($services_tabs as $tab_index => $tab): ?>
             <?php
                     $tab_number = $tab_index + 1;

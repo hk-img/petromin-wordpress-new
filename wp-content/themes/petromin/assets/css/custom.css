@@ -26,7 +26,7 @@ body {
   margin-right: auto;
 }
 
-/* sm breakpoint (40rem) */
+/* sm breakpoint – 40rem (640px) – small screens and up */
 @media (min-width: 40rem) {
   .view {
     padding-left: 3rem; /* px-12 */
@@ -34,7 +34,7 @@ body {
   }
 }
 
-/* md breakpoint (48rem) */
+/* md breakpoint – 48rem (768px) – medium screens and up */
 @media (min-width: 48rem) {
   .view {
     padding-left: 4rem; /* px-16 */
@@ -42,7 +42,7 @@ body {
   }
 }
 
-/* lg breakpoint (64rem) */
+/* lg breakpoint – 64rem (1024px) – large screens and up */
 @media (min-width: 64rem) {
   .view {
     padding-left: 5rem; /* px-20 */
@@ -50,7 +50,7 @@ body {
   }
 }
 
-/* xl breakpoint (80rem) */
+/* xl breakpoint – 80rem (1280px) – extra large screens and up */
 @media (min-width: 80rem) {
   .view {
     padding-left: 5rem;
@@ -58,7 +58,7 @@ body {
   }
 }
 
-/* 2xl breakpoint (96rem) */
+/* 2xl breakpoint – 96rem (1536px) – 2x extra large screens and up */
 @media (min-width: 96rem) {
   .view {
     padding-left: 5rem;
