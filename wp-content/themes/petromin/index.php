@@ -1516,7 +1516,7 @@ if (!empty($home_offers)):
         </nav>
     </div>
 
-    <div class="relative mtab-content view px-[1.875rem] pt-[0.9rem]">
+    <div class="relative mtab-content view pt-[0.9rem]">
         <?php foreach ($services_tabs as $tab_index => $tab): ?>
         <?php
                 $tab_number = $tab_index + 1;
