@@ -283,7 +283,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 
 <!-- Hero Section - Only show if has data -->
 <?php if ($hero_has_data): ?>
-<div class="hero_section w-full relative z-0 md:min-h-dvh h-dvh md:!h-auto">
+<div class="heroSection w-full relative z-0 lg:h-dvh h-full lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_data['background_image']['url'])) : ?>
         <img fetchpriority="high" decoding="async" loading="eager"

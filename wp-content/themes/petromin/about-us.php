@@ -480,11 +480,11 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 <div class="w-full flex flex-col gap-4 md:gap-6">
                                     <?php if ($intro_heading) : ?>
                                     <h2
-                                        class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl lg:leading-[3.75rem] font-bold text-[#000000] ">
+                                        class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl !leading-[normal] font-bold text-[#000000] ">
                                         <?php echo esc_html($intro_heading); ?></h2>
                                     <?php endif; ?>
                                     <div
-                                        class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[18deg]">
+                                        class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] h-3 -skew-x-[18deg]">
                                     </div>
                                 </div>
                                 <p class="font-normal pt- md:text-base text-sm text-[#000000]">
@@ -508,7 +508,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             <!-- about sec 1 end -->
             <!-- Journey  sec 2 start -->
             <?php if (!empty($journey_slides)): ?>
-            <div class="w-full relative journey overflow-hidden pb-7 sm:pb-[7.25rem] md:pb-[11.438rem]">
+            <div class="w-full relative journey overflow-hidden pb-7 md:pb-[7.25rem] lg:pb-[11.438rem]">
                 <div class="view pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
                         <?php if ($journey_heading) : ?>
