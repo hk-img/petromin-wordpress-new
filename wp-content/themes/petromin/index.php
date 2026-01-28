@@ -2219,7 +2219,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetTabs(clicked) {
         tabLinks.forEach(tab => {
             if (tab !== clicked) { // don’t reset the one that was clicked
-                tab.className = "tab-btn px-4 py-5 -my-5 h-16 text-lg font-bold text-white whitespace-nowrap";
+                tab.className = "tab-btn lg:px-4 px-2 py-5 -my-5 h-16 text-lg font-bold text-white whitespace-nowrap";
                 tab.innerHTML = tab.innerText;
             }
         });
