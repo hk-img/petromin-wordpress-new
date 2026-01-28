@@ -41,7 +41,7 @@ $verify_page_url = get_verify_page_url();
 $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
 
 // Fetch service categories from API
-$categories_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_service_category';
+$categories_api_url = 'https://ryehkyasumhivlakezjb.supabase.co//rest/v1/vendor_distinct_service_category';
 $categories_response = wp_remote_get($categories_api_url, array(
     'timeout' => 15,
     'headers' => array(
@@ -131,16 +131,26 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                     if (!empty($service_categories)) {
                         $first_category = true;
                         foreach ($service_categories as $index => $category_item) {
-                            $category_name = isset($category_item['service_category']) ? $category_item['service_category'] : '';
-                            if (empty($category_name)) continue;
+                            // New API shape: service_category, is_active, service_category_icon_url
+                            $category_name = isset($category_item['service_category']) ? trim($category_item['service_category']) : '';
+                            $is_active = isset($category_item['is_active']) ? (bool) $category_item['is_active'] : true;
+                            $icon_url = isset($category_item['service_category_icon_url']) ? trim($category_item['service_category_icon_url']) : '';
+
+                            // Skip if no name or not active
+                            if (empty($category_name) || !$is_active) {
+                                continue;
+                            }
                             
                             $category_slug = get_category_slug($category_name);
                             $category_id = $category_slug . 'Service';
+
+                            // Prefer API icon; fallback to existing static icon
+                            $icon_src = !empty($icon_url) ? $icon_url : $img_url . 'carServiceIcon.webp';
                             ?>
                             <label for="<?php echo esc_attr($category_id); ?>" class="group/serviceTab cursor-pointer md:py-4 py-2 md:px-10 px-2 flex flex-col items-center md:gap-3 gap-1 justify-center text-sm font-medium border-b-4 border-transparent has-[:checked]:border-[#980D22] has-[:checked]:font-bold has-[:checked]:text-[#CB122D]">
                                 <input type="radio" name="services" id="<?php echo esc_attr($category_id); ?>" class="hidden" <?php echo $first_category ? 'checked' : ''; ?> />
                                 <span class="bg-gradient-to-br from-[#F3F4F6] to-[#F3F4F6] group-has-[:checked]/serviceTab:from-[#CB122D] group-has-[:checked]/serviceTab:to-[#980D22] shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A] size-[3.438rem] rounded-full flex justify-center items-center">
-                                    <img src="<?php echo esc_url($img_url . 'carServiceIcon.webp'); ?>" class="brightness-[0.4] group-has-[:checked]/serviceTab:brightness-[1] size-7" alt="<?php echo esc_attr($category_name . ' Icon'); ?>" width="28" height="28" />
+                                    <img src="<?php echo esc_url($icon_src); ?>" class="brightness-[0.4] group-has-[:checked]/serviceTab:brightness-[1] size-7" alt="<?php echo esc_attr($category_name . ' Icon'); ?>" width="28" height="28" />
                                 </span>
                                 <?php echo esc_html($category_name); ?>
                             </label>
@@ -158,8 +168,14 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         <?php 
                         if (!empty($service_categories)) {
                             foreach ($service_categories as $cat_index => $category_item) {
-                                $category_name = isset($category_item['service_category']) ? $category_item['service_category'] : '';
-                                if (empty($category_name)) continue;
+                                // New API shape: service_category, is_active, service_category_icon_url
+                                $category_name = isset($category_item['service_category']) ? trim($category_item['service_category']) : '';
+                                $is_active = isset($category_item['is_active']) ? (bool) $category_item['is_active'] : true;
+
+                                // Skip if no name or not active
+                                if (empty($category_name) || !$is_active) {
+                                    continue;
+                                }
                                 
                                 $category_slug = get_category_slug($category_name);
                                 $category_id = $category_slug . 'Service';
