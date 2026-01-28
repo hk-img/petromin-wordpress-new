@@ -144,7 +144,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             <label class="block mb-2 text-base font-medium">City</label>
                             <div class="relative w-full">
                                 <input type="text" placeholder="Select City" id="offerCityInput" readonly
-                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300" />
+                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white" />
                                 <span id="offerCityIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
@@ -185,7 +185,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             <label class="block mb-2 text-base font-medium">Car Brand</label>
                             <div class="relative w-full">
                                 <input type="text" placeholder="Select Brand" id="offerBrandInput" readonly
-                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300" />
+                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-pointer transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white" />
                                 <span id="offerBrandIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
@@ -198,7 +198,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                             </svg>
                                             <input type="text" id="offerBrandSearch" placeholder="Search Car Brand"
-                                                class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
+                                                class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700 [@supports(-webkit-touch-callout:none)]:!bg-white" />
                                         </div>
                                         <div class="max-h-56 overflow-y-auto" id="offerBrandList">
                                             <div class="grid grid-cols-3 gap-4" id="offerBrandListItems">
@@ -241,7 +241,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             <label class="block mb-2 text-base font-medium">Car Model</label>
                             <div class="relative w-full">
                                 <input type="text" placeholder="Select Model (Select Car Brand first)" id="offerModelInput" readonly
-                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300" disabled />
+                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white" disabled />
                                 <span id="offerModelIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
@@ -254,7 +254,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                             </svg>
                                             <input type="text" id="offerModelSearch" placeholder="Search Car Model"
-                                                class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
+                                                class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700 [@supports(-webkit-touch-callout:none)]:!bg-white" />
                                         </div>
                                         <div class="max-h-56 overflow-y-auto" id="offerModelList">
                                             <div class="grid grid-cols-2 gap-4" id="offerModelListItems">
@@ -274,7 +274,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                             <label class="block mb-2 text-base font-medium">Fuel Type</label>
                             <div class="relative w-full">
                                 <input type="text" placeholder="Select Fuel Type (Select Car Model first)" id="offerFuelInput" readonly
-                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300" disabled />
+                                    class="bg-[#F8F8F8] text-base font-normal border border-[#E5E7EB] rounded h-[2.994rem] w-full px-4 pr-10 text-[#99A1AF] focus:outline-none focus:ring-0 focus:border-[#E5E7EB] cursor-not-allowed transition-colors duration-300 [@supports(-webkit-touch-callout:none)]:!bg-white" disabled />
                                 <span id="offerFuelIcon" class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                     <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
                                         <path d="M4 5.99805L7.99846 9.99651L11.9969 5.99805" stroke="#6B6B6B" stroke-width="1.33282" stroke-linecap="round" stroke-linejoin="round" />
