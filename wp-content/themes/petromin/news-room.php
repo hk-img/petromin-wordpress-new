@@ -197,7 +197,7 @@ foreach ($press_releases_items as $item) {
 
 <!-- Hero Section - Only show if has data -->
 <?php if (!empty($hero_title) || !empty($hero_image_data)): ?>
-<div class="hero_section w-full relative z-0 md:h-dvh h-[23rem]">
+<div class="heroSection w-full relative z-0 lg:h-dvh h-full lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" decoding="async" loading="eager" src="<?php echo esc_url($hero_image_data['url']); ?>"
