@@ -1520,7 +1520,7 @@ if (!empty($home_offers)):
         <?php foreach ($services_tabs as $tab_index => $tab): ?>
         <?php
                 $tab_number = $tab_index + 1;
-                $content_classes = 'cont-item flex lg:flex-row flex-col items-center';
+                $content_classes = 'cont-item flex lg:flex-row flex-col items-center max-sm:ps-4';
                 if ($tab_index !== 0) {
                     $content_classes .= ' hidden';
                 }
@@ -1746,10 +1746,10 @@ if (!empty($home_offers)):
     </div>
     <?php endif; ?>
     <div class="view">
-        <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6">
+        <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6 max-xl:pb-10">
             <div
                 class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-10 md:h-full lg:pt-10 md:pt-14 pt-6">
-                <div class="flex flex-col gap-y-12">
+                <div class="flex flex-col xl:gap-y-12 gap-y-6">
                     <h2 class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem]
                             font-bold italic text-black text-start whitespace-nowrap
                             !leading-tight">
