@@ -468,7 +468,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 <section class="w-full taptrack bg-white pt-[6.313rem] md:pt-[3.938rem]">
     <div
         class="view relative before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:w-full before:h-28 before:bg-gradient-to-t before:from-[#FBFCFD] before:to-[#FBFCFD00]">
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-[4.5rem] md:gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-[4.5rem] md:gap-8">
             <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-3">
                     <div class="flex -space-x-3">
