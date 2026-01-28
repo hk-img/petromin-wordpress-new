@@ -1912,11 +1912,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
@@ -1950,11 +1950,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
@@ -1987,11 +1987,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
