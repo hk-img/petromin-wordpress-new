@@ -1828,7 +1828,7 @@ if (!empty($home_offers)):
 <!-- Brands Section - Only show if has data -->
 <?php if (!empty($brands_heading) || !empty($left_brands) || !empty($right_brands) || !empty($mobile_brands)): ?>
 <section class="w-full relative overflow-hidden md:pt-[6.8rem] pt-[5rem]">
-    <div class="view max-sm:mb-8">
+    <div class="view max-lg:mb-8">
         <div class="flex items-center justify-between">
             <?php if (!empty($brands_heading)): ?>
             <h2
