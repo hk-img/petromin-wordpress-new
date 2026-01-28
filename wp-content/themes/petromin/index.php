@@ -1368,7 +1368,7 @@ if (!empty($home_offers)):
                     $inner_classes = 'skew-x-[18deg] block text-lg';
                 }
                 ?>
-            <button data-tab="<?php echo esc_attr($tab_number); ?>" class="<?php echo esc_attr($button_classes); ?>">
+            <button data-tab="<?php echo esc_attr($tab_number); ?>" class="<?php echo esc_attr($button_classes); ?> whitespace-nowrap">
                 <span class="<?php echo esc_attr($inner_classes); ?>">
                     <?php echo esc_html($tab['label']); ?>
                 </span>
