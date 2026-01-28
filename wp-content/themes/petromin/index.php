@@ -1340,7 +1340,7 @@ if (!empty($home_offers)):
 <?php endif; ?>
 
 <?php if (!empty($services_tabs)): ?>
-<section class="tabSection relative font-inter overflow-hidden lg:pt-[6.188rem] pt-[6.688rem] md:block hidden">
+<section class="tabSection relative font-inter overflow-hidden lg:pt-[6.188rem] pt-[6.688rem] lg:block hidden">
     <div class="relative view mb-6">
         <div class="flex items-center justify-between md:pb-6 pb-4">
             <?php if ($services_heading !== ''): ?>
@@ -1482,7 +1482,7 @@ if (!empty($home_offers)):
 <?php endif; ?>
 
 <?php if (!empty($services_tabs)): ?>
-<section class="tabSection relative font-inter pt-[6.688rem] block md:hidden">
+<section class="tabSection relative font-inter pt-[6.688rem] block lg:hidden">
     <div class="view">
         <div class="flex items-center justify-between pb-0.5">
             <?php if ($services_heading !== ''): ?>
