@@ -645,7 +645,7 @@ if (empty($processed_faq_categories)) {
 }
 ?>
 
-<div class="heroSection w-full relative z-0 lg:h-dvh h-full lg:aspect-auto md:aspect-video">
+<div class="heroSection w-full relative z-0 lg:h-dvh md:h-full h-dvh lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" decoding="async" loading="eager" src="<?php echo esc_url($hero_image_data['url']); ?>"
