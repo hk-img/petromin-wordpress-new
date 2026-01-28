@@ -537,9 +537,9 @@ if (!empty($cost_estimator_pages)) {
 </footer>
 <?php if (!$is_cost_estimator_page && !is_singular('offer') && !$is_newsroom_page && !$is_blog_page && !$is_single_blog_post && !$is_blog_archive && !$is_locate_us_page) : ?>
 <!-- mobile button -->
-<div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] lg:hidden">
+<div id="mobileToggle" class="fixed right-0 inset-y-0 flex items-center justify-center z-[100] lg:hidden [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap">
     <button type="button"
-        class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap rotate-0 supports-[writing-mode:sideways-lr]:rotate-0">
+        class="bg-[#650916] text-white text-xs md:text-sm uppercase italic font-medium font-inter px-2 py-3 tracking-wide  transition-all duration-300 inline-flex items-center justify-center">
         GET INSTANT CAR SERVICE QUOTE
         <svg class="size-4 ms-2 rotate-90" stroke="currentColor" fill="currentColor" viewBox="0 0 24 24">
             <path
