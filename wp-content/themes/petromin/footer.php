@@ -559,7 +559,7 @@ if (!empty($cost_estimator_pages)) {
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
 </button>
-<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo ($is_cost_estimator_page || is_singular('offer') || $is_newsroom_page || $is_blog_page || $is_single_blog_post || $is_blog_archive || $is_locate_us_page || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0_0_-1.25rem_0_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo ($is_cost_estimator_page || is_singular('offer') || $is_newsroom_page || $is_blog_page || $is_single_blog_post || $is_blog_archive || $is_locate_us_page || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
     <input type="checkbox" id="toggle" class="hidden peer">
     <div class=" transition-all duration-500 ease-in-out w-full">
         <!-- Header -->
@@ -708,7 +708,7 @@ if (!empty($cost_estimator_pages)) {
                                     <img src="<?php echo esc_url($city_image_url); ?>" alt="<?php echo esc_attr($city); ?>"
                                         class="w-full h-48 xl:h-52 object-cover"
                                         onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
-                                    <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
+                                    <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_0.5rem_black,_0_0_0.5rem_black]"><?php echo esc_html($city); ?></p>
                                 </div>
                             </div>
                             <?php
@@ -1040,7 +1040,7 @@ if (!empty($cost_estimator_pages)) {
                         .addClass("hidden")
                         .removeClass("flex flex-col lg:flex-row animate-slideUp");
                     $inner.css({
-                        maxHeight: "0px",
+                        maxHeight: "0rem",
                         overflow: "hidden",
                     });
                     $chk.prop("checked", false);

@@ -1158,7 +1158,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
             <div class="view max-md:pl-0 flex flex-col max-md:gap-y-16">
                 <div class="px-6 mb-8 md:mb-8 pt-16 md:pt-24">
                     <h1
-                        class="drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] lg:text-6xl md:text-5xl text-[2.625rem] mt-6 font-bold italic md:!leading-[4.688rem] w-fit text-white md:block hidden">
+                        class="drop-shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.6)] lg:text-6xl md:text-5xl text-[2.625rem] mt-6 font-bold italic md:!leading-[4.688rem] w-fit text-white md:block hidden">
                         <?php if ($hero_headline_prefix !== ''): ?>
                         <?php echo esc_html($hero_headline_prefix); ?>
                         <?php endif; ?>
@@ -1179,7 +1179,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                         <?php endif; ?>
                         <?php if ($hero_headline_highlight !== ''): ?>
                         <span
-                            class="relative block px-4 !pr-7 mt-4 w-fit drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center">
+                            class="relative block px-4 !pr-7 mt-4 w-fit drop-shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center">
                             <span class="skew-x-[16deg]"><?php echo esc_html($hero_headline_highlight); ?></span>
                         </span>
                         <?php endif; ?>
@@ -1266,7 +1266,7 @@ if (!empty($home_offers)):
                 Latest Offers
             </h2>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -1618,7 +1618,7 @@ if (!empty($home_offers)):
             <?php endif; ?>
             <?php if (!empty($timeline_nav_icon_data['url'])): ?>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
@@ -2011,7 +2011,7 @@ if (!empty($home_offers)):
             </h2>
             <?php if ($nav_icon_data && !empty($nav_icon_data['url'])): ?>
             <div
-                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"

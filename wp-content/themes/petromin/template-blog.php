@@ -87,7 +87,7 @@ $blog_query = new WP_Query($blog_args);
                     <div class="view w-full absolute  bottom-20 left-0 z-30">
                         <div class="flex flex-col md:gap-y-8 gap-y-6">
                             <h1
-                                class="block xl:text-5xl lg:text-4xl text-3xl text-balance text-white font-semibold !leading-tight md:drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]">
+                                class="block xl:text-5xl lg:text-4xl text-3xl text-balance text-white font-semibold !leading-tight md:drop-shadow-[0_0.25rem_0.375rem_rgba(0,0,0,0.7)]">
                                 <?php echo esc_html(get_the_title()); ?>
                             </h1>
 

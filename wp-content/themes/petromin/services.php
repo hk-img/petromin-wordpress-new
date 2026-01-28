@@ -359,7 +359,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                             <?php echo esc_html($slide['service_title']); ?>
                         </h3>
                         <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 
-        drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)] line-clamp-2">
+        drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)] line-clamp-2">
                             <?php echo wp_kses_post($slide['service_description']); ?>
                         </p>
                         <div class="flex justify-between items-center gap-2">

@@ -125,7 +125,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
 <section class="bg-white md:py-20 pt-14 pb-24 max-md:overflow-hidden">
     <div class="w-full flex flex-col gap-y-6">
         <div class="w-full group/services">
-            <div class="md:border-b md:border-[#E5E7EB] max-md:shadow-[0px_2px_4px_-2px_#0000001A,0px_4px_6px_-1px_#0000001A]">
+            <div class="md:border-b md:border-[#E5E7EB] max-md:shadow-[0_0.125rem_0.25rem_-0.125rem_#0000001A,0_0.25rem_0.375rem_-0.0625rem_#0000001A]">
                 <div class="view w-full flex whitespace-nowrap overflow-x-auto max-md:gap-5">
                     <?php 
                     if (!empty($service_categories)) {

@@ -518,7 +518,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </h2>
                         <?php endif; ?>
                         <div
-                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                             <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
@@ -932,7 +932,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                     <div
                                         class="lg:opacity-0 group-hover:lg:opacity-100 relative lg:px-8 px-6 pt-1 lg:pb-12 pb-8 duration-500 ">
                                         <p
-                                            class=" text-white md:text-base text-sm duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                                            class=" text-white md:text-base text-sm duration-500 drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)]">
                                             <?php echo $card['description_html']; ?>
                                         </p>
                                     </div>

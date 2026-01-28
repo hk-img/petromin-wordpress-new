@@ -133,7 +133,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         title="<?php echo esc_attr($offer_image['alt'] ?: $offer_title); ?>">
                 </div>
             </div>
-            <div class="relative w-ful bg-[#FFFFFF] border border-[#E5E7EB] shadow-[0_4px_12px_0_#0000000F]">
+            <div class="relative w-ful bg-[#FFFFFF] border border-[#E5E7EB] shadow-[0_0.25rem_0.75rem_0_#0000000F]">
                 <div class="text-white  bg-gradient-to-l from-[#CB122D] to-[#650916] text-balance px-6 py-4 uppercase">
                     <h2 class="text-white md:text-lg text-md font-semibold italic">Get this offer today</h2>
                 </div>
@@ -171,7 +171,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 <img src="<?php echo esc_url($city_img); ?>" alt="<?php echo esc_attr($city); ?>"
                                                     class="w-full h-48 xl:h-52 object-cover"
                                                     onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
-                                                <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
+                                                <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_0.5rem_black,_0_0_0.5rem_black]"><?php echo esc_html($city); ?></p>
                                             </div>
                                         </div>
                                         <?php } ?>
