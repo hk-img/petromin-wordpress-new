@@ -1462,7 +1462,7 @@ body.payment-page.validation-passed {
             const otpNonce = '<?php echo wp_create_nonce("otp_nonce"); ?>';
             const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
             
-            // Prepare booking data
+            // Prepare booking data (include LeadSquared prospect ID from verify step for confirm API)
             const bookingData = {
                 vehicle: cart.vehicle || {},
                 items: cart.items || [],
@@ -1473,7 +1473,8 @@ body.payment-page.validation-passed {
                 selected_time_slot: cart.selected_time_slot || '',
                 payment_method: cart.payment_method || 'Pay at Service Center',
                 service_category: cart.service_category || '',
-                visitor_source: (typeof window.petrominGetVisitorSource === 'function') ? window.petrominGetVisitorSource() : 'Website'
+                visitor_source: (typeof window.petrominGetVisitorSource === 'function') ? window.petrominGetVisitorSource() : 'Website',
+                leadsquared_prospect_id: cart.leadsquared_prospect_id || ''
             };
             
             // Call LeadSquared API

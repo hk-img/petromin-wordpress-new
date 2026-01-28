@@ -7492,22 +7492,25 @@ function handle_confirm_booking_with_leadsquared() {
     // Get visitor source from booking data
     $visitor_source = isset($booking_data['visitor_source']) ? sanitize_text_field($booking_data['visitor_source']) : 'Website';
     
+    // Prospect ID from verify step (saved in sessionStorage, sent in booking_data)
+    $prospect_id_from_session = isset($booking_data['leadsquared_prospect_id']) ? sanitize_text_field($booking_data['leadsquared_prospect_id']) : '';
+    
+    // Build LeadDetails: Phone always; add SearchBy/ProspectID when we have prospect ID from verify step
+    $lead_details = array(
+        array(
+            'Attribute' => 'Phone',
+            'Value' => $formatted_phone
+        )
+    );
+    if (!empty($prospect_id_from_session)) {
+        $lead_details[] = array('Attribute' => 'SearchBy', 'Value' => 'ProspectId');
+        $lead_details[] = array('Attribute' => '__UseUserDefinedGuid__', 'Value' => 'true');
+        $lead_details[] = array('Attribute' => 'ProspectID', 'Value' => $prospect_id_from_session);
+    }
+    
     // Build LeadSquared API request body
     $leadsquared_payload = array(
-        'LeadDetails' => array(
-            array(
-                'Attribute' => 'Phone',
-                'Value' => $formatted_phone
-            ),
-            array(
-                'Attribute' => 'SearchBy',
-                'Value' => 'ProspectId'
-            ),
-            array(
-                'Attribute' => '__UseUserDefinedGuid__',
-                'Value' => 'true'
-            )
-        ),
+        'LeadDetails' => $lead_details,
         'Opportunity' => array(
             'OpportunityEventCode' => 12000,
             'OpportunityNote' => 'Opportunity capture api overwrite',
@@ -7692,7 +7695,8 @@ function handle_confirm_booking_with_leadsquared() {
         'response_body' => $response_body,
         'response_data' => $api_response_data,
         'api_success' => $api_success,
-        'prospect_id' => $related_prospect_id
+        'prospect_id' => $related_prospect_id,
+        'prospect_id_sent' => $prospect_id_from_session
     );
     update_post_meta($post_id, '_leadsquared_api_log', $api_log_data);
     
@@ -8034,9 +8038,15 @@ function render_booking_details_meta_box($post) {
                     <?php endif; ?>
                 </td>
             </tr>
+            <?php if (!empty($api_log['prospect_id_sent'])): ?>
+            <tr>
+                <th>Prospect ID Sent (from session)</th>
+                <td><strong style="color: #2271b1;"><?php echo esc_html($api_log['prospect_id_sent']); ?></strong></td>
+            </tr>
+            <?php endif; ?>
             <?php if (!empty($api_log['prospect_id'])): ?>
             <tr>
-                <th>Prospect ID</th>
+                <th>Prospect ID (from API response)</th>
                 <td><strong style="color: #46b450;"><?php echo esc_html($api_log['prospect_id']); ?></strong></td>
             </tr>
             <?php endif; ?>
