@@ -114,7 +114,7 @@ function get_service_icon($icon_input) {
 }
 ?>
 
-<div class="heroSection w-full relative z-0 h-dvh">
+<div class="heroSection w-full relative z-0 lg:h-dvh h-full aspect-video">
     <div class="relative w-full h-full overflow-hidden before:absolute before:inset-0 before:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)]">
         <?php if (has_post_thumbnail()) : ?>
         <img fetchpriority="high" loading="eager" decoding="async"

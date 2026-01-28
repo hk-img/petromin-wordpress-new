@@ -438,7 +438,7 @@ $left_arrow_icon = $images_url . '/left_chev.svg';
 $right_arrow_icon = $images_url . '/right_chev.svg';
 ?>
 
-<div class="heroSection w-full relative z-0 h-dvh ">
+<div class="heroSection w-full relative z-0 lg:h-dvh h-full aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" loading="eager" decoding="async" src="<?php echo esc_url($hero_image_data['url']); ?>"

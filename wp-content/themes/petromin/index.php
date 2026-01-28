@@ -1144,7 +1144,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
 
 ?>
-<section class="heroSection w-full relative z-0 md:h-dvh h-full">
+<section class="heroSection w-full relative z-0 lg:h-dvh h-full aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if ($hero_video_url !== ''): ?>
         <video autoplay muted loop playsinline

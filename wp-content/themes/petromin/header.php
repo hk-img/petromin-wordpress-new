@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="xl:text-[1vw] md:text-[1.2vw] max-[400px]:[zoom:0.8]">
+<html <?php language_attributes(); ?> class="xl:text-[1vw] lg:text-[1.2vw] md:text-[1.3vw] max-[400px]:[zoom:0.8]">
 
 <?php
     // Check if this is verify page template - don't render header UI
