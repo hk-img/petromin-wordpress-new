@@ -7116,10 +7116,6 @@ function handle_save_booking_with_leadsquared() {
                     'Value' => 'Book My service'
                 ),
                 array(
-                    'SchemaName' => 'mx_Custom_3',
-                    'Value' => 'Open'
-                ),
-                array(
                     'SchemaName' => 'mx_Custom_19',
                     'Value' => 'Comments'
                 ),
@@ -7152,7 +7148,7 @@ function handle_save_booking_with_leadsquared() {
                     'Value' => $service_category
                 ),
                 array(
-                    'SchemaName' => 'mx_Custom_11',
+                    'SchemaName' => 'mx_Custom_3',
                     'Value' => $visitor_source
                 )
             )
@@ -7528,10 +7524,6 @@ function handle_confirm_booking_with_leadsquared() {
                     'Value' => 'Book My service'
                 ),
                 array(
-                    'SchemaName' => 'mx_Custom_3',
-                    'Value' => 'Open'
-                ),
-                array(
                     'SchemaName' => 'mx_Custom_19',
                     'Value' => 'Comments'
                 ),
@@ -7572,7 +7564,7 @@ function handle_confirm_booking_with_leadsquared() {
                     'Value' => (string)$total_amount
                 ),
                 array(
-                    'SchemaName' => 'mx_Custom_11',
+                    'SchemaName' => 'mx_Custom_3',
                     'Value' => $visitor_source
                 )
             )
