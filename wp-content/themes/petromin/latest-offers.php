@@ -289,7 +289,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     <section class=" h-full relative">
         <div class=" w-full view flex md:flex-row md:gap-0 gap-16 flex-col relative pr-0">
 
-            <div class="md:w-1/2 w-full h-full flex flex-col relative md:top-60 top-5 pr-4 md:pr-0">
+            <div class="md:w-1/2 w-full h-full flex flex-col relative xl:top-60 lg:top-32 md:top-20 top-5 pr-4 md:pr-0">
                 <div class="w-full flex flex-col gap-y-3">
                     <h2
                         class="xl:text-[3.125rem] lg:text-[3rem] md:text-[3rem] text-[2.625rem] text-black font-bold leading-tight">
