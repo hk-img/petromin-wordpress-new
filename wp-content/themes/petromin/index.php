@@ -1360,11 +1360,11 @@ if (!empty($home_offers)):
             <?php
                 $tab_number = $tab_index + 1;
                 $is_active = $tab_index === 0;
-                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-16';
+                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-16 whitespace-nowrap';
                 $inner_classes = 'block text-lg';
 
                 if ($is_active) {
-                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-16 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]';
+                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-16 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg] whitespace-nowrap';
                     $inner_classes = 'skew-x-[18deg] block text-lg';
                 }
                 ?>
