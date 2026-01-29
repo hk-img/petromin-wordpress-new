@@ -128,7 +128,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     ?>
     <section class="bg-white relative md:pt-[4.875rem] overflow-hidden pt-9">
         <div class="view flex flex-col md:pr-0">
-            <div class="flex items-center justify-between">
+            <div class="flex items-end justify-between">
                 <div class="flex flex-col gap-y-4">
                     <div class="w-full relative mb-3">
                         <h2
@@ -145,7 +145,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     </p>
                 </div>
                 <div
-                    class="md:flex items-center justify-start md:gap-2 hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
+                    class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-28 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem] shrink-0">
                     <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
