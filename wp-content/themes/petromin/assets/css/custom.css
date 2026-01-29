@@ -29,7 +29,7 @@ body {
 /* xs breakpoint – 25rem (400px) – small screens and up */
 @media (max-width: 25rem) {
   html {
-    zoom: 0.7;
+    zoom: 0.8;
   }
 }
 
