@@ -33,8 +33,8 @@ body {
   }
 }
 
-/* sm breakpoint – 40rem (640px) – small screens and up */
-@media (min-width: 40rem) {
+/* sm breakpoint – 25rem (400px) – small screens and up */
+@media (min-width: 25rem) {
   .view {
     padding-left: 3rem; /* px-12 */
     padding-right: 3rem;
