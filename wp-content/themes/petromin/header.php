@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="xl:text-[1vw] lg:text-[1.2vw] md:text-[1.3vw] max-[25rem]:[zoom:0.7]">
+<html <?php language_attributes(); ?> class="xl:text-[1vw] lg:text-[1.2vw] md:text-[1.3vw]">
 
 <?php
     // Check if this is verify page template - don't render header UI
@@ -31,8 +31,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-
-    <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />

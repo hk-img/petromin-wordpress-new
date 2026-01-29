@@ -26,6 +26,13 @@ body {
   margin-right: auto;
 }
 
+/* xs breakpoint – 30rem (480px) – small screens and up */
+@media (max-width: 30rem) {
+  html {
+    zoom: 0.7;
+  }
+}
+
 /* sm breakpoint – 40rem (640px) – small screens and up */
 @media (min-width: 40rem) {
   .view {

@@ -518,7 +518,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </h2>
                         <?php endif; ?>
                         <div
-                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-28 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem] shrink-0">
+                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0">
                             <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
