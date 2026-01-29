@@ -748,8 +748,7 @@ if (!empty($cost_estimator_pages)) {
 
                 <!-- Car Brand Dropdown -->
                 <?php
-                // Get Supabase API key from wp-config.php constant
-                $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+                $supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
                 
                 // Fetch car makes from API (server-side)
                 $car_makes_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_car_makes';

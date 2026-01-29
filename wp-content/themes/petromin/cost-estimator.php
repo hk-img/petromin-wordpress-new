@@ -37,8 +37,7 @@ function get_verify_page_url() {
 }
 $verify_page_url = get_verify_page_url();
 
-// Get Supabase API key from wp-config.php constant
-$supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+$supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
 
 // Fetch service categories from API
 $categories_api_url = 'https://ryehkyasumhivlakezjb.supabase.co//rest/v1/vendor_distinct_service_category';
@@ -62,8 +61,7 @@ if (!is_wp_error($categories_response) && wp_remote_retrieve_response_code($cate
 
 // Function to fetch services for a category with filters
 function get_services_by_category($category, $car_make = '', $car_model = '', $fuel_type = '') {
-    // Get Supabase API key from wp-config.php constant
-    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    $supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
     
     $api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/public_services_by_category?service_category=eq.' . urlencode($category);
     

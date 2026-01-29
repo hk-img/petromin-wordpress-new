@@ -120,8 +120,7 @@ if (!empty($service_centers_field['centers']) && is_array($service_centers_field
 
 uksort($cities_data, 'strcasecmp');
 
-// Get car makes from API (same as footer.php)
-$supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+$supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
 $car_makes_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_car_makes';
 $car_makes_response = wp_remote_get($car_makes_api_url, array(
     'timeout' => 15,

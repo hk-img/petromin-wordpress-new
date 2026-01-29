@@ -395,7 +395,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 </script>
 
 <script>
-// App Download Form - OTP Integration with Device Detection
+// App Download Form - SMS sent via single template (link in template only)
 (function() {
     'use strict';
     
@@ -414,24 +414,6 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     // Get AJAX URL and nonce
     const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
     const appDownloadNonce = '<?php echo wp_create_nonce("app_download_nonce"); ?>';
-    
-    // Function to detect device type
-    function detectDeviceType() {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        
-        // Check for iPhone
-        if (/iPhone|iPod|iPad/.test(userAgent) && !window.MSStream) {
-            return 'iphone';
-        }
-        
-        // Check for Android
-        if (/android/i.test(userAgent)) {
-            return 'android';
-        }
-        
-        // Default to desktop
-        return 'desktop';
-    }
     
     // Function to show message
     function showMessage(message, isError = false) {
@@ -483,15 +465,11 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
         appSubmitBtn.disabled = true;
         appPhoneInput.disabled = true;
         
-        // Detect device type
-        const deviceType = detectDeviceType();
-        
-        // Prepare form data
+        // Prepare form data (single template from CMS; no device/link sent)
         const formData = new FormData();
         formData.append('action', 'send_app_download_otp');
         formData.append('nonce', appDownloadNonce);
         formData.append('mobile', phone);
-        formData.append('device_type', deviceType);
         
         // Send AJAX request
         fetch(ajaxUrl, {
@@ -506,16 +484,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
         })
         .then(data => {
             if (data && data.success) {
-                const deviceType = data.data && data.data.device_type ? data.data.device_type : '';
-                let successMsg = 'App download link sent successfully! Please check your mobile number.';
-                
-                // Show device-specific message
-                if (deviceType === 'iphone') {
-                    successMsg = 'App Store link sent successfully! Please check your mobile number.';
-                } else if (deviceType === 'android') {
-                    successMsg = 'Play Store link sent successfully! Please check your mobile number.';
-                }
-                
+                const successMsg = (data.data && data.data.message) ? data.data.message : 'App download link sent successfully! Please check your mobile number.';
                 showMessage(successMsg, false);
                 // Reset form
                 appPhoneInput.value = '';

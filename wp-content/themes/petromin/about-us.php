@@ -965,7 +965,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 class="w-full h-full rounded-full object-contain aspect-square" />
                             <?php endif; ?>
                         </div>
-                        <div class="relative w-full h-full sm:hidden block -mr-10">
+                        <div class="relative w-full h-full sm:hidden block -mr-5">
                             <?php if (!empty($wheel_mobile_image['url'])) : ?>
                             <img src="<?php echo esc_url($wheel_mobile_image['url']); ?>"
                                 alt="<?php echo esc_attr($wheel_mobile_image['alt']); ?>"

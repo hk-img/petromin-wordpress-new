@@ -240,9 +240,23 @@ if (!function_exists('petromin_has_section_data')) {
     }
 }
 
+/**
+ * Get Environment option from CMS (WP Admin → Environment).
+ * Keys: supabase_api_key, google_maps_api_key, leadsquared_access_key, leadsquared_secret_key.
+ */
+if (!function_exists('petromin_get_env')) {
+    function petromin_get_env($key) {
+        if (!function_exists('get_field')) {
+            return '';
+        }
+        $name = 'env_' . $key;
+        $val = get_field($name, 'option');
+        return is_string($val) ? trim($val) : '';
+    }
+}
+
 function my_acf_google_map_api( $api ){
-    // Get Google Maps API key from wp-config.php constant
-    $api['key'] = defined('GOOGLE_MAPS_API_KEY') ? GOOGLE_MAPS_API_KEY : '';
+    $api['key'] = petromin_get_env('google_maps_api_key');
     return $api;
 }
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
@@ -289,6 +303,15 @@ add_action('acf/init', function () {
         'capability' => 'edit_posts',
         'redirect' => false,
         'position' => 33,
+    ]);
+
+    acf_add_options_page([
+        'page_title' => 'Environment',
+        'menu_title' => 'Environment',
+        'menu_slug' => 'environment-settings',
+        'capability' => 'edit_posts',
+        'redirect' => false,
+        'position' => 34,
     ]);
 
     // ACF Field Group for Header Settings
@@ -1553,6 +1576,104 @@ add_action('acf/init', function () {
                     'param' => 'options_page',
                     'operator' => '==',
                     'value' => 'popup-settings',
+                ],
+            ],
+        ],
+    ]);
+
+    // Environment ACF Fields (API Keys, OTP, APK link – all from CMS)
+    acf_add_local_field_group([
+        'key' => 'group_environment_settings',
+        'title' => 'Environment',
+        'fields' => [
+            [
+                'key' => 'field_env_tab_api_keys',
+                'label' => 'API Keys',
+                'name' => '',
+                'type' => 'tab',
+            ],
+            [
+                'key' => 'field_env_supabase_api_key',
+                'label' => 'Supabase API Key',
+                'name' => 'env_supabase_api_key',
+                'type' => 'text',
+                'instructions' => 'Used for car brand/model data (cost-estimator, footer popup).',
+            ],
+            [
+                'key' => 'field_env_google_maps_api_key',
+                'label' => 'Google Maps API Key',
+                'name' => 'env_google_maps_api_key',
+                'type' => 'text',
+                'instructions' => 'Used for maps (locate-us, ACF map fields).',
+            ],
+            [
+                'key' => 'field_env_leadsquared_access_key',
+                'label' => 'LeadSquared Access Key',
+                'name' => 'env_leadsquared_access_key',
+                'type' => 'text',
+                'instructions' => 'LeadSquared API – booking/opportunity capture.',
+            ],
+            [
+                'key' => 'field_env_leadsquared_secret_key',
+                'label' => 'LeadSquared Secret Key',
+                'name' => 'env_leadsquared_secret_key',
+                'type' => 'text',
+                'instructions' => 'LeadSquared API secret key.',
+            ],
+            [
+                'key' => 'field_sms_tab_otp',
+                'label' => 'OTP (Verify Page)',
+                'name' => '',
+                'type' => 'tab',
+            ],
+            [
+                'key' => 'field_sms_otp_auth_key',
+                'label' => 'Auth Key (MSG91)',
+                'name' => 'sms_otp_auth_key',
+                'type' => 'text',
+                'instructions' => 'MSG91 API auth key used for OTP send/verify flow.',
+            ],
+            [
+                'key' => 'field_sms_otp_sender_id',
+                'label' => 'Sender ID',
+                'name' => 'sms_otp_sender_id',
+                'type' => 'text',
+                'instructions' => 'Sender ID shown in OTP SMS (e.g. ATOMCS).',
+            ],
+            [
+                'key' => 'field_sms_otp_template_id',
+                'label' => 'OTP Template ID',
+                'name' => 'sms_otp_template_id',
+                'type' => 'text',
+                'instructions' => 'MSG91 Flow template ID for OTP. Template should use var1 for OTP code.',
+            ],
+            [
+                'key' => 'field_sms_tab_apk',
+                'label' => 'APK / App Link (Offers Page)',
+                'name' => '',
+                'type' => 'tab',
+            ],
+            [
+                'key' => 'field_sms_apk_auth_key',
+                'label' => 'Auth Key (MSG91)',
+                'name' => 'sms_apk_auth_key',
+                'type' => 'text',
+                'instructions' => 'MSG91 API auth key for app download SMS. Can be same as OTP auth key.',
+            ],
+            [
+                'key' => 'field_sms_apk_template_id',
+                'label' => 'App Link Template ID',
+                'name' => 'sms_apk_template_id',
+                'type' => 'text',
+                'instructions' => 'Single MSG91 Flow template ID. Link/content is defined in the template only; no link is sent from the site.',
+            ],
+        ],
+        'location' => [
+            [
+                [
+                    'param' => 'options_page',
+                    'operator' => '==',
+                    'value' => 'environment-settings',
                 ],
             ],
         ],
@@ -4627,8 +4748,7 @@ function get_car_models() {
         return;
     }
     
-    // Get Supabase API key from wp-config.php constant
-    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    $supabase_api_key = petromin_get_env('supabase_api_key');
     
     if (empty($supabase_api_key)) {
         wp_send_json_error(array('message' => 'Supabase API key not configured'));
@@ -4681,8 +4801,7 @@ function get_fuel_types() {
         return;
     }
     
-    // Get Supabase API key from wp-config.php constant
-    $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+    $supabase_api_key = petromin_get_env('supabase_api_key');
     
     if (empty($supabase_api_key)) {
         wp_send_json_error(array('message' => 'Supabase API key not configured'));
@@ -4744,8 +4863,7 @@ function get_google_maps_distance() {
         return;
     }
     
-    // Get API key from wp-config.php constant
-    $api_key = defined('GOOGLE_MAPS_API_KEY') ? GOOGLE_MAPS_API_KEY : '';
+    $api_key = petromin_get_env('google_maps_api_key');
     
     if (empty($api_key)) {
         wp_send_json_error(array('message' => 'Google Maps API key not configured'));
@@ -5615,9 +5733,8 @@ function flush_rewrite_rules_for_offers() {
 }
 add_action('init', 'flush_rewrite_rules_for_offers', 1);
 
-// MSG91 OTP Configuration and AJAX Handlers
-// MSG91 credentials are now defined in wp-config.php for security
-// Using constants: MSG91_AUTH_KEY, MSG91_TEMPLATE_ID, MSG91_SENDER_ID
+// MSG91 SMS Configuration and AJAX Handlers
+// OTP and APK link settings are managed from WP Admin → Environment (tabs: OTP, APK Link).
 
 // Handle AJAX requests for OTP
 add_action('wp_ajax_send_otp', 'handle_send_otp');
@@ -5663,6 +5780,19 @@ function handle_send_otp() {
     // Also set in $_COOKIE for immediate access in same request
     $_COOKIE['otp_verification'] = $otp_encrypted;
     
+    // SMS settings from CMS (SMS Settings → OTP tab)
+    $auth_key = '';
+    $template_id = '';
+    if (function_exists('get_field')) {
+        $auth_key = trim((string) get_field('sms_otp_auth_key', 'option'));
+        $template_id = trim((string) get_field('sms_otp_template_id', 'option'));
+    }
+    if ($auth_key === '' || $template_id === '') {
+        error_log('SMS OTP: Auth key or template ID not configured. Set in WP Admin → SMS Settings → OTP tab.');
+        wp_send_json_error(array('message' => 'OTP service not configured. Please contact support.'));
+        wp_die();
+    }
+    
     // Prepare data for MSG91 Flow API
     $mobile_with_code = '91' . $mobile;
     
@@ -5671,7 +5801,7 @@ function handle_send_otp() {
     
     // Prepare JSON payload as per MSG91 Flow API documentation
     $payload = array(
-        'template_id' => MSG91_TEMPLATE_ID,
+        'template_id' => $template_id,
         'short_url' => '1',
         'short_url_expiry' => '120',
         'realTimeResponse' => '1',
@@ -5688,7 +5818,7 @@ function handle_send_otp() {
         'timeout' => 30,
         'headers' => array(
             'Content-Type' => 'application/json',
-            'authkey' => MSG91_AUTH_KEY
+            'authkey' => $auth_key
         ),
         'body' => json_encode($payload)
     );
@@ -5826,8 +5956,8 @@ function handle_verify_otp() {
 }
 
 /**
- * Handle App Download Link sending for Latest Offers page
- * Detects device type and sends appropriate app store link via MSG91
+ * Handle App Download SMS for Latest Offers page
+ * Single template ID from CMS; link/content is in the template only (no link sent from site).
  */
 function handle_send_app_download_otp() {
     // Verify nonce
@@ -5839,7 +5969,6 @@ function handle_send_app_download_otp() {
     }
     
     $mobile = isset($_POST['mobile']) ? sanitize_text_field($_POST['mobile']) : '';
-    $device_type = isset($_POST['device_type']) ? sanitize_text_field($_POST['device_type']) : 'desktop';
     
     // Validate mobile number
     if (empty($mobile) || !preg_match('/^[6-9][0-9]{9}$/', $mobile)) {
@@ -5847,62 +5976,31 @@ function handle_send_app_download_otp() {
         wp_die();
     }
     
-    // Get app links from ACF fields
-    // Try to get from current page first, then from options
-    $page_id = get_the_ID();
-    $app_google_link = get_field('app_google_link', $page_id);
-    if (empty($app_google_link)) {
-        $app_google_link = get_field('app_google_link', 'option') ?: '';
+    // SMS settings from CMS (SMS Settings → APK Link tab)
+    $auth_key = '';
+    $template_id = '';
+    if (function_exists('get_field')) {
+        $auth_key = trim((string) get_field('sms_apk_auth_key', 'option'));
+        $template_id = trim((string) get_field('sms_apk_template_id', 'option'));
     }
-    
-    $app_apple_link = get_field('app_apple_link', $page_id);
-    if (empty($app_apple_link)) {
-        $app_apple_link = get_field('app_apple_link', 'option') ?: '';
-    }
-    
-    // Select app link and template ID based on device type
-    $app_link = '';
-    $template_id = ''; // Default template ID
-    
-    if ($device_type === 'iphone') {
-        // iPhone - send Apple App Store link
-        $app_link = !empty($app_apple_link) ? $app_apple_link : (!empty($app_google_link) ? $app_google_link : 'https://play.google.com/store/games?hl=en_IN');
-        // Use iPhone template ID if defined, otherwise default
-        $template_id = defined('MSG91_TEMPLATE_ID_IPHONE') ? MSG91_TEMPLATE_ID_IPHONE : '';
-    } elseif ($device_type === 'android') {
-        // Android - send Google Play Store link
-        $app_link = !empty($app_google_link) ? $app_google_link : (!empty($app_apple_link) ? $app_apple_link : 'https://www.apple.com/in/app-store/');
-        // Use Android template ID if defined, otherwise default
-        $template_id = defined('MSG91_TEMPLATE_ID_ANDROID') ? MSG91_TEMPLATE_ID_ANDROID : '';
-    } else {
-        // Desktop - send both links or default link
-        $app_link = !empty($app_google_link) ? $app_google_link : (!empty($app_apple_link) ? $app_apple_link : 'https://www.google.com/');
-        // Use Desktop template ID if defined, otherwise default
-        $template_id = defined('MSG91_TEMPLATE_ID_DESKTOP') ? MSG91_TEMPLATE_ID_DESKTOP : '';
-    }
-    
-    // If no app link found, return error
-    if (empty($app_link)) {
-        wp_send_json_error(array('message' => 'App download link not configured. Please contact support.'));
+    if ($auth_key === '' || $template_id === '') {
+        error_log('SMS APK: Auth key or template ID not configured. Set in WP Admin → SMS Settings → APK Link tab.');
+        wp_send_json_error(array('message' => 'App link SMS not configured. Please contact support.'));
         wp_die();
     }
     
-    // Prepare data for MSG91 Flow API
+    // Prepare data for MSG91 Flow API – single template; no link/var sent (content in template only)
     $mobile_with_code = '91' . $mobile;
     
-    // MSG91 Flow API - Using POST method
     $url = 'https://control.msg91.com/api/v5/flow';
     
-    // Prepare JSON payload - var1 will contain the app download link
+    // Payload: template only; recipients with mobiles only (no var1 – link is in template)
     $payload = array(
         'template_id' => $template_id,
-        'short_url' => '1',
-        'short_url_expiry' => '120',
         'realTimeResponse' => '1',
         'recipients' => array(
             array(
-                'mobiles' => $mobile_with_code,
-                'var1' => $app_link // App download link instead of OTP
+                'mobiles' => $mobile_with_code
             )
         )
     );
@@ -5912,7 +6010,7 @@ function handle_send_app_download_otp() {
         'timeout' => 30,
         'headers' => array(
             'Content-Type' => 'application/json',
-            'authkey' => MSG91_AUTH_KEY
+            'authkey' => $auth_key
         ),
         'body' => json_encode($payload)
     );
@@ -5935,16 +6033,12 @@ function handle_send_app_download_otp() {
         // Check for success indicators in response
         if (isset($response_data['type']) && $response_data['type'] === 'success') {
             wp_send_json_success(array(
-                'message' => 'App download link sent successfully to your mobile number!',
-                'device_type' => $device_type,
-                'app_link' => $app_link
+                'message' => 'App download link sent successfully to your mobile number!'
             ));
             wp_die();
         } elseif (isset($response_data['message']) && stripos($response_data['message'], 'success') !== false) {
             wp_send_json_success(array(
-                'message' => 'App download link sent successfully to your mobile number!',
-                'device_type' => $device_type,
-                'app_link' => $app_link
+                'message' => 'App download link sent successfully to your mobile number!'
             ));
             wp_die();
         } else {
@@ -7387,9 +7481,8 @@ function handle_save_booking_with_leadsquared() {
         )
     );
     
-    // Get LeadSquared credentials from wp-config.php constants
-    $leadsquared_access_key = defined('LEADSQUARED_ACCESS_KEY') ? LEADSQUARED_ACCESS_KEY : '';
-    $leadsquared_secret_key = defined('LEADSQUARED_SECRET_KEY') ? LEADSQUARED_SECRET_KEY : '';
+    $leadsquared_access_key = petromin_get_env('leadsquared_access_key');
+    $leadsquared_secret_key = petromin_get_env('leadsquared_secret_key');
     
     $related_prospect_id = null;
     $api_success = false;
@@ -7398,11 +7491,9 @@ function handle_save_booking_with_leadsquared() {
     $response_body = null;
     
     if (empty($leadsquared_access_key) || empty($leadsquared_secret_key)) {
-        // Log error but don't block booking creation
-        error_log('LeadSquared API credentials not configured in wp-config.php');
+        error_log('LeadSquared API credentials not configured. Set in WP Admin → Environment → API Keys.');
         $api_response_data = array('error' => 'API credentials not configured');
     } else {
-        // LeadSquared API URL (credentials in URL as per their API documentation)
         $leadsquared_url = 'https://api-in21.leadsquared.com/v2/OpportunityManagement.svc/Capture?accessKey=' . urlencode($leadsquared_access_key) . '&secretKey=' . urlencode($leadsquared_secret_key);
         
         // Make API call to LeadSquared
@@ -7806,9 +7897,8 @@ function handle_confirm_booking_with_leadsquared() {
         )
     );
     
-    // Get LeadSquared credentials from wp-config.php constants
-    $leadsquared_access_key = defined('LEADSQUARED_ACCESS_KEY') ? LEADSQUARED_ACCESS_KEY : '';
-    $leadsquared_secret_key = defined('LEADSQUARED_SECRET_KEY') ? LEADSQUARED_SECRET_KEY : '';
+    $leadsquared_access_key = petromin_get_env('leadsquared_access_key');
+    $leadsquared_secret_key = petromin_get_env('leadsquared_secret_key');
     
     $related_prospect_id = null;
     $api_success = false;
@@ -7817,11 +7907,9 @@ function handle_confirm_booking_with_leadsquared() {
     $response_body = null;
     
     if (empty($leadsquared_access_key) || empty($leadsquared_secret_key)) {
-        // Log error but don't block booking creation
-        error_log('LeadSquared API credentials not configured in wp-config.php');
+        error_log('LeadSquared API credentials not configured. Set in WP Admin → Environment → API Keys.');
         $api_response_data = array('error' => 'API credentials not configured');
     } else {
-        // LeadSquared API URL (credentials in URL as per their API documentation)
         $leadsquared_url = 'https://api-in21.leadsquared.com/v2/OpportunityManagement.svc/Capture?accessKey=' . urlencode($leadsquared_access_key) . '&secretKey=' . urlencode($leadsquared_secret_key);
         
         // Log API payload before sending
