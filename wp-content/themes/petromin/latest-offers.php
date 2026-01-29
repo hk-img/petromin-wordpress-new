@@ -145,7 +145,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     </p>
                 </div>
                 <div
-                    class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0">
+                    class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0 mb-2">
                     <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
