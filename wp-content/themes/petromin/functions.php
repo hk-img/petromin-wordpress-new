@@ -7775,6 +7775,17 @@ function handle_confirm_booking_with_leadsquared() {
         $selected_date_time = current_time('Y-m-d H:i:s');
     }
     
+    // Convert selected date/time to UTC for LeadSquared (mx_Custom_27)
+    $selected_date_time_utc = $selected_date_time;
+    try {
+        $tz_site = function_exists('wp_timezone') ? wp_timezone() : new \DateTimeZone(date_default_timezone_get());
+        $dt = new \DateTime($selected_date_time, $tz_site);
+        $dt->setTimezone(new \DateTimeZone('UTC'));
+        $selected_date_time_utc = $dt->format('Y-m-d H:i:s');
+    } catch (\Exception $e) {
+        // Keep original if conversion fails
+    }
+    
     // Collect all service names from booking items for multiselect field
     $service_names = array();
     if (isset($booking_data['items']) && is_array($booking_data['items'])) {
@@ -7867,7 +7878,7 @@ function handle_confirm_booking_with_leadsquared() {
                 ),
                 array(
                     'SchemaName' => 'mx_Custom_27',
-                    'Value' => $selected_date_time
+                    'Value' => $selected_date_time_utc
                 ),
                 array(
                     'SchemaName' => 'mx_Custom_4',

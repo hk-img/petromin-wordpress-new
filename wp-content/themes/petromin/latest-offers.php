@@ -185,7 +185,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                                     title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
                                     class="w-full h-full object-cover aspect-square" />
                                 <div class="w-full flex flex-row justify-between items-center gap-2 py-4">
-                                    <p class="text-white md:font-bold md:text-base text-[0.6rem] line-clamp-2">
+                                    <p class="text-white md:font-bold md:text-base text-[0.65rem] line-clamp-2">
                                         <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
                                     </p>
                                     <div class="shrink-0">
