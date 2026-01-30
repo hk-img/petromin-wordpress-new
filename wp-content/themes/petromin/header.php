@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="md:text-[1vw] max-[400px]:[zoom:0.8]">
+<html <?php language_attributes(); ?> class="xl:text-[1vw] lg:text-[1.2vw] md:text-[1.3vw]">
 
 <?php
     // Check if this is verify page template - don't render header UI
@@ -13,7 +13,7 @@
 
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="<?php bloginfo('description'); ?>">
     
@@ -31,8 +31,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
-
-    <!-- Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/css/custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
@@ -46,8 +44,8 @@
     <!-- WordPress head -->
     <?php wp_head(); ?>
     <?php if (!$is_verify_page && !$is_workstation_page && !$is_slot_page && !$is_payment_page && !$is_booking_confirmed_page && !$is_cost_estimator_page) : ?>
-        <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
-        <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script>
+        <!-- <script src="https://d1jtfhki9awjgw.cloudfront.net/js/index_version_file.js"></script>
+        <script id="dave-settings"  src="https://d1cicgkqy5isez.cloudfront.net/components/library_loader/src/library_loader.js" data-component="all-libs-test,https://d1jtfhki9awjgw.cloudfront.net/css/theme.css,https://d1jtfhki9awjgw.cloudfront.net/js/index.js"></script> -->
     <?php endif; ?>
 </head>
 
@@ -166,7 +164,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                                     </svg>
                                 </a>
                                 <ul
-                                    class="bg-[#cb122d] w-40 absolute top-[3.2rem] -left-28 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/cs:visible group-hover/cs:opacity-100">
+                                    class="bg-[#cb122d] w-40 absolute top-[3.2rem] -left-28 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0_0.4375rem_0.625rem_-0.0625rem_rgba(0,0,0,0.2)] invisible group-hover/cs:visible group-hover/cs:opacity-100">
                                     <li
                                         class="relative bg-white py-2 px-6 text-black text-sm font-normal flex items-center justify-center mb-3 hover:bg-gray-100 transition-colors">
                                         <a target="_blank" href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>
@@ -193,7 +191,7 @@ $mobile_items = !empty($mobile_menu) ? $mobile_menu : $default_mobile_items;
                             </svg>
                         </a>
                         <ul
-                            class="bg-[#cb122d] w-40 absolute top-[2.2rem] md:-left-20 max-md:right-0 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0px_7px_10px_-1px_rgba(0,0,0,0.2)] invisible group-hover/dd:visible group-hover/dd:opacity-100">
+                            class="bg-[#cb122d] w-40 absolute top-[2.2rem] md:-left-20 max-md:right-0 p-4 opacity-0 z-40 transition-all translate-y-4 shadow-[0_0.4375rem_0.625rem_-0.0625rem_rgba(0,0,0,0.2)] invisible group-hover/dd:visible group-hover/dd:opacity-100">
                             <li
                                 class="relative bg-white py-2 px-4 text-black text-sm font-normal flex items-center justify-center mb-3 hover:bg-gray-100 transition-colors">
                                 <a target="_blank" href="<?php echo esc_url($login_link); ?>" class="uppercase">Log in</a>

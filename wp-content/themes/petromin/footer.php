@@ -535,12 +535,39 @@ if (!empty($cost_estimator_pages)) {
 
     </div>
 </footer>
-<?php if (!$is_cost_estimator_page && !is_singular('offer') && !$is_newsroom_page && !$is_blog_page && !$is_single_blog_post && !$is_blog_archive && !$is_locate_us_page) : ?>
+<?php if (!$is_cost_estimator_page && !is_singular('offer') && !$is_newsroom_page && !$is_blog_page && !$is_single_blog_post && !$is_blog_archive && !$is_locate_us_page) :
+    // Popup text from CMS (Popup Settings options page) – no fallbacks
+    $popup_button_label = function_exists('get_field') ? trim((string) get_field('popup_button_label', 'option')) : '';
+    $popup_header_title = function_exists('get_field') ? trim((string) get_field('popup_header_title', 'option')) : '';
+    $popup_heading_line1 = function_exists('get_field') ? trim((string) get_field('popup_heading_line1', 'option')) : '';
+    $popup_heading_line2 = function_exists('get_field') ? trim((string) get_field('popup_heading_line2', 'option')) : '';
+    $popup_placeholder_city = function_exists('get_field') ? trim((string) get_field('popup_placeholder_city', 'option')) : '';
+    $popup_placeholder_brand = function_exists('get_field') ? trim((string) get_field('popup_placeholder_brand', 'option')) : '';
+    $popup_placeholder_search_brand = function_exists('get_field') ? trim((string) get_field('popup_placeholder_search_brand', 'option')) : '';
+    $popup_empty_brands = function_exists('get_field') ? trim((string) get_field('popup_empty_brands', 'option')) : '';
+    $popup_placeholder_model = function_exists('get_field') ? trim((string) get_field('popup_placeholder_model', 'option')) : '';
+    $popup_placeholder_search_model = function_exists('get_field') ? trim((string) get_field('popup_placeholder_search_model', 'option')) : '';
+    $popup_empty_model = function_exists('get_field') ? trim((string) get_field('popup_empty_model', 'option')) : '';
+    $popup_placeholder_fuel = function_exists('get_field') ? trim((string) get_field('popup_placeholder_fuel', 'option')) : '';
+    $popup_fuel_petrol = function_exists('get_field') ? trim((string) get_field('popup_fuel_petrol', 'option')) : '';
+    $popup_fuel_diesel = function_exists('get_field') ? trim((string) get_field('popup_fuel_diesel', 'option')) : '';
+    $popup_fuel_cng = function_exists('get_field') ? trim((string) get_field('popup_fuel_cng', 'option')) : '';
+    $popup_fuel_ev = function_exists('get_field') ? trim((string) get_field('popup_fuel_ev', 'option')) : '';
+    $popup_btn_check_prices = function_exists('get_field') ? trim((string) get_field('popup_btn_check_prices', 'option')) : '';
+    $popup_btn_processing = function_exists('get_field') ? trim((string) get_field('popup_btn_processing', 'option')) : '';
+    $popup_stat1_number = function_exists('get_field') ? trim((string) get_field('popup_stat1_number', 'option')) : '';
+    $popup_stat1_label = function_exists('get_field') ? trim((string) get_field('popup_stat1_label', 'option')) : '';
+    $popup_stat2_number = function_exists('get_field') ? trim((string) get_field('popup_stat2_number', 'option')) : '';
+    $popup_stat2_label = function_exists('get_field') ? trim((string) get_field('popup_stat2_label', 'option')) : '';
+    $popup_stat3_number = function_exists('get_field') ? trim((string) get_field('popup_stat3_number', 'option')) : '';
+    $popup_stat3_label = function_exists('get_field') ? trim((string) get_field('popup_stat3_label', 'option')) : '';
+    $popup_terms = function_exists('get_field') ? trim((string) get_field('popup_terms', 'option')) : '';
+?>
 <!-- mobile button -->
-<div id="mobileToggle" class="fixed right-0 top-1/2 -translate-y-1/2 z-[100] lg:hidden">
+<div id="mobileToggle" class="fixed right-0 inset-y-10 flex items-center justify-center z-[100] lg:hidden [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap">
     <button type="button"
-        class="bg-[#650916] text-white text-xs md:text-sm tracking-wider uppercase italic font-medium font-inter px-2 py-3 tracking-wide transform -rotate-180  transition-all duration-300 flex items-center justify-center [writing-mode:sideways-lr] [text-orientation:mixed] [-webkit-writing-mode:sideways-lr] whitespace-nowrap rotate-0 supports-[writing-mode:sideways-lr]:rotate-0">
-        GET INSTANT CAR SERVICE QUOTE
+        class="bg-[#650916] text-white text-xs md:text-sm uppercase italic font-medium font-inter px-2 py-3 tracking-wide  transition-all duration-300 inline-flex items-center justify-center">
+        <?php echo esc_html($popup_button_label); ?>
         <svg class="size-4 ms-2 rotate-90" stroke="currentColor" fill="currentColor" viewBox="0 0 24 24">
             <path
                 d="M13.0001 7.82843V20H11.0001V7.82843L5.63614 13.1924L4.22192 11.7782L12.0001 4L19.7783 11.7782L18.3641 13.1924L13.0001 7.82843Z">
@@ -552,20 +579,20 @@ if (!empty($cost_estimator_pages)) {
 <button id="desktopToggle"
     class="lg:flex items-center text-white hidden justify-between px-6 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916] w-fit p-2 fixed bottom-0 right-32 z-[100] <?php echo (is_page_template('cost-estimator.php') || is_singular('offer')) ? '!hidden' : ''; ?>">
     <span class="text-base font-bold italic text-white uppercase">
-        GET INSTANT CAR SERVICE QUOTE
+        <?php echo esc_html($popup_button_label); ?>
     </span>
     <svg class="size-4 ms-2 rotate-180" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
         aria-hidden="true" height="24" width="24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
 </button>
-<div id="carPopup" class="popup fixed top-auto bottom-0 lg:bottom-0 lg:left-auto lg:right-[7.3rem] md:right-[6.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0px_0px_-20px_0px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo ($is_cost_estimator_page || is_singular('offer') || $is_newsroom_page || $is_blog_page || $is_single_blog_post || $is_blog_archive || $is_locate_us_page || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
+<div id="carPopup" class="popup fixed top-auto bottom-0 md:left-auto md:right-[7.3rem] inset-x-5 max-md:w-auto z-[100] mx-auto max-h-[calc(100dvh-4.375rem)] overflow-y-scroll scrollNone font-inter w-full lg:w-[23.375rem] md:w-[25rem] bg-[#CB122D] shadow-[0_0_-1.25rem_0_rgba(0,0,0,0.3)] flex flex-col lg:flex-row transform -translate-x-1/2 -translate-y-1/2 animate-slideUp opacity-100 pointer-events-auto <?php echo ($is_cost_estimator_page || is_singular('offer') || $is_newsroom_page || $is_blog_page || $is_single_blog_post || $is_blog_archive || $is_locate_us_page || (!is_front_page() && !is_home())) ? 'hidden' : ''; ?>">
     <input type="checkbox" id="toggle" class="hidden peer">
     <div class=" transition-all duration-500 ease-in-out w-full">
         <!-- Header -->
         <div class="flex items-center justify-between px-5 py-3 bg-gradient-to-l from-[#CB122D] to-[#650916]">
             <span class="text-base font-bold italic text-white uppercase">
-                INSTANT CAR SERVICE QUOTE
+                <?php echo esc_html($popup_header_title); ?>
             </span>
             <label for="toggle" class="cursor-pointer text-lg font-bold italic text-white">
                 <svg class="size-5 font-bold lg:rotate-0 -rotate-90" stroke="currentColor" fill="none"
@@ -586,7 +613,7 @@ if (!empty($cost_estimator_pages)) {
             <div class="flex flex-col gap-y-5">
                 <!-- City Dropdown -->
                 <div class="relative flex items-center">
-                    <input type="text" placeholder="City" id="cityInput" readonly
+                    <input type="text" placeholder="<?php echo esc_attr($popup_placeholder_city); ?>" id="cityInput" readonly
                         class="w-full px-4 py-3 text-black bg-white border-none placeholder:text-black xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-pointer transition-colors duration-300" />
 
                     <span id="cityIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
@@ -708,7 +735,7 @@ if (!empty($cost_estimator_pages)) {
                                     <img src="<?php echo esc_url($city_image_url); ?>" alt="<?php echo esc_attr($city); ?>"
                                         class="w-full h-48 xl:h-52 object-cover"
                                         onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
-                                    <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
+                                    <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_0.5rem_black,_0_0_0.5rem_black]"><?php echo esc_html($city); ?></p>
                                 </div>
                             </div>
                             <?php
@@ -721,8 +748,7 @@ if (!empty($cost_estimator_pages)) {
 
                 <!-- Car Brand Dropdown -->
                 <?php
-                // Get Supabase API key from wp-config.php constant
-                $supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+                $supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
                 
                 // Fetch car makes from API (server-side)
                 $car_makes_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_car_makes';
@@ -760,7 +786,7 @@ if (!empty($cost_estimator_pages)) {
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
-                                <input type="text" id="brandSearch" placeholder="Search Car Brand"
+                                <input type="text" id="brandSearch" placeholder="<?php echo esc_attr($popup_placeholder_search_brand); ?>"
                                     class="bg-transparent flex-1 focus:outline-none text-sm text-gray-700" />
                             </div>
 
@@ -806,7 +832,7 @@ if (!empty($cost_estimator_pages)) {
 
                 <!-- Car Model Dropdown -->
                 <div class="relative">
-                    <input type="text" placeholder="Car Model (Select Car Brand first)" id="modelInput" readonly=""
+                    <input type="text" placeholder="<?php echo esc_attr($popup_placeholder_model); ?>" id="modelInput" readonly=""
                         class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="modelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
@@ -831,7 +857,7 @@ if (!empty($cost_estimator_pages)) {
                                 </div>
                                 <!-- Empty State -->
                                 <div id="modelEmptyState" class="text-center py-8">
-                                    <p class="text-gray-500 text-sm">Select a car brand first</p>
+                                    <p class="text-gray-500 text-sm"><?php echo esc_html($popup_empty_model); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -840,7 +866,7 @@ if (!empty($cost_estimator_pages)) {
 
                 <!-- Fuel Type Dropdown -->
                 <div class="relative">
-                    <input type="text" placeholder="Fuel Type (Select Car Model first)" id="fuelInput" readonly=""
+                    <input type="text" placeholder="<?php echo esc_attr($popup_placeholder_fuel); ?>" id="fuelInput" readonly=""
                         class="w-full px-4 py-3 text-black/50 bg-white border-none placeholder:text-black/50 xl:placeholder:text-base placeholder:text-sm focus:outline-none cursor-not-allowed" disabled>
                     <span id="fuelIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 has-[span]:!translate-y-0 has-[span]:inset-y-0 has-[span]:right-0">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510-1.webp'); ?>" alt="arrow-icon" class="xl:size-[1.313rem] size-4">
@@ -892,7 +918,7 @@ if (!empty($cost_estimator_pages)) {
                                             </clipPath>
                                         </defs>
                                     </svg>
-                                    <p class="md:text-sm text-xs font-normal">Petrol</p>
+                                    <p class="md:text-sm text-xs font-normal"><?php echo esc_html($popup_fuel_petrol); ?></p>
                                 </div>
                                 <div class="flex flex-col gap-2 items-center cursor-pointer text-center"
                                     data-value="Diesel">
@@ -902,7 +928,7 @@ if (!empty($cost_estimator_pages)) {
                                             d="M26.7607 29.4609V33.6641C26.7607 33.8157 26.6751 33.9515 26.5498 34.0234C26.4165 34.0874 26.2592 34.0791 26.1416 33.9912L24.0869 32.457L22.0557 33.9834C21.9851 34.0313 21.9065 34.0635 21.8203 34.0635H21.8125C21.75 34.0634 21.6953 34.0473 21.6406 34.0234C21.5073 33.9595 21.4288 33.8158 21.4287 33.6641V29.4609L22.4951 29.4131L23.3652 30.1162C23.5769 30.284 23.8281 30.372 24.0947 30.3721C24.3614 30.3721 24.6203 30.284 24.8242 30.1162L25.6943 29.4131L26.7607 29.4609ZM20.6211 31.7227V31.7139H20.6367L20.6211 31.7227ZM17.335 23.332C17.7505 23.5397 18.2131 23.708 18.707 23.8838L18.8877 24.3867L18.4961 25.4502C18.3081 25.9695 18.4956 26.5606 18.9502 26.8643L19.876 27.4951L20.1738 28.5898C20.2444 28.8615 20.4094 29.0853 20.6211 29.2451V31.7139H18.668V28.958C18.668 28.7344 18.4958 28.5577 18.2764 28.5576C18.0568 28.5576 17.8838 28.7343 17.8838 28.958V31.7139H5.65039V28.958C5.65039 28.7344 5.47814 28.5579 5.25879 28.5576C5.03921 28.5576 4.86621 28.7343 4.86621 28.958V31.7139H0.388672C0.169094 31.7139 -0.00390625 31.5382 -0.00390625 31.3145C-0.00380302 25.6016 2.52974 24.6983 4.75684 23.9072C5.27423 23.7235 5.76023 23.5477 6.19141 23.332C6.64625 23.7795 7.13231 24.2516 7.26562 24.3555C8.55172 25.3543 10.1208 25.8975 11.7598 25.8975C13.3986 25.8974 15.1006 25.3062 16.418 24.2275C16.5123 24.1554 16.9117 23.7554 17.335 23.332ZM23.8457 19.2969C23.9868 19.1852 24.191 19.1851 24.332 19.2969L25.4297 20.1836L26.833 20.1201C27.0134 20.1121 27.1785 20.2324 27.2256 20.4082L27.6016 21.79L28.7705 22.5811C28.9194 22.685 28.9817 22.877 28.9189 23.0527L28.4248 24.3945L28.9189 25.7373C28.9817 25.913 28.9194 26.1051 28.7705 26.209L27.6016 27L27.2256 28.3818C27.1785 28.5576 27.0134 28.6859 26.833 28.6699L25.4297 28.6064L24.332 29.4932C24.2615 29.549 24.175 29.581 24.0889 29.5811C24.0027 29.5811 23.9162 29.549 23.8457 29.4932L22.7471 28.6064L21.3438 28.6699C21.1634 28.6779 20.9992 28.5576 20.9521 28.3818L20.5752 27L19.4072 26.209C19.2582 26.1051 19.1951 25.9131 19.2578 25.7373L19.752 24.3945L19.2578 23.0527C19.1951 22.8769 19.2582 22.6849 19.4072 22.5811L20.5752 21.79L20.9521 20.4082C20.9992 20.2324 21.1634 20.1122 21.3438 20.1201L22.7471 20.1836L23.8457 19.2969ZM24.0889 21.3506C23.9165 21.3506 23.7669 21.4623 23.7119 21.6299L23.1631 23.3643H21.3672C21.2027 23.3643 21.054 23.476 20.999 23.6436C20.9441 23.8114 20.9985 23.9879 21.1396 24.0918L22.5908 25.1621L22.0342 26.8965C21.9795 27.0642 22.0338 27.2399 22.1748 27.3438C22.3159 27.4476 22.5044 27.4475 22.6377 27.3438L24.0889 26.2646L25.5391 27.3438C25.6018 27.3997 25.6882 27.4238 25.7666 27.4238L25.7822 27.4316C25.8606 27.4316 25.9392 27.3995 26.0098 27.3516C26.1508 27.2478 26.2061 27.072 26.1514 26.9043L25.5938 25.1699L27.0449 24.0996C27.1859 23.9958 27.2411 23.82 27.1865 23.6523C27.1316 23.4845 26.9821 23.3721 26.8096 23.3721H25.0137L24.4648 21.6299C24.4099 21.4624 24.2611 21.3507 24.0889 21.3506ZM24.3477 23.8838C24.4026 24.0514 24.5512 24.163 24.7236 24.1631H25.5859L24.8887 24.6826C24.7476 24.7864 24.6923 24.9622 24.7471 25.1299L25.0137 25.9688L24.3164 25.4502C24.2538 25.3943 24.1672 25.3702 24.0889 25.3701L24.0732 25.3623C23.995 25.3623 23.9162 25.3936 23.8457 25.4414L23.1475 25.9609L23.4141 25.1221C23.4689 24.9543 23.4136 24.7787 23.2725 24.6748L22.5752 24.1631H23.4375C23.61 24.1631 23.7595 24.0516 23.8145 23.8838L24.0811 23.0449L24.3477 23.8838ZM15.4688 20.7754C15.6647 21.8138 16.088 22.4529 16.6523 22.9004C16.3467 23.2038 16.0883 23.4597 16.041 23.5078C14.8491 24.5385 13.3437 25.0985 11.7676 25.0986C10.1914 25.0986 8.83441 24.5949 7.67383 23.6602C7.57972 23.5882 7.24257 23.252 6.88184 22.9004C7.44628 22.453 7.86941 21.8139 8.06543 20.7754C9.05343 21.7821 10.2927 22.4692 11.7197 22.4854H11.791C13.226 22.4853 14.4886 21.8061 15.4688 20.7754ZM18.7939 8.11035C19.5466 8.11056 20.1582 8.73402 20.1582 9.50098V10.1641C20.1582 10.931 19.5466 11.5545 18.7939 11.5547H18.4697C18.9393 12.1295 19.1663 12.8994 19.0527 13.6953C18.9038 14.7659 18.1822 15.5413 17.1865 15.7412C16.7082 17.587 15.9547 19.0972 15.0059 20.1279C14.0649 21.1506 12.9594 21.6943 11.7988 21.6943H11.7363C10.4973 21.6784 9.32016 21.0553 8.32422 19.8887C7.34396 18.746 6.59153 17.1233 6.14453 15.1816C5.02312 15.0458 4.21549 14.3506 4.04297 13.3438C3.94721 12.7628 4.09267 12.0872 4.55664 11.54C3.89074 11.4482 3.37601 10.8675 3.37598 10.1641V9.50098C3.37598 8.73402 3.98757 8.11056 4.74023 8.11035H18.7939ZM5.87012 11.5547C4.95213 11.9448 4.72718 12.6831 4.81934 13.208C4.91343 13.7673 5.39941 14.3752 6.47363 14.4072C6.654 14.4072 6.81138 14.543 6.85059 14.7188C7.64267 18.4342 9.56408 20.8548 11.752 20.8867H11.7988C13.8533 20.8866 15.6492 18.7458 16.4883 15.2783C16.5275 15.1106 16.6684 14.9907 16.833 14.9746C17.7582 14.8947 18.1822 14.1994 18.2764 13.5762C18.3756 12.8684 18.08 11.9425 17.1963 11.5547H5.87012ZM8.58984 7.32715H4.72363V7.31934C4.84125 6.12892 5.26506 4.99445 5.97852 4.01172C6.57449 3.18074 7.34339 2.50144 8.22949 1.99805L8.58984 7.32715ZM13.6406 0C13.9385 3.14753e-05 14.2288 0.119465 14.4092 0.327148C14.5503 0.486958 14.6133 0.679144 14.5977 0.878906L14.166 7.31934H9.37402L8.94336 0.871094C8.92768 0.671332 8.99846 0.471333 9.14746 0.311523C9.32774 0.111965 9.60949 0.000111431 9.89941 0H13.6406ZM15.3105 1.93359C16.1966 2.42895 16.9655 3.11619 17.5693 3.95508C18.283 4.95389 18.7066 6.09697 18.8164 7.31152H14.9502L15.3105 1.93359Z"
                                             fill="currentColor"></path>
                                     </svg>
-                                    <p class=" md:text-sm text-xs font-normal">Diesel</p>
+                                    <p class=" md:text-sm text-xs font-normal"><?php echo esc_html($popup_fuel_diesel); ?></p>
                                 </div>
                                 <div class="flex flex-col gap-2 items-center cursor-pointer text-center"
                                     data-value="CNG">
@@ -959,7 +985,7 @@ if (!empty($cost_estimator_pages)) {
                                             d="M7 11H9V13H7V11ZM15 11H17V13H15V11Z"
                                             fill="currentColor"></path>
                                     </svg>
-                                    <p class="md:text-sm text-xs font-normal">EV</p>
+                                    <p class="md:text-sm text-xs font-normal"><?php echo esc_html($popup_fuel_ev); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -977,7 +1003,7 @@ if (!empty($cost_estimator_pages)) {
                 class="w-fit font-inter py-3 px-3 mt-6 text-base font-bold text-white bg-[#FF8300] hover:bg-[#EE8311] focus:outline-none focus:ring-4 focus:ring-[#EE8311] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed relative"
                 disabled>
                 <span id="checkPricesBtnText" class="flex items-center">
-                    Check Prices
+                    <?php echo esc_html($popup_btn_check_prices); ?>
                     <span class="ml-2 font-bold text-xl">
                         <img src="<?php echo esc_url($assets_img_url . 'fi_19024510.webp'); ?>" alt="arrow-icon"
                             class="xl:size-[1.313rem] size-4 invert brightness-0">
@@ -985,24 +1011,24 @@ if (!empty($cost_estimator_pages)) {
                 </span>
                 <span id="checkPricesBtnLoader" class="hidden flex items-center justify-center">
                     <div class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    <span>Processing...</span>
+                    <span><?php echo esc_html($popup_btn_processing); ?></span>
                 </span>
             </button>
             <div class="grid grid-cols-3 gap-4 text-center text-white font-inter py-4">
                 <div>
-                    <div class="text-[1.375rem] font-bold !leading-8">18,000+</div>
-                    <div class="text-[0.75rem] font-bold opacity-90">Car Serviced</div>
+                    <div class="text-[1.375rem] font-bold !leading-8"><?php echo esc_html($popup_stat1_number); ?></div>
+                    <div class="text-[0.75rem] font-bold opacity-90"><?php echo esc_html($popup_stat1_label); ?></div>
                 </div>
                 <div>
-                    <div class="text-[1.375rem] font-bold !leading-8">4.9</div>
-                    <div class="text-[0.75rem] font-bold opacity-90">Star Rating</div>
+                    <div class="text-[1.375rem] font-bold !leading-8"><?php echo esc_html($popup_stat2_number); ?></div>
+                    <div class="text-[0.75rem] font-bold opacity-90"><?php echo esc_html($popup_stat2_label); ?></div>
                 </div>
                 <div>
-                    <div class="text-[1.375rem] font-bold !leading-8">20+</div>
-                    <div class="text-[0.75rem] font-bold opacity-90">Checkpoints</div>
+                    <div class="text-[1.375rem] font-bold !leading-8"><?php echo esc_html($popup_stat3_number); ?></div>
+                    <div class="text-[0.75rem] font-bold opacity-90"><?php echo esc_html($popup_stat3_label); ?></div>
                 </div>
             </div>
-            <p class="text-[#FFFFFF] font-normal text-xs">Terms and Conditions: Prices may vary based on vehicle make and model, and include service charges only. Cost of parts is additional.</p>
+            <p class="text-[#FFFFFF] font-normal text-xs"><?php echo esc_html($popup_terms); ?></p>
         </div>
     </div>
 </div>
@@ -1040,7 +1066,7 @@ if (!empty($cost_estimator_pages)) {
                         .addClass("hidden")
                         .removeClass("flex flex-col lg:flex-row animate-slideUp");
                     $inner.css({
-                        maxHeight: "0px",
+                        maxHeight: "0rem",
                         overflow: "hidden",
                     });
                     $chk.prop("checked", false);
@@ -1912,11 +1938,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
@@ -1950,11 +1976,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
@@ -1987,11 +2013,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 spaceBetween: 8
             },
             480: {
-                slidesPerView: 3.8,
+                slidesPerView: 5,
                 spaceBetween: 8
             },
             640: {
-                slidesPerView: 4.2,
+                slidesPerView: 7,
                 spaceBetween: 32
             },
             1024: {
@@ -2063,12 +2089,9 @@ document.addEventListener("DOMContentLoaded", function() {
     $partnerSettings = petromin_get_swiper_settings('partnersSectionSwiper');
     ?>
     const partnerSwiper = new Swiper(".partnersSectionSwiper", {
-        loop: true,
-        autoSlide: true,
         spaceBetween: 24,
-        freeMode: true,
-        freeModeMomentum: false,
         speed: <?php echo esc_js($partnerSettings['speed']); ?>,
+        loop: true,
         autoplay: <?php echo $partnerSettings['autoplay'] ? '{
             delay: ' . esc_js($partnerSettings['delay']) . ',
             disableOnInteraction: false,

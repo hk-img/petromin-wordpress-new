@@ -283,7 +283,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 
 <!-- Hero Section - Only show if has data -->
 <?php if ($hero_has_data): ?>
-<div class="hero_section w-full relative z-0 md:min-h-dvh h-dvh md:!h-auto">
+<div class="heroSection w-full relative z-0 lg:h-dvh md:h-full h-dvh lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_data['background_image']['url'])) : ?>
         <img fetchpriority="high" decoding="async" loading="eager"
@@ -359,12 +359,12 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                             <?php echo esc_html($slide['service_title']); ?>
                         </h3>
                         <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 
-        drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)] line-clamp-2">
+        drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)] line-clamp-2">
                             <?php echo wp_kses_post($slide['service_description']); ?>
                         </p>
                         <div class="flex justify-between items-center gap-2">
                             <button
-                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
+                                class="hover:lg:bg-[#CB122D] w-full lg:px-5 px-3 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300 js-open-car-popup">
                                 <span
                                     class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Check
                                     Price
@@ -377,7 +377,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
                                 </span>
                             </button>
                             <a href="<?php echo esc_url($slide['service_link']); ?>"
-                                class="hover:lg:bg-[#CB122D] w-full px-5 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
+                                class="hover:lg:bg-[#CB122D] w-full lg:px-5 px-3 flex space-x-3 items-center justify-center bg-[#FF8300] h-12 duration-300">
                                 <span
                                     class="flex items-center gap-1 text-sm md:text-base md:font-bold font-semibold text-white">Know
                                     More
@@ -468,7 +468,7 @@ $faq_has_data = !empty($faq_processed_items) && petromin_has_section_data($faq_d
 <section class="w-full taptrack bg-white pt-[6.313rem] md:pt-[3.938rem]">
     <div
         class="view relative before:absolute before:bottom-0 before:left-1/2 before:-translate-x-1/2 before:w-full before:h-28 before:bg-gradient-to-t before:from-[#FBFCFD] before:to-[#FBFCFD00]">
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-[4.5rem] md:gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-[4.5rem] md:gap-8">
             <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-3">
                     <div class="flex -space-x-3">

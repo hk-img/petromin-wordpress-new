@@ -1144,7 +1144,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 
 
 ?>
-<section class="heroSection w-full relative z-0 md:h-dvh h-full">
+<section class="heroSection w-full relative z-0 lg:h-dvh h-full lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if ($hero_video_url !== ''): ?>
         <video autoplay muted loop playsinline
@@ -1158,7 +1158,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
             <div class="view max-md:pl-0 flex flex-col max-md:gap-y-16">
                 <div class="px-6 mb-8 md:mb-8 pt-16 md:pt-24">
                     <h1
-                        class="drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] lg:text-6xl md:text-5xl text-[2.625rem] mt-6 font-bold italic md:!leading-[4.688rem] w-fit text-white md:block hidden">
+                        class="drop-shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.6)] lg:text-6xl md:text-5xl text-[2.625rem] mt-6 font-bold italic md:!leading-[4.688rem] w-fit text-white md:block hidden">
                         <?php if ($hero_headline_prefix !== ''): ?>
                         <?php echo esc_html($hero_headline_prefix); ?>
                         <?php endif; ?>
@@ -1179,7 +1179,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
                         <?php endif; ?>
                         <?php if ($hero_headline_highlight !== ''): ?>
                         <span
-                            class="relative block px-4 !pr-7 mt-4 w-fit drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center">
+                            class="relative block px-4 !pr-7 mt-4 w-fit drop-shadow-[0_0.25rem_0.5rem_rgba(0,0,0,0.6)]  bg-gradient-to-l from-[#CB122D] via-[#CB122D] to-[#650916] -skew-x-[16deg] -z-10 h-[4.688rem] flex justify-center items-center">
                             <span class="skew-x-[16deg]"><?php echo esc_html($hero_headline_highlight); ?></span>
                         </span>
                         <?php endif; ?>
@@ -1266,7 +1266,7 @@ if (!empty($home_offers)):
                 Latest Offers
             </h2>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -1360,15 +1360,15 @@ if (!empty($home_offers)):
             <?php
                 $tab_number = $tab_index + 1;
                 $is_active = $tab_index === 0;
-                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-16';
+                $button_classes = 'tab-btn md:px-4 py-5 -my-5 lg:font-bold font-semibold text-lg text-white h-16 whitespace-nowrap';
                 $inner_classes = 'block text-lg';
 
                 if ($is_active) {
-                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-16 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]';
+                    $button_classes .= 'tab-btn active relative lg:px-4 py-5 px-3 -my-5 lg:font-bold font-semibold bg-gradient-to-l h-16 from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg] whitespace-nowrap';
                     $inner_classes = 'skew-x-[18deg] block text-lg';
                 }
                 ?>
-            <button data-tab="<?php echo esc_attr($tab_number); ?>" class="<?php echo esc_attr($button_classes); ?>">
+            <button data-tab="<?php echo esc_attr($tab_number); ?>" class="<?php echo esc_attr($button_classes); ?> whitespace-nowrap">
                 <span class="<?php echo esc_attr($inner_classes); ?>">
                     <?php echo esc_html($tab['label']); ?>
                 </span>
@@ -1496,7 +1496,7 @@ if (!empty($home_offers)):
 
     <div class="relative py-8 font-inter overflow-x-auto">
         <nav id="mobile-tab"
-            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 ps-6 h-[2.938rem]">
+            class="w-fit flex items-center justify-between lg:gap-x-3 relative py-3 bg-black shadow-lg z-10 lg:px-[5rem] md:px-[4rem] sm:px-[3rem] px-[1rem] h-[2.938rem]">
             <?php foreach ($services_tabs as $tab_index => $tab): ?>
             <?php
                     $tab_number = $tab_index + 1;
@@ -1516,11 +1516,11 @@ if (!empty($home_offers)):
         </nav>
     </div>
 
-    <div class="relative mtab-content view px-[1.875rem] pt-[0.9rem]">
+    <div class="relative mtab-content view pt-[0.9rem]">
         <?php foreach ($services_tabs as $tab_index => $tab): ?>
         <?php
                 $tab_number = $tab_index + 1;
-                $content_classes = 'cont-item flex lg:flex-row flex-col items-center';
+                $content_classes = 'cont-item flex lg:flex-row flex-col items-center max-sm:ps-4';
                 if ($tab_index !== 0) {
                     $content_classes .= ' hidden';
                 }
@@ -1618,7 +1618,7 @@ if (!empty($home_offers)):
             <?php endif; ?>
             <?php if (!empty($timeline_nav_icon_data['url'])): ?>
             <div
-                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                class=" md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($timeline_nav_icon_data['url']); ?>"
@@ -1695,9 +1695,20 @@ if (!empty($home_offers)):
             after:from-[#FFFFFF] after:to-[#ffffff00]
             after:z-20 after:pointer-events-none">
         <div class="swiper partnersSectionSwiper relative">
-            <div class="swiper-wrapper !ease-linear inline-flex items-center">
+            <div class="w-full swiper-wrapper flex !ease-linear">
                 <?php foreach ($partner_highlights_items as $item_text): ?>
-                <div class="swiper-slide flex items-center gap-4 justify-between min-w-max">
+                <div class="swiper-slide inline-flex items-center gap-4 justify-between min-w-max">
+                    <div class="text-lg font-bold text-black font-inter whitespace-nowrap">
+                        <?php echo esc_html($item_text); ?>
+                    </div>
+                    <?php if (!empty($partner_highlights_icon['url'])): ?>
+                    <img src="<?php echo esc_url($partner_highlights_icon['url']); ?>"
+                        class="w-[1.438rem] h-[1.063rem] flex-shrink-0"
+                        alt="<?php echo esc_attr($partner_highlights_icon['alt']); ?>"
+                        title="<?php echo esc_attr($partner_highlights_icon['alt']); ?>">
+                    <?php endif; ?>
+                </div>
+                <div class="swiper-slide inline-flex items-center gap-4 justify-between min-w-max">
                     <div class="text-lg font-bold text-black font-inter whitespace-nowrap">
                         <?php echo esc_html($item_text); ?>
                     </div>
@@ -1735,10 +1746,10 @@ if (!empty($home_offers)):
     </div>
     <?php endif; ?>
     <div class="view">
-        <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6">
+        <div class="relative flex justify-between md:flex-row flex-col lg:gap-y-6 max-xl:pb-10">
             <div
                 class="xl:w-1/2 lg:w-1/2 md:w-1/2 w-full flex items-center relative z-10 md:h-full lg:pt-10 md:pt-14 pt-6">
-                <div class="flex flex-col gap-y-12">
+                <div class="flex flex-col xl:gap-y-12 gap-y-6">
                     <h2 class="text-[1.75rem] md:text-3xl lg:text-4xl 2xl:text-[3.125rem]
                             font-bold italic text-black text-start whitespace-nowrap
                             !leading-tight">
@@ -1817,7 +1828,7 @@ if (!empty($home_offers)):
 <!-- Brands Section - Only show if has data -->
 <?php if (!empty($brands_heading) || !empty($left_brands) || !empty($right_brands) || !empty($mobile_brands)): ?>
 <section class="w-full relative overflow-hidden md:pt-[6.8rem] pt-[5rem]">
-    <div class="view max-sm:mb-8">
+    <div class="view max-lg:mb-8">
         <div class="flex items-center justify-between">
             <?php if (!empty($brands_heading)): ?>
             <h2
@@ -2000,7 +2011,7 @@ if (!empty($home_offers)):
             </h2>
             <?php if ($nav_icon_data && !empty($nav_icon_data['url'])): ?>
             <div
-                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                class="md:flex items-center justify-start hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
                 <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                     <span>
                         <img src="<?php echo esc_url($nav_icon_data['url']); ?>"
@@ -2208,7 +2219,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetTabs(clicked) {
         tabLinks.forEach(tab => {
             if (tab !== clicked) { // don’t reset the one that was clicked
-                tab.className = "tab-btn px-4 py-5 -my-5 h-16 text-lg font-bold text-white";
+                tab.className = "tab-btn lg:px-4 px-2 py-5 -my-5 h-16 text-lg font-bold text-white whitespace-nowrap";
                 tab.innerHTML = tab.innerText;
             }
         });
@@ -2228,9 +2239,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Apply active styles to clicked
         clicked.className =
-            "tab-btn active relative z-10 px-4 py-5 h-16 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg]";
+            "tab-btn active relative z-10 px-4 py-5 h-16 text-lg -my-5 font-bold bg-gradient-to-l from-[#CB122D] via-[#9b2133] to-[#CB122D] text-white -skew-x-[18deg] whitespace-nowrap";
         clicked.innerHTML =
-            `<span class="skew-x-[18deg] block ">${clicked.innerText}</span>`;
+            `<span class="skew-x-[18deg] block whitespace-nowrap">${clicked.innerText}</span>`;
 
         // Show correct content
         document.querySelector(`.content-item[data-content="${target}"]`).classList.remove(
@@ -2259,8 +2270,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 navigation: { nextEl: ".swiper-next", prevEl: ".swiper-prev", },
                 breakpoints: {
                     320: { slidesPerView: 1.5, },
-                    480: { slidesPerView: 3.3, },
-                    640: { slidesPerView: 3.5, },
+                    480: { slidesPerView: 2.3, },
+                    640: { slidesPerView: 3.1, },
                     1024: { slidesPerView: 3.3, },
                     1350: { slidesPerView: 3.4, },
                 },

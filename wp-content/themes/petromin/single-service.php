@@ -114,7 +114,7 @@ function get_service_icon($icon_input) {
 }
 ?>
 
-<div class="heroSection w-full relative z-0 h-dvh">
+<div class="heroSection w-full relative z-0 lg:h-dvh md:h-full h-dvh lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden before:absolute before:inset-0 before:[background:_linear-gradient(180deg,_rgba(0,_0,_0,_0)_41.83%,_#000000_100%)]">
         <?php if (has_post_thumbnail()) : ?>
         <img fetchpriority="high" loading="eager" decoding="async"
@@ -131,11 +131,11 @@ function get_service_icon($icon_input) {
         <div class="view md:w-2/3 w-full absolute md:bottom-20 bottom-12 left-0 z-30">
             <div class="flex flex-col md:gap-y-10 gap-y-4">
                 <h1
-                    class="block xl:text-[6.813rem] lg:text-[6rem] md:text-[5.5rem] text-4xl text-balance text-[#FFFFFF] font-bold md:drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)] !leading-[normal]">
+                    class="block xl:text-[6.413rem] lg:text-[6rem] md:text-[5.5rem] text-4xl text-balance text-[#FFFFFF] font-bold md:drop-shadow-[0_0.25rem_0.375rem_rgba(0,0,0,0.7)] !leading-[normal]">
                     <?php the_title(); ?>
                 </h1>
                 <div
-                    class="md:text-lg text-base text-[#FFFFFF] text-balance md:font-semibold font-normal drop-shadow-[0_4px_6px_rgba(0,0,0,0.7)]">
+                    class="md:text-lg text-base text-[#FFFFFF] text-balance md:font-medium font-normal drop-shadow-[0_0.25rem_0.375rem_rgba(0,0,0,0.7)]">
                     <?php echo esc_html($hero_description); ?>
                 </div>
                 <div class="flex gap-4 w-full mt-1">
@@ -224,7 +224,7 @@ function get_service_icon($icon_input) {
                             <?php echo esc_html($service['title']); ?>
                         </h3>
                         <p
-                            class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                            class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)]">
                             <?php echo esc_html($service['description']); ?>
                         </p>
                     </div>
@@ -250,7 +250,7 @@ function get_service_icon($icon_input) {
                 </div>
             </div>
             <div
-                class=" md:flex items-center justify-start md:gap-2 hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
+                class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0">
                 <div class="swiper-prev cursor-pointer !pointer-events-auto !opacity-100">
                     <span>
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -300,7 +300,7 @@ function get_service_icon($icon_input) {
                                     class="text-[#FFFFFF] lg:text-3xl md:text-2xl text-xl font-bold duration-300 group-hover:lg:text-[#CB122D] line-clamp-2">
                                     <?php echo esc_html(get_the_title($sid)); ?>
                                 </h3>
-                                <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)] line-clamp-2">
+                                <p class="text-[#FFFFFF] opacity-75 md:text-lg text-base duration-500 drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)] line-clamp-2">
                                     <?php echo esc_html($service_description); ?>
                                 </p>
                                 <div class="flex justify-between items-center gap-2">
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $bestKnowSettings = petromin_get_swiper_settings('bestKnownSectionSwiper');
     ?>
     const bestKnowCarouselSwiper = new Swiper(".bestKnownSectionSwiper", {
-        slidesPerView: 1,
+        slidesPerView: 1.3,
         spaceBetween: 20,
         loop: true,
         speed: <?php echo esc_js($bestKnowSettings['speed']); ?>,

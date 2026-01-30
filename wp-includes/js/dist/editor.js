@@ -16223,8 +16223,8 @@ function PrivateExcerpt() {
   if (!allowEditing) {
     return excerptText;
   }
-  const excerptPlaceholder = shouldBeUsedAsDescription ? (0,external_wp_i18n_namespaceObject.__)("Add a description\u2026") : (0,external_wp_i18n_namespaceObject.__)("Add an excerpt\u2026");
-  const triggerEditLabel = shouldBeUsedAsDescription ? (0,external_wp_i18n_namespaceObject.__)("Edit description") : (0,external_wp_i18n_namespaceObject.__)("Edit excerpt");
+  const excerptPlaceholder = shouldBeUsedAsDescription ? (0,external_wp_i18n_namespaceObject.__)("Add a description\u2026") : (0,external_wp_i18n_namespaceObject.__)("Add short description\u2026");
+  const triggerEditLabel = shouldBeUsedAsDescription ? (0,external_wp_i18n_namespaceObject.__)("Edit description") : (0,external_wp_i18n_namespaceObject.__)("Edit short description");
   return /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsxs)(external_wp_components_namespaceObject.__experimentalVStack, { children: [
     excerptText,
     /* @__PURE__ */ (0,external_ReactJSXRuntime_namespaceObject.jsx)(

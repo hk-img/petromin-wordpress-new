@@ -197,7 +197,7 @@ foreach ($press_releases_items as $item) {
 
 <!-- Hero Section - Only show if has data -->
 <?php if (!empty($hero_title) || !empty($hero_image_data)): ?>
-<div class="hero_section w-full relative z-0 md:h-dvh h-[23rem]">
+<div class="heroSection w-full relative z-0 lg:h-dvh md:h-full h-dvh lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" decoding="async" loading="eager" src="<?php echo esc_url($hero_image_data['url']); ?>"
@@ -263,7 +263,7 @@ foreach ($press_releases_items as $item) {
                 <!-- Prev Button -->
                 <div class="swiper-prev cursor-pointer transition-opacity duration-300 !opacity-100 !pointer-events-auto">
                     <span
-                        class="border border-[#E0E5EB] bg-white shadow-[0_0_7px_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
+                        class="border border-[#E0E5EB] bg-white shadow-[0_0_0.4375rem_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
                         <svg class="w-4" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                             height="1rem" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -293,7 +293,7 @@ foreach ($press_releases_items as $item) {
                 <!-- Next Button -->
                 <div class="swiper-next cursor-pointer !opacity-100 !pointer-events-auto">
                     <span
-                        class="border border-[#E0E5EB] bg-white shadow-[0_0_7px_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
+                        class="border border-[#E0E5EB] bg-white shadow-[0_0_0.4375rem_0_#c5c2c2] size-7 rounded-full flex justify-center items-center">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                             height="1rem" width="1rem" xmlns="http://www.w3.org/2000/svg">
                             <path

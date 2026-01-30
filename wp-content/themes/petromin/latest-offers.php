@@ -128,7 +128,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     ?>
     <section class="bg-white relative md:pt-[4.875rem] overflow-hidden pt-9">
         <div class="view flex flex-col md:pr-0">
-            <div class="flex items-center justify-between">
+            <div class="flex items-end justify-between">
                 <div class="flex flex-col gap-y-4">
                     <div class="w-full relative mb-3">
                         <h2
@@ -145,7 +145,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                     </p>
                 </div>
                 <div
-                    class=" md:flex items-center justify-start md:gap-2 hidden origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] w-56 h-16 transition transform -skew-x-12 duration-150 ease-in-out has-[.swiper-next.swiper-button-lock]:!hidden -mr-[0.506rem]">
+                    class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0 mb-2">
                     <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                         <span>
                             <img src="<?php echo get_template_directory_uri() ?>/assets/img/fi_19024510.webp"
@@ -185,7 +185,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                                     title="<?php echo esc_attr($offer['image']['alt'] ?: $offer['title']); ?>"
                                     class="w-full h-full object-cover aspect-square" />
                                 <div class="w-full flex flex-row justify-between items-center gap-2 py-4">
-                                    <p class="text-white md:font-bold md:text-base text-[0.6rem] line-clamp-2">
+                                    <p class="text-white md:font-bold md:text-base text-[0.65rem] line-clamp-2">
                                         <?php echo esc_html($offer['short_description'] ?: $offer['title']); ?>
                                     </p>
                                     <div class="shrink-0">
@@ -260,10 +260,10 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
                         <?php endif; ?>
 
                         <div class=" absolute top-1 left-3 text-[7.563rem] md:text-[7.75rem] duration-300 font-extrabold text-[#ffffffa8] text-stroke
-                                        drop-shadow-[2px_0_0_#ffffff40] 
-                                        drop-shadow-[-2px_0_0_white]
-                                        drop-shadow-[0_2px_0_white] 
-                                        drop-shadow-[0_-2px_0_white] 
+                                        drop-shadow-[0.125rem_0_0_#ffffff40] 
+                                        drop-shadow-[-0.125rem_0_0_white]
+                                        drop-shadow-[0_0.125rem_0_white] 
+                                        drop-shadow-[0_-0.125rem_0_white] 
 
                                      ">
                             <?php echo esc_html($journey['number']); ?>
@@ -289,7 +289,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     <section class=" h-full relative">
         <div class=" w-full view flex md:flex-row md:gap-0 gap-16 flex-col relative pr-0">
 
-            <div class="md:w-1/2 w-full h-full flex flex-col relative md:top-60 top-5 pr-4 md:pr-0">
+            <div class="md:w-1/2 w-full h-full flex flex-col relative xl:top-60 lg:top-32 md:top-20 top-5 pr-4 md:pr-0">
                 <div class="w-full flex flex-col gap-y-3">
                     <h2
                         class="xl:text-[3.125rem] lg:text-[3rem] md:text-[3rem] text-[2.625rem] text-black font-bold leading-tight">
@@ -395,7 +395,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
 </script>
 
 <script>
-// App Download Form - OTP Integration with Device Detection
+// App Download Form - SMS sent via single template (link in template only)
 (function() {
     'use strict';
     
@@ -414,24 +414,6 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
     // Get AJAX URL and nonce
     const ajaxUrl = '<?php echo admin_url("admin-ajax.php"); ?>';
     const appDownloadNonce = '<?php echo wp_create_nonce("app_download_nonce"); ?>';
-    
-    // Function to detect device type
-    function detectDeviceType() {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        
-        // Check for iPhone
-        if (/iPhone|iPod|iPad/.test(userAgent) && !window.MSStream) {
-            return 'iphone';
-        }
-        
-        // Check for Android
-        if (/android/i.test(userAgent)) {
-            return 'android';
-        }
-        
-        // Default to desktop
-        return 'desktop';
-    }
     
     // Function to show message
     function showMessage(message, isError = false) {
@@ -483,15 +465,11 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
         appSubmitBtn.disabled = true;
         appPhoneInput.disabled = true;
         
-        // Detect device type
-        const deviceType = detectDeviceType();
-        
-        // Prepare form data
+        // Prepare form data (single template from CMS; no device/link sent)
         const formData = new FormData();
         formData.append('action', 'send_app_download_otp');
         formData.append('nonce', appDownloadNonce);
         formData.append('mobile', phone);
-        formData.append('device_type', deviceType);
         
         // Send AJAX request
         fetch(ajaxUrl, {
@@ -506,16 +484,7 @@ if (!$app_apple_image) $app_apple_image = ['url' => $assets_url . '/img/serviceA
         })
         .then(data => {
             if (data && data.success) {
-                const deviceType = data.data && data.data.device_type ? data.data.device_type : '';
-                let successMsg = 'App download link sent successfully! Please check your mobile number.';
-                
-                // Show device-specific message
-                if (deviceType === 'iphone') {
-                    successMsg = 'App Store link sent successfully! Please check your mobile number.';
-                } else if (deviceType === 'android') {
-                    successMsg = 'Play Store link sent successfully! Please check your mobile number.';
-                }
-                
+                const successMsg = (data.data && data.data.message) ? data.data.message : 'App download link sent successfully! Please check your mobile number.';
                 showMessage(successMsg, false);
                 // Reset form
                 appPhoneInput.value = '';

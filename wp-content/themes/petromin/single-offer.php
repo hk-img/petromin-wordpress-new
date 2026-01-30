@@ -49,7 +49,7 @@ $faq_second_column_items = array_slice($faq_processed_items, $faq_first_column_c
 $assets_url = trailingslashit(get_template_directory_uri()) . 'assets';
 $assets_img_url = $assets_url . '/img/';
 
-// Get cities data (same as footer.php)
+// Get cities data (same logic as footer.php – only cities with images from CMS, normalized via major_cities)
 $locate_us_page = get_pages(array(
     'meta_key' => '_wp_page_template',
     'meta_value' => 'locate-us.php',
@@ -65,9 +65,42 @@ if ($locate_us_page_id && function_exists('get_field')) {
 }
 
 $cities_data = array();
+$major_cities = [
+    'Mumbai', 'Delhi', 'Bangalore', 'Bengaluru', 'Hyderabad', 'Chennai',
+    'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Surat', 'Lucknow',
+    'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal', 'Visakhapatnam',
+    'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik',
+    'Faridabad', 'Meerut', 'Rajkot', 'Varanasi', 'Srinagar', 'Amritsar'
+];
+
 if (!empty($service_centers_field['centers']) && is_array($service_centers_field['centers'])) {
     foreach ($service_centers_field['centers'] as $center) {
         $city = trim($center['city'] ?? '');
+        $state = trim($center['state'] ?? '');
+        $address = '';
+        $map_location = $center['map_location'] ?? null;
+        if (!empty($map_location['address'])) {
+            $address = trim($map_location['address']);
+        }
+        if (!empty($city) && !empty($address)) {
+            $is_major_city = false;
+            foreach ($major_cities as $major_city) {
+                if (strcasecmp($city, $major_city) === 0) {
+                    $is_major_city = true;
+                    break;
+                }
+            }
+            if (!$is_major_city) {
+                foreach ($major_cities as $major_city) {
+                    if (stripos($address, $major_city) !== false) {
+                        if (empty($state) || stripos($address, $state) !== false) {
+                            $city = $major_city;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         if (!empty($city) && !isset($cities_data[$city])) {
             $city_image_id = $center['city_image'] ?? null;
             $city_image_url = '';
@@ -75,26 +108,19 @@ if (!empty($service_centers_field['centers']) && is_array($service_centers_field
                 $city_image_data = petromin_get_acf_image_data($city_image_id, 'full', '', $city);
                 $city_image_url = $city_image_data['url'] ?? '';
             }
-            
-            $cities_data[$city] = array(
-                'name' => $city,
-                'image' => $city_image_url
-            );
+            if (!empty($city_image_url)) {
+                $cities_data[$city] = array(
+                    'name' => $city,
+                    'image' => $city_image_url
+                );
+            }
         }
     }
 }
 
 uksort($cities_data, 'strcasecmp');
 
-if (empty($cities_data)) {
-    $cities_data = array(
-        'Chennai' => array('name' => 'Chennai', 'image' => ''),
-        'Bengaluru' => array('name' => 'Bengaluru', 'image' => '')
-    );
-}
-
-// Get car makes from API (same as footer.php)
-$supabase_api_key = defined('SUPABASE_API_KEY') ? SUPABASE_API_KEY : '';
+$supabase_api_key = function_exists('petromin_get_env') ? petromin_get_env('supabase_api_key') : '';
 $car_makes_api_url = 'https://ryehkyasumhivlakezjb.supabase.co/rest/v1/rpc/get_unique_car_makes';
 $car_makes_response = wp_remote_get($car_makes_api_url, array(
     'timeout' => 15,
@@ -133,7 +159,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                         title="<?php echo esc_attr($offer_image['alt'] ?: $offer_title); ?>">
                 </div>
             </div>
-            <div class="relative w-ful bg-[#FFFFFF] border border-[#E5E7EB] shadow-[0_4px_12px_0_#0000000F]">
+            <div class="relative w-ful bg-[#FFFFFF] border border-[#E5E7EB] shadow-[0_0.25rem_0.75rem_0_#0000000F]">
                 <div class="text-white  bg-gradient-to-l from-[#CB122D] to-[#650916] text-balance px-6 py-4 uppercase">
                     <h2 class="text-white md:text-lg text-md font-semibold italic">Get this offer today</h2>
                 </div>
@@ -171,7 +197,7 @@ if (!is_wp_error($car_makes_response) && wp_remote_retrieve_response_code($car_m
                                                 <img src="<?php echo esc_url($city_img); ?>" alt="<?php echo esc_attr($city); ?>"
                                                     class="w-full h-48 xl:h-52 object-cover"
                                                     onerror="this.src='<?php echo esc_url($assets_img_url . 'city-img1.png'); ?>';">
-                                                <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_8px_black,_0_0_8px_black]"><?php echo esc_html($city); ?></p>
+                                                <p class="absolute top-0 left-0 text-white font-semibold pt-2 pl-3 [text-shadow:0_0_0.5rem_black,_0_0_0.5rem_black]"><?php echo esc_html($city); ?></p>
                                             </div>
                                         </div>
                                         <?php } ?>

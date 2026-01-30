@@ -438,7 +438,7 @@ $left_arrow_icon = $images_url . '/left_chev.svg';
 $right_arrow_icon = $images_url . '/right_chev.svg';
 ?>
 
-<div class="heroSection w-full relative z-0 h-dvh ">
+<div class="heroSection w-full relative z-0 lg:h-dvh md:h-full h-dvh lg:aspect-auto md:aspect-video">
     <div class="relative w-full h-full overflow-hidden">
         <?php if (!empty($hero_image_data)) : ?>
         <img fetchpriority="high" loading="eager" decoding="async" src="<?php echo esc_url($hero_image_data['url']); ?>"
@@ -463,28 +463,28 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
         <div class="md:w-1/5 w-full md:block hidden relative bg-cover bg-center py-28"
             <?php if (!empty($sidebar_background['url'])) : ?>style="background-image:url('<?php echo esc_url($sidebar_background['url']); ?>');"
             <?php endif; ?>>
-            <span class="sticky top-32 ">
+            <span class="sticky top-32 block">
                 <?php if (!empty($sidebar_car['url'])) : ?>
                 <img fetchpriority="low" loading="lazy" src="<?php echo esc_url($sidebar_car['url']); ?>"
                     class="w-full object-contain aspect-[256/381]" alt="<?php echo esc_attr($sidebar_car['alt']); ?>">
                 <?php endif; ?>
             </span>
         </div>
-        <div class="md:w-4/5 w-full h-full pt-28">
+        <div class="md:w-4/5 w-full h-full md:pt-28 pt-10">
             <!-- about sec 1 start -->
             <div class="w-full about_us relative pb-[4.438rem] md:pb-[8.25rem]">
                 <div class="view w-full pr-0">
                     <div class="flex justify-between md:items-end flex-wrap gap-y-7">
-                        <div class="md:w-1/2 w-full md:pr-12">
+                        <div class="md:w-1/2 w-full md:pr-12 pr-4">
                             <div class="w-full flex flex-col md:gap-y-8 gap-y-6">
                                 <div class="w-full flex flex-col gap-4 md:gap-6">
                                     <?php if ($intro_heading) : ?>
                                     <h2
-                                        class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl lg:leading-[3.75rem] font-bold text-[#000000] ">
+                                        class="relative xl:text-[3.125rem] lg:-[3rem] md:text-[3rem] text-2xl !leading-[normal] font-bold text-[#000000] ">
                                         <?php echo esc_html($intro_heading); ?></h2>
                                     <?php endif; ?>
                                     <div
-                                        class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] w-20 h-3 -skew-x-[18deg]">
+                                        class="bg-gradient-to-l from-[#CB122D]  to-[#650916] w-[7.375rem] h-3 -skew-x-[18deg]">
                                     </div>
                                 </div>
                                 <p class="font-normal pt- md:text-base text-sm text-[#000000]">
@@ -508,7 +508,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
             <!-- about sec 1 end -->
             <!-- Journey  sec 2 start -->
             <?php if (!empty($journey_slides)): ?>
-            <div class="w-full relative journey overflow-hidden pb-[7.25rem] md:pb-[11.438rem]">
+            <div class="w-full relative journey overflow-hidden pb-7 md:pb-[7.25rem] lg:pb-[11.438rem]">
                 <div class="view pr-0">
                     <div class="flex items-center justify-between pb-[3.25rem] md:pb-[6.563rem]">
                         <?php if ($journey_heading) : ?>
@@ -518,7 +518,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                         </h2>
                         <?php endif; ?>
                         <div
-                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-6px_6px_0px_-1px_rgba(0,0,0,0.9)] md:w-56 w-44 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out -mr-[0.506rem]">
+                            class="flex items-center justify-start md:gap-2 origin-bottom z-20 bg-[#CB122D] px-4 shadow-[-0.375rem_0.375rem_0_-0.0625rem_rgba(0,0,0,0.9)] md:w-56 w-32 md:h-16 h-10 transition transform -skew-x-12 duration-150 ease-in-out md:-mr-[0.506rem] -mr-7 shrink-0">
                             <div class="swiper-prev cursor-pointer !opacity-100 !pointer-events-auto">
                                 <span>
                                     <img fetchpriority="low" loading="lazy"
@@ -932,7 +932,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                     <div
                                         class="lg:opacity-0 group-hover:lg:opacity-100 relative lg:px-8 px-6 pt-1 lg:pb-12 pb-8 duration-500 ">
                                         <p
-                                            class=" text-white md:text-base text-sm duration-500 drop-shadow-[3px_3px_10px_rgba(0,0,0,0.9)]">
+                                            class=" text-white md:text-base text-sm duration-500 drop-shadow-[0.1875rem_0.1875rem_0.625rem_rgba(0,0,0,0.9)]">
                                             <?php echo $card['description_html']; ?>
                                         </p>
                                     </div>
@@ -965,7 +965,7 @@ $right_arrow_icon = $images_url . '/right_chev.svg';
                                 class="w-full h-full rounded-full object-contain aspect-square" />
                             <?php endif; ?>
                         </div>
-                        <div class="relative w-full h-full sm:hidden block -mr-10">
+                        <div class="relative w-full h-full sm:hidden block -mr-5">
                             <?php if (!empty($wheel_mobile_image['url'])) : ?>
                             <img src="<?php echo esc_url($wheel_mobile_image['url']); ?>"
                                 alt="<?php echo esc_attr($wheel_mobile_image['alt']); ?>"

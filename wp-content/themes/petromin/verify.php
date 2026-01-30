@@ -1094,53 +1094,60 @@ body.verify-page.validation-passed {
                         // Log API response to console for debugging
                         console.log('LeadSquared API Response:', saveData);
                         
-                        if (saveData && saveData.success) {
+                        if (saveData && saveData.success && saveData.data) {
                             console.log('Booking saved successfully with ID:', saveData.data.booking_id);
                             console.log('API Success:', saveData.data.api_success);
                             console.log('Full API Response:', saveData.data.api_response);
-                            
-                            // Optionally save booking ID to sessionStorage
-                            if (saveData.data && saveData.data.booking_id) {
-                                try {
+
+                            // Try to read ProspectId from multiple possible locations in response
+                            const relatedProspectId =
+                                saveData.data.related_prospect_id ||
+                                (saveData.data.api_response && saveData.data.api_response.RelatedProspectId) ||
+                                '';
+
+                            // Save booking ID and LeadSquared ProspectId to sessionStorage (for payment page API)
+                            try {
+                                if (saveData.data.booking_id) {
                                     cart.booking_id = saveData.data.booking_id;
-                                    cart.leadsquared_prospect_id = saveData.data.booking_id;
-                                    sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-                                } catch (e) {
-                                    console.error('Error saving booking ID:', e);
                                 }
+
+                                // Hamesha key create karo, value mile to set ho jayegi, warna empty string
+                                cart.leadsquared_prospect_id = relatedProspectId || '';
+
+                                console.log('Saving to sessionStorage. Booking ID:', cart.booking_id, 'ProspectId:', cart.leadsquared_prospect_id);
+                                sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+                            } catch (e) {
+                                console.error('Error saving to sessionStorage:', e);
                             }
                         } else {
                             console.error('Failed to save booking:', saveData);
                         }
+
+                        // Redirect ONLY after API response aaya aur sessionStorage update ho gaya
+                        if (workstationUrl && workstationUrl !== '') {
+                            window.location.replace(workstationUrl);
+                        } else {
+                            console.error('Workstation page URL not found');
+                            reEnableVerifyUi();
+                        }
                     })
                     .catch(error => {
                         console.error('Error saving booking data:', error);
-                        // Don't block user flow even if save fails
+                        if (workstationUrl && workstationUrl !== '') {
+                            window.location.replace(workstationUrl);
+                        } else {
+                            reEnableVerifyUi();
+                        }
                     });
+
+                function reEnableVerifyUi() {
+                    otpInputs.forEach(function(input) { input.disabled = false; });
+                    if (verifyOtpBtnText) verifyOtpBtnText.classList.remove('hidden');
+                    if (verifyOtpBtnLoader) verifyOtpBtnLoader.classList.add('hidden');
+                    if (verifyOtpBtn) verifyOtpBtn.disabled = false;
+                }
                 } catch (e) {
                     console.error('Error saving verified phone:', e);
-                }
-                
-                // Redirect to workstation page immediately using replace to prevent back navigation
-                if (workstationUrl && workstationUrl !== '') {
-                    // Use replace instead of href to prevent verify page from being in history
-                    window.location.replace(workstationUrl);
-                } else {
-                    console.error('Workstation page URL not found');
-                    // Re-enable OTP input fields if redirect failed
-                    otpInputs.forEach(function(input) {
-                        input.disabled = false;
-                    });
-                    // Reset loader if redirect failed
-                    if (verifyOtpBtnText) {
-                        verifyOtpBtnText.classList.remove('hidden');
-                    }
-                    if (verifyOtpBtnLoader) {
-                        verifyOtpBtnLoader.classList.add('hidden');
-                    }
-                    if (verifyOtpBtn) {
-                        verifyOtpBtn.disabled = false;
-                    }
                 }
             } else {
                 const errorMsg = (data && data.data && data.data.message) ? data.data.message : 'Invalid OTP. Please try again.';
