@@ -1,8 +1,5 @@
 <?php
-/**
- * Template Name: Common Template
- */
+/* Template Name: common template */
 get_header();
-?>
 
-<?php get_footer(); ?>
+get_footer(); ?>
